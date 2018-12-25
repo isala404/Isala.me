@@ -16,7 +16,7 @@
   width: 250px;
   height: 100%;
   margin-left: -250px;
-  /*overflow-y: auto;*/
+  overflow-y: auto;
   -webkit-transition: width 0.5s ease;
   -moz-transition: width 0.5s ease;
   -o-transition: width 0.5s ease;
