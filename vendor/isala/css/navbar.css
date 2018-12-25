@@ -9,6 +9,10 @@
   background-color: #000 !important;
 }
 
+#profile-picture{
+  width: 250px;
+}
+
 #sidebar {
   z-index: 1000;
   position: fixed;
