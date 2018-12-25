@@ -11,7 +11,7 @@
 
 #sidebar {
   z-index: 1000;
-  /*position: fixed;*/
+  position: fixed;
   left: 250px;
   width: 250px;
   height: 100%;
