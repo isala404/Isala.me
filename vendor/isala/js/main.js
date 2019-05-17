@@ -14,7 +14,7 @@ new Typed('#typed', {
 
 let backdrops = [];
 for (let i = 0; i < 25; i++) {
-    backdrops.push('<img class="d-block w-100 img-fit" src="img/backgrounds/bg_'+i+'.webp" alt="Image #'+i+' for slide">')
+    backdrops.push('<img class="d-block w-100 img-fit" src="img/backgrounds/bg_'+i+'.jpg" alt="Image #'+i+' for slide">')
 }
 
 
