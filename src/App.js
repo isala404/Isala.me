@@ -2,16 +2,23 @@ import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import SideBar from "./components/SideBar";
 import Header from "./components/Header";
 import Home from "./views/Home";
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+    palette: {
+        type: 'dark'
+    },
+});
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
     root: {
-        display: 'flex',
+        display: 'flex'
     },
     drawer: {
         [theme.breakpoints.up('sm')]: {
@@ -42,7 +49,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function App(props) {
-    const { container } = props;
+    const {container} = props;
     const classes = useStyles();
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -51,9 +58,12 @@ function App(props) {
     }
 
     return (
+        <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
-            <CssBaseline />
-            <Header classes={classes} handleDrawerToggle={handleDrawerToggle} />
+            <CssBaseline/>
+            <Hidden smUp implementation="css">
+                <Header classes={classes} handleDrawerToggle={handleDrawerToggle}/>
+            </Hidden>
             <nav className={classes.drawer} aria-label="mailbox folders">
                 {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Hidden smUp implementation="css">
@@ -70,7 +80,7 @@ function App(props) {
                             keepMounted: true, // Better open performance on mobile.
                         }}
                     >
-                        <SideBar toolbar={classes.toolbar} />
+                        <SideBar toolbar={classes.toolbar}/>
                     </Drawer>
                 </Hidden>
                 <Hidden xsDown implementation="css">
@@ -81,15 +91,18 @@ function App(props) {
                         variant="permanent"
                         open
                     >
-                        <SideBar toolbar={classes.toolbar} />
+                        <SideBar toolbar={classes.toolbar}/>
                     </Drawer>
                 </Hidden>
             </nav>
             <main className={classes.content}>
-                <div className={classes.toolbar} />
-                <Home />
+                <Hidden smUp implementation="css">
+                    <div className={classes.toolbar}/>
+                </Hidden>
+                <Home/>
             </main>
         </div>
+        </MuiThemeProvider>
     );
 }
 
