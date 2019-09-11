@@ -1,10 +1,14 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import Typography from "@material-ui/core/Typography";
+import Sliders from "../components/HomePage/Sliders";
 
 class Home extends Component {
+
     render() {
         return (
-            <div>
+            <Fragment>
+                <Sliders />
+                <div className={"main-window"}>
                 <Typography paragraph>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                     ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
@@ -29,6 +33,7 @@ class Home extends Component {
                     accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
                 </Typography>
             </div>
+            </Fragment>
         );
     }
 }
