@@ -2,7 +2,10 @@ import {createMuiTheme, makeStyles} from "@material-ui/core";
 
 export const theme = createMuiTheme({
     palette: {
-        type: 'dark'
+        type: 'dark',
+        background: {
+            paper: '#000000'
+        }
     },
 });
 
@@ -16,7 +19,7 @@ export const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up('sm')]: {
             width: drawerWidth,
             flexShrink: 0,
-        },
+        }
     },
     appBar: {
         marginLeft: drawerWidth,
@@ -37,6 +40,7 @@ export const useStyles = makeStyles(theme => ({
     content: {
         flexGrow: 1,
         // padding: theme.spacing(3),
+        // height: "calc(100vh - 56px)"
         height: "100vh"
     },
 }));

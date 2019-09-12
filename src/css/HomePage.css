@@ -1,31 +1,24 @@
-#profile-img{
-    max-width: 100%;
-    height: auto;
-}
-
-.main-window{
-    height: 100%;
-    padding: 20px;
-}
-
 #slider{
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    position: absolute;
+    width: 100%;
+    height: 100%;
     z-index: -9999;
-    overflow: hidden;
 }
 
 #slider img{
-    width: 100%;
-    height: 100vh;
-    object-fit: cover;
-}
-
-#slider img {
     position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    object-fit: cover;
     -webkit-transition: opacity 1s ease-in-out;
     -moz-transition: opacity 1s ease-in-out;
     -o-transition: opacity 1s ease-in-out;
@@ -33,5 +26,13 @@
 }
 
 #slider .hide{
-    opacity:0;
+    opacity: 0;
+}
+
+#IntroHeading{
+    font-size: 3.6rem;
+    font-weight: 300;
+    line-height: 1.2;
+    text-align: center;
+    margin: 0 0 5px 0;
 }

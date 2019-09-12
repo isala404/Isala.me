@@ -2,12 +2,12 @@ import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
 import Header from "./components/Header";
-import Home from "./views/Home";
 import {MuiThemeProvider} from '@material-ui/core/styles';
 import NavBar from "./components/NavBar";
 import {useStyles, theme} from './Theme'
-import './App.css'
+import './css/App.css'
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "./views/Home";
 import AboutMe from "./views/AboutMe";
 
 const App = () => {
@@ -17,7 +17,7 @@ const App = () => {
     function handleDrawerToggle() {
         setMobileOpen(!mobileOpen);
     }
-
+    console.log(theme);
     return (
         <Router>
             <MuiThemeProvider theme={theme}>

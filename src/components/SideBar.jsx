@@ -4,10 +4,11 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import ListItemText from "@material-ui/core/ListItemText";
-import {faHome, faUserTie} from '@fortawesome/free-solid-svg-icons'
 import ProfileImage from '../img/profile.jpg'
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
+import Divider from "@material-ui/core/Divider";
+import {faHome, faUserTie, faFileAlt, faBriefcase} from '@fortawesome/free-solid-svg-icons'
 
 
 class SideBar extends Component {
@@ -24,6 +25,7 @@ class SideBar extends Component {
                             <ListItemText primary={"Home"}/>
                         </ListItem>
                     </Link>
+                    <Divider />
                     <Link component={RouterLink} to={"/about-me"}  color="inherit" underline={"none"}>
                         <ListItem button>
                             <ListItemIcon>
@@ -32,6 +34,34 @@ class SideBar extends Component {
                             <ListItemText primary={"About Me"}/>
                         </ListItem>
                     </Link>
+                    <Divider />
+                    <Link component={RouterLink} to={"/resume"}  color="inherit" underline={"none"}>
+                        <ListItem button>
+                            <ListItemIcon>
+                                <FontAwesomeIcon icon={faFileAlt}/>
+                            </ListItemIcon>
+                            <ListItemText primary={"Resume"}/>
+                        </ListItem>
+                    </Link>
+                    <Divider />
+                    <Link component={RouterLink} to={"/portfolio"}  color="inherit" underline={"none"}>
+                        <ListItem button>
+                            <ListItemIcon>
+                                <FontAwesomeIcon icon={faBriefcase}/>
+                            </ListItemIcon>
+                            <ListItemText primary={"Portfolio"}/>
+                        </ListItem>
+                    </Link>
+                    <Divider />
+                    <Link component={RouterLink} to={"/blog"}  color="inherit" underline={"none"}>
+                        <ListItem button>
+                            <ListItemIcon>
+                                <FontAwesomeIcon icon={faBriefcase}/>
+                            </ListItemIcon>
+                            <ListItemText primary={"Blog"}/>
+                        </ListItem>
+                    </Link>
+                    <Divider />
                 </List>
             </div>
         );
