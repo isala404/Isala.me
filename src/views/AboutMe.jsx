@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 class AboutMe extends Component {
     render() {
         return (
-            <div>
+            <div className={"main-window"}>
                 <Typography paragraph>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium adipisci aspernatur
                     consequatur, corporis ducimus earum, est ex fuga illum inventore itaque libero molestiae mollitia
