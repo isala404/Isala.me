@@ -1,0 +1,100 @@
+#cv-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    min-height: 100vh;
+    color: black;
+    background-color: #eeeeee;
+    font-family: 'Open Sans', sans-serif;
+}
+
+#cv-page {
+    margin-top: 20px;
+    /*padding-top: 20px;*/
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    width: 930px;
+    height: 1315px;
+    filter: drop-shadow(-50px 50px 70px #222);
+    z-index: 1;
+}
+
+#pencil {
+    position: fixed;
+    right: 4vw;
+    bottom: 150px;
+    height: 70vh;
+    filter: drop-shadow(-10px 10px 10px #222);
+}
+
+.section-head-title {
+    display: inline;
+    margin-left: 5px;
+    text-transform: uppercase;
+}
+
+.section-head-icon {
+    display: inline;
+
+}
+
+.section-head {
+    margin-top: 20px;
+    font-size: small;
+    margin-bottom: 10px;
+}
+
+.section-head-hr {
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+.timeline {
+    margin: 10px auto !important;
+}
+
+.entry .body {
+    margin: 0 !important;
+}
+
+.experience-company {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.experience-position {
+    color: #718096;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.cv-section {
+    margin: 5px 0 5px 20px;
+}
+
+.fa-ul{
+    margin-top: 0.3em;
+    margin-left: 1.5em;
+}
+
+#header-text{
+    text-align: center;
+}
+
+#header-text h1{
+    font-size: 2em;
+    margin: 15px 0 0 0;
+}
+
+#header-text h2{
+    margin: 0 0 5px 0;
+    font-size: 1.2em;
+}
+
+#header-text h3{
+    margin: 0 0 5px 0;
+    font-size: 1.1em;
+}

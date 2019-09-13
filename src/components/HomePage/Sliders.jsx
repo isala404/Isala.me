@@ -48,6 +48,7 @@ class Sliders extends PureComponent {
         setTimeout(() => {
             this.updateBGImage();
         }, 8000);
+        // TODO: Use set interval
         setTimeout(() => {
             this.img1.classList.toggle('hide');
             this.img2.classList.toggle('hide');

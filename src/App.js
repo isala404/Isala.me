@@ -9,6 +9,7 @@ import './css/App.css'
 import {Route, Switch} from "react-router-dom";
 import Home from "./views/Home";
 import AboutMe from "./views/AboutMe";
+import Resume from "./views/Resume";
 import {TransitionGroup, CSSTransition} from "react-transition-group";
 
 const App = (props) => {
@@ -40,6 +41,7 @@ const App = (props) => {
                                 <Switch location={location}>
                                     <Route path="/" exact component={Home}/>
                                     <Route path="/about-me" exact component={AboutMe}/>
+                                    <Route path="/resume" exact component={Resume}/>
                                 </Switch>
                             </CSSTransition>
                         </TransitionGroup>

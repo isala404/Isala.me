@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import Sliders from "../components/HomePage/Sliders";
 import StageOverlay from "../components/HomePage/StageOverlay";
 import '../css/HomePage.css'
