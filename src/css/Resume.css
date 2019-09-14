@@ -60,41 +60,67 @@
     margin: 0 !important;
 }
 
-.experience-company {
+.section-component-title {
     margin: 0;
     font-family: 'Open Sans', sans-serif;
 }
 
-.experience-position {
-    color: #718096;
+.section-component-subtitle {
+    color: #51565d;
     margin: 0;
     font-family: 'Open Sans', sans-serif;
 }
 
-.cv-section {
+.section-component-description{
+    margin: 2px;
+}
+
+.cv-section-left {
     margin: 5px 0 5px 20px;
 }
 
-.fa-ul{
+.cv-section-right {
+    margin: 5px 0 5px 5px;
+}
+
+.fa-ul {
     margin-top: 0.3em;
     margin-left: 1.5em;
 }
 
-#header-text{
+#header-text {
     text-align: center;
 }
 
-#header-text h1{
+#header-text h1 {
     font-size: 2em;
     margin: 15px 0 0 0;
 }
 
-#header-text h2{
+#header-text h2 {
     margin: 0 0 5px 0;
     font-size: 1.2em;
 }
 
-#header-text h3{
+#header-text h3 {
     margin: 0 0 5px 0;
     font-size: 1.1em;
+}
+
+.project-tag{
+    display: inline-block;
+    margin: 3px;
+    padding: 3px;
+    background-color: #ddeeff;
+}
+
+.projects{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#portfolio-note{
+    color: #51565d;
+    font-size: 0.9em;
+    margin-left: 5px;
 }

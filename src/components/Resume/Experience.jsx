@@ -5,8 +5,8 @@ import {faCheckCircle} from '@fortawesome/free-solid-svg-icons'
 const Experience = (props) => {
     return (
         <div>
-            <h3 className={"experience-company"}>{props.company}</h3>
-            <h4 className={"experience-position"}>{props.peroid} | {props.position}</h4>
+            <h3 className={"section-component-title"}>{props.company}</h3>
+            <h4 className={"section-component-subtitle"}>{props.peroid} | {props.position}</h4>
             <ul className={"fa-ul"}>
                 {props.responsibilities.map((responsibility, index) => {
                     return (
