@@ -52,7 +52,7 @@ class Sliders extends PureComponent {
     }
 
     componentDidMount() {
-        setInterval(() => {{this.updateBGImage();} }, 8000);
+        setInterval(() => {this.updateBGImage(); }, 8000);
     }
 
     render() {

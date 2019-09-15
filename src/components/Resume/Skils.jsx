@@ -12,7 +12,7 @@ const Skills = (props) => {
         <section>
             <SectionHead title={"Skills"}  icon={faTools}/>
             <div className={"cv-section-"+ props.side}>
-                <Grid container  justify="space-around">
+                <Grid container justify="space-around">
                     <Grid item md={"auto"}>
                         <Frontend/>
                     </Grid>
