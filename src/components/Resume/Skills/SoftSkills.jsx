@@ -3,7 +3,7 @@ import React from "react";
 const SoftSkills = (props) => {
     return(
         <div>
-            Soft Skills - Strong analyzer, Very good problem solver, Team player, Open-minded, Very patience, Good sense of humor
+            Soft Skills - Strong analyzer, very good problem solver, team player, open-minded, patience, good sense of humor, attention to detail
         </div>
     )
 };
