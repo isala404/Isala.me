@@ -7,7 +7,7 @@ import Link from "@material-ui/core/Link";
 
 const Contact = (props) => {
     return (
-        <div>
+        <section>
             <Grid container spacing={2} justify="center" alignItems="center">
                 <Grid item md={11}>
                     <FontAwesomeIcon icon={faMapMarkedAlt}/> ‘Piyarisi’, Mihiripenna, Talpe, Galle, 80615, Sri Lanka
@@ -30,7 +30,7 @@ const Contact = (props) => {
                                                            underline={"none"}> isala.me</Link>
                 </Grid>
             </Grid>
-        </div>
+        </section>
     )
 };
 

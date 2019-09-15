@@ -16,16 +16,18 @@ const useStyles = makeStyles({
 const Header = (props) => {
     const classes = useStyles();
     return (
-        <Grid container justify="center">
-            <Grid item xs={3}>
-                <Avatar alt="Isala Piyarisi" src={ProfileImage} className={classes.bigAvatar}/>
+        <section>
+            <Grid container justify="center">
+                <Grid item xs={3}>
+                    <Avatar alt="Isala Piyarisi" src={ProfileImage} className={classes.bigAvatar}/>
+                </Grid>
+                <Grid id={"header-text"} item xs={9}>
+                    <h1>Isala Piyarisi</h1>
+                    <h2>DevOps Engineer</h2>
+                    <h3>hello@isala.me</h3>
+                </Grid>
             </Grid>
-            <Grid id={"header-text"} item xs={9}>
-                <h1>Isala Piyarisi</h1>
-                <h2>DevOps Engineer</h2>
-                <h3>hello@isala.me</h3>
-            </Grid>
-        </Grid>
+        </section>
     )
 };
 
