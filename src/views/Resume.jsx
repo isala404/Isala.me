@@ -2,7 +2,14 @@ import React from "react";
 import '../css/Resume.css'
 import Pencil from '../img/Pencil.png'
 import Experience from "../components/Resume/Experience";
-import {faBriefcase, faUserTie, faUserGraduate, faLaptop, faTools, faHiking} from '@fortawesome/free-solid-svg-icons'
+import {
+    faBriefcase,
+    faUserTie,
+    faUserGraduate,
+    faLaptop,
+    faTools,
+    faHiking
+} from '@fortawesome/free-solid-svg-icons'
 import SectionHead from "../components/Resume/SectionHead";
 import Header from "../components/Resume/Header";
 import Grid from "@material-ui/core/Grid";
@@ -26,6 +33,9 @@ const Resume = (props) => {
                         <Grid item md={6}>
                             <section>
                                 <Header/>
+                            </section>
+                            <section>
+                                <Contact/>
                             </section>
                             <section>
                                 <SectionHead title={"About me"} icon={faUserTie}/>
@@ -84,6 +94,30 @@ const Resume = (props) => {
                                 </div>
                             </section>
                             <section>
+                                <SectionHead title={"Hobbies"} icon={faHiking}/>
+                                <div className={"cv-section-right"}>
+                                    <Grid container spacing={2} justify="center" alignItems="center">
+                                        <Grid item md={4}>
+                                            <Skill name={"Self Improving"} icon={"youtube.svg"}/>
+                                        </Grid>
+                                        <Grid item md={3}>
+                                            <Skill name={"Gaming"} icon={"steam.svg"}/>
+                                        </Grid>
+                                        <Grid item md={4}>
+                                            <Skill name={"Netflixing"} icon={"netflix.svg"}/>
+                                        </Grid>
+                                        <Grid item md={5}>
+                                            <Skill name={"Contributing to FOSS"} icon={"github.svg"}/>
+                                        </Grid>
+                                        <Grid item md={6}>
+                                            <Skill name={"Robotics / Automation"} icon={"raspberrypi.svg"}/>
+                                        </Grid>
+                                    </Grid>
+                                </div>
+                            </section>
+                        </Grid>
+                        <Grid item md={6}>
+                            <section>
                                 <SectionHead title={"Education"} icon={faUserGraduate}/>
                                 <div className={"cv-section-left"}>
                                     <Education
@@ -107,8 +141,6 @@ const Resume = (props) => {
                                     />
                                 </div>
                             </section>
-                        </Grid>
-                        <Grid item md={6}>
                             <section>
                                 <SectionHead title={"Projects"} icon={faLaptop}/>
                                 <div className={"cv-section-right"}>
@@ -167,31 +199,8 @@ const Resume = (props) => {
                                     </Grid>
                                 </div>
                             </section>
-                            <section>
-                                <SectionHead title={"Hobbies"} icon={faHiking}/>
-                                <div className={"cv-section-right"}>
-                                    <Grid container spacing={2} justify="center" alignItems="center">
-                                        <Grid item md={4}>
-                                            <Skill name={"Self Improving"} icon={"youtube.svg"}/>
-                                        </Grid>
-                                        <Grid item md={3}>
-                                            <Skill name={"Gaming"} icon={"steam.svg"}/>
-                                        </Grid>
-                                        <Grid item md={4}>
-                                            <Skill name={"Netflixing"} icon={"netflix.svg"}/>
-                                        </Grid>
-                                        <Grid item md={5}>
-                                            <Skill name={"Contributing to FOSS"} icon={"github.svg"}/>
-                                        </Grid>
-                                        <Grid item md={6}>
-                                            <Skill name={"Robotics / Automation"} icon={"raspberrypi.svg"}/>
-                                        </Grid>
-                                    </Grid>
-                                </div>
-                            </section>
-                            <section>
-                                <Contact />
-                            </section>
+
+
                         </Grid>
                     </Grid>
                 </div>

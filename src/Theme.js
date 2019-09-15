@@ -50,6 +50,8 @@ export const useStyles = makeStyles(theme => ({
         backgroundColor: blue[700],
         padding: 10,
         display: 'inline',
-        fontSize: 'medium'
+        fontSize: 'small',
+        width: "35px",
+        height: "35px"
     },
 }));
