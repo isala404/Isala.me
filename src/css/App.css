@@ -12,7 +12,9 @@
 
 
 #StageOverlay{
-    height: 90%;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    height: 90vh;
     width: 90%;
     background-color: rgba(0, 0, 0, 0.7);
 }
@@ -20,13 +22,15 @@
 @media(max-width: 1279px) {
     #StageOverlay{
         width: 100%;
-        height: 100%;
+        height: 100vh;
+        margin-top: inherit;
+        margin-bottom: inherit;
     }
 }
 
 @media(max-width: 600px) {
     .main-window{
-        top: 0;
+        top: 56px;
         left: 0;
         right: 0;
         bottom: 0;
@@ -52,4 +56,8 @@
 .fade-exit.fade-exit-active {
     opacity: 0;
     transition: opacity 150ms linear;
+}
+
+.no-p{
+    padding: 0 !important;
 }

@@ -4,7 +4,7 @@ import Box from "@material-ui/core/Box";
 
 const StageOverlay = (props) => {
     return (
-        <Box display="flex" overflow={"hidden"} flexDirection="column" justifyContent={"center"} height={"100vh"} alignItems={"center"}>
+        <Box display="flex" overflow={"hidden"} flexDirection="column" justifyContent={"center"} alignItems={"center"}>
             <div id={"StageOverlay"}>
                 <HelloWorld/>
             </div>

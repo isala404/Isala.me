@@ -36,3 +36,13 @@
     text-align: center;
     margin: 0 0 5px 0;
 }
+
+
+@media(max-width: 600px) {
+    .slider{
+        top: 56px;
+    }
+    #StageOverlay{
+        height: calc(100vh - 56px);
+    }
+}

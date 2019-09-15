@@ -8,21 +8,21 @@ const Hobbies = (props) => {
     return(
         <section>
             <SectionHead title={"Hobbies"} icon={faHiking}/>
-            <div className={"cv-section-right"}>
+            <div className={"cv-section-"+ props.side}>
                 <Grid container spacing={2} justify="center" alignItems="center">
-                    <Grid item md={4}>
+                    <Grid item xs={6} md={4}>
                         <Skill name={"Self Improving"} icon={"youtube.svg"}/>
                     </Grid>
-                    <Grid item md={3}>
+                    <Grid item xs={6} md={3}>
                         <Skill name={"Gaming"} icon={"steam.svg"}/>
                     </Grid>
-                    <Grid item md={4}>
+                    <Grid item xs={6} md={4}>
                         <Skill name={"Netflixing"} icon={"netflix.svg"}/>
                     </Grid>
-                    <Grid item md={5}>
+                    <Grid item xs={6} md={5}>
                         <Skill name={"Contributing to FOSS"} icon={"github.svg"}/>
                     </Grid>
-                    <Grid item md={6}>
+                    <Grid item xs={6} md={6}>
                         <Skill name={"Robotics / Automation"} icon={"raspberrypi.svg"}/>
                     </Grid>
                 </Grid>

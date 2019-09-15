@@ -9,9 +9,9 @@ const Projects = (props) => {
     return (
         <section>
             <SectionHead title={"Projects"} icon={faLaptop}/>
-            <div className={"cv-section-right"}>
+            <div className={"cv-section-"+ props.side}>
                 <Project
-                    name={"Rathumakara Music System"}
+                    name={"DJ System for RathumakaraFM"}
                     peroid={"Since Sept 2018"}
                     url={"https://github.com/mrsupiri/RathuMakaraFM-DiscordBot"}
                     description={"RathumakaraFM is the first Sri Lankan open-mic radio, I created the software for them which helps them the manage and run their programmes smoothly"}
@@ -40,12 +40,8 @@ const Projects = (props) => {
                     tags={["Python", "Youtube-DL", "SQLite", "Raspberry Pi", "Home Automation"]}
                 />
                 <span id={"portfolio-note"}>
-                                        Visit
-                                        <Link
-                                            component={RouterLink} to={"/portfolio"}
-                                            underline={"none"}> isala.me/portfolio
-                                        </Link> to find the full list
-                                    </span>
+                    Visit <Link component={RouterLink} to={"/portfolio"} underline={"none"}> isala.me/portfolio </Link> to find the full list
+                </span>
             </div>
         </section>
     )

@@ -31,25 +31,27 @@
 }
 
 .section-head-title {
-    display: inline;
+    vertical-align: middle;
+    display: table-cell;
     margin-left: 5px;
     text-transform: uppercase;
 }
 
 .section-head-icon {
-    display: inline;
+    vertical-align: middle;
+    display: table-cell;
     width: 35px;
     height: 35px;
 }
 
 .section-head {
-    margin-top: 10px;
+    display: table;
+    margin-top: 20px;
     font-size: small;
-    margin-bottom: 10px;
 }
 
 .section-head-hr {
-    margin-top: 15px;
+    margin-top: 5px;
     margin-left: 10px;
 }
 
@@ -77,11 +79,11 @@
 }
 
 .cv-section-left {
-    margin: 5px 0 5px 20px;
+    margin: 5px 0 5px 25px;
 }
 
 .cv-section-right {
-    margin: 5px 0 5px 5px;
+    margin: 5px 10px 5px 10px;
 }
 
 .fa-ul {
@@ -136,9 +138,30 @@
 }
 
 .skill-heading{
+    margin-top: 2px;
     margin-bottom: 2px;
 }
 
 .skill{
     display: table;
+}
+
+#contact-section{
+    margin: 25px 0 25px 0;
+}
+
+#soft-skills{
+    margin-top: 10px;
+}
+
+@media(max-width: 1205px) {
+    #cv-page{
+        font-size: 0.87em;
+        margin: 20px;
+        height: auto;
+    }
+    #pencil{
+        top: 130px;
+        right: -24px;
+    }
 }

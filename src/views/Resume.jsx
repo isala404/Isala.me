@@ -16,18 +16,18 @@ const Resume = (props) => {
         <div className={"main-window"}>
             <div id={"cv-wrapper"}>
                 <div id={"cv-page"}>
-                    <Grid container spacing={2}>
+                    <Grid container>
                         <Grid item md={6}>
-                            <Header/>
-                            <Contact/>
-                            <AboutMe/>
-                            <Experiences/>
-                            <Hobbies/>
+                            <Header side={"left"} />
+                            <Contact side={"left"} />
+                            <AboutMe side={"left"} />
+                            <Experiences side={"left"} />
+                            <Hobbies side={"left"} />
                         </Grid>
                         <Grid item md={6}>
-                            <Educations/>
-                            <Projects/>
-                            <Skills/>
+                            <Educations side={"right"}/>
+                            <Projects side={"right"}/>
+                            <Skills side={"right"}/>
                         </Grid>
                     </Grid>
                 </div>

@@ -10,20 +10,20 @@ import SysAdmin from "./Skills/SysAdmin";
 const Skills = (props) => {
     return(
         <section>
-            <SectionHead title={"Skills"} icon={faTools}/>
-            <div className={"cv-section-right"}>
-                <SoftSkills/>
-                <Grid container spacing={2}>
+            <SectionHead title={"Skills"}  icon={faTools}/>
+            <div className={"cv-section-"+ props.side}>
+                <Grid container  justify="space-around">
                     <Grid item md={"auto"}>
                         <Frontend/>
                     </Grid>
                     <Grid item md={"auto"}>
                         <Backend/>
                     </Grid>
-                    <Grid item md={5}>
+                    <Grid item md={"auto"}>
                         <SysAdmin/>
                     </Grid>
                 </Grid>
+                <SoftSkills/>
             </div>
         </section>
     )

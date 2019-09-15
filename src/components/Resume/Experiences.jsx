@@ -7,7 +7,7 @@ const Experiences = (props) => {
     return(
         <section>
             <SectionHead title={"Professional Experience"} icon={faBriefcase}/>
-            <div className={"cv-section-left"}>
+            <div className={"cv-section-"+ props.side}>
                 <Experience
                     company={"ThinkSmart Solutions"}
                     position={"Associate Software Engineer"}

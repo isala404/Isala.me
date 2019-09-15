@@ -1,5 +1,4 @@
 import {createMuiTheme, makeStyles} from "@material-ui/core";
-import {blue} from "@material-ui/core/colors";
 
 export const theme = createMuiTheme({
     palette: {
@@ -43,15 +42,5 @@ export const useStyles = makeStyles(theme => ({
         // padding: theme.spacing(3),
         // height: "calc(100vh - 56px)"
         height: "100vh"
-    },
-    blueAvatar: {
-        margin: 10,
-        color: '#fff',
-        backgroundColor: blue[700],
-        padding: 10,
-        display: 'inline',
-        fontSize: 'small',
-        width: "35px",
-        height: "35px"
     },
 }));

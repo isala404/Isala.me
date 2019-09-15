@@ -7,7 +7,7 @@ const Educations = (props) => {
     return(
         <section>
             <SectionHead title={"Education"} icon={faUserGraduate}/>
-            <div className={"cv-section-left"}>
+            <div className={"cv-section-"+ props.side}>
                 <Education
                     institute={"University of Westminster"}
                     peroid={"Jan 2019 - Jul 2023"}
