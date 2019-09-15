@@ -46,19 +46,13 @@ class Sliders extends PureComponent {
         this.imgArray.push(bg);
         sessionStorage.setItem('img', bg);
         setTimeout(() => {
-            this.updateBGImage();
-        }, 8000);
-        // TODO: Use set interval
-        setTimeout(() => {
             this.img1.classList.toggle('hide');
             this.img2.classList.toggle('hide');
         }, 1000)
     }
 
     componentDidMount() {
-        setTimeout(() => {
-            this.updateBGImage();
-        }, 8000)
+        setInterval(() => {{this.updateBGImage();} }, 8000);
     }
 
     render() {

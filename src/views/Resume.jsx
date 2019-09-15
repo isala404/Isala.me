@@ -10,10 +10,14 @@ import Hobbies from "../components/Resume/Hobbies";
 import Educations from "../components/Resume/Educations";
 import Projects from "../components/Resume/Projects";
 import Skills from "../components/Resume/Skils";
+import {Helmet} from "react-helmet";
 
 const Resume = (props) => {
     return (
         <div className={"main-window"}>
+            <Helmet>
+                <title>Isala Piyarisi | Resume</title>
+            </Helmet>
             <div id={"cv-wrapper"}>
                 <div id={"cv-page"}>
                     <Grid container>
