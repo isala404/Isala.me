@@ -30,7 +30,7 @@ class SideBar extends Component {
                     <Link component={RouterLink} to={"/"} color="inherit" underline={"none"}>
                         <ListItem button>
                             <ListItemIcon>
-                                <FontAwesomeIcon icon={faHome}/>
+                                <FontAwesomeIcon size={"lg"} icon={faHome}/>
                             </ListItemIcon>
                             <ListItemText primary={"Home"}/>
                         </ListItem>
@@ -39,7 +39,7 @@ class SideBar extends Component {
                     <Link component={RouterLink} to={"/about-me"} color="inherit" underline={"none"}>
                         <ListItem button>
                             <ListItemIcon>
-                                <FontAwesomeIcon icon={faUserTie}/>
+                                <FontAwesomeIcon size={"lg"} icon={faUserTie}/>
                             </ListItemIcon>
                             <ListItemText primary={"About Me"}/>
                         </ListItem>
@@ -48,7 +48,7 @@ class SideBar extends Component {
                     <Link component={RouterLink} to={"/resume"} color="inherit" underline={"none"}>
                         <ListItem button>
                             <ListItemIcon>
-                                <FontAwesomeIcon icon={faFileAlt}/>
+                                <FontAwesomeIcon size={"lg"} icon={faFileAlt}/>
                             </ListItemIcon>
                             <ListItemText primary={"Resume"}/>
                         </ListItem>
@@ -57,7 +57,7 @@ class SideBar extends Component {
                     <Link component={RouterLink} to={"/portfolio"} color="inherit" underline={"none"}>
                         <ListItem button>
                             <ListItemIcon>
-                                <FontAwesomeIcon icon={faBriefcase}/>
+                                <FontAwesomeIcon size={"lg"} icon={faBriefcase}/>
                             </ListItemIcon>
                             <ListItemText primary={"Portfolio"}/>
                         </ListItem>
@@ -66,7 +66,7 @@ class SideBar extends Component {
                     <Link component={RouterLink} to={"/blog"} color="inherit" underline={"none"}>
                         <ListItem button>
                             <ListItemIcon>
-                                <FontAwesomeIcon icon={faBriefcase}/>
+                                <FontAwesomeIcon size={"lg"} icon={faBriefcase}/>
                             </ListItemIcon>
                             <ListItemText primary={"Blog"}/>
                         </ListItem>
@@ -80,43 +80,43 @@ class SideBar extends Component {
                         <Grid item md={"auto"}>
                             <Link href={"https://github.com/mrsupiri"} target={"_blank"} underline={"none"}
                                   color={"inherit"} rel={"noopener"}>
-                                <FontAwesomeIcon icon={faGithub}/>
+                                <FontAwesomeIcon size={"lg"} icon={faGithub}/>
                             </Link>
                         </Grid>
                         <Grid item md={"auto"}>
                             <Link href={"https://twitter.com/mrsupiri"} target={"_blank"} underline={"none"}
                                   color={"inherit"} rel={"noopener"}>
-                                <FontAwesomeIcon icon={faTwitter}/>
+                                <FontAwesomeIcon size={"lg"} icon={faTwitter}/>
                             </Link>
                         </Grid>
                         <Grid item md={"auto"}>
                             <Link href={"https://www.instagram.com/mrsupiri"} target={"_blank"} underline={"none"}
                                   color={"inherit"} rel={"noopener"}>
-                                <FontAwesomeIcon icon={faInstagram}/>
+                                <FontAwesomeIcon size={"lg"} icon={faInstagram}/>
                             </Link>
                         </Grid>
                         <Grid item md={"auto"}>
                             <Link href={"https://www.linkedin.com/in/isalapiyarisi"} target={"_blank"}
                                   underline={"none"} color={"inherit"} rel={"noopener"}>
-                                <FontAwesomeIcon icon={faLinkedin}/>
+                                <FontAwesomeIcon size={"lg"} icon={faLinkedin}/>
                             </Link>
                         </Grid>
                         <Grid item md={"auto"}>
                             <Link href={"https://www.facebook.com/isalapi"} target={"_blank"} underline={"none"}
                                   color={"inherit"} rel={"noopener"}>
-                                <FontAwesomeIcon icon={faFacebook}/>
+                                <FontAwesomeIcon size={"lg"} icon={faFacebook}/>
                             </Link>
                         </Grid>
                         <Grid item md={"auto"}>
                             <Link href={"https://open.spotify.com/user/mrsupiri"} target={"_blank"} underline={"none"}
                                   color={"inherit"} rel={"noopener"}>
-                                <FontAwesomeIcon icon={faSpotify}/>
+                                <FontAwesomeIcon size={"lg"} icon={faSpotify}/>
                             </Link>
                         </Grid>
                         <Grid item md={"auto"}>
                             <Link href={"https://www.reddit.com/user/supiri_"} target={"_blank"} underline={"none"}
                                   color={"inherit"} rel={"noopener"}>
-                                <FontAwesomeIcon icon={faReddit}/>
+                                <FontAwesomeIcon size={"lg"} icon={faReddit}/>
                             </Link>
                         </Grid>
                     </Grid>
