@@ -2,7 +2,7 @@ import React from "react";
 import '../css/Resume.css'
 import Pencil from '../img/Pencil.png'
 import Experience from "../components/Resume/Experience";
-import {faBriefcase, faUserTie, faUserGraduate, faLaptop} from '@fortawesome/free-solid-svg-icons'
+import {faBriefcase, faUserTie, faUserGraduate, faLaptop, faTools} from '@fortawesome/free-solid-svg-icons'
 import SectionHead from "../components/Resume/SectionHead";
 import Header from "../components/Resume/Header";
 import Grid from "@material-ui/core/Grid";
@@ -10,6 +10,10 @@ import Education from "../components/Resume/Education";
 import Project from "../components/Resume/Project";
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link';
+import Frontend from "../components/Resume/Skills/Frontend";
+import Backend from "../components/Resume/Skills/Backend";
+import SysAdmin from "../components/Resume/Skills/SysAdmin";
+import SoftSkills from "../components/Resume/Skills/SoftSkills";
 
 const Resume = (props) => {
     return (
@@ -24,9 +28,14 @@ const Resume = (props) => {
                             <section>
                                 <SectionHead title={"About me"} icon={faUserTie}/>
                                 <div className={"cv-section-left"}>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aut dicta enim laborum
-                                    nesciunt officiis quam voluptatem. Amet dolorem expedita iusto laborum libero minus
-                                    quia rerum veritatis! Libero officiis, porro?
+                                    A Devops engineer with experience of 5+ years, with added qualifications of being a
+                                    Software Developer of Python, JavaScript and GoLang. My primary skills includes
+                                    server-side programming, infrastructure architecting and maintenance minimalistic UI
+                                    designing.<br/>
+                                    I have been working as a Freelancer, Employee and done many voluntary services for
+                                    both Local and International clients. I am known as a versatile character, a good
+                                    team player and a person who work under minimum supervision, both onsite and
+                                    remotely with good analytical skills.
                                 </div>
                             </section>
                             <section>
@@ -46,7 +55,7 @@ const Resume = (props) => {
                                         position={"Trainee Software Engineering"}
                                         peroid={"Jan 2019 - Jun 2019"}
                                         responsibilities={[
-                                            "Set up all of ThinkSmart Solutions web infrastructure in AWS and Google Cloud Platform.",
+                                            "Architected all of ThinkSmart Solutions infrastructure in GCP.",
                                             "Created CI/CD system which reduced time taken to do a production released by around 60%.",
                                             "Developed the Self Registrations portal from Restaurant.",
                                             "Developed the MealFirst Operation Management Portal."
@@ -137,7 +146,23 @@ const Resume = (props) => {
                                             underline={"none"}> isala.me/portfolio
                                         </Link> to find the full list
                                     </span>
-
+                                </div>
+                            </section>
+                            <section>
+                                <SectionHead title={"Skills"} icon={faTools}/>
+                                <div className={"cv-section-right"}>
+                                    <SoftSkills/>
+                                    <Grid container spacing={2}>
+                                        <Grid item md={"auto"}>
+                                            <Frontend/>
+                                        </Grid>
+                                        <Grid item md={"auto"}>
+                                            <Backend/>
+                                        </Grid>
+                                        <Grid item md={5}>
+                                            <SysAdmin/>
+                                        </Grid>
+                                    </Grid>
                                 </div>
                             </section>
                         </Grid>

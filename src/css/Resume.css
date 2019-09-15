@@ -42,7 +42,7 @@
 }
 
 .section-head {
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: small;
     margin-bottom: 10px;
 }
@@ -123,4 +123,21 @@
     color: #51565d;
     font-size: 0.9em;
     margin-left: 5px;
+}
+
+.skill-img{
+    margin-right: 5px;
+}
+
+.skill-name{
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.skill-heading{
+    margin-bottom: 2px;
+}
+
+.skill{
+    display: table;
 }
