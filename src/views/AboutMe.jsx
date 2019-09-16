@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
         margin: 10,
         width: 300,
         height: 300,
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('sm')]: {
             width: 150,
             height: 150,
         },
@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     contentGrid:{
         marginTop: "40px",
         order: 0,
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('sm')]: {
             order: 1,
             marginTop: "0px",
         },
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     imageGrid:{
         marginLeft: "30px",
         order: 1,
-        [theme.breakpoints.down('md')]: {
+        [theme.breakpoints.down('sm')]: {
             marginLeft: 0,
             order: 0,
         },
