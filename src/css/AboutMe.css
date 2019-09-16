@@ -1,0 +1,10 @@
+#about-me-wrapper{
+    padding: 20px;
+    height: 100%;
+}
+
+@media(max-width: 600px) {
+    .main-window{
+        font-size: 1.2em !important;
+    }
+}
