@@ -46,6 +46,8 @@ class Sliders extends PureComponent {
         this.imgArray.push(bg);
         sessionStorage.setItem('img', bg);
         setTimeout(() => {
+            if (this.img1 === null || this.img2 === null)
+                return;
             this.img1.classList.toggle('hide');
             this.img2.classList.toggle('hide');
         }, 1000)
