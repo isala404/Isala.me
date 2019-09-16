@@ -8,6 +8,7 @@ import '../css/AboutMe.css'
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import {Link as RouterLink} from 'react-router-dom';
+import {Helmet} from "react-helmet";
 
 
 const useStyles = makeStyles(theme => ({
@@ -42,6 +43,9 @@ const AboutMe = (props) => {
     const classes = useStyles();
     return (
         <div className={"main-window"} style={{fontSize: "1.5em"}}>
+            <Helmet>
+                <title>Isala Piyarisi | Resume</title>
+            </Helmet>
             <Box display="flex" overflow={"hidden"} id={"about-me-wrapper"} flexDirection="column"
                  justifyContent={"center"}
                  alignItems={"center"}>
