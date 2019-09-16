@@ -10,7 +10,7 @@ const Project = (props) => {
             {
                 props.url
                     ?
-                    <Link href={props.url} target={"_blank"} underline={"none"}><h3
+                    <Link href={props.url} rel={"noopener"} target={"_blank"} underline={"none"}><h3
                         className={"section-component-title"}>{props.name} <FontAwesomeIcon icon={faExternalLinkAlt}/></h3>
                     </Link>
                     :

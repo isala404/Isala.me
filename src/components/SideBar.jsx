@@ -108,7 +108,7 @@ class SideBar extends Component {
                             </Link>
                         </Grid>
                         <Grid item md={"auto"}>
-                            <Link href={"https://open.spotify.com/user/mrsupiri"} target={"_blank"} underline={"none"}
+                            <Link href={"https://open.spotify.com/user/96ebnc8z1rpc05bghads5a8rq"} target={"_blank"} underline={"none"}
                                   color={"inherit"} rel={"noopener"}>
                                 <FontAwesomeIcon size={"lg"} icon={faSpotify}/>
                             </Link>
