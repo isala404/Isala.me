@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 import '../css/Resume.css'
 import Pencil from '../img/Pencil.png'
 import Header from "../components/Resume/Header";
@@ -12,18 +12,8 @@ import Projects from "../components/Resume/Projects";
 import Skills from "../components/Resume/Skils";
 import {Helmet} from "react-helmet";
 
-
-class Resume extends Component {
-    componentDidMount() {
-        setTimeout(() => {
-            const pencil = document.getElementById("pencil");
-            pencil.classList.add('pencil');
-            pencil.classList.remove('pre-pencil');
-        }, 1000)
-    }
-
-    render() {
-        return (
+const Resume = (props) => {
+    return (
         <div className={"main-window"}>
             <Helmet>
                 <title>Isala Piyarisi | Resume</title>
@@ -45,11 +35,10 @@ class Resume extends Component {
                         </Grid>
                     </Grid>
                 </div>
-                <img id={"pencil"} className={"pre-pencil"} src={Pencil} alt={"Pencil"}/>
+                <img id={"pencil"} src={Pencil} alt={"Pencil"}/>
             </div>
         </div>
     );
-    }
-}
+};
 
-export default Resume;
+export default Resume

@@ -9,7 +9,8 @@
 
 .page-enter-active {
     top: 0;
-    transition: top 1s ease-out;
+    transition: top 250ms ease;
+    will-change: transform;
 }
 
 .page-exit {
@@ -23,5 +24,6 @@
 
 .page-exit-active {
     top: -100%;
-    transition: top 1s ease-out;
+    transition: top 250ms ease;
+    will-change: transform;
 }

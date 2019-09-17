@@ -22,20 +22,13 @@
     z-index: 1;
 }
 
-.pre-pencil {
-    position: absolute;
-    right: calc(4vh - 15px);
-    top: 150px;
-    height: 70vh;
-    filter: drop-shadow(-10px 10px 10px #222);
-}
-
-.pencil {
+#pencil {
     position: fixed;
-    right: 4vh;
+    right: 4vw;
     top: 150px;
     height: 70vh;
     filter: drop-shadow(-10px 10px 10px #222);
+    transition: all 500ms ease-out;
 }
 
 .section-head-title {
