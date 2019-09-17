@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from "@material-ui/core/Box";
 
-const Projects = (props) => {
+const Hobbies = (props) => {
     return (
         <div className={"main-window"}>
             <Box display="flex" overflow={"hidden"} id={"about-me-wrapper"} flexDirection="column"
@@ -12,4 +12,4 @@ const Projects = (props) => {
     );
 };
 
-export default Projects;
+export default Hobbies;

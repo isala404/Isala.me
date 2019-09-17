@@ -47,8 +47,7 @@ const AboutMe = (props) => {
                 <title>Isala Piyarisi | Resume</title>
             </Helmet>
             <Box display="flex" overflow={"hidden"} id={"about-me-wrapper"} flexDirection="column"
-                 justifyContent={"center"}
-                 alignItems={"center"}>
+                 justifyContent={"center"} alignItems={"center"}>
                 <h1 className={"no-m"} style={{textAlign: "center"}}>~$ whoami</h1>
                 <Grid container justify="center" alignItems="center">
                     <Grid item md={6} className={classes.contentGrid}>
