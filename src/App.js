@@ -6,19 +6,10 @@ import {MuiThemeProvider} from '@material-ui/core/styles';
 import NavBar from "./components/NavBar";
 import {useStyles, theme} from './Theme'
 import {Route} from "react-router-dom";
-import Home from "./views/Home";
-import AboutMe from "./views/AboutMe";
-import Resume from "./views/Resume";
 import {CSSTransition} from "react-transition-group";
 import './css/CSSTransitions.css'
 import './css/App.css'
-
-const routes = [
-    {path: '/', name: 'Home', Component: Home},
-    {path: '/about-me', name: 'About', Component: AboutMe},
-    {path: '/resume', name: 'Contact', Component: Resume},
-];
-
+import Routes from './Routes'
 
 const App = (props) => {
     const classes = useStyles();
@@ -40,7 +31,7 @@ const App = (props) => {
                     <Hidden smUp implementation="css">
                         <div className={classes.toolbar}/>
                     </Hidden>
-                    {routes.map(({path, Component}) => (
+                    {Routes.map(({path, Component}) => (
                         <Route key={path} exact path={path}>
                             {({match}) => (
                                 <CSSTransition

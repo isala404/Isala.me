@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -8,7 +8,6 @@ import ProfileImage from '../img/profile.jpg'
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Divider from "@material-ui/core/Divider";
-import {faHome, faUserTie, faFileAlt, faBriefcase} from '@fortawesome/free-solid-svg-icons'
 import Box from "@material-ui/core/Box";
 import {
     faLinkedin,
@@ -20,58 +19,29 @@ import {
     faReddit
 } from "@fortawesome/free-brands-svg-icons"
 import Grid from "@material-ui/core/Grid";
+import Routes from '../Routes'
 
 class SideBar extends Component {
     render() {
         return (
             <div>
-                <img alt={""} src={ProfileImage} id={"profile-img"}/>
+                <img alt={"Isala Piyarisi"} src={ProfileImage} id={"profile-img"}/>
                 <List>
-                    <Link component={RouterLink} to={"/"} color="inherit" underline={"none"}>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <FontAwesomeIcon size={"lg"} icon={faHome}/>
-                            </ListItemIcon>
-                            <ListItemText primary={"Home"}/>
-                        </ListItem>
-                    </Link>
-                    <Divider/>
-                    <Link component={RouterLink} to={"/about-me"} color="inherit" underline={"none"}>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <FontAwesomeIcon size={"lg"} icon={faUserTie}/>
-                            </ListItemIcon>
-                            <ListItemText primary={"About Me"}/>
-                        </ListItem>
-                    </Link>
-                    <Divider/>
-                    <Link component={RouterLink} to={"/resume"} color="inherit" underline={"none"}>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <FontAwesomeIcon size={"lg"} icon={faFileAlt}/>
-                            </ListItemIcon>
-                            <ListItemText primary={"Resume"}/>
-                        </ListItem>
-                    </Link>
-                    <Divider/>
-                    <Link component={RouterLink} to={"/portfolio"} color="inherit" underline={"none"}>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <FontAwesomeIcon size={"lg"} icon={faBriefcase}/>
-                            </ListItemIcon>
-                            <ListItemText primary={"Portfolio"}/>
-                        </ListItem>
-                    </Link>
-                    <Divider/>
-                    <Link component={RouterLink} to={"/blog"} color="inherit" underline={"none"}>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <FontAwesomeIcon size={"lg"} icon={faBriefcase}/>
-                            </ListItemIcon>
-                            <ListItemText primary={"Blog"}/>
-                        </ListItem>
-                    </Link>
-                    <Divider/>
+                    {Routes.map((route) => {
+                        return (
+                            <Fragment key={route.path}>
+                                <Link component={RouterLink} to={route.path} color="inherit" underline={"none"}>
+                                    <ListItem button>
+                                        <ListItemIcon>
+                                            <FontAwesomeIcon size={"lg"} icon={route.icon}/>
+                                        </ListItemIcon>
+                                        <ListItemText primary={route.name}/>
+                                    </ListItem>
+                                </Link>
+                                <Divider/>
+                            </Fragment>
+                        )
+                    })}
                 </List>
 
                 <Box id={"social-links"} display="flex" overflow={"hidden"} flexDirection="column"
@@ -108,7 +78,8 @@ class SideBar extends Component {
                             </Link>
                         </Grid>
                         <Grid item md={"auto"}>
-                            <Link href={"https://open.spotify.com/user/96ebnc8z1rpc05bghads5a8rq"} target={"_blank"} underline={"none"}
+                            <Link href={"https://open.spotify.com/user/96ebnc8z1rpc05bghads5a8rq"} target={"_blank"}
+                                  underline={"none"}
                                   color={"inherit"} rel={"noopener"}>
                                 <FontAwesomeIcon size={"lg"} icon={faSpotify}/>
                             </Link>
