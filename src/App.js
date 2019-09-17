@@ -5,12 +5,20 @@ import Header from "./components/Header";
 import {MuiThemeProvider} from '@material-ui/core/styles';
 import NavBar from "./components/NavBar";
 import {useStyles, theme} from './Theme'
-import './css/App.css'
-import {Route, Switch} from "react-router-dom";
+import {Route} from "react-router-dom";
 import Home from "./views/Home";
 import AboutMe from "./views/AboutMe";
 import Resume from "./views/Resume";
-import {TransitionGroup, CSSTransition} from "react-transition-group";
+import {CSSTransition} from "react-transition-group";
+import './css/CSSTransitions.css'
+import './css/App.css'
+
+const routes = [
+    {path: '/', name: 'Home', Component: Home},
+    {path: '/about-me', name: 'About', Component: AboutMe},
+    {path: '/resume', name: 'Contact', Component: Resume},
+];
+
 
 const App = (props) => {
     const classes = useStyles();
@@ -32,20 +40,20 @@ const App = (props) => {
                     <Hidden smUp implementation="css">
                         <div className={classes.toolbar}/>
                     </Hidden>
-                    <Route render={({location}) => (
-                        <TransitionGroup>
-                            <CSSTransition
-                                key={location.key}
-                                timeout={300}
-                                classNames={"fade"}>
-                                <Switch location={location}>
-                                    <Route path="/" exact component={Home}/>
-                                    <Route path="/about-me" exact component={AboutMe}/>
-                                    <Route path="/resume" exact component={Resume}/>
-                                </Switch>
-                            </CSSTransition>
-                        </TransitionGroup>
-                    )}/>
+                    {routes.map(({path, Component}) => (
+                        <Route key={path} exact path={path}>
+                            {({match}) => (
+                                <CSSTransition
+                                    in={match != null}
+                                    timeout={1000}
+                                    classNames="page"
+                                    unmountOnExit
+                                >
+                                    <Component/>
+                                </CSSTransition>
+                            )}
+                        </Route>
+                    ))}
                 </main>
             </div>
         </MuiThemeProvider>

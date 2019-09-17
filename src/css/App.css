@@ -2,12 +2,17 @@
     max-width: 100%;
     height: auto;
 }
+body{
+    overflow: hidden;
+}
 
 .main-window{
     position: absolute;
     left: 240px;
     right: 0;
     height: 100vh;
+    overflow: auto;
+    background-color: #303030;
 }
 
 @media(max-width: 600px) {
@@ -16,30 +21,9 @@
         top: 56px;
         left: 0;
         right: 0;
-        bottom: 0;
-        height: auto;
+        /*bottom: 0;*/
+        height: 100%;
     }
-}
-
-/* advanced - enter transition 800ms, exit 150ms */
-.fade-appear,
-.fade-enter {
-    opacity: 0;
-    z-index: 1;
-}
-.fade-appear-active,
-.fade-enter.fade-enter-active {
-    opacity: 1;
-    transition: opacity 300ms linear 150ms;
-}
-
-.fade-exit {
-    opacity: 1;
-}
-
-.fade-exit.fade-exit-active {
-    opacity: 0;
-    transition: opacity 150ms linear;
 }
 
 .no-p{

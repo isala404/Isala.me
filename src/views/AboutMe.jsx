@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
             height: 150,
         },
     },
-    contentGrid:{
+    contentGrid: {
         marginTop: "40px",
         order: 0,
         [theme.breakpoints.down('sm')]: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
             marginTop: "0px",
         },
     },
-    imageGrid:{
+    imageGrid: {
         marginLeft: "30px",
         order: 1,
         [theme.breakpoints.down('sm')]: {

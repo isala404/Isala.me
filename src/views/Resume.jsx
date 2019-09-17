@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import '../css/Resume.css'
 import Pencil from '../img/Pencil.png'
 import Header from "../components/Resume/Header";
@@ -12,8 +12,18 @@ import Projects from "../components/Resume/Projects";
 import Skills from "../components/Resume/Skils";
 import {Helmet} from "react-helmet";
 
-const Resume = (props) => {
-    return (
+
+class Resume extends Component {
+    componentDidMount() {
+        setTimeout(() => {
+            const pencil = document.getElementById("pencil");
+            pencil.classList.add('pencil');
+            pencil.classList.remove('pre-pencil');
+        }, 1000)
+    }
+
+    render() {
+        return (
         <div className={"main-window"}>
             <Helmet>
                 <title>Isala Piyarisi | Resume</title>
@@ -22,11 +32,11 @@ const Resume = (props) => {
                 <div id={"cv-page"}>
                     <Grid container>
                         <Grid item md={6}>
-                            <Header side={"left"} />
-                            <Contact side={"left"} />
-                            <AboutMe side={"left"} />
-                            <Experiences side={"left"} />
-                            <Hobbies side={"left"} />
+                            <Header side={"left"}/>
+                            <Contact side={"left"}/>
+                            <AboutMe side={"left"}/>
+                            <Experiences side={"left"}/>
+                            <Hobbies side={"left"}/>
                         </Grid>
                         <Grid item md={6}>
                             <Educations side={"right"}/>
@@ -35,10 +45,11 @@ const Resume = (props) => {
                         </Grid>
                     </Grid>
                 </div>
-                <img id={"pencil"} src={Pencil} alt={"Pencil"}/>
+                <img id={"pencil"} className={"pre-pencil"} src={Pencil} alt={"Pencil"}/>
             </div>
         </div>
     );
-};
+    }
+}
 
-export default Resume
+export default Resume;

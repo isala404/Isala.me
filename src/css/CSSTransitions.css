@@ -1,0 +1,27 @@
+.page-enter {
+    position: absolute;
+    top: 100vh;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    z-index: 10;
+}
+
+.page-enter-active {
+    top: 0;
+    transition: top 1s ease-out;
+}
+
+.page-exit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    z-index: -9999!important;
+}
+
+.page-exit-active {
+    top: -100%;
+    transition: top 1s ease-out;
+}

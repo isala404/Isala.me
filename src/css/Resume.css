@@ -22,10 +22,18 @@
     z-index: 1;
 }
 
-#pencil {
+.pre-pencil {
+    position: absolute;
+    right: calc(4vh - 15px);
+    top: 150px;
+    height: 70vh;
+    filter: drop-shadow(-10px 10px 10px #222);
+}
+
+.pencil {
     position: fixed;
-    right: 4vw;
-    bottom: 150px;
+    right: 4vh;
+    top: 150px;
     height: 70vh;
     filter: drop-shadow(-10px 10px 10px #222);
 }
