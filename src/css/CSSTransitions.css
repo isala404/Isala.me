@@ -9,8 +9,7 @@
 
 .page-enter-active {
     top: 0;
-    transition: top 250ms ease;
-    will-change: transform;
+    transition: top 500ms ease;
 }
 
 .page-exit {
@@ -22,8 +21,16 @@
     z-index: -9999!important;
 }
 
+@media(max-width: 600px) {
+    .page-enter-active {
+        top: 56px;
+    }
+    .page-exit {
+        top: 56px;
+    }
+}
+
 .page-exit-active {
     top: -100%;
-    transition: top 250ms ease;
-    will-change: transform;
+    transition: top 500ms ease;
 }
