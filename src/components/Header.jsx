@@ -11,10 +11,7 @@ const Header = (props) => {
     return (
         <AppBar position="fixed" className={props.classes.appBar}>
             <Toolbar>
-                <Typography variant="h6" noWrap>
-                    Isala Piyarisi
-                </Typography>
-                <Box ml="auto">
+                <Box>
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -25,6 +22,9 @@ const Header = (props) => {
                         <FontAwesomeIcon icon={faBars}/>
                     </IconButton>
                 </Box>
+                <Typography variant="h6" noWrap>
+                    Isala Piyarisi
+                </Typography>
             </Toolbar>
         </AppBar>
     )

@@ -166,3 +166,10 @@
         right: -24px;
     }
 }
+@media(max-width: 600px) {
+    #cv-page{
+        font-size: 0.7em;
+        margin: auto auto 56px;
+        height: auto;
+    }
+}

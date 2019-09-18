@@ -26,7 +26,7 @@ class SideBar extends Component {
         return (
             <div>
                 <img alt={"Isala Piyarisi"} src={ProfileImage} id={"profile-img"}/>
-                <List>
+                <List style={{marginBottom: "10px"}}>
                     {Routes.map((route) => {
                         return (
                             <Fragment key={route.path}>

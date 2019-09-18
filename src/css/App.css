@@ -37,3 +37,13 @@ body{
     width: 100%;
     bottom: 20px;
 }
+
+@media(max-height: 673px) {
+    #social-links{
+        display: block;
+        bottom: auto;
+        position: relative;
+        margin-bottom: 15px;
+        width: 100%;
+    }
+}
