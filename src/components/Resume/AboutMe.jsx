@@ -10,8 +10,7 @@ const AboutMe = (props) => {
                 <p>
                     A DevOps engineer with experience of 5+ years, with added qualifications of being a
                     Software Developer of Python, JavaScript and GoLang. My primary skills includes
-                    server-side programming, infrastructure architect and maintenance minimalistic UI
-                    designing.
+                    server-side programming, infrastructure architect and maintenance and designing minimalistic UI.
                 </p>
                 <p>
                     I have been working as a Freelancer, Employee and done many voluntary services for
