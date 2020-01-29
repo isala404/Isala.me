@@ -30,7 +30,7 @@ class SideBar extends Component {
                     {Routes.map((route) => {
                         return (
                             <Fragment key={route.path}>
-                                <Link component={RouterLink} to={route.path} color="inherit" underline={"none"}>
+                                <Link component={route.disabled ? null : RouterLink} to={route.path} color="inherit" underline={"none"}>
                                     <ListItem button>
                                         <ListItemIcon>
                                             <FontAwesomeIcon size={"lg"} icon={route.icon}/>

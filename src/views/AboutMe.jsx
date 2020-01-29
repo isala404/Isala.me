@@ -1,5 +1,4 @@
 import React from 'react';
-import HeadShot from '../img/headshot.jpg'
 import {makeStyles} from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
@@ -72,7 +71,7 @@ const AboutMe = (props) => {
                         </Link>
                     </Grid>
                     <Grid item className={classes.imageGrid}>
-                        <Avatar alt="Isala Piyarisi" src={HeadShot} className={classes.avatar}/>
+                        <Avatar alt="Isala Piyarisi" src={"https://cdn.iconicto.com/Isala.me/face.jpg"} className={classes.avatar}/>
                     </Grid>
                 </Grid>
             </Box>

@@ -61,9 +61,9 @@ const Projects = props => {
         />
         <span id={"portfolio-note"}>
           Visit{" "}
-          <Link component={RouterLink} to={"/portfolio"} underline={"none"}>
+          <Link component={RouterLink} to={"/projects"} underline={"none"}>
             {" "}
-            isala.me/portfolio{" "}
+            isala.me/projects{" "}
           </Link>{" "}
           to find the full list
         </span>
