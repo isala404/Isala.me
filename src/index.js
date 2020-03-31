@@ -4,9 +4,11 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter, Route} from "react-router-dom";
+import ResumePrint from "./views/ResumePrint";
 
 ReactDOM.render(
     <BrowserRouter>
+        <Route path="/resume/print" component={ResumePrint}/>
         <Route path="/" component={App}/>
     </BrowserRouter>,
     document.getElementById('root')

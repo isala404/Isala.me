@@ -7,7 +7,7 @@ import Skill from "./Skills/Skill";
 const Hobbies = (props) => {
     return(
         <section>
-            <SectionHead title={"Hobbies"} icon={faHiking}/>
+            <SectionHead title={"Hobbies"} icon={faHiking} print={props.print}/>
             <div className={"cv-section-"+ props.side}>
                 <Grid container spacing={2} justify="center" alignItems="center">
                     <Grid item xs={6} md={4}>

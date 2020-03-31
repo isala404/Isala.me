@@ -5,7 +5,7 @@ import {faUserTie} from "@fortawesome/free-solid-svg-icons";
 const AboutMe = (props) => {
     return (
         <section>
-            <SectionHead title={"About me"} icon={faUserTie}/>
+            <SectionHead title={"About me"} icon={faUserTie} print={props.print}/>
             <div className={"cv-section-" + props.side}>
                 <p>
                     A DevOps engineer with experience of 5+ years, with added qualifications of being a

@@ -9,6 +9,7 @@ const Frontend = (props) => {
             {/* <Skill name={"Flutter"} icon={"flutter.svg"}/> */}
             <Skill name={"Bootstrap"} icon={"bootstrap.svg"}/>
             <Skill name={"HTML/CSS"} icon={"html5.svg"}/>
+            <Skill name={"Apollo"} icon={"apollo.svg"}/>
             {/* <Skill name={"Electron"} icon={"electron.svg"}/> */}
         </div>
     )

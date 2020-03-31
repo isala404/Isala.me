@@ -27,7 +27,7 @@ const SectionHead = (props) => {
                         <FontAwesomeIcon icon={props.icon}/>
                     </Avatar>
                 </div>
-                <h2 className={"section-head-title"}>{props.title}</h2>
+                <h2 className={"section-head-title"} style={props.print ? {paddingLeft: "15px"} : {}}>{props.title}</h2>
             </div>
             <hr className={"section-head-hr"}/>
         </Fragment>

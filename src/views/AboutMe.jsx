@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AboutMe = (props) => {
-    const classes = useStyles();
+    const classes = useStyles(undefined);
     return (
         <div className={"main-window"} style={{fontSize: "1.5em"}}>
             <Helmet>
@@ -53,15 +53,15 @@ const AboutMe = (props) => {
                         <h2 className={"no-m"}>Isala Piyarisi</h2>
                         <h4 className={"no-m"}>DevOps Engineer at ThinkSmart IT Solutions Pvt. Ltd</h4>
                         <p>
-                            I am a DevOps engineer with experience of 5+ years, with added qualifications of being a
-                            Software Developer of Python, JavaScript and GoLang. My primary skills includes
-                            server-side programming, infrastructure architect and maintenance and designing minimalistic UI.
+                            A DevOps engineer with experience of 5+ years, with added qualifications of being a Software
+                            Developer of Python, JavaScript and GoLang. My primary skills include server-side
+                            programming, infrastructure architect and maintenance and designing minimalistic UI.
                         </p>
                         <p>
-                            I have been working as a Freelancer, Employee and done many voluntary services for
-                            both Local and International clients. I am known as a versatile character, a good
-                            team player and a person who work under minimum supervision, both onsite and
-                            remotely with good analytical skills.
+                            I have been working as a Freelancer, Employee and done many voluntary services for both
+                            Local and International clients. I am known as a versatile character, a good team player and
+                            a person who works under minimum supervision, both onsite and remotely with good analytical
+                            skills.
                         </p>
                         <Link href={"mailto:hire@isala.me"} target="_blank" color="inherit" underline={"none"}>
                             <Button variant="contained" color="secondary" style={{marginRight: "10px"}}>Hire Me</Button>
@@ -71,7 +71,8 @@ const AboutMe = (props) => {
                         </Link>
                     </Grid>
                     <Grid item className={classes.imageGrid}>
-                        <Avatar alt="Isala Piyarisi" src={"https://cdn.iconicto.com/Isala.me/face.jpg"} className={classes.avatar}/>
+                        <Avatar alt="Isala Piyarisi" src={"https://cdn.iconicto.com/Isala.me/face.jpg"}
+                                className={classes.avatar}/>
                     </Grid>
                 </Grid>
             </Box>

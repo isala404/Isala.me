@@ -8,7 +8,7 @@ import { Link as RouterLink } from "react-router-dom";
 const Projects = props => {
   return (
     <section>
-      <SectionHead title={"Projects"} icon={faLaptop} />
+      <SectionHead title={"Projects"} icon={faLaptop} print={props.print} />
       <div className={"cv-section-" + props.side}>
         <Project
           name={"DJ System for RathumakaraFM"}

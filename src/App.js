@@ -10,15 +10,19 @@ import {CSSTransition} from "react-transition-group";
 import './css/CSSTransitions.css'
 import './css/App.css'
 import Routes from './Routes'
+import { useLocation } from 'react-router-dom'
+
 
 const App = (props) => {
     const classes = useStyles();
     const [mobileOpen, setMobileOpen] = React.useState(false);
-
+    let location = useLocation();
     function handleDrawerToggle() {
         setMobileOpen(!mobileOpen);
     }
-
+    if(location.pathname === "/resume/print"){
+        return null
+    }
     return (
         <MuiThemeProvider theme={theme}>
             <div className={classes.root}>

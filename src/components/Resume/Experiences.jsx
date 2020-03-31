@@ -6,7 +6,7 @@ import Experience from "./Experience";
 const Experiences = (props) => {
     return(
         <section>
-            <SectionHead title={"Professional Experience"} icon={faBriefcase}/>
+            <SectionHead title={"Professional Experience"} icon={faBriefcase} print={props.print}/>
             <div className={"cv-section-"+ props.side}>
                 <Experience
                     company={"ThinkSmart Solutions"}

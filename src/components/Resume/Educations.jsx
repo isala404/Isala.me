@@ -6,7 +6,7 @@ import Education from "./Education";
 const Educations = props => {
   return (
     <section>
-      <SectionHead title={"Education"} icon={faUserGraduate} />
+      <SectionHead title={"Education"} icon={faUserGraduate} print={props.print}/>
       <div className={"cv-section-" + props.side}>
         <Education
           institute={"University of Westminster"}
