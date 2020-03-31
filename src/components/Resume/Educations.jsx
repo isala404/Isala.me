@@ -10,7 +10,7 @@ const Educations = props => {
       <div className={"cv-section-" + props.side}>
         <Education
           institute={"University of Westminster"}
-          peroid={"Jan 2019 - Jul 2023"}
+          peroid={"Sep 2018 - Jul 2023"}
           course={"BEng (Hons) Software Engineering"}
           achievements={[
             "Won First Place Hack19",
