@@ -54,7 +54,7 @@ const Projects = props => {
                     peroid={"Since Dec 2018"}
                     url={"https://landsp.lk/"}
                     description={
-                        "I was hired as the backend developer to redesign the website of Southern Province Land Commissioner's Department along with their personal file file management system"
+                        "I was hired as the backend developer to redesign the website of Southern Province Land Commissioner's Department along with their personal file management system"
                     }
                     tags={["Python", "Django", "Postgresql", "S3", "Kubernetes"]}
                 />

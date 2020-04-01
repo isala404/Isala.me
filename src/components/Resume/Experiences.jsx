@@ -17,7 +17,7 @@ const Experiences = (props) => {
                             responsibilities: [
                                 "Cut down the cost of all of the web infrastructure by 50% by optimizing the infrastructure footprint.",
                                 "Maintained all of ThinkSmart Solutions web infrastructure which runs on GCP, AWS and DigitalOcean.",
-                                "Created realtime TCP socket API to link 3 frontend application and sync the state.",
+                                "Created realtime TCP socket API to link 3 frontend applications and sync the state.",
                                 "Migrated existing monolithic backend to microservices."
                             ]
                         },
