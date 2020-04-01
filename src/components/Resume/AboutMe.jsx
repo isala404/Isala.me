@@ -4,15 +4,15 @@ import {faUserTie} from "@fortawesome/free-solid-svg-icons";
 
 const AboutMe = (props) => {
     return (
-        <section>
+        <section className={"cv-section"} >
             <SectionHead title={"About me"} icon={faUserTie} print={props.print}/>
             <div className={"cv-section-" + props.side}>
-                <p>
+                <p style={{marginBlockStart: 0, marginBlockEnd: 0, textAlign: "justify", paddingRight: "10px"}} >
                     A DevOps engineer with experience of 5+ years, with added qualifications of being a
                     Software Developer of Python, JavaScript and GoLang. My primary skills includes
                     server-side programming, infrastructure architect and maintenance and designing minimalistic UI.
                 </p>
-                <p>
+                <p style={{marginBlockStart: 0, marginBlockEnd: 0, textAlign: "justify", paddingRight: "10px"}} >
                     I have been working as a Freelancer, Employee and done many voluntary services for
                     both Local and International clients. I am known as a versatile character, a good
                     team player and a person who work under minimum supervision, both onsite and

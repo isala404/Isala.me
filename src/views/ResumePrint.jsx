@@ -9,22 +9,24 @@ import Hobbies from "../components/Resume/Hobbies";
 import Educations from "../components/Resume/Educations";
 import Projects from "../components/Resume/Projects";
 import Skills from "../components/Resume/Skils";
+import References from "../components/Resume/References";
 
 const Resume = (props) => {
     return (
-        <div style={{ width: "930px"}}>
+        <div style={{ width: "1020px"}}>
             <Grid container>
                 <Grid item xs={6}>
                     <Header side={"left"} />
                     <Contact side={"left"} print={true}/>
                     <AboutMe side={"left"} print={true} />
                     <Experiences side={"left"} print={true} />
-                    <Hobbies side={"left"} print={true}/>
+                    <Hobbies side={"left"} print={true} />
+                    <References side={"left"} print={true} />
                 </Grid>
                 <Grid item xs={6}>
-                    <Educations side={"right"} print={true}/>
-                    <Projects side={"right"} print={true}/>
-                    <Skills side={"right"} print={true}/>
+                    <Educations side={"right"} print={true} />
+                    <Projects side={"right"} print={true} />
+                    <Skills side={"right"} print={true} />
                 </Grid>
             </Grid>
         </div>

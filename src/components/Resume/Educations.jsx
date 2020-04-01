@@ -5,7 +5,7 @@ import Education from "./Education";
 
 const Educations = props => {
   return (
-    <section>
+    <section className={"cv-section"} >
       <SectionHead title={"Education"} icon={faUserGraduate} print={props.print}/>
       <div className={"cv-section-" + props.side}>
         <Education
@@ -17,7 +17,8 @@ const Educations = props => {
             "Won Third Place in Cutting Edge 2019 (Level 5)",
             "Finalist DigiEduHack 2019",
             'Won a Merit Prize on CodeFest "Hack me If you Can" Challenge',
-            "Event Management Director, IET Campus Club"
+            "Event Management Director, IET Campus Club",
+            'Finalist Data Storm 1.0'
           ]}
         />
         <Education

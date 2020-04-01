@@ -9,7 +9,7 @@ import SysAdmin from "./Skills/SysAdmin";
 
 const Skills = (props) => {
     return(
-        <section>
+        <section className={"cv-section"} >
             <SectionHead title={"Skills"}  icon={faTools} print={props.print} />
             <div className={"cv-section-"+ props.side}>
                 <Grid container justify="space-around">

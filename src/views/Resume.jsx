@@ -11,6 +11,7 @@ import Educations from "../components/Resume/Educations";
 import Projects from "../components/Resume/Projects";
 import Skills from "../components/Resume/Skils";
 import {Helmet} from "react-helmet";
+import References from "../components/Resume/References";
 
 const Resume = (props) => {
     return (
@@ -27,6 +28,7 @@ const Resume = (props) => {
                             <AboutMe side={"left"}/>
                             <Experiences side={"left"}/>
                             <Hobbies side={"left"}/>
+                            <References side={"left"}/>
                         </Grid>
                         <Grid item md={6}>
                             <Educations side={"right"}/>

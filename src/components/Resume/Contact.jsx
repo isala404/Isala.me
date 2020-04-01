@@ -8,7 +8,7 @@ import Link from "@material-ui/core/Link";
 
 const Contact = (props) => {
     return (
-        <section id={"contact-section"}>
+        <section className={"cv-section"} id={"contact-section"}>
             <div className={"cv-section-" + props.side}>
                 <Grid container spacing={2} justify="center" alignItems="center">
                     {/* <Grid className={"no-p"} item xs={12} md={11}>
@@ -31,7 +31,7 @@ const Contact = (props) => {
                     </Grid>
                     <Grid className={"no-p"} item xs={props.print ? 5 : 12} md={5}>
                         <FontAwesomeIcon icon={faLink}/>
-                        <Link href={"https://isala.me"} target={"_blank"} underline={"none"}
+                        <Link href={"https://isala.me/resume"} target={"_blank"} underline={"none"}
                               rel={"noopener"}> isala.me</Link>
                     </Grid>
                 </Grid>
