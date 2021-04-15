@@ -1,22 +1,16 @@
 import React from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faExternalLinkAlt} from '@fortawesome/free-solid-svg-icons'
 import Link from "@material-ui/core/Link";
 
 const Project = (props) => {
 
     return (
         <div className={"projects"}>
-            {
-                props.url
-                    ?
-                    <Link href={props.url} rel={"noopener"} target={"_blank"} underline={"none"}><h3
-                        className={"section-component-title"}>{props.name} <FontAwesomeIcon icon={faExternalLinkAlt}/></h3>
-                    </Link>
-                    :
-                    <h3 className={"section-component-title"}>{props.name}</h3>
-            }
-            <h4 className={"section-component-subtitle"}>{props.peroid}</h4>
+            <div >
+                <h3 style={{ display: "inline-block" }} className={"section-component-title"}>{props.name}</h3>
+                <Link href={props.url} rel={"noopener"} target={"_blank"} underline={"none"}>
+                    {" "} - {props.url.slice(2)}
+                </Link>
+            </div>
             <p className={"section-component-description"}>{props.description}</p>
             {props.tags &&
                 props.tags.map((tag, index) => {

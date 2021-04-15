@@ -6,19 +6,19 @@ import Education from "./Education";
 const Educations = props => {
   return (
     <section className={"cv-section"} >
-      <SectionHead title={"Education"} icon={faUserGraduate} print={props.print}/>
+      <SectionHead title={"Education"} icon={faUserGraduate} print={props.print} />
       <div className={"cv-section-" + props.side}>
         <Education
           institute={"University of Westminster"}
           peroid={"Sep 2018 - Jul 2023"}
           course={"BEng (Hons) Software Engineering"}
           achievements={[
-            "Won First Place Hack19",
-            "Won Third Place in Cutting Edge 2019 (Level 5)",
-            "Finalist DigiEduHack 2019",
-            'Won a Merit Prize on CodeFest "Hack me If you Can" Challenge',
-            "Event Management Director, IET Campus Club",
-            'Finalist Data Storm 1.0'
+            "Event Director, IET Campus Club",
+            "Won 2nd place Hack19 global event",
+            "Won 3rd place in Cutting Edge 2019 (Level 5)",
+            'Won a Merit Prize on CodeFest "Hack me If you Can"',
+            "Finalist DigiEduHack 2019 and Data Storm 1.0",
+            // "Published a research paper on IEEEXplore"
           ]}
         />
         <Education

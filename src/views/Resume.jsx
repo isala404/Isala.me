@@ -8,9 +8,10 @@ import AboutMe from "../components/Resume/AboutMe";
 import Experiences from "../components/Resume/Experiences";
 import Hobbies from "../components/Resume/Hobbies";
 import Educations from "../components/Resume/Educations";
+import Certifications from "../components/Resume/Certifications";
 import Projects from "../components/Resume/Projects";
 import Skills from "../components/Resume/Skils";
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 import References from "../components/Resume/References";
 
 const Resume = (props) => {
@@ -23,21 +24,22 @@ const Resume = (props) => {
                 <div id={"cv-page"}>
                     <Grid container>
                         <Grid item md={6}>
-                            <Header side={"left"}/>
-                            <Contact side={"left"}/>
-                            <AboutMe side={"left"}/>
-                            <Experiences side={"left"}/>
-                            <Hobbies side={"left"}/>
-                            <References side={"left"}/>
+                            <Header side={"left"} />
+                            <Contact side={"left"} />
+                            <AboutMe side={"left"} />
+                            <Experiences side={"left"} />
+                            <Hobbies side={"left"} />
+                            <References side={"left"} />
                         </Grid>
                         <Grid item md={6}>
-                            <Educations side={"right"}/>
-                            <Projects side={"right"}/>
-                            <Skills side={"right"}/>
+                            <Educations side={"right"} />
+                            <Certifications side={"right"} />
+                            <Projects side={"right"} />
+                            <Skills side={"right"} />
                         </Grid>
                     </Grid>
                 </div>
-                <img id={"pencil"} src={Pencil} alt={"Pencil"}/>
+                <img id={"pencil"} src={Pencil} alt={"Pencil"} />
             </div>
         </div>
     );

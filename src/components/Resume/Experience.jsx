@@ -1,6 +1,6 @@
 import React from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCheckCircle} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 
 const Experience = (props) => {
     return (
@@ -10,11 +10,11 @@ const Experience = (props) => {
                 return (
                     <React.Fragment>
                         <h4 className={"section-component-subtitle"}>{position.period} | {position.name}</h4>
-                        <ul className={"fa-ul"}>
+                        <ul className={"fa-ul"} style={{ marginBottom: "10px" }}>
                             {position.responsibilities.map((responsibility, index) => {
                                 return (
                                     <li key={index}>
-                                        <span className="fa-li"><FontAwesomeIcon icon={faCheckCircle}/></span>
+                                        <span className="fa-li"><FontAwesomeIcon icon={faCheckCircle} /></span>
                                         {responsibility}
                                     </li>
                                 )

@@ -52,8 +52,8 @@ p{
 .section-head-icon {
     vertical-align: middle;
     display: table-cell;
-    width: 35px;
-    height: 35px;
+    /* width: 35px;
+    height: 35px; */
 }
 
 .section-head {
@@ -63,8 +63,9 @@ p{
 }
 
 .section-head-hr {
-    margin-top: 5px;
-    margin-left: 10px;
+    margin: 2px 0 0 10px;
+    /* margin-top: 5px; */
+    /* margin-left: 10px; */
 }
 
 .timeline {
@@ -91,11 +92,11 @@ p{
 }
 
 .cv-section-left {
-    margin: 5px 0 5px 25px;
+    margin: 5px 0 5px 20px;
 }
 
 .cv-section-right {
-    margin: 5px 10px 5px 10px;
+    margin: 5px 10px 5px 19px;
 }
 
 .fa-ul {
@@ -130,8 +131,8 @@ p{
 }
 
 .projects{
-    margin-top: 7px;
-    margin-bottom: 7px;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
 #portfolio-note{

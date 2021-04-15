@@ -1,6 +1,6 @@
 import React from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAward} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAward } from '@fortawesome/free-solid-svg-icons'
 
 const Education = (props) => {
     return (
@@ -9,11 +9,11 @@ const Education = (props) => {
             <h4 className={"section-component-subtitle"}>{props.peroid} | {props.course}</h4>
             {
                 props.achievements &&
-                <ul className={"fa-ul"}>
+                <ul className={"fa-ul"} style={{ marginBottom: "1px" }}>
                     {props.achievements.map((responsibility, index) => {
                         return (
                             <li key={index}>
-                                <span className="fa-li"><FontAwesomeIcon icon={faAward}/></span>
+                                <span className="fa-li"><FontAwesomeIcon icon={faAward} /></span>
                                 {responsibility}
                             </li>
                         )

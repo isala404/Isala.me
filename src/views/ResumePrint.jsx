@@ -10,14 +10,15 @@ import Educations from "../components/Resume/Educations";
 import Projects from "../components/Resume/Projects";
 import Skills from "../components/Resume/Skils";
 import References from "../components/Resume/References";
+import Certifications from "../components/Resume/Certifications";
 
 const Resume = (props) => {
     return (
-        <div style={{ width: "1020px"}}>
+        <div style={{ width: "1020px" }}>
             <Grid container>
                 <Grid item xs={6}>
                     <Header side={"left"} />
-                    <Contact side={"left"} print={true}/>
+                    <Contact side={"left"} print={true} />
                     <AboutMe side={"left"} print={true} />
                     <Experiences side={"left"} print={true} />
                     <Hobbies side={"left"} print={true} />
@@ -25,6 +26,7 @@ const Resume = (props) => {
                 </Grid>
                 <Grid item xs={6}>
                     <Educations side={"right"} print={true} />
+                    <Certifications side={"right"} />
                     <Projects side={"right"} print={true} />
                     <Skills side={"right"} print={true} />
                 </Grid>

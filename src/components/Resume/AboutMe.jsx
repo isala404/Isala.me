@@ -1,22 +1,14 @@
 import React from "react";
 import SectionHead from "./SectionHead";
-import {faUserTie} from "@fortawesome/free-solid-svg-icons";
+import { faUserTie } from "@fortawesome/free-solid-svg-icons";
 
 const AboutMe = (props) => {
     return (
         <section className={"cv-section"} >
-            <SectionHead title={"About me"} icon={faUserTie} print={props.print}/>
+            <SectionHead title={"About me"} icon={faUserTie} print={props.print} />
             <div className={"cv-section-" + props.side}>
-                <p style={{marginBlockStart: 0, marginBlockEnd: 0, textAlign: "justify", paddingRight: "10px"}} >
-                    A DevOps engineer with experience of 5+ years, with added qualifications of being a
-                    Software Developer of Python, JavaScript and GoLang. My primary skills includes
-                    server-side programming, infrastructure architect and maintenance and designing minimalistic UI.
-                </p>
-                <p style={{marginBlockStart: 0, marginBlockEnd: 0, textAlign: "justify", paddingRight: "10px"}} >
-                    I have been working as a Freelancer, Employee and done many voluntary services for
-                    both Local and International clients. I am known as a versatile character, a good
-                    team player and a person who work under minimum supervision, both onsite and
-                    remotely with good analytical skills.
+                <p style={{ marginBlockStart: 0, marginBlockEnd: 0, textAlign: "justify" }} >
+                    A passionate cloud engineer whose journey started by trying to set up a dedicated COD4 server to play with friends, after school hours and quickly getting interested in ways of Linux. As an INFJ my life's mission is to use my engineering skills to better humanity.
                 </p>
             </div>
         </section>
