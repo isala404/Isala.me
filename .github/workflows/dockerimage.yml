@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-    - master
+      - master
 
 jobs:
   build:
@@ -17,12 +17,12 @@ jobs:
         run: |
           docker build -f .github/DockerFile -t $IMAGE_NAME .
           docker tag $IMAGE_NAME $IMAGE_NAME:commit-${GITHUB_SHA:0:8}
-          docker tag $IMAGE_NAME $IMAGE_NAME:prod-${GITHUB_RUN_ID}
+          docker tag $IMAGE_NAME $IMAGE_NAME:run-${GITHUB_RUN_ID}
           docker tag $IMAGE_NAME $IMAGE_NAME:build-${GITHUB_RUN_NUMBER}
           docker tag $IMAGE_NAME $IMAGE_NAME:latest
         env:
           IMAGE_NAME: ghcr.io/mrsupiri/isala-me
       - name: Push to Docker registry
-        run: docker push $IMAGE_NAME
+        run: docker push $IMAGE_NAME --all-tags
         env:
           IMAGE_NAME: ghcr.io/mrsupiri/isala-me
