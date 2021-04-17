@@ -12,12 +12,11 @@ const HelloWorld = (props) => {
             "I am a <strong>Nerd</strong>.",
             "I am the <strong>Chosen one</strong>.",
             "I am a <strong>Casual Gamer</strong>.",
-            "I am a <strong>Tech Enthusiast</strong>.",
-            "I am the <strong>Breaker of Chains</strong>.",
             "I am a <strong>Backend Developer</strong>.",
-            "I am a <strong>Hardware Hacker</strong>.",
+            "I am a <strong>Mr. Supiri</strong>.",
             "I am <strong>Iron Man</strong>.",
             "I am a <strong>Data Scientist</strong>.",
+            "btw i use <strong style='color:#4194d1'>Arch</strong>.",
         ]
     );
     return (
