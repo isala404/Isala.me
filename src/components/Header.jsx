@@ -2,10 +2,10 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import IconButton from "@material-ui/core/IconButton";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AppBar from "@material-ui/core/AppBar/AppBar";
 import React from "react";
-import {faBars} from '@fortawesome/free-solid-svg-icons'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 const Header = (props) => {
     return (
@@ -19,7 +19,7 @@ const Header = (props) => {
                         onClick={props.handleDrawerToggle}
                         className={props.classes.menuButton}
                     >
-                        <FontAwesomeIcon icon={faBars}/>
+                        <FontAwesomeIcon icon={faBars} />
                     </IconButton>
                 </Box>
                 <Typography variant="h6" noWrap>
