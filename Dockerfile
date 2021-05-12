@@ -1,4 +1,4 @@
-FROM node:carbon as builder
+FROM node:lts as builder
 WORKDIR /var/www/Isala.me
 COPY ./package.json ./
 RUN npm install
@@ -7,4 +7,4 @@ RUN npm run build
 
 FROM nginx:alpine
 COPY --from=builder /var/www/Isala.me/build /var/www/Isala.me
-COPY .github/nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
