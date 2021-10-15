@@ -19,12 +19,12 @@ class Sliders extends PureComponent {
     };
 
     cacheJpeg() {
-        this.imgArray = this.imgArray.map((img) => `https://cdn.iconicto.com/Isala.me/sliders/bg_${img}.jpg`);
+        this.imgArray = this.imgArray.map((img) => `https://static.isala.me/portfolio/sliders/bg_${img}.jpg`);
         lazyLoad(this.imgArray);
     }
 
     cacheWebP() {
-        this.imgArray = this.imgArray.map((img) => `https://cdn.iconicto.com/Isala.me/sliders/bg_${img}.webp`);
+        this.imgArray = this.imgArray.map((img) => `https://static.isala.me/portfolio/sliders/bg_${img}.webp`);
         lazyLoad(this.imgArray);
     }
 
@@ -66,7 +66,7 @@ class Sliders extends PureComponent {
                      src={
                          sessionStorage.getItem('img')
                              ? sessionStorage.getItem('img')
-                             : `https://cdn.iconicto.com/Isala.me/sliders/bg_${Math.round(Math.random() * this.numberOfBGs)}.jpg`
+                             : `https://static.isala.me/portfolio/sliders/bg_${Math.round(Math.random() * this.numberOfBGs)}.jpg`
                      }
                 />
                 <img ref={(img) => this.img2 = img} alt={"Background"} className={"hide"} />
