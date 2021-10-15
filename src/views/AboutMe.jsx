@@ -71,7 +71,7 @@ const AboutMe = (props) => {
                         </Link>
                     </Grid>
                     <Grid item className={classes.imageGrid}>
-                        <Avatar alt="Isala Piyarisi" src={"https://cdn.iconicto.com/Isala.me/face.jpg"}
+                        <Avatar alt="Isala Piyarisi" src={"https://static.isala.me/portfolio/face.jpg"}
                                 className={classes.avatar}/>
                     </Grid>
                 </Grid>
