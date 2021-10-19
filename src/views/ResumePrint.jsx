@@ -9,7 +9,7 @@ import Hobbies from "../components/Resume/Hobbies";
 import Educations from "../components/Resume/Educations";
 import Projects from "../components/Resume/Projects";
 import Skills from "../components/Resume/Skils";
-import References from "../components/Resume/References";
+// import References from "../components/Resume/References";
 import Certifications from "../components/Resume/Certifications";
 
 const Resume = (props) => {
@@ -18,11 +18,11 @@ const Resume = (props) => {
             <Grid container>
                 <Grid item xs={6}>
                     <Header side={"left"} />
-                    <Contact side={"left"} print={true} />
+                    <Contact side={"left"} print={true} style={{marginTop: "20px!important"}} />
                     <AboutMe side={"left"} print={true} />
                     <Experiences side={"left"} print={true} />
                     <Hobbies side={"left"} print={true} />
-                    <References side={"left"} print={true} />
+                    {/* <References side={"left"} print={true} /> */}
                 </Grid>
                 <Grid item xs={6}>
                     <Educations side={"right"} print={true} />

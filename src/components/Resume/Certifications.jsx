@@ -21,7 +21,7 @@ const Certifications = props => {
                 <Publication
                     name={"Speculo Research Paper"}
                     issuer={"IEEE"}
-                    peroid={"1/1/2021"}
+                    peroid={"01/01/2021"}
                     url={"//ieeexplore.ieee.org/document/9298340"}
                 />
             </div>
