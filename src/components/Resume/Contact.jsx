@@ -8,11 +8,11 @@ import Link from "@material-ui/core/Link";
 
 const Contact = (props) => {
     return (
-        <section className={"cv-section"} id={"contact-section"}>
+        <section className={"cv-section"} id={"contact-section"} style={props.style}>
             <div className={"cv-section-" + props.side}>
                 <Grid container spacing={2} justify="center" alignItems="center">
                     {/* <Grid className={"no-p"} item xs={12} md={11}>
-                        <FontAwesomeIcon icon={faMapMarkedAlt}/> ‘Piyarisi’, Mihiripenna, Talpe, Galle, 80615, Sri Lanka
+                        <FontAwesomeIcon icon={faMapMarkedAlt}/> My address here
                     </Grid> */}
                     <Grid className={"no-p"} item xs={props.print ? 6 : 12} md={6}>
                         <FontAwesomeIcon icon={faTwitter} />

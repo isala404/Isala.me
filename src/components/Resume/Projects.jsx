@@ -26,11 +26,27 @@ const Projects = props => {
             <SectionHead title={"Projects"} icon={faLaptop} print={props.print} />
             <div className={"cv-section-" + props.side}>
                 <Project
+                    name={"RLPP"}
+                    peroid={"Since Jul 2021"}
+                    url={"//github.com/MrSupiri/rancher-logging-pipeline-plumber"}
+                    description={
+                        "This is a tool that can be used to debug logging pipelines built using Rancher Logging. Once installed users can choose a Flow or ClusterFlow along with a pod to simulate and users also can set the log messages that are emitted by the pod."
+                    }
+                    tags={[
+                        "GoLang",
+                        "Kubebuilder",
+                        "Rancher",
+                        "Kubernetes",
+                        "DevTool",
+                        "GSoC",
+                    ]}
+                />
+                <Project
                     name={"Speculo"}
                     peroid={"Since Sept 2018"}
                     url={"//github.com/MrSupiri/speculo"}
                     description={
-                        "Speculo utilizes a DC-IGN for indexing faces found in a video footage. It allows you to browse through these footages by the faces found in them rather than thousands of frames."
+                        "Speculo utilizes a DC-IGN for indexing faces found in video footage. It allows you to browse through these footages by the faces found in them rather than thousands of frames."
                     }
                     tags={["Python", "Tensorflow", "Kubernetes", "OpenCV", "Microservices"]}
                 />
@@ -39,7 +55,7 @@ const Projects = props => {
                     peroid={"Oct 2017"}
                     url={"//github.com/MrSupiri/R2D2"}
                     description={
-                        "R2D2 is line following robot powered by OpenCV and machine learning. This was originally developed for RoboFest 2017 hosted by SLIIT"
+                        "R2D2 is line following robot powered by OpenCV and machine learning. This was originally developed for RoboFest 2017 hosted by SLIIT."
                     }
                     tags={[
                         "Python",
@@ -54,11 +70,11 @@ const Projects = props => {
                     peroid={"Since Dec 2018"}
                     url={"//landsp.lk"}
                     description={
-                        "I was hired as the backend developer to redesign the website of Southern Province Land Commissioner's Department along with their personal file management system"
+                        "I was hired as the backend developer to redesign the website of the Southern Province Land Commissioner's Department along with their personal file management system."
                     }
-                    tags={["Python", "Django", "Postgresql", "S3", "Kubernetes"]}
+                    tags={["Python", "Django", "Postgresql", "S3", "Serverless"]}
                 />
-                <Project
+                {/* <Project
                     name={"DownBit"}
                     peroid={"Aug 2016"}
                     url={"//github.com/MrSupiri/DownBit"}
@@ -73,7 +89,7 @@ const Projects = props => {
                         "Raspberry Pi",
                         "Home Automation"
                     ]}
-                />
+                /> */}
                 {portfolioNote}
             </div>
         </section>

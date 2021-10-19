@@ -9,6 +9,18 @@ const Experiences = (props) => {
             <SectionHead title={"Professional Experience"} icon={faBriefcase} print={props.print} />
             <div className={"cv-section-" + props.side}>
                 <Experience
+                    company={"SUSE"}
+                    positions={[
+                        {
+                            name: "Google Summer of Code Student",
+                            period: "Jul 2021 - Aug 2021",
+                            responsibilities: [
+                                "Created a FOSS tool help plan or debug banzai logging pipelines within rancher."
+                            ],
+                        }
+                    ]}
+                />
+                <Experience
                     company={"ThinkSmart Solutions"}
                     positions={[
                         {
@@ -24,8 +36,8 @@ const Experiences = (props) => {
                             period: "Jul 2019 - Jun 2020",
                             responsibilities: [
                                 "Cut down the cost of all of the web infrastructure by 50% by optimizing the infrastructure footprint.",
-                                "Maintained all of ThinkSmart Solutions web infrastructure which runs on GCP, AWS and DigitalOcean.",
-                                "Created realtime TCP socket API to link 3 frontend applications and sync the state.",
+                                "Maintained all of the ThinkSmart Solutions web infrastructure which runs on GCP, AWS, and DigitalOcean.",
+                                "Created real-time TCP socket API to link 3 frontend applications and sync the state.",
                             ]
                         },
                         {
@@ -33,8 +45,8 @@ const Experiences = (props) => {
                             period: "Jan 2019 - Jun 2019",
                             responsibilities: [
                                 "Provisioned and managed all resources need to run the EatMealFirst app in GCP.",
-                                "Created CI/CD system which reduced time taken to do a production released by around 60%.",
-                                "Developed the multiple internal dashboards using ReactJS.",
+                                "Created CI/CD system which reduced the time taken to do a production released by around 60%.",
+                                "Developed multiple internal operations tools using ReactJS.",
                             ]
                         }
                     ]}
@@ -47,12 +59,11 @@ const Experiences = (props) => {
                             period: "Dec 2018 - Present",
                             responsibilities: [
                                 "Created backend for current website Southern Province Land Commissioner's Department.",
-                                "Created web based HR system that help administrators manage employees more efficiently.",
+                                "Created a web-based HR system that helps administrators manage employees more efficiently.",
                                 "Maintaining the newly created website while regularly applying security patches."
                             ],
                         }
                     ]}
-
                 />
                 <Experience
                     company={"Black Assassins E-Sport"}
@@ -61,7 +72,7 @@ const Experiences = (props) => {
                             name: "System Administrator",
                             period: "Mar 2015 - Jun 2020",
                             responsibilities: [
-                                "Created and maintains world's 5th most popular CoD4 server which served more than 85,000 unique players over the years.",
+                                "Maintained the world's 5th most popular CoD4 server which served more than 85,000 unique players over the years.",
                             ],
                         }
                     ]}
