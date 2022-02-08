@@ -48,7 +48,7 @@ const Projects = props => {
                     description={
                         "Speculo utilizes a DC-IGN for indexing faces found in video footage. It allows you to browse through these footages by the faces found in them rather than thousands of frames."
                     }
-                    tags={["Python", "Tensorflow", "Kubernetes", "OpenCV", "Microservices"]}
+                    tags={["Python", "Tensorflow", "Kubernetes", "OpenCV", "Distributed System"]}
                 />
                 <Project
                     name={"R2D2"}

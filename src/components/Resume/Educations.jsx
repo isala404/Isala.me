@@ -11,7 +11,7 @@ const Educations = props => {
         <Education
           institute={"University of Westminster"}
           peroid={"Sep 2018 - Jul 2022"}
-          course={"BEng (Hons) Software Engineering"}
+          course={"BSc (Hons) Computer Science"}
           achievements={[
             "Event Director, IET Campus Club.",
             "Won 2nd place Hack19 global event.",

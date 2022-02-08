@@ -14,11 +14,11 @@ import Certifications from "../components/Resume/Certifications";
 
 const Resume = (props) => {
     return (
-        <div style={{ width: "1020px" }}>
+        <div style={{ width: "1026px" }}>
             <Grid container>
                 <Grid item xs={6}>
                     <Header side={"left"} />
-                    <Contact side={"left"} print={true} style={{marginTop: "20px!important"}} />
+                    <Contact side={"left"} print={true} style={{ marginTop: "20px!important" }} />
                     <AboutMe side={"left"} print={true} />
                     <Experiences side={"left"} print={true} />
                     <Hobbies side={"left"} print={true} />
