@@ -9,7 +9,7 @@ const Hobbies = (props) => {
         <section className={"cv-section"}>
             <SectionHead title={"Hobbies"} icon={faHiking} print={props.print} />
             <div className={"cv-section-" + props.side}>
-                <Grid container spacing={1} justify="center" alignItems="center">
+                <Grid container spacing={1} justify="space-between" alignItems="center">
                     <Grid item xs={props.print ? 4 : 6} md={4}>
                         <Skill name={"Reading"} icon={"audible.svg"} />
                     </Grid>

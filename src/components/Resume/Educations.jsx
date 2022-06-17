@@ -14,7 +14,7 @@ const Educations = props => {
           course={"BSc (Hons) Computer Science"}
           achievements={[
             "Event Director, IET Campus Club.",
-            "Won 2nd place Hack19 global event.",
+            "Won 2nd place in Hack19 global event.",
             "Won 3rd place in Cutting Edge 2019 (Level 5).",
             'Won a Merit Prize on CodeFest "Hack me If you Can".',
             "Finalist DigiEduHack 2019 and Data Storm 1.0.",
@@ -26,8 +26,8 @@ const Educations = props => {
           peroid={"Jan 2005 - Aug 2018"}
           course={"Mathematics"}
           achievements={[
-            "Acted as President of IT Society.",
-            "Acted as President of Robotics Society.",
+            "Acted as the President of IT Society.",
+            "Acted as the President of Robotics Society.",
             "Awarded as the most outstanding student of senior IT section."
           ]}
         />

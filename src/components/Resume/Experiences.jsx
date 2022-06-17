@@ -8,6 +8,18 @@ const Experiences = (props) => {
         <section className={"cv-section"}>
             <SectionHead title={"Professional Experience"} icon={faBriefcase} print={props.print} />
             <div className={"cv-section-" + props.side}>
+            <Experience
+                    company={"WSo2"}
+                    positions={[
+                        {
+                            name: "Software Engineer",
+                            period: "Jun 2022 - Present",
+                            responsibilities: [
+                                "Working on a Kubernetes observability platform for telemetry extraction without user instrumentation via eBPF.",
+                            ],
+                        }
+                    ]}
+                />
                 <Experience
                     company={"SUSE"}
                     positions={[
@@ -15,7 +27,7 @@ const Experiences = (props) => {
                             name: "Google Summer of Code Student",
                             period: "Jul 2021 - Aug 2021",
                             responsibilities: [
-                                "Created a FOSS to tool help plan or debug banzai logging pipelines within rancher."
+                                "Created a FOSS to tool help plan or debug banzai logging pipelines within Rancher."
                             ],
                         }
                     ]}
@@ -24,15 +36,15 @@ const Experiences = (props) => {
                     company={"ThinkSmart Solutions"}
                     positions={[
                         {
-                            name: "Software Engineer",
-                            period: "Jul 2020 - Present",
+                            name: "DevOps Engineer",
+                            period: "Jul 2020 - May 2022",
                             responsibilities: [
                                 "Migrated legacy static storage service to GCP and reduced load times up to 8 times.",
                                 "Planned and migrated a NodeJS monolith to a distributed system written in Go.",
                                 "Recreated database schema from scratch which made some queries resolve up to 15 times faster and noticed a significant drop in resource usage.",
                             ]
                         }, {
-                            name: "Associate Software Engineer",
+                            name: "Associate DevOps Engineer",
                             period: "Jul 2019 - Jun 2020",
                             responsibilities: [
                                 "Cut down the cost of all of the web infrastructure by 50% by optimizing the infrastructure footprint.",
@@ -41,27 +53,13 @@ const Experiences = (props) => {
                             ]
                         },
                         {
-                            name: "Trainee Software Engineering",
+                            name: "Trainee DevOps Engineering",
                             period: "Jan 2019 - Jun 2019",
                             responsibilities: [
                                 "Provisioned and managed all resources need to run the EatMealFirst app in GCP.",
                                 "Created CI/CD system which reduced the time taken to do a production release by around 60%.",
                                 "Developed multiple internal operations tools using ReactJS.",
                             ]
-                        }
-                    ]}
-                />
-                <Experience
-                    company={"Southern Province Land Commissioner's Department"}
-                    positions={[
-                        {
-                            name: "Webmaster",
-                            period: "Dec 2018 - Present",
-                            responsibilities: [
-                                "Created backend for current website Southern Province Land Commissioner's Department.",
-                                "Created a web-based HR system that helps administrators manage employees more efficiently.",
-                                "Maintaining the newly created website while regularly applying security patches."
-                            ],
                         }
                     ]}
                 />

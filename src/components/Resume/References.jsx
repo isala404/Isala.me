@@ -14,16 +14,16 @@ const References = (props) => {
             <div className={"cv-section-" + props.side}>
                 {props.print && process.env.NODE_ENV === 'development' ?
                     <Grid container spacing={1} justify="center" alignItems="center">
-                        <Grid item xs={6}>
+                        <Grid item xs={7}>
                             <h3 className={"section-component-title"}>{process.env.REACT_APP_REFERENCES_1_NAME}</h3>
                             <h4 className={"section-component-subtitle"}>{process.env.REACT_APP_REFERENCES_1_TITLE}</h4>
-                            {/* <span>{process.env.REACT_APP_REFERENCES_1_PHONE}</span><br/> */}
+                            <span>{process.env.REACT_APP_REFERENCES_1_PHONE}</span><br/>
                             <span><EmailLink email={process.env.REACT_APP_REFERENCES_1_EMAIL} /></span>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={5}>
                             <h3 className={"section-component-title"}>{process.env.REACT_APP_REFERENCES_2_NAME}</h3>
                             <h4 className={"section-component-subtitle"}>{process.env.REACT_APP_REFERENCES_2_TITLE}</h4>
-                            {/* <span>{process.env.REACT_APP_REFERENCES_2_PHONE}</span><br/> */}
+                            <span>{process.env.REACT_APP_REFERENCES_2_PHONE}</span><br/>
                             <span><EmailLink email={process.env.REACT_APP_REFERENCES_2_EMAIL} /></span>
                         </Grid>
                     </Grid>

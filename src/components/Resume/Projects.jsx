@@ -26,6 +26,23 @@ const Projects = props => {
             <SectionHead title={"Projects"} icon={faLaptop} print={props.print} />
             <div className={"cv-section-" + props.side}>
                 <Project
+                    name={"Lazy-Koala"}
+                    peroid={"May 2022"}
+                    url={"//github.com/MrSupiri/lazy-koala"}
+                    description={
+                        "Lazy Koala is a lightweight framework for root cause analysis in distributed systems. This provides all the tooling needed for RCA from instrumentation to storage and real-time processing of telemetry data using deep learning."
+                    }
+                    tags={[
+                        "eBPF",
+                        "Kubernetes",
+                        "Linux",
+                        "RCA",
+                        "Rust",
+                        "GoLang",
+                        "Observability",
+                    ]}
+                />
+                <Project
                     name={"RLPP"}
                     peroid={"Since Jul 2021"}
                     url={"//github.com/MrSupiri/rancher-logging-pipeline-plumber"}
@@ -48,14 +65,14 @@ const Projects = props => {
                     description={
                         "Speculo utilizes a DC-IGN for indexing faces found in video footage. It allows you to browse through these footages by the faces found in them rather than thousands of frames."
                     }
-                    tags={["Python", "Tensorflow", "Kubernetes", "OpenCV", "Distributed System"]}
+                    tags={["Python", "Tensorflow", "Kubernetes", "OpenCV", "Microservices"]}
                 />
-                <Project
+                {/* <Project
                     name={"R2D2"}
                     peroid={"Oct 2017"}
                     url={"//github.com/MrSupiri/R2D2"}
                     description={
-                        "R2D2 is line following robot powered by OpenCV and machine learning. This was originally developed for RoboFest 2017 hosted by SLIIT."
+                        "A line following robot powered by OpenCV and machine learning. This was originally developed for RoboFest 2017 hosted by SLIIT."
                     }
                     tags={[
                         "Python",
@@ -64,13 +81,13 @@ const Projects = props => {
                         "Machine Learning",
                         "Socket"
                     ]}
-                />
+                /> */}
                 <Project
                     name={"LandSP"}
                     peroid={"Since Dec 2018"}
                     url={"//landsp.lk"}
                     description={
-                        "I was hired as the backend developer to redesign the website of the Southern Province Land Commissioner's Department along with their personal file management system."
+                        "Developed and maintains the production version of southern province land commissioner's department website."
                     }
                     tags={["Python", "Django", "Postgresql", "S3", "Serverless"]}
                 />
