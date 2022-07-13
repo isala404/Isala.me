@@ -9,13 +9,13 @@ const Experiences = (props) => {
             <SectionHead title={"Professional Experience"} icon={faBriefcase} print={props.print} />
             <div className={"cv-section-" + props.side}>
             <Experience
-                    company={"WSo2"}
+                    company={"WSO2"}
                     positions={[
                         {
                             name: "Software Engineer",
                             period: "Jun 2022 - Present",
                             responsibilities: [
-                                "Working on a Kubernetes observability platform for telemetry extraction without user instrumentation via eBPF.",
+                                "Working on a Kubernetes observability platform based upon Linux kernel's eBPF subsystem.",
                             ],
                         }
                     ]}
@@ -36,7 +36,7 @@ const Experiences = (props) => {
                     company={"ThinkSmart Solutions"}
                     positions={[
                         {
-                            name: "DevOps Engineer",
+                            name: "Software Engineer",
                             period: "Jul 2020 - May 2022",
                             responsibilities: [
                                 "Migrated legacy static storage service to GCP and reduced load times up to 8 times.",
@@ -44,7 +44,7 @@ const Experiences = (props) => {
                                 "Recreated database schema from scratch which made some queries resolve up to 15 times faster and noticed a significant drop in resource usage.",
                             ]
                         }, {
-                            name: "Associate DevOps Engineer",
+                            name: "Associate Software Engineer",
                             period: "Jul 2019 - Jun 2020",
                             responsibilities: [
                                 "Cut down the cost of all of the web infrastructure by 50% by optimizing the infrastructure footprint.",
@@ -53,7 +53,7 @@ const Experiences = (props) => {
                             ]
                         },
                         {
-                            name: "Trainee DevOps Engineering",
+                            name: "Trainee Software Engineering",
                             period: "Jan 2019 - Jun 2019",
                             responsibilities: [
                                 "Provisioned and managed all resources need to run the EatMealFirst app in GCP.",
