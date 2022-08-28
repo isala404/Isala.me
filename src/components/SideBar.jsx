@@ -17,7 +17,7 @@ import {
     faInstagram,
     faFacebook,
     faSpotify,
-    faReddit
+    faMedium
 } from "@fortawesome/free-brands-svg-icons"
 import Grid from "@material-ui/core/Grid";
 import Routes from '../Routes'
@@ -61,6 +61,12 @@ class SideBar extends Component {
                             </Link>
                         </Grid>
                         <Grid item md={"auto"}>
+                            <Link href={"https://medium.com/@isalapiyarisi"} target={"_blank"} underline={"none"}
+                                color={"inherit"} rel={"noopener"}>
+                                <FontAwesomeIcon size={"lg"} icon={faMedium} />
+                            </Link>
+                        </Grid>
+                        <Grid item md={"auto"}>
                             <Link href={"https://www.instagram.com/mrsupiri"} target={"_blank"} underline={"none"}
                                 color={"inherit"} rel={"noopener"}>
                                 <FontAwesomeIcon size={"lg"} icon={faInstagram} />
@@ -83,12 +89,6 @@ class SideBar extends Component {
                                 underline={"none"}
                                 color={"inherit"} rel={"noopener"}>
                                 <FontAwesomeIcon size={"lg"} icon={faSpotify} />
-                            </Link>
-                        </Grid>
-                        <Grid item md={"auto"}>
-                            <Link href={"https://www.reddit.com/user/supiri_"} target={"_blank"} underline={"none"}
-                                color={"inherit"} rel={"noopener"}>
-                                <FontAwesomeIcon size={"lg"} icon={faReddit} />
                             </Link>
                         </Grid>
                     </Grid>

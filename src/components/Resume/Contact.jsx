@@ -1,7 +1,7 @@
 import React from "react";
 // import {faLink, faMapMarkedAlt} from '@fortawesome/free-solid-svg-icons';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
-import { faLinkedin, faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { faLinkedin, faGithub, faMedium } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
@@ -15,9 +15,9 @@ const Contact = (props) => {
                         <FontAwesomeIcon icon={faMapMarkedAlt}/> My address here
                     </Grid> */}
                     <Grid className={"no-p"} item xs={props.print ? 6 : 12} md={6}>
-                        <FontAwesomeIcon icon={faTwitter} />
-                        <Link href={"https://twitter.com/MrSupiri"} target={"_blank"}
-                            underline={"none"} rel={"noopener"}> twitter.com/MrSupiri</Link>
+                        <FontAwesomeIcon icon={faMedium} />
+                        <Link href={"https://medium.com/@isalapiyarisi"} target={"_blank"}
+                            underline={"none"} rel={"noopener"}> medium.com/@isalapiyarisi</Link>
                     </Grid>
                     <Grid className={"no-p"} item xs={props.print ? 5 : 12} md={5}>
                         <FontAwesomeIcon icon={faGithub} />

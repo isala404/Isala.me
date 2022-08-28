@@ -30,7 +30,7 @@ const Header = (props) => {
                 <Grid id={"header-text"} item xs={9}>
                     <h1>Isala Piyarisi</h1>
                     <h2>Software Engineer</h2>
-                    <h3>hello@isala.me</h3>
+                    <h3>mail@isala.me</h3>
                     {process.env.REACT_APP_PHONE && <h4>{process.env.REACT_APP_PHONE}</h4> }
                 </Grid>
             </Grid>
