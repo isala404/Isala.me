@@ -14,7 +14,7 @@ steps:
     args:
       - push
       - "gcr.io/$PROJECT_ID/isala.me"
-      # - "--all-tags"
+      - "--all-tags"
   - name: gcr.io/cloud-builders/gcloud
     args:
       - run
