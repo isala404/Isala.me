@@ -29,7 +29,7 @@ const References = (props) => {
                     </Grid>
                     : <div style={{ textAlign: "center" }}>
                         <h3 className={"section-component-title"}>References will be available at request</h3>
-                        <h4 className={"section-component-subtitle"}>Drop a email to <EmailLink email={"hello@isala.me"} /> request for references</h4>
+                        <h4 className={"section-component-subtitle"}>Drop a email to <EmailLink email={"mail@isala.me"} /> request for references</h4>
                     </div>
                 }
             </div>

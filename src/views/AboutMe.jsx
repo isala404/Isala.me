@@ -51,7 +51,7 @@ const AboutMe = (props) => {
                 <Grid container justify="center" alignItems="center">
                     <Grid item md={6} className={classes.contentGrid}>
                         <h2 className={"no-m"}>Isala Piyarisi</h2>
-                        <h4 className={"no-m"}>DevOps Engineer at ThinkSmart IT Solutions Pvt. Ltd</h4>
+                        <h4 className={"no-m"}>Observability Engineer at WSO2</h4>
                         <p>
                             A DevOps engineer with experience of 5+ years, with added qualifications of being a Software
                             Developer of Python, JavaScript and GoLang. My primary skills include server-side
@@ -63,7 +63,7 @@ const AboutMe = (props) => {
                             a person who works under minimum supervision, both onsite and remotely with good analytical
                             skills.
                         </p>
-                        <Link href={"mailto:hire@isala.me"} target="_blank" color="inherit" underline={"none"}>
+                        <Link href={"mailto:mail@isala.me"} target="_blank" color="inherit" underline={"none"}>
                             <Button variant="contained" color="secondary" style={{marginRight: "10px"}}>Hire Me</Button>
                         </Link>
                         <Link component={RouterLink} to={"/resume"} color="inherit" underline={"none"}>
