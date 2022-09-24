@@ -3,9 +3,9 @@ import SectionHead from "./SectionHead";
 import { faTools } from "@fortawesome/free-solid-svg-icons";
 // import SoftSkills from "./Skills/SoftSkills";
 import Grid from "@material-ui/core/Grid";
-import Frontend from "./Skills/Frontend";
-import Backend from "./Skills/Backend";
-import SysAdmin from "./Skills/SysAdmin";
+import Programing from "./Skills/Programing";
+import Infrastructure from "./Skills/Infrastructure";
+import Miscellaneous from "./Skills/Miscellaneous";
 
 const Skills = (props) => {
     return (
@@ -14,13 +14,13 @@ const Skills = (props) => {
             <div className={"cv-section-" + props.side}>
                 <Grid container justify="space-around">
                     <Grid item md={"auto"}>
-                        <Frontend />
+                        <Programing />
                     </Grid>
                     <Grid item md={"auto"}>
-                        <Backend />
+                        <Infrastructure />
                     </Grid>
                     <Grid item md={"auto"}>
-                        <SysAdmin />
+                        <Miscellaneous />
                     </Grid>
                 </Grid>
                 {/* <SoftSkills/> */}

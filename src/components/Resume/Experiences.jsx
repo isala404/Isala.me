@@ -12,10 +12,11 @@ const Experiences = (props) => {
                     company={"WSO2"}
                     positions={[
                         {
-                            name: "Software Engineer",
+                            name: "Observability Engineer",
                             period: "Jun 2022 - Present",
                             responsibilities: [
-                                "Working on a Kubernetes observability platform based upon Linux kernel's eBPF subsystem.",
+                                "Worked on a Kubernetes observability platform based upon Linux kernel's eBPF subsystem.",
+                                "Working on extending OpenTelemetry Collector to fit company use cases.",
                             ],
                         }
                     ]}
@@ -36,7 +37,7 @@ const Experiences = (props) => {
                     company={"ThinkSmart Solutions"}
                     positions={[
                         {
-                            name: "Software Engineer",
+                            name: "DevOps Engineer",
                             period: "Jul 2020 - May 2022",
                             responsibilities: [
                                 "Migrated legacy static storage service to GCP and reduced load times up to 8 times.",
@@ -58,7 +59,7 @@ const Experiences = (props) => {
                             responsibilities: [
                                 "Provisioned and managed all resources need to run the EatMealFirst app in GCP.",
                                 "Created CI/CD system which reduced the time taken to do a production release by around 60%.",
-                                "Developed multiple internal operations tools using ReactJS.",
+                                // "Developed multiple internal operations tools using ReactJS.",
                             ]
                         }
                     ]}
