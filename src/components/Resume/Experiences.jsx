@@ -26,7 +26,7 @@ const Experiences = (props) => {
                     positions={[
                         {
                             name: "Google Summer of Code Student",
-                            period: "Jul 2021 - Aug 2021",
+                            period: "May 2021 - Aug 2021",
                             responsibilities: [
                                 "Created a FOSS to tool help plan or debug banzai logging pipelines within Rancher."
                             ],
