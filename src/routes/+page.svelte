@@ -1,0 +1,135 @@
+<script lang="ts">
+    import {browser} from "$app/environment";
+    import Song from "$lib/about-me/song.svelte";
+    import PetProject from "$lib/about-me/pet-project.svelte";
+    import Languages from "$lib/about-me/love-language.svelte";
+    import Stats from "$lib/about-me/stats.svelte";
+    import Github from "$lib/github.svelte";
+    import Medium from "$lib/medium.svelte";
+
+    import data from "$lib/data.json";
+    import Icons from "$lib/icons.svelte";
+    let scrolled = false;
+    const checkScroll = () => {
+        scrolled = window.scrollY > 15;
+    };
+    if(browser){
+        window.addEventListener('scroll', checkScroll);
+    }
+</script>
+
+<div class="min-h-full md:h-dvh flex flex-col items-center text-center w-full">
+    <header class="flex flex-col items-center mt-8">
+        <h1 class="text-5xl md:text-6xl">Isala Piyarisi</h1>
+        <h2 class="text-3xl md:text-4xl mt-2">
+            Cloud Engineer <span class="hidden md:inline">| AI Enthusiast</span>
+        </h2>
+        <Icons />
+    </header>
+
+    <div class="flex flex-col items-center md:my-auto text-center justify-evenly h-full">
+        <section class="mt-12">
+            <!-- <h2 class="text-2xl font-bold mb-5 hidden md:block">About Me</h2> -->
+            <p class="max-w-[45rem] mx-4">
+                Sure, I could build an army of killer robots, but where's the
+                fun in that? I am more interested in perfecting my robot that
+                passes butter. When I'm not busy with my day job or working on
+                my pet projects, you'll find me strategizing in video games -
+                the perfect way to unwind and channel my inner engineer. After
+                all, video games were the reason I got into programming in the
+                first place.
+            </p>
+        </section>
+        <section
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-[60rem] justify-items-center align-items-center my-3"
+        >
+            <div class="h-auto flex flex-col items-center w-72">
+                <Languages />
+            </div>
+            <div class="h-auto flex flex-col items-center w-72">
+                <PetProject />
+            </div>
+            <div class="h-auto flex flex-col md:col-span-3 lg:col-span-1 items-center w-72">
+                <Song />
+            </div>
+            <div
+                class="h-60 flex flex-col items-center md:col-span-3 max-w-full lg:mt-10"
+            >
+                <Stats />
+            </div>
+        </section>
+        <img src="/down-arrow.svg" alt="Arrow to hint to scroll down" class="w-6 hidden lg:block transition-opacity duration-500 {scrolled ? 'opacity-0' : 'opacity-100'}" id="arrow" />
+    </div>
+</div>
+
+<div class="flex flex-col items-center md:my-auto text-center">
+    <div class="w-screen flex flex-col items-center">
+        <section class="mb-5">
+            <h2 class="text-2xl font-bold mb-5">Featured Articles</h2>
+            <div class="flex flex-row flex-wrap justify-center max-w-[60rem]">
+                {#each data.articles as article (article.link)}
+                    <Medium {...article} />
+                {/each}
+            </div>
+        </section>
+
+        <section class="my-10">
+            <h2 class="text-2xl font-bold mb-5">Featured Projects</h2>
+            <div class="flex flex-row flex-wrap justify-center max-w-[60rem]">
+                {#each data.project as project (project.link)}
+                    <Github {...project} />
+                {/each}
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-bold mb-5">Credentials</h2>
+            <div
+                class="w-auto text-center flex flex-row flex-wrap justify-center"
+            >
+                {#each data.credentials as credential (credential.name)}
+                    <a href={credential.link} target="_blank">
+                        <img
+                            src={credential.src}
+                            alt={credential.name}
+                            class="w-52 h-52 mx-auto p-5 hover:shadow-md transition-shadow duration-300"
+                        />
+                    </a>
+                {/each}
+            </div>
+        </section>
+    </div>
+    <footer class="mb-3 mt-8">
+        Built with ❤ from <a
+            class="text-red-500"
+            href="https://github.com/MrSupiri/Isala.me"
+            target="_blank">svelte</a
+        >
+    </footer>
+</div>
+
+
+<style>
+    @media (min-width: 768px) {
+        #arrow {
+            animation: bounce 2s infinite;
+        }
+    }
+
+    @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-10px);
+        }
+        60% {
+            transform: translateY(-5px);
+        }
+    }
+
+</style>

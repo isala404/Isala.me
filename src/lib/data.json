@@ -1,0 +1,98 @@
+{
+	"nerd-stats": [
+
+        {
+            "title": "Pull Requests Merged",
+            "value": 7,
+            "color": "bg-teal-100",
+            "icon": "/pull-request.svg"
+        },
+        {
+            "title": "Issues Opened",
+            "value": 33,
+            "color": "bg-red-100",
+            "icon": "/issue-opened.svg"
+        },
+        {
+            "title": "LeeetCode Problems Solved",
+            "value": 0,
+            "color": "bg-yellow-100",
+            "icon": "/code.svg"
+        },
+        {
+            "title": "Talks Given",
+            "value": 5,
+            "color": "bg-slate-100",
+            "icon": "/presentation.svg"
+        },
+        {
+            "title": "Hackathons Attended",
+            "value": 5,
+            "color": "bg-cyan-100",
+            "icon": "/rocket.svg"
+        },
+        {
+            "title": "Tech T-shirts Owned",
+            "value": 13,
+            "color": "bg-purple-100",
+            "icon": "/t-shirt.svg"
+        }
+	],
+	"articles": [
+		{
+			"title": "Let's Build a Standalone Chatbot with Phi-2 and Rust",
+			"description": "Tutorial to build a lightweight chatbot with long-term memory with Rust and HuggingFace.",
+			"image": "https://miro.medium.com/v2/resize:fit:1200/1*mNN6jA5UHtr7qgMS0G8Bmw.png",
+			"link": "https://medium.com/@isalapiyarisi/lets-build-a-standalone-chatbot-with-phi-2-and-rust-48c0f714f915"
+		},
+		{
+			"title": "Kubernetes observability with eBPF",
+			"description": "In this we will go through all the steps that are required to build and deploy our own eBPF probe.",
+			"image": "https://miro.medium.com/v2/resize:fit:720/format:webp/1*9NOg1p8IKf4-sVkg2xB2Jw.png",
+			"link": "https://medium.com/@isalapiyarisi/getting-started-on-kubernetes-observability-with-ebpf-88139eb13fb2"
+		}
+	],
+	"project": [
+		{
+			"title": "tera",
+			"tag": "chatbot",
+			"stars": 0,
+			"forks": 1,
+			"description": "AI assistant which is tailored just for you and runs fully locally.",
+			"color": "bg-red-400",
+            "link": "https://github.com/MrSupiri/Tera"
+		},
+		{
+			"title": "lazy-koala",
+			"tag": "observability",
+			"stars": 10,
+			"forks": 0,
+			"description": "A toolkit to apply AIOps to distributed systems.",
+			"color": "bg-stone-500",
+            "link": "https://github.com/MrSupiri/lazy-koala"
+		},
+		{
+			"title": "logging-plumber",
+			"tag": "dev-tool",
+			"stars": 13,
+			"forks": 2,
+			"description": "A tool test and debug rancher logging pipelines.",
+			"color": "bg-blue-500",
+            "link": "https://github.com/MrSupiri/rancher-logging-pipeline-plumber"
+		},
+		{
+			"title": "speculo",
+			"tag": "god's-eye",
+			"stars": 23,
+			"forks": 3,
+			"description": "Realtime face detection and recognition using deep learning.",
+			"color": "bg-violet-500",
+            "link": "https://github.com/MrSupiri/speculo"
+		}
+	],
+	"credentials": [
+        { "name": "Certified Kubernetes Administrator", "src": "/cka.png", "link":  "https://www.credly.com/badges/94b77613-5470-4e2b-9a3f-7dd9891737eb"},
+        { "name": "Certified Kubernetes Security Specialist", "src": "/cks.png", "link": "https://www.credly.com/badges/811974f6-aa65-4af1-841f-45412f12bece"},
+        { "name": "Google Cloud Associate Cloud Engineer", "src": "/gcp-ace.png", "link": "https://www.credential.net/01bf3574-f2ac-48db-ad46-eee50b477abd" }
+	]
+}
