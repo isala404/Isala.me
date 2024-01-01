@@ -5,37 +5,37 @@
             "title": "Pull Requests Merged",
             "value": 7,
             "color": "bg-teal-100",
-            "icon": "/pull-request.svg"
+            "icon": "/icons/pull-request.svg"
         },
         {
             "title": "Issues Opened",
             "value": 33,
             "color": "bg-red-100",
-            "icon": "/issue-opened.svg"
+            "icon": "/icons/issue-opened.svg"
         },
         {
             "title": "LeeetCode Problems Solved",
             "value": 0,
             "color": "bg-yellow-100",
-            "icon": "/code.svg"
+            "icon": "/icons/code.svg"
         },
         {
             "title": "Talks Given",
             "value": 5,
             "color": "bg-slate-100",
-            "icon": "/presentation.svg"
+            "icon": "/icons/presentation.svg"
         },
         {
             "title": "Hackathons Attended",
             "value": 5,
             "color": "bg-cyan-100",
-            "icon": "/rocket.svg"
+            "icon": "/icons/rocket.svg"
         },
         {
             "title": "Tech T-shirts Owned",
             "value": 13,
             "color": "bg-purple-100",
-            "icon": "/t-shirt.svg"
+            "icon": "/icons/t-shirt.svg"
         }
 	],
 	"articles": [
@@ -89,10 +89,5 @@
 			"color": "bg-violet-500",
             "link": "https://github.com/MrSupiri/speculo"
 		}
-	],
-	"credentials": [
-        { "name": "Certified Kubernetes Administrator", "src": "/cka.png", "link":  "https://www.credly.com/badges/94b77613-5470-4e2b-9a3f-7dd9891737eb"},
-        { "name": "Certified Kubernetes Security Specialist", "src": "/cks.png", "link": "https://www.credly.com/badges/811974f6-aa65-4af1-841f-45412f12bece"},
-        { "name": "Google Cloud Associate Cloud Engineer", "src": "/gcp-ace.png", "link": "https://www.credential.net/01bf3574-f2ac-48db-ad46-eee50b477abd" }
 	]
 }
