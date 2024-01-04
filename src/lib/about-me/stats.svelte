@@ -1,16 +1,14 @@
 <script lang="ts">
     import Carousel from "svelte-carousel";
     import { browser } from '$app/environment';
-    import data from "$lib/data.json";
-
-    let stats = data['nerd-stats'];
+    export let data: any;
 </script>
 
 <h3 class="text-xl my-4">Nerd Stats</h3>
 {#if browser}
     <div class="w-full text-center">
         <Carousel arrows={false} autoplay={true} pauseOnFocus={true} autoplayDuration={4500} swiping={false}>
-            {#each stats as stat (stat.title)}
+            {#each data['nerd-stats'] as stat (stat.title)}
                 <div class="h-40 flex flex-col justify-center relative">
                     <div class={stat.color + " flex flex-col justify-center absolute opacity-50 h-full w-full z-10 rounded-xl"} />
                     <div class="z-20 absolute w-full text-center">

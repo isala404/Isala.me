@@ -10,7 +10,7 @@
 >
     <div class="max-w-40">
       <img
-        class="h-full max-w-40 object-cover"
+        class="max-w-40 object-cover"
         src="{image}"
         alt="Article thumbnail"
         style="aspect-ratio: 50 / 50; object-fit: cover;"

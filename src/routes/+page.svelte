@@ -7,25 +7,38 @@
     import Github from "$lib/github.svelte";
     import Medium from "$lib/medium.svelte";
 
-    import data from "$lib/data.json";
     import Icons from "$lib/icons.svelte";
     import Credentials from "$lib/credentials.svelte";
-    let scrolled = false;
+
+    export let data: any;
+    let scrolled = true;
     const checkScroll = () => {
         scrolled = window.scrollY > 15;
     };
     if (browser) {
-        if (window.innerHeight < 1000) {
-            scrolled = true;
-        } else {
-            window.addEventListener("scroll", checkScroll);
-        }
+        window.addEventListener("scroll", checkScroll);
     }
 </script>
 
 <svelte:head>
-	<title>Isala Piyarisi | Cloud Engineer</title>
-	<meta name="description" content="Isala Piyarisi is a DevOps engineer with over 7 years of experience. He is also a software developer proficient in Rust, Go, Python and JavaScript. His primary skills include server-side programming, infrastructure architecture and maintenance, and minimalistic UI design." />
+    <!-- Primary Meta Tags -->
+    <title>Isala Piyarisi - Cloud Engineer</title>
+    <meta name="title" content="Isala Piyarisi - Cloud Engineer" />
+    <meta name="description" content="I am a DevOps engineer with over 7 years of experience, I've had the opportunity to gain proficiency in languages like Rust, Go, Python and JavaScript." />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://isala.me/" />
+    <meta property="og:title" content="Isala Piyarisi - Cloud Engineer" />
+    <meta property="og:description" content="A DevOps engineer with over 7 years of experience. He is a proficient in Rust, Go, Python and JavaScript. His primary skills include server-side programming, infrastructure architecture and maintenance, and minimalistic UI design." />
+    <meta property="og:image" content="https://static.isala.me/portfolio/og_image.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://isala.me/" />
+    <meta property="twitter:title" content="Isala Piyarisi - Cloud Engineer" />
+    <meta property="twitter:description" content="A DevOps engineer with over 7 years of experience. He is a proficient in Rust, Go, Python and JavaScript. His primary skills include server-side programming, infrastructure architecture and maintenance, and minimalistic UI design." />
+    <meta property="twitter:image" content="https://static.isala.me/portfolio/og_image.png" />
 </svelte:head>
 
 <div class="min-h-screen flex flex-col items-center text-center w-full">
@@ -69,7 +82,7 @@
             <div
                 class="h-60 flex flex-col items-center md:col-span-3 max-w-full"
             >
-                <Stats />
+                <Stats data={data} />
             </div>
         </section>
         <img
