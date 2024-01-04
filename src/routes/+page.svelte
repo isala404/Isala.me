@@ -18,26 +18,28 @@
     if (browser) {
         window.addEventListener("scroll", checkScroll);
     }
+    let years_of_experience = new Date().getFullYear() - 2016;
+    let description = `Hi 👋, I am a DevOps engineer with over ${years_of_experience} years of experience. I am specializing in Kubernetes, Go, Python and Rust.`;
 </script>
 
 <svelte:head>
     <!-- Primary Meta Tags -->
     <title>Isala Piyarisi - Cloud Engineer</title>
     <meta name="title" content="Isala Piyarisi - Cloud Engineer" />
-    <meta name="description" content="I am a DevOps engineer with over 7 years of experience, I've had the opportunity to gain proficiency in languages like Rust, Go, Python and JavaScript." />
+    <meta name="description" content={description} />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://isala.me/" />
     <meta property="og:title" content="Isala Piyarisi - Cloud Engineer" />
-    <meta property="og:description" content="A DevOps engineer with over 7 years of experience. He is a proficient in Rust, Go, Python and JavaScript. His primary skills include server-side programming, infrastructure architecture and maintenance, and minimalistic UI design." />
+    <meta property="og:description" content={description} />
     <meta property="og:image" content="https://static.isala.me/portfolio/og_image.png" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://isala.me/" />
     <meta property="twitter:title" content="Isala Piyarisi - Cloud Engineer" />
-    <meta property="twitter:description" content="A DevOps engineer with over 7 years of experience. He is a proficient in Rust, Go, Python and JavaScript. His primary skills include server-side programming, infrastructure architecture and maintenance, and minimalistic UI design." />
+    <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content="https://static.isala.me/portfolio/og_image.png" />
 </svelte:head>
 
