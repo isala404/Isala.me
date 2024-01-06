@@ -3,13 +3,13 @@
 
         {
             "title": "Pull Requests Merged",
-            "value": 7,
+            "value": 0,
             "color": "bg-teal-100",
             "icon": "/icons/pull-request.svg"
         },
         {
             "title": "Issues Opened",
-            "value": 33,
+            "value": 0,
             "color": "bg-red-100",
             "icon": "/icons/issue-opened.svg"
         },
@@ -21,19 +21,19 @@
         },
         {
             "title": "Talks Given",
-            "value": 5,
+            "value": 6,
             "color": "bg-slate-100",
             "icon": "/icons/presentation.svg"
         },
         {
             "title": "Hackathons Attended",
-            "value": 5,
+            "value": 8,
             "color": "bg-cyan-100",
             "icon": "/icons/rocket.svg"
         },
         {
             "title": "Tech T-shirts Owned",
-            "value": 23,
+            "value": 28,
             "color": "bg-purple-100",
             "icon": "/icons/t-shirt.svg"
         }
