@@ -16,7 +16,7 @@
     "@sveltejs/adapter-auto": "^3.0.0",
     "@sveltejs/adapter-cloudflare": "^3.0.1",
     "@sveltejs/enhanced-img": "^0.1.7",
-    "@sveltejs/kit": "^2.0.0",
+    "@sveltejs/kit": "^2.4.3",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "autoprefixer": "^10.4.16",
     "daisyui": "^4.4.24",
