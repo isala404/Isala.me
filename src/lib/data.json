@@ -60,7 +60,7 @@
 			"forks": 1,
 			"description": "AI assistant which is tailored just for you and runs fully locally.",
 			"color": "bg-red-400",
-            "link": "https://github.com/MrSupiri/Tera"
+            "link": "https://github.com/isala404/Tera"
 		},
 		{
 			"title": "lazy-koala",
@@ -69,7 +69,7 @@
 			"forks": 0,
 			"description": "A toolkit to apply AIOps to distributed systems.",
 			"color": "bg-stone-500",
-            "link": "https://github.com/MrSupiri/lazy-koala"
+            "link": "https://github.com/isala404/lazy-koala"
 		},
 		{
 			"title": "logging-plumber",
@@ -78,7 +78,7 @@
 			"forks": 2,
 			"description": "A tool test and debug rancher logging pipelines.",
 			"color": "bg-blue-500",
-            "link": "https://github.com/MrSupiri/rancher-logging-pipeline-plumber"
+            "link": "https://github.com/isala404/rancher-logging-pipeline-plumber"
 		},
 		{
 			"title": "speculo",
@@ -87,7 +87,7 @@
 			"forks": 3,
 			"description": "Realtime face detection and recognition using deep learning.",
 			"color": "bg-violet-500",
-            "link": "https://github.com/MrSupiri/speculo"
+            "link": "https://github.com/isala404/speculo"
 		}
 	]
 }

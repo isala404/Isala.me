@@ -1,6 +1,6 @@
 
 <div class="my-auto flex flex-row justify-center items-center mt-4">
-    <a href="https://github.com/MrSupiri" target="_blank">
+    <a href="https://github.com/isala404" target="_blank">
         <img src="/icons/github.svg" alt="Github" class="h-6 mx-1" />
     </a>
     <a href="https://twitter.com/isala404" target="_blank">

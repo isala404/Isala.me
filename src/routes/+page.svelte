@@ -125,7 +125,7 @@
     <footer class="mb-3 mt-8">
         Built with ❤ from <a
             class="text-red-500"
-            href="https://github.com/MrSupiri/Isala.me"
+            href="https://github.com/isala404/Isala.me"
             target="_blank">svelte</a
         >
     </footer>

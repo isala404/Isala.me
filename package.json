@@ -1,6 +1,25 @@
 {
   "name": "isala-me",
   "version": "0.0.1",
+  "devDependencies": {
+    "@biomejs/biome": "1.4.1",
+    "@sveltejs/adapter-auto": "^3.0.0",
+    "@sveltejs/enhanced-img": "^0.1.7",
+    "@sveltejs/kit": "^2.0.0",
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "autoprefixer": "^10.4.16",
+    "daisyui": "^4.4.24",
+    "postcss": "^8.4.32",
+    "svelte": "^4.2.7",
+    "svelte-adapter-bun": "^0.5.2",
+    "svelte-carousel": "^1.0.25",
+    "svelte-check": "^3.6.0",
+    "tailwindcss": "^3.4.0",
+    "tslib": "^2.4.1",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.3",
+    "wrangler": "^3.22.1"
+  },
   "private": true,
   "scripts": {
     "dev": "vite dev",
@@ -10,25 +29,6 @@
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "pages:dev": "wrangler pages dev --compatibility-date=2023-12-18 --proxy 5173 -- npm run dev",
     "pages:deploy": "npm run build && wrangler pages deploy .svelte-kit/cloudflare"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "1.4.1",
-    "@sveltejs/adapter-auto": "^3.0.0",
-    "@sveltejs/adapter-cloudflare": "^3.0.1",
-    "@sveltejs/enhanced-img": "^0.1.7",
-    "@sveltejs/kit": "^2.0.0",
-    "@sveltejs/vite-plugin-svelte": "^3.0.0",
-    "autoprefixer": "^10.4.16",
-    "daisyui": "^4.4.24",
-    "postcss": "^8.4.32",
-    "svelte": "^4.2.7",
-    "svelte-carousel": "^1.0.25",
-    "svelte-check": "^3.6.0",
-    "tailwindcss": "^3.4.0",
-    "tslib": "^2.4.1",
-    "typescript": "^5.0.0",
-    "vite": "^5.0.3",
-    "wrangler": "^3.22.1"
   },
   "type": "module"
 }

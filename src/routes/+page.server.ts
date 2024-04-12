@@ -29,8 +29,8 @@ const getStats = async () => {
 
 	try {
 		const [issuesResponse, pullsResponse, leetCodeResponse] = await Promise.all([
-			fetch("https://api.github.com/search/issues?q=user:MrSupiri+is:issue&per_page=1", { headers }),
-			fetch("https://api.github.com/search/issues?q=user:MrSupiri+is:pull-request&per_page=1", { headers }),
+			fetch("https://api.github.com/search/issues?q=user:isala404+is:issue&per_page=1", { headers }),
+			fetch("https://api.github.com/search/issues?q=user:isala404+is:pull-request&per_page=1", { headers }),
 			fetch("https://leetcode-stats-api.herokuapp.com/mrsupiri")
 		]);
 
@@ -59,7 +59,6 @@ const getStats = async () => {
 
 export const load = async () => {
 	const { issues, pullRequests, leetCodeSolves } = await getStats();
-	console.log(issues, pullRequests);
 	// search though nerd stats on data.json and replace pull requests and issues counts
 	// with the ones from github
 	for (let i = 0; i < data["nerd-stats"].length; i++) {
