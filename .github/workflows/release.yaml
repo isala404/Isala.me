@@ -26,3 +26,7 @@ jobs:
       - run: docker build -t $IMAGE_NAME:latest .
       - run: docker tag $IMAGE_NAME:latest $IMAGE_NAME:commit-${GITHUB_SHA:0:8}
       - run: docker push $IMAGE_NAME --all-tags
+      - name: Update deployment
+        run: |
+          curl --fail-with-body -v http://ci.isala.me/api/update-images -d '{"user": "${{ github.actor }}", "pat": "${{ secrets.GITHUB_TOKEN }}", "image": "isala404/isala-me"}'
+        timeout-minutes: 5

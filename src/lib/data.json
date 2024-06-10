@@ -43,21 +43,30 @@
 			"title": "Let's Build a Standalone Chatbot with Phi-2 and Rust",
 			"description": "Tutorial to build a lightweight chatbot with long-term memory with Rust and HuggingFace.",
 			"image": "https://miro.medium.com/v2/resize:fit:1200/1*mNN6jA5UHtr7qgMS0G8Bmw.png",
-			"link": "https://medium.com/@isalapiyarisi/lets-build-a-standalone-chatbot-with-phi-2-and-rust-48c0f714f915"
+			"link": "https://medium.com/@isalapiyarisi/lets-build-a-standalone-chatbot-with-phi-2-and-rust-48c0f714f915",
+			"align": "object-center"
 		},
 		{
 			"title": "Kubernetes observability with eBPF",
 			"description": "In this we will go through all the steps that are required to build and deploy our own eBPF probe.",
 			"image": "https://miro.medium.com/v2/resize:fit:720/format:webp/1*9NOg1p8IKf4-sVkg2xB2Jw.png",
-			"link": "https://medium.com/@isalapiyarisi/getting-started-on-kubernetes-observability-with-ebpf-88139eb13fb2"
+			"link": "https://medium.com/@isalapiyarisi/getting-started-on-kubernetes-observability-with-ebpf-88139eb13fb2",
+			"align": "object-left"
+		},
+		{
+			"title": "Learned it the hard way: Don't use Cilium's default Pod CIDR",
+			"description": "Story of how a bad cilium config killed ingress to a k8s cluster 8 months after deployment.",
+			"image": "https://miro.medium.com/v2/resize:fit:4800/format:webp/0*iWPoDahUfa83Osl9",
+			"link": "https://medium.com/@isalapiyarisi/learned-it-the-hard-way-dont-use-cilium-s-default-pod-cidr-89a78d6df098",
+			"align": "object-right"
 		}
 	],
 	"project": [
 		{
 			"title": "tera",
 			"tag": "chatbot",
-			"stars": 0,
-			"forks": 1,
+			"stars": 42,
+			"forks": 7,
 			"description": "AI assistant which is tailored just for you and runs fully locally.",
 			"color": "bg-red-400",
             "link": "https://github.com/isala404/Tera"
@@ -65,16 +74,16 @@
 		{
 			"title": "lazy-koala",
 			"tag": "observability",
-			"stars": 10,
-			"forks": 0,
-			"description": "A toolkit to apply AIOps to distributed systems.",
+			"stars": 12,
+			"forks": 1,
+			"description": "A toolkit to apply AIOps to distributed systems using eBPF.",
 			"color": "bg-stone-500",
             "link": "https://github.com/isala404/lazy-koala"
 		},
 		{
 			"title": "logging-plumber",
 			"tag": "dev-tool",
-			"stars": 13,
+			"stars": 14,
 			"forks": 2,
 			"description": "A tool test and debug rancher logging pipelines.",
 			"color": "bg-blue-500",
@@ -83,7 +92,7 @@
 		{
 			"title": "speculo",
 			"tag": "god's-eye",
-			"stars": 23,
+			"stars": 24,
 			"forks": 3,
 			"description": "Realtime face detection and recognition using deep learning.",
 			"color": "bg-violet-500",

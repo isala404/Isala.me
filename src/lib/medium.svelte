@@ -3,6 +3,7 @@
     export let description: string;
     export let image: string;
     export let link: string;
+    export let align: string;
 </script>
 
 <div
@@ -10,10 +11,9 @@
 >
     <div class="max-w-40">
       <img
-        class="max-w-40 object-cover"
+        class={"max-w-40 object-cover w-96 h-full " + align}
         src="{image}"
         alt="Article thumbnail"
-        style="aspect-ratio: 50 / 50; object-fit: cover;"
       />
     </div>
     <div class="p-2 flex flex-col max-w-[19rem]">
