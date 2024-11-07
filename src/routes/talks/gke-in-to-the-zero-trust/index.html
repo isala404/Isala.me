@@ -1,0 +1,427 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Securing GKE Workloads: Zero Trust with eBPF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .split-screen {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .left,
+        .right {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .highlight {
+            color: #00aaff;
+        }
+
+        .warning {
+            color: #ff5555;
+        }
+
+        .success {
+            color: #55ff55;
+        }
+
+        code {
+            background: #333;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Title Slide -->
+            <section data-background="#000033">
+                <h1>Securing GKE Workloads</h1>
+                <h2>Journey to Zero Trust with eBPF</h2>
+                <p>Isala Piyarisi</p>
+                <p>Senior Software Engineer, WSO2</p>
+                <aside class="notes">
+                    Hello everyone! Welcome to this session on securing GKE workloads using eBPF to achieve zero trust
+                    architecture.
+                    I'm Isala Piyarisi, and I work as a Senior Software Engineer at WSO2. Today, we're going to explore some exciting
+                    concepts about
+                    modern cloud security, and I'll show you some live demonstrations of how we can implement these in
+                    real-world scenarios.
+                </aside>
+            </section>
+
+            <!-- Zero Trust Introduction -->
+            <section>
+                <h2>Zero Trust: The New Normal</h2>
+                <div class="split-screen">
+                    <div class="left">
+                        <h3>Traditional Security</h3>
+                        <ul>
+                            <li>Perimeter-based security</li>
+                            <li>Trust by default</li>
+                            <li>Network location = Identity</li>
+                        </ul>
+                    </div>
+                    <div class="right">
+                        <h3>Zero Trust</h3>
+                        <ul>
+                            <li>Never trust, always verify</li>
+                            <li>Identity-based security</li>
+                            <li>Continuous verification</li>
+                        </ul>
+                    </div>
+                </div>
+                <img src="https://placehold.co/800x400" alt="Traditional vs Zero Trust">
+                <aside class="notes">
+                    Let's start by understanding what Zero Trust really means. Traditionally, security was like a castle
+                    with a moat -
+                    once you're inside, you're trusted. But in today's cloud-native world, this approach doesn't work
+                    anymore.
+                    Zero Trust follows a simple principle: 'never trust, always verify.' Every request, every
+                    connection, and every
+                    user must be verified, regardless of where they're coming from.
+                </aside>
+            </section>
+
+            <!-- Threat Landscape -->
+            <section>
+                <h2>Modern Threat Landscape in GKE</h2>
+                <div class="content">
+                    <ul>
+                        <li class="fragment">API Server Exposure</li>
+                        <li class="fragment">Container Runtime Vulnerabilities</li>
+                        <li class="fragment">Network Security Gaps</li>
+                        <li class="fragment">Identity Management Challenges</li>
+                    </ul>
+                    <img src="https://placehold.co/900x500" alt="GKE Attack Surface">
+                </div>
+                <aside class="notes">
+                    In a GKE environment, the threat landscape is complex and ever-evolving. Let's break down the main
+                    areas where
+                    attacks commonly occur. First, we have the API server - it's like the control tower of your
+                    Kubernetes cluster.
+                    If it's not properly secured, attackers can gain administrative access to your entire cluster. Then
+                    we have
+                    container runtime vulnerabilities - these are like hidden backdoors in your applications. Network
+                    security gaps
+                    allow lateral movement, similar to an intruder moving freely between rooms once they're inside.
+                    Finally, identity
+                    management challenges - imagine having thousands of keys but not knowing who has copies of them.
+                </aside>
+            </section>
+
+            <!-- Attack Vector 1 -->
+            <section>
+                <h2>Attack Vector: Insecure API Server Access</h2>
+                <div class="content">
+                    <ul>
+                        <li class="fragment warning">Misconfigured RBAC</li>
+                        <li class="fragment warning">Exposed Kubernetes Dashboard</li>
+                        <li class="fragment warning">Weak Authentication Methods</li>
+                    </ul>
+                    <div class="code-example fragment">
+                        <pre><code class="bash">
+kubectl get secrets -n kube-system
+kubectl proxy --port=8080
+# Exposed dashboard at localhost:8080/api/v1/...
+                        </code></pre>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Let's look at one of the most critical attack vectors: insecure API server access. This is often the
+                    first target
+                    for attackers. A misconfigured RBAC can give unnecessary permissions to service accounts. The
+                    Kubernetes dashboard,
+                    if exposed without proper authentication, can be a golden ticket for attackers. I've seen cases
+                    where simple
+                    authentication methods like basic auth were used instead of proper certificate-based authentication,
+                    making it
+                    easier for attackers to gain access.
+                </aside>
+            </section>
+
+            <!-- Attack Vector 2 -->
+            <section>
+                <h2>Attack Vector: Poor Network Segmentation</h2>
+                <div class="content">
+                    <ul>
+                        <li class="fragment">Unrestricted Pod-to-Pod Communication</li>
+                        <li class="fragment">No Network Policies</li>
+                        <li class="fragment">Lateral Movement Opportunities</li>
+                    </ul>
+                    <img src="https://placehold.co/800x400" alt="Network Segmentation Issues">
+                </div>
+                <aside class="notes">
+                    Poor network segmentation is like having no walls in your house. By default, all pods in a
+                    Kubernetes cluster
+                    can talk to each other. This means if an attacker compromises one pod, they can potentially reach
+                    out to any
+                    other pod in the cluster. Without proper network policies, there's nothing stopping lateral
+                    movement. This is
+                    particularly dangerous in multi-tenant clusters where different applications should be isolated from
+                    each other.
+                </aside>
+            </section>
+            <!-- Attack Vector 3 -->
+            <section>
+                <h2>Attack Vector: Insufficient Pod Security</h2>
+                <div class="content">
+                    <ul>
+                        <li class="fragment warning">Privileged Containers</li>
+                        <li class="fragment warning">Host Path Volumes</li>
+                        <li class="fragment warning">Root User Execution</li>
+                    </ul>
+                    <pre class="fragment"><code class="yaml">
+securityContext:
+privileged: true  # Dangerous!
+hostPath:
+path: /  # Even more dangerous!
+        </code></pre>
+                </div>
+                <aside class="notes">
+                    Pod security is often overlooked. Running containers in privileged mode is like giving them a master
+                    key to the
+                    host system. Host path volumes can expose sensitive host files to containers. Running as root inside
+                    containers
+                    might seem convenient, but it's a massive security risk if the container is compromised. These
+                    configurations
+                    might make development easier, but they're a security nightmare in production.
+                </aside>
+            </section>
+
+            <!-- eBPF Introduction -->
+            <section>
+                <h2>Enter eBPF: The Game Changer</h2>
+                <div class="content">
+                    <ul>
+                        <li class="fragment">Extended Berkeley Packet Filter</li>
+                        <li class="fragment">Kernel-level Programming</li>
+                        <li class="fragment">Safe and Efficient Observability</li>
+                    </ul>
+                    <img src="https://placehold.co/800x500" alt="eBPF Architecture">
+                </div>
+                <aside class="notes">
+                    Now, let's talk about the solution. eBPF is like having a programmable security camera system inside
+                    your Linux
+                    kernel. It allows us to run sandboxed programs in the kernel space, giving us unprecedented
+                    visibility and
+                    control over system calls, network traffic, and more. Think of it as having X-ray vision into your
+                    entire
+                    system, but with the ability to also act on what you see.
+                </aside>
+            </section>
+
+            <!-- Cilium Overview -->
+            <section>
+                <h2>Cilium: eBPF-Powered Security</h2>
+                <div class="content">
+                    <ul>
+                        <li class="fragment success">Layer 3-7 Network Security</li>
+                        <li class="fragment success">Identity-based Policies</li>
+                        <li class="fragment success">Transparent Encryption</li>
+                    </ul>
+                    <img src="https://placehold.co/900x400" alt="Cilium Architecture">
+                </div>
+                <aside class="notes">
+                    Cilium leverages eBPF to provide powerful networking, security, and observability. It's like having
+                    a smart
+                    security system that understands not just IP addresses, but the identity and behavior of your
+                    applications.
+                    It can enforce security policies at multiple layers, encrypt traffic automatically, and provide
+                    detailed
+                    visibility into your cluster's communication patterns.
+                </aside>
+            </section>
+
+            <!-- Live Demo 1 -->
+            <section data-background="#1a1a1a">
+                <h2>LIVE DEMO: Network Policies in Action</h2>
+                <div class="demo-notes">
+                    <p>Demo Steps:</p>
+                    <ol>
+                        <li>Deploy sample microservices</li>
+                        <li>Show default connectivity</li>
+                        <li>Apply Cilium Network Policy</li>
+                        <li>Demonstrate policy enforcement</li>
+                    </ol>
+                </div>
+                <aside class="notes">
+                    Let's see Cilium in action. I'll deploy a simple application and show you how we can use Cilium to
+                    control
+                    the communication between different components. We'll start with everything allowed, then gradually
+                    lock down
+                    access using identity-based policies. You'll see how easy it is to implement zero trust networking
+                    with Cilium.
+                </aside>
+            </section>
+
+            <!-- Tetragon -->
+            <section>
+                <h2>Tetragon: Runtime Security</h2>
+                <div class="content">
+                    <ul>
+                        <li class="fragment">Real-time Security Monitoring</li>
+                        <li class="fragment">Process-level Visibility</li>
+                        <li class="fragment">Security Policy Enforcement</li>
+                    </ul>
+                    <pre class="fragment"><code class="yaml">
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+name: "block-unauthorized-execs"
+spec:
+matchActions:
+- action: exec
+        </code></pre>
+                </div>
+                <aside class="notes">
+                    Tetragon is like having a security camera that can see every process, file access, and network
+                    connection in
+                    your cluster. It uses eBPF to provide deep visibility into runtime security events. This means we
+                    can detect
+                    and prevent suspicious activities before they become security incidents.
+                </aside>
+            </section>
+
+            <!-- Live Demo 2 -->
+            <section data-background="#1a1a1a">
+                <h2>LIVE DEMO: Tetragon Security Features</h2>
+                <div class="demo-notes">
+                    <p>Demo Steps:</p>
+                    <ol>
+                        <li>Enable Tetragon monitoring</li>
+                        <li>Show process tracking</li>
+                        <li>Demonstrate security alerts</li>
+                        <li>Policy enforcement</li>
+                    </ol>
+                </div>
+                <aside class="notes">
+                    In this demo, we'll see how Tetragon can detect and prevent security threats in real-time. I'll show
+                    you how
+                    it tracks processes, detects suspicious activities, and enforces security policies at runtime. This
+                    is zero
+                    trust in action - every process and connection is monitored and verified.
+                </aside>
+            </section>
+
+            <!-- Zero Trust Implementation -->
+            <section>
+                <h2>Implementing Zero Trust with Cilium</h2>
+                <div class="content">
+                    <ul>
+                        <li class="fragment">Identity-based Network Policies</li>
+                        <li class="fragment">Mutual TLS Authentication</li>
+                        <li class="fragment">API-aware Security</li>
+                    </ul>
+                    <img src="https://placehold.co/800x400" alt="Zero Trust Architecture">
+                </div>
+                <aside class="notes">
+                    Let's put it all together. With Cilium, we can implement true zero trust by combining identity-based
+                    policies,
+                    automatic encryption, and API-aware security. Every connection is authenticated, encrypted, and
+                    authorized.
+                    No more implicit trust, no more network-level assumptions.
+                </aside>
+            </section>
+
+            <!-- Cell-Based Architecture -->
+            <section>
+                <h2>Zero Trust in Production: Cell-Based Architecture</h2>
+                <div class="content">
+                    <ul>
+                        <li class="fragment">Microservices Organization Pattern</li>
+                        <li class="fragment">Isolated Security Domains</li>
+                        <li class="fragment">Granular Access Control</li>
+                    </ul>
+                    <img src="https://placehold.co/900x500" alt="Cell Architecture">
+                </div>
+                <aside class="notes">
+                    Let me share an interesting architectural pattern we've seen in production. The cell-based
+                    architecture
+                    organizes microservices into autonomous units, each with its own security boundary. This approach,
+                    which we've
+                    seen implemented in modern platforms, provides natural isolation and makes zero trust easier to
+                    implement.
+                    It's a practical example of how architectural decisions can enhance security.
+                </aside>
+            </section>
+
+            <!-- Best Practices -->
+            <section>
+                <h2>Best Practices & Takeaways</h2>
+                <div class="content">
+                    <ul>
+                        <li class="fragment">Start with Least Privilege</li>
+                        <li class="fragment">Implement Network Segmentation</li>
+                        <li class="fragment">Enable Runtime Security</li>
+                        <li class="fragment">Monitor and Audit Everything</li>
+                    </ul>
+                </div>
+                <aside class="notes">
+                    As we wrap up, remember these key points: Always start with least privilege - give only the
+                    permissions that
+                    are absolutely necessary. Implement proper network segmentation using Cilium. Enable runtime
+                    security with
+                    Tetragon. And most importantly, maintain continuous monitoring and auditing of your security
+                    posture.
+                </aside>
+            </section>
+
+            <!-- Resources -->
+            <section>
+                <h2>Resources & Next Steps</h2>
+                <div class="content">
+                    <ul>
+                        <li><a href="https://cilium.io">Cilium Documentation</a></li>
+                        <li><a href="https://github.com/cilium/tetragon">Tetragon GitHub</a></li>
+                        <li><a href="https://kubernetes.io/docs/concepts/security/">Kubernetes Security</a></li>
+                    </ul>
+                    <p class="contact">Contact: your@email.com</p>
+                </div>
+                <aside class="notes">
+                    Thank you for your attention! Here are some resources to help you continue learning about zero trust
+                    security
+                    with eBPF and Cilium. Feel free to reach out if you have any questions. The journey to zero trust is
+                    continuous,
+                    and these tools make it achievable.
+                </aside>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.js"></script>
+
+    <script>
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            // center: true,
+            hash: true,
+            transition: 'slide',
+            showNotes: false,
+            width: 1440,
+            height: 1050,
+            // Learn about plugins: https://revealjs.com/plugins/
+            plugins: [RevealNotes]
+        });
+    </script>
+</body>
+
+</html>
