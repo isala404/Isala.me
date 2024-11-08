@@ -53,12 +53,15 @@
             <section data-background="#000033">
                 <h1>Securing GKE Workloads</h1>
                 <h2>Journey to Zero Trust with eBPF</h2>
-                <p>Isala Piyarisi</p>
-                <p>Senior Software Engineer, WSO2</p>
+                <div style="margin-top: 400px; text-align: center;">
+                    <p>Isala Piyarisi</p>
+                    <p>Senior Software Engineer, WSO2</p>
+                </div>
                 <aside class="notes">
                     Hello everyone! Welcome to this session on securing GKE workloads using eBPF to achieve zero trust
                     architecture.
-                    I'm Isala Piyarisi, and I work as a Senior Software Engineer at WSO2. Today, we're going to explore some exciting
+                    I'm Isala Piyarisi, and I work as a Senior Software Engineer at WSO2. Today, we're going to explore
+                    some exciting
                     concepts about
                     modern cloud security, and I'll show you some live demonstrations of how we can implement these in
                     real-world scenarios.
@@ -86,11 +89,24 @@
                         </ul>
                     </div>
                 </div>
-                <img src="https://placehold.co/800x400" alt="Traditional vs Zero Trust">
+                <div class="flex justify-center">
+                    <a href="https://www.statista.com/chart/28878/expected-cost-of-cybercrime-until-2027/"
+                        title="Infographic: Cybercrime Expected To Skyrocket in Coming Years | Statista">
+                        <img style="height: 600px; width: auto;" src="https://cdn.statcdn.com/Infographic/images/normal/28878.jpeg"
+                            alt="Infographic: Cybercrime Expected To Skyrocket in Coming Years | Statista" />
+                    </a>
+                    <a href="https://www.stationx.net/cyber-security-job-statistics/">
+                        <img style="height: 600px; width: auto;"
+                        src="https://www.stationx.net/wp-content/uploads/2023/12/3.-Cyber-Security-Staffing-as-a-part-of-Employers-Wider-Cyber-Security-Spending.png"
+                        alt="Cyber Security Staffing as a part of Employers Wider Cyber Security Spending" />
+                    </a>
+                </div>
                 <aside class="notes">
-                    Let's start by understanding what Zero Trust really means. Traditionally, security was like a castle
+                    Let's start by understanding what Zero Trust really means. Traditionally, security was like a
+                    castle
                     with a moat -
-                    once you're inside, you're trusted. But in today's cloud-native world, this approach doesn't work
+                    once you're inside, you're trusted. But in today's cloud-native world, this approach doesn't
+                    work
                     anymore.
                     Zero Trust follows a simple principle: 'never trust, always verify.' Every request, every
                     connection, and every
@@ -100,15 +116,22 @@
 
             <!-- Threat Landscape -->
             <section>
-                <h2>Modern Threat Landscape in GKE</h2>
+                <h2>Modern Threat Landscape in K8s Clusters</h2>
                 <div class="content">
                     <ul>
                         <li class="fragment">API Server Exposure</li>
                         <li class="fragment">Container Runtime Vulnerabilities</li>
                         <li class="fragment">Network Security Gaps</li>
                         <li class="fragment">Identity Management Challenges</li>
+                        <li class="fragment">Unsecured Kubernetes Dashboard</li>
+                        <li class="fragment">RBAC Misconfigurations (Excessive Permissions)</li>
+                        <li class="fragment">Insecure Pod Security Policies (PSPs)</li>
+                        <li class="fragment">Container Image Vulnerabilities (e.g., outdated or unpatched images)</li>
+                        <li class="fragment">Inadequate Namespace Isolation</li>
+                        <li class="fragment">Secrets Leakage through Environment Variables</li>
+                        <li class="fragment">Node-Level Access Exposures (e.g., unrestricted SSH access)</li>
+                        <li class="fragment">...and more</li>
                     </ul>
-                    <img src="https://placehold.co/900x500" alt="GKE Attack Surface">
                 </div>
                 <aside class="notes">
                     In a GKE environment, the threat landscape is complex and ever-evolving. Let's break down the main
@@ -127,80 +150,48 @@
 
             <!-- Attack Vector 1 -->
             <section>
-                <h2>Attack Vector: Insecure API Server Access</h2>
+                <h2>Case Study: Tesla</h2>
+                <h3>A Exposed Kubernetes Dashboard</h3>
                 <div class="content">
-                    <ul>
-                        <li class="fragment warning">Misconfigured RBAC</li>
-                        <li class="fragment warning">Exposed Kubernetes Dashboard</li>
-                        <li class="fragment warning">Weak Authentication Methods</li>
-                    </ul>
-                    <div class="code-example fragment">
-                        <pre><code class="bash">
-kubectl get secrets -n kube-system
-kubectl proxy --port=8080
-# Exposed dashboard at localhost:8080/api/v1/...
-                        </code></pre>
+                    <div class="flex justify-center">
+                        <img src="https://static.isala.me/portfolio/talks/gdg/tesla-k8s-dashboard.png" alt="Tesla's Exposed Kubernetes Dashboard">
                     </div>
                 </div>
                 <aside class="notes">
-                    Let's look at one of the most critical attack vectors: insecure API server access. This is often the
-                    first target
-                    for attackers. A misconfigured RBAC can give unnecessary permissions to service accounts. The
-                    Kubernetes dashboard,
-                    if exposed without proper authentication, can be a golden ticket for attackers. I've seen cases
-                    where simple
-                    authentication methods like basic auth were used instead of proper certificate-based authentication,
-                    making it
-                    easier for attackers to gain access.
+                    // Write about how tesla's exposed kubernetes dashboard was used to access the internal network
+                    // hackers deploy crypo miner on the nodes
+                    // could have been lot worse if user data was persented in the cluster
                 </aside>
             </section>
 
             <!-- Attack Vector 2 -->
             <section>
-                <h2>Attack Vector: Poor Network Segmentation</h2>
+                <h2>Case Study: Hugging Face</h2>
+                <h3>Poor Network Segmentation</h3>
                 <div class="content">
-                    <ul>
-                        <li class="fragment">Unrestricted Pod-to-Pod Communication</li>
-                        <li class="fragment">No Network Policies</li>
-                        <li class="fragment">Lateral Movement Opportunities</li>
-                    </ul>
-                    <img src="https://placehold.co/800x400" alt="Network Segmentation Issues">
+                    <div class="flex justify-center">
+                        <img src="https://www.datocms-assets.com/75231/1712240351-diagram-3.png" alt="Hugging Face's Poor Network Segmentation">
+                    </div>
                 </div>
                 <aside class="notes">
-                    Poor network segmentation is like having no walls in your house. By default, all pods in a
-                    Kubernetes cluster
-                    can talk to each other. This means if an attacker compromises one pod, they can potentially reach
-                    out to any
-                    other pod in the cluster. Without proper network policies, there's nothing stopping lateral
-                    movement. This is
-                    particularly dangerous in multi-tenant clusters where different applications should be isolated from
-                    each other.
+                    // https://www.wiz.io/blog/wiz-and-hugging-face-address-risks-to-ai-infrastructure
                 </aside>
             </section>
-            <!-- Attack Vector 3 -->
+
+
             <section>
-                <h2>Attack Vector: Insufficient Pod Security</h2>
+                <h2>Case Study: CVE-2022-0811</h2>
+                <h3>Insufficient Pod Security</h3>
                 <div class="content">
-                    <ul>
-                        <li class="fragment warning">Privileged Containers</li>
-                        <li class="fragment warning">Host Path Volumes</li>
-                        <li class="fragment warning">Root User Execution</li>
-                    </ul>
-                    <pre class="fragment"><code class="yaml">
-securityContext:
-privileged: true  # Dangerous!
-hostPath:
-path: /  # Even more dangerous!
-        </code></pre>
+                    <div class="flex flex-col justify-center gap-4">
+                        <img src="https://storage.googleapis.com/static.isala.me/portfolio/talks/gdg/CVE-2022-0811-1.png" alt="CVE-2022-0811 Description">
+                        <img src="https://storage.googleapis.com/static.isala.me/portfolio/talks/gdg/CVE-2022-0811-2.png" alt="CVE-2022-0811 Resolution">
+                    </div>
                 </div>
                 <aside class="notes">
-                    Pod security is often overlooked. Running containers in privileged mode is like giving them a master
-                    key to the
-                    host system. Host path volumes can expose sensitive host files to containers. Running as root inside
-                    containers
-                    might seem convenient, but it's a massive security risk if the container is compromised. These
-                    configurations
-                    might make development easier, but they're a security nightmare in production.
+                    // https://www.cvedetails.com/cve/CVE-2022-0811/
+                    // Explain in service like Continer as a Service (CaaS) platforms let you deploy containers
+                    // Explain how this attack was possible due to insufficient pod security will allow attackers to access the host machine using this vulnerability
                 </aside>
             </section>
 
@@ -213,7 +204,9 @@ path: /  # Even more dangerous!
                         <li class="fragment">Kernel-level Programming</li>
                         <li class="fragment">Safe and Efficient Observability</li>
                     </ul>
-                    <img src="https://placehold.co/800x500" alt="eBPF Architecture">
+                    <div class="fragment flex justify-center">
+                        <img style="height: 700px; width: auto;" src="https://raw.githubusercontent.com/iovisor/bcc/refs/heads/master/images/bcc_tracing_tools_2019.png" alt="eBPF Architecture">
+                    </div>
                 </div>
                 <aside class="notes">
                     Now, let's talk about the solution. eBPF is like having a programmable security camera system inside
@@ -235,7 +228,9 @@ path: /  # Even more dangerous!
                         <li class="fragment success">Identity-based Policies</li>
                         <li class="fragment success">Transparent Encryption</li>
                     </ul>
-                    <img src="https://placehold.co/900x400" alt="Cilium Architecture">
+                    <div class="flex justify-center">
+                        <img src="https://cilium.io/static/6c69375bdc369895441cdc52ae9801dc/e9407/cilium_arch.png" alt="Cilium Architecture">
+                    </div>
                 </div>
                 <aside class="notes">
                     Cilium leverages eBPF to provide powerful networking, security, and observability. It's like having
@@ -248,25 +243,38 @@ path: /  # Even more dangerous!
                 </aside>
             </section>
 
-            <!-- Live Demo 1 -->
-            <section data-background="#1a1a1a">
-                <h2>LIVE DEMO: Network Policies in Action</h2>
+            <section>
+                <h2>Live Demo</h2>
+                <h3>Setup</h3>
                 <div class="demo-notes">
                     <p>Demo Steps:</p>
                     <ol>
-                        <li>Deploy sample microservices</li>
-                        <li>Show default connectivity</li>
-                        <li>Apply Cilium Network Policy</li>
-                        <li>Demonstrate policy enforcement</li>
+                        <li>Create a GKE node pool with full access scope</li>
+                        <li>Deploy a pod with Google Cloud CLI</li>
+                        <li>Deploy a Sample Workload</li>
+                        <li>Get the admin credentials for the GKE cluster via GCP Metadata Server</li>
+                        <li>Use the admin credentials to access the Kubernetes API Server</li>
+                        <li>SSH into node and see though traffic</li>
                     </ol>
                 </div>
                 <aside class="notes">
-                    Let's see Cilium in action. I'll deploy a simple application and show you how we can use Cilium to
-                    control
-                    the communication between different components. We'll start with everything allowed, then gradually
-                    lock down
-                    access using identity-based policies. You'll see how easy it is to implement zero trust networking
-                    with Cilium.
+                    <code>
+                        kubectl run gcloud-cli-pod --image=gcr.io/google.com/cloudsdktool/google-cloud-cli:latest -it -- bash
+                        gcloud container clusters get-credentials gdg-demo --zone us-central1-c --project tallisa
+                    </code>
+                </aside>
+            </section>
+
+            <!-- Live Demo 1 -->
+            <section data-background="#1a1a1a">
+                <h2>Mitigation: Cilium Network Policies</h2>
+                <ol>
+                    <li>Decline Kube API Server by Default</li>
+                    <li>Decline GCP Metadata Server by Default</li>
+                    <li>Enable mTLS for all traffic</li>
+                </ol>
+                <aside class="notes">
+
                 </aside>
             </section>
 
@@ -279,15 +287,9 @@ path: /  # Even more dangerous!
                         <li class="fragment">Process-level Visibility</li>
                         <li class="fragment">Security Policy Enforcement</li>
                     </ul>
-                    <pre class="fragment"><code class="yaml">
-apiVersion: cilium.io/v1alpha1
-kind: TracingPolicy
-metadata:
-name: "block-unauthorized-execs"
-spec:
-matchActions:
-- action: exec
-        </code></pre>
+                    <div class="flex justify-center">
+                        <img style="height: 700px; width: auto;" src="https://tetragon.io/svgs/diagram-illustration.svg" alt="Tetragon Architecture">
+                    </div>
                 </div>
                 <aside class="notes">
                     Tetragon is like having a security camera that can see every process, file access, and network
@@ -300,14 +302,15 @@ matchActions:
 
             <!-- Live Demo 2 -->
             <section data-background="#1a1a1a">
-                <h2>LIVE DEMO: Tetragon Security Features</h2>
+                <h2>LIVE DEMO: Zero Trust in Action</h2>
+                <h3>How to Deal With Zero-day Attacks</h3>
                 <div class="demo-notes">
                     <p>Demo Steps:</p>
                     <ol>
-                        <li>Enable Tetragon monitoring</li>
-                        <li>Show process tracking</li>
-                        <li>Demonstrate security alerts</li>
-                        <li>Policy enforcement</li>
+                        <li>Deploy a Privileged Container (To Simulate)</li>
+                        <li>Access via chroot (Simulate jailbreaking)</li>
+                        <li>Access container runtime</li>
+                        <li>Steal Credentials from a Privileged Container</li>
                     </ol>
                 </div>
                 <aside class="notes">
