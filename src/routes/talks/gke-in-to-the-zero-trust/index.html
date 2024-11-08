@@ -56,15 +56,16 @@
                 <div style="margin-top: 400px; text-align: center;">
                     <p>Isala Piyarisi</p>
                     <p>Senior Software Engineer, WSO2</p>
+                    <p>GCP ACE, CKA, CKS</p>
                 </div>
                 <aside class="notes">
                     Hello everyone! Welcome to this session on securing GKE workloads using eBPF to achieve zero trust
                     architecture.
-                    I'm Isala Piyarisi, and I work as a Senior Software Engineer at WSO2. Today, we're going to explore
-                    some exciting
-                    concepts about
-                    modern cloud security, and I'll show you some live demonstrations of how we can implement these in
-                    real-world scenarios.
+                    Who here are familiar with kubernetes (atleast heard of it)?
+                    I'm Isala Piyarisi, and I work as a Senior Software Engineer at WSO2.
+                    I currntly hold both certified kubenates admistrator and certified kubenates security specialist.
+                    I was supposed to speak at kubecon NA next week but US embassy denied my visa.
+                    So Today, we're going to explore some exciting concepts about modern cloud security, and I'll show you some live demonstrations of how we can implement these in real-world scenarios.
                 </aside>
             </section>
 
@@ -175,6 +176,19 @@
                 </div>
                 <aside class="notes">
                     // https://www.wiz.io/blog/wiz-and-hugging-face-address-risks-to-ai-infrastructure
+                    // The article discusses the collaboration between Wiz Research and Hugging Face to address security risks associated with AI-as-a-Service platforms. As AI technology rapidly evolves and is adopted by organizations, it poses significant risks, particularly in shared infrastructures that handle sensitive data.
+
+                    Key findings from the research include:
+                    
+                    - **Security Vulnerabilities**: Wiz Research identified critical risks within Hugging Face's environment, particularly concerning the use of malicious AI models. They demonstrated how attackers could exploit shared inference infrastructure and CI/CD pipelines to gain unauthorized access to other customers' models and applications.
+                    
+                    - **Malicious Model Risks**: The research highlighted that using untrusted AI models, especially those serialized with Python's Pickle format, can lead to remote code execution vulnerabilities. Attackers could upload malicious models that execute arbitrary code upon deserialization, potentially compromising the entire service.
+                    
+                    - **Isolation Challenges**: The study emphasized the importance of tenant isolation in cloud environments. The shared nature of AI-as-a-Service raises concerns about whether models run in sufficiently isolated environments to prevent cross-tenant attacks.
+                    
+                    - **Mitigation Strategies**: To combat these vulnerabilities, the article recommends implementing strong security measures such as sandboxing untrusted models, enhancing authentication for internal container registries, and ensuring robust monitoring and governance of AI infrastructures.
+                    
+                    In conclusion, while the rapid growth of AI presents exciting opportunities, it also necessitates rigorous security practices to protect against emerging threats in AI service platforms.
                 </aside>
             </section>
 
@@ -246,21 +260,25 @@
             <section>
                 <h2>Live Demo</h2>
                 <h3>Setup</h3>
-                <div class="demo-notes">
-                    <p>Demo Steps:</p>
+                <div style="margin-bottom: 100px; margin-top: 100px;" class="flex flex-col justify-start">
+                    <p class="text-left">Demo Steps:</p>
                     <ol>
-                        <li>Create a GKE node pool with full access scope</li>
-                        <li>Deploy a pod with Google Cloud CLI</li>
-                        <li>Deploy a Sample Workload</li>
-                        <li>Get the admin credentials for the GKE cluster via GCP Metadata Server</li>
-                        <li>Use the admin credentials to access the Kubernetes API Server</li>
-                        <li>SSH into node and see though traffic</li>
+                        <li class="fragment">Create a GKE node pool with full access scope</li>
+                        <li class="fragment">Deploy a pod with Google Cloud CLI</li>
+                        <li class="fragment">Deploy a Sample Workload</li>
+                        <li class="fragment">Get the admin credentials for the GKE cluster via GCP Metadata Server</li>
+                        <li class="fragment">Use the admin credentials to access the Kubernetes API Server</li>
+                        <li class="fragment">SSH into node and see though traffic</li>
                     </ol>
                 </div>
                 <aside class="notes">
                     <code>
-                        kubectl run gcloud-cli-pod --image=gcr.io/google.com/cloudsdktool/google-cloud-cli:latest -it -- bash
+                        kubectl run gcloud-cli-pod --image=gcr.io/google.com/cloudsdktool/google-cloud-cli:latest --command -- sleep infinity
+                        kubectl label pod gcloud-cli-pod type=user-app
+                        kubectl exec -it gcloud-cli-pod -- bash
                         gcloud container clusters get-credentials gdg-demo --zone us-central1-c --project tallisa
+                        kubectl debug node/mynode -it --image=ubuntu
+                        kubectl apply -f ccnp.yaml -f cnp.yaml
                     </code>
                 </aside>
             </section>
@@ -268,13 +286,15 @@
             <!-- Live Demo 1 -->
             <section data-background="#1a1a1a">
                 <h2>Mitigation: Cilium Network Policies</h2>
-                <ol>
+                <ol style="margin-bottom: 100px; margin-top: 100px;">
                     <li>Decline Kube API Server by Default</li>
                     <li>Decline GCP Metadata Server by Default</li>
                     <li>Enable mTLS for all traffic</li>
                 </ol>
                 <aside class="notes">
-
+                    // explain how cilium ccnp and cnp works
+                    // explain how it is different from kubenates network policy
+                    // explain how it can help mitigate the attack vectors we discussed earlier
                 </aside>
             </section>
 
@@ -302,8 +322,7 @@
 
             <!-- Live Demo 2 -->
             <section data-background="#1a1a1a">
-                <h2>LIVE DEMO: Zero Trust in Action</h2>
-                <h3>How to Deal With Zero-day Attacks</h3>
+                <h2>LIVE DEMO: Simulate Zero-day Attacks</h2>
                 <div class="demo-notes">
                     <p>Demo Steps:</p>
                     <ol>
@@ -314,26 +333,23 @@
                     </ol>
                 </div>
                 <aside class="notes">
-                    In this demo, we'll see how Tetragon can detect and prevent security threats in real-time. I'll show
-                    you how
-                    it tracks processes, detects suspicious activities, and enforces security policies at runtime. This
-                    is zero
-                    trust in action - every process and connection is monitored and verified.
+                    kubectl exec -ti -n kube-system ds/tetragon -c tetragon -- tetra getevents -o compact --pods privileged-pod
                 </aside>
             </section>
 
             <!-- Zero Trust Implementation -->
             <section>
-                <h2>Implementing Zero Trust with Cilium</h2>
+                <h2>Mitigation: Zero Trust in Action</h2>
                 <div class="content">
                     <ul>
-                        <li class="fragment">Identity-based Network Policies</li>
-                        <li class="fragment">Mutual TLS Authentication</li>
-                        <li class="fragment">API-aware Security</li>
+                        <li>All network traffic is encrypted</li>
+                        <li>only allow inidiuvally verifeied connection are allowed</li>
+                        <li>Audit All System Calls</li>
+                        <li>Allow Only Necessary System Calls</li>
                     </ul>
-                    <img src="https://placehold.co/800x400" alt="Zero Trust Architecture">
                 </div>
                 <aside class="notes">
+                    // TODO: rewrite this
                     Let's put it all together. With Cilium, we can implement true zero trust by combining identity-based
                     policies,
                     automatic encryption, and API-aware security. Every connection is authenticated, encrypted, and
@@ -351,16 +367,18 @@
                         <li class="fragment">Isolated Security Domains</li>
                         <li class="fragment">Granular Access Control</li>
                     </ul>
-                    <img src="https://placehold.co/900x500" alt="Cell Architecture">
+                    <div class="flex justify-center">
+                        <img style="height: 700px; width: auto;" src="https://wso2.cachefly.net/wso2/sites/all/2023/images/choreo%20project%20trust%20boundaries.png" alt="Cell Architecture">
+                    </div>
                 </div>
                 <aside class="notes">
-                    Let me share an interesting architectural pattern we've seen in production. The cell-based
+                    Let me share an interesting architectural pattern we as WSO2 uses in production. The cell-based
                     architecture
                     organizes microservices into autonomous units, each with its own security boundary. This approach,
                     which we've
-                    seen implemented in modern platforms, provides natural isolation and makes zero trust easier to
+                    have implemented in choreo, provides natural isolation and makes zero trust easier to
                     implement.
-                    It's a practical example of how architectural decisions can enhance security.
+                    It's a practical example of all the concepts we discussed today are implemented in a real-world.
                 </aside>
             </section>
 
