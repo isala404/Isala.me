@@ -59,13 +59,13 @@
                     <p>GCP ACE, CKA, CKS</p>
                 </div>
                 <aside class="notes">
-                    Hello everyone! Welcome to this session on securing GKE workloads using eBPF to achieve zero trust
-                    architecture.
-                    Who here are familiar with kubernetes (atleast heard of it)?
-                    I'm Isala Piyarisi, and I work as a Senior Software Engineer at WSO2.
-                    I currntly hold both certified kubenates admistrator and certified kubenates security specialist.
-                    I was supposed to speak at kubecon NA next week but US embassy denied my visa.
-                    So Today, we're going to explore some exciting concepts about modern cloud security, and I'll show you some live demonstrations of how we can implement these in real-world scenarios.
+                    Hey everyone! Super excited to be here talking about securing GKE workloads using eBPF to achieve zero trust architecture.
+
+                    Quick show of hands - who here has heard of Kubernetes?
+
+                    I'm Isala Piyarisi, and I work as a Senior Software Engineer at WSO2. I hold both the Certified Kubernetes Administrator and Security Specialist certifications. Fun fact - I was actually supposed to speak at KubeCon NA next week, but the US embassy had other plans! *nervous laugh*
+
+                    Today, we're going to dive into some really cool concepts about modern cloud security, and I'll show you some live demos of how this all works in the real world. Trust me, it's going to be fun!
                 </aside>
             </section>
 
@@ -103,15 +103,11 @@
                     </a>
                 </div>
                 <aside class="notes">
-                    Let's start by understanding what Zero Trust really means. Traditionally, security was like a
-                    castle
-                    with a moat -
-                    once you're inside, you're trusted. But in today's cloud-native world, this approach doesn't
-                    work
-                    anymore.
-                    Zero Trust follows a simple principle: 'never trust, always verify.' Every request, every
-                    connection, and every
-                    user must be verified, regardless of where they're coming from.
+                    Alright, let's talk about Zero Trust! You know how in medieval times, they built these massive castle walls and if you got past them, you were basically trusted? That's kind of how traditional security worked.
+
+                    But in today's world, that's like leaving your front door open just because someone made it into your neighborhood! Zero Trust is different - it's like having a bouncer who checks everyone's ID, every single time, no matter if they're the CEO or the intern.
+
+                    Looking at these charts - yeah, those numbers are pretty scary, right? Cybercrime is skyrocketing, and companies are scrambling to hire security experts. But don't worry, that's exactly why we're here today - to learn how to protect ourselves better!
                 </aside>
             </section>
 
@@ -135,17 +131,15 @@
                     </ul>
                 </div>
                 <aside class="notes">
-                    In a GKE environment, the threat landscape is complex and ever-evolving. Let's break down the main
-                    areas where
-                    attacks commonly occur. First, we have the API server - it's like the control tower of your
-                    Kubernetes cluster.
-                    If it's not properly secured, attackers can gain administrative access to your entire cluster. Then
-                    we have
-                    container runtime vulnerabilities - these are like hidden backdoors in your applications. Network
-                    security gaps
-                    allow lateral movement, similar to an intruder moving freely between rooms once they're inside.
-                    Finally, identity
-                    management challenges - imagine having thousands of keys but not knowing who has copies of them.
+                    Now, let's talk about what keeps Kubernetes administrators up at night! 
+
+                    Imagine your Kubernetes cluster is like a big office building. The API server is like the main reception desk - if someone gets control of that, they basically have the master key to everything. 
+
+                    Container vulnerabilities? Those are like having weak locks on your office doors. Network security gaps? That's like having secret passages between offices that nobody knows about!
+
+                    And don't even get me started on RBAC misconfigurations - it's like accidentally giving the cleaning crew access to the CEO's private files. *chuckles* 
+
+                    These might sound funny, but they're real issues we need to deal with. Let's see how we can fix them!
                 </aside>
             </section>
 
@@ -159,9 +153,11 @@
                     </div>
                 </div>
                 <aside class="notes">
-                    // Write about how tesla's exposed kubernetes dashboard was used to access the internal network
-                    // hackers deploy crypo miner on the nodes
-                    // could have been lot worse if user data was persented in the cluster
+                    Here's a wild story - Tesla, yes, THE Tesla, had their Kubernetes dashboard exposed to the internet. It's like leaving your car keys in the ignition with a sign saying "Please don't steal"!
+
+                    What happened next? Crypto miners. They basically turned Tesla's compute power into their personal Bitcoin mining rig. Talk about an expensive mining operation!
+
+                    The scary part? This could have been WAY worse if there was sensitive user data in that cluster. Imagine if instead of mining crypto, they were mining customer data! *shivers*
                 </aside>
             </section>
 
@@ -175,20 +171,13 @@
                     </div>
                 </div>
                 <aside class="notes">
-                    // https://www.wiz.io/blog/wiz-and-hugging-face-address-risks-to-ai-infrastructure
-                    // The article discusses the collaboration between Wiz Research and Hugging Face to address security risks associated with AI-as-a-Service platforms. As AI technology rapidly evolves and is adopted by organizations, it poses significant risks, particularly in shared infrastructures that handle sensitive data.
+                    Now this one's really interesting - Hugging Face, you know, the AI company everyone's talking about? They ran into a classic "oops" moment with their network setup.
 
-                    Key findings from the research include:
-                    
-                    - **Security Vulnerabilities**: Wiz Research identified critical risks within Hugging Face's environment, particularly concerning the use of malicious AI models. They demonstrated how attackers could exploit shared inference infrastructure and CI/CD pipelines to gain unauthorized access to other customers' models and applications.
-                    
-                    - **Malicious Model Risks**: The research highlighted that using untrusted AI models, especially those serialized with Python's Pickle format, can lead to remote code execution vulnerabilities. Attackers could upload malicious models that execute arbitrary code upon deserialization, potentially compromising the entire service.
-                    
-                    - **Isolation Challenges**: The study emphasized the importance of tenant isolation in cloud environments. The shared nature of AI-as-a-Service raises concerns about whether models run in sufficiently isolated environments to prevent cross-tenant attacks.
-                    
-                    - **Mitigation Strategies**: To combat these vulnerabilities, the article recommends implementing strong security measures such as sandboxing untrusted models, enhancing authentication for internal container registries, and ensuring robust monitoring and governance of AI infrastructures.
-                    
-                    In conclusion, while the rapid growth of AI presents exciting opportunities, it also necessitates rigorous security practices to protect against emerging threats in AI service platforms.
+                    Imagine you're in a shared office space, but there are no walls between companies - just desks everywhere. That's basically what happened here! Their AI models could potentially peek at each other's data, which in the AI world is a big no-no.
+
+                    The really scary part? If someone uploaded a malicious AI model, it could break out of its sandbox and start accessing other customers' data. It's like bringing a mischievous puppy to work that somehow knows how to use a computer! 
+
+                    Thankfully, they worked with Wiz Research to fix these issues before anything bad happened. But it shows how even the smartest tech companies can miss these security basics!
                 </aside>
             </section>
 
@@ -203,9 +192,13 @@
                     </div>
                 </div>
                 <aside class="notes">
-                    // https://www.cvedetails.com/cve/CVE-2022-0811/
-                    // Explain in service like Continer as a Service (CaaS) platforms let you deploy containers
-                    // Explain how this attack was possible due to insufficient pod security will allow attackers to access the host machine using this vulnerability
+                    Let's talk about CVE-2022-0811, or as I like to call it, "The Container Escape Artist"!
+
+                    You know how Container-as-a-Service platforms let you deploy containers easily? Well, this vulnerability was like giving every container a secret trap door to escape into the host system.
+
+                    Think of it like this: you rent an apartment in a building, but due to a weird design flaw, you can somehow access the building's maintenance areas and other people's apartments! Not great, right?
+
+                    This vulnerability was particularly sneaky because it affected the container runtime itself. It's like having a security guard who accidentally gives everyone master keys instead of room keys!
                 </aside>
             </section>
 
@@ -223,13 +216,13 @@
                     </div>
                 </div>
                 <aside class="notes">
-                    Now, let's talk about the solution. eBPF is like having a programmable security camera system inside
-                    your Linux
-                    kernel. It allows us to run sandboxed programs in the kernel space, giving us unprecedented
-                    visibility and
-                    control over system calls, network traffic, and more. Think of it as having X-ray vision into your
-                    entire
-                    system, but with the ability to also act on what you see.
+                    Now for the fun part - eBPF! Think of it as giving your Linux kernel superpowers. 
+
+                    You know those CSI shows where they can magically enhance security camera footage? eBPF is kind of like that, but for your system's internals - and it actually works! *winks*
+
+                    It lets us see EVERYTHING happening in the kernel - every network packet, every system call, every file access. But it's not just about watching - we can actually do something about what we see.
+
+                    Look at this diagram - pretty overwhelming, right? Don't worry, we'll break it down. These are all the different things we can monitor with eBPF. It's like having x-ray vision, night vision, and Spidey sense all at once!
                 </aside>
             </section>
 
@@ -247,13 +240,13 @@
                     </div>
                 </div>
                 <aside class="notes">
-                    Cilium leverages eBPF to provide powerful networking, security, and observability. It's like having
-                    a smart
-                    security system that understands not just IP addresses, but the identity and behavior of your
-                    applications.
-                    It can enforce security policies at multiple layers, encrypt traffic automatically, and provide
-                    detailed
-                    visibility into your cluster's communication patterns.
+                    Meet Cilium - the superhero of our story! If eBPF is our superpowers, Cilium is the cool superhero suit that makes them easy to use.
+
+                    It handles everything from Layer 3 to Layer 7 - that's network speak for "from the basics to the fancy stuff." It's like having a security guard who can not only check IDs but also understand what language you're speaking and what you're trying to do.
+
+                    See these green checkmarks? Each one represents a security feature that would have taken tons of complex configuration before. But with Cilium? It's like having an "easy button" for zero trust security.
+
+                    And the best part? It does all this without slowing things down. It's like adding a security checkpoint that doesn't create a line!
                 </aside>
             </section>
 
@@ -272,6 +265,15 @@
                     </ol>
                 </div>
                 <aside class="notes">
+                    Alright, time for some live action! *cracks knuckles* Let's see how an attacker might try to compromise a GKE cluster.
+
+                    First, we'll create a node pool with full access - which is something you should never do in production, but hey, we're the bad guys for now! 
+
+                    Then we'll deploy a pod with the Google Cloud CLI - our Swiss Army knife for this demo. We'll use it to try to get admin credentials from the metadata server.
+
+                    Quick heads up - everything I'm about to show you is in a controlled environment. Please don't try this on your production clusters! That would be... bad. Very bad. *nervous laughter*
+
+                    Let me paste the commands we'll need:
                     <code>
                         kubectl run gcloud-cli-pod --image=gcr.io/google.com/cloudsdktool/google-cloud-cli:latest --command -- sleep infinity
                         kubectl label pod gcloud-cli-pod type=user-app
@@ -292,9 +294,16 @@
                     <li>Enable mTLS for all traffic</li>
                 </ol>
                 <aside class="notes">
-                    // explain how cilium ccnp and cnp works
-                    // explain how it is different from kubenates network policy
-                    // explain how it can help mitigate the attack vectors we discussed earlier
+                    Now that we've seen how scary things can get, let's put on our superhero capes and fix this! 
+
+                    First up - Cilium Network Policies. Think of these as really smart bouncers for your cluster. Unlike regular Kubernetes network policies (which are like basic security guards who can only check if you're on the guest list), Cilium policies can actually understand what you're trying to do!
+
+                    Let's look at three key things we're going to lock down:
+                    1. The Kubernetes API Server - no more unauthorized access to the control room!
+                    2. The GCP Metadata Server - because that's like leaving your passwords on a Post-it note
+                    3. And we'll encrypt ALL traffic with mTLS - it's like giving everyone their own secret decoder ring!
+
+                    Let me show you how this works in practice...
                 </aside>
             </section>
 
@@ -312,11 +321,13 @@
                     </div>
                 </div>
                 <aside class="notes">
-                    Tetragon is like having a security camera that can see every process, file access, and network
-                    connection in
-                    your cluster. It uses eBPF to provide deep visibility into runtime security events. This means we
-                    can detect
-                    and prevent suspicious activities before they become security incidents.
+                    Now, let me introduce you to Tetragon - think of it as the world's most advanced security camera system for your cluster!
+
+                    You know how in spy movies they have those cool monitoring rooms with screens showing everything happening everywhere? That's basically what Tetragon gives us, except it's real and it actually works! *grins*
+
+                    It can see every process, every file access, every network connection - it's like having thousands of tiny security guards watching everything in real-time. And the best part? Unlike human security guards, it never gets tired or distracted by cat videos!
+
+                    Look at this diagram - pretty cool, right? Each of these lines represents something we can monitor and control. It's like having x-ray vision for your cluster!
                 </aside>
             </section>
 
@@ -333,7 +344,16 @@
                     </ol>
                 </div>
                 <aside class="notes">
+                    Alright, time for some more live action! *rolls up sleeves* 
+
+                    We're going to play both the bad guy AND the superhero in this demo. First, we'll try to break things (in a controlled way, of course), and then we'll see how Tetragon catches us red-handed!
+
+                    Watch what happens when I run this command:
                     kubectl exec -ti -n kube-system ds/tetragon -c tetragon -- tetra getevents -o compact --pods privileged-pod
+
+                    See all that output? That's Tetragon telling us exactly what's happening. It's like having a play-by-play commentator for security events! 
+
+                    And yes, I know the output looks a bit scary - that's kind of the point! *winks*
                 </aside>
             </section>
 
@@ -349,12 +369,15 @@
                     </ul>
                 </div>
                 <aside class="notes">
-                    // TODO: rewrite this
-                    Let's put it all together. With Cilium, we can implement true zero trust by combining identity-based
-                    policies,
-                    automatic encryption, and API-aware security. Every connection is authenticated, encrypted, and
-                    authorized.
-                    No more implicit trust, no more network-level assumptions.
+                    Okay, let's put all the pieces together! Remember how we started with that medieval castle analogy? Well, now we're building something more like a high-tech fortress!
+
+                    With our new setup:
+                    - Every single network packet gets its own tiny encryption shield
+                    - Every connection needs to show multiple forms of ID (and no, "but I work here" doesn't count!)
+                    - We're watching every system call like a helicopter parent watching their kid's first date
+                    - And we're only allowing the absolute minimum necessary permissions - it's like putting everyone on a strict "need-to-know" diet!
+
+                    The best part? Once you set this up, it just works. It's like having an automated security team that never sleeps, never gets distracted, and never accepts bribes of donuts!
                 </aside>
             </section>
 
@@ -372,13 +395,13 @@
                     </div>
                 </div>
                 <aside class="notes">
-                    Let me share an interesting architectural pattern we as WSO2 uses in production. The cell-based
-                    architecture
-                    organizes microservices into autonomous units, each with its own security boundary. This approach,
-                    which we've
-                    have implemented in choreo, provides natural isolation and makes zero trust easier to
-                    implement.
-                    It's a practical example of all the concepts we discussed today are implemented in a real-world.
+                    Now, let me share something cool we're doing at WSO2 - we call it the Cell-Based Architecture. Think of it like building a city, but instead of neighborhoods, we have secure cells!
+
+                    Each cell is like its own mini fortress, with clear boundaries and strict rules about who can talk to whom. It's like having a bunch of small, super-secure compounds instead of one big wall around everything.
+
+                    See this diagram? Each of these boxes represents a cell in Choreo, our platform. They're like little security bubbles - nothing gets in or out without proper clearance. 
+
+                    And the really neat part? If something does go wrong (hey, it happens!), the problem stays contained in that one cell. It's like having fireproof walls between apartments - if one catches fire, the others stay safe!
                 </aside>
             </section>
 
@@ -394,12 +417,15 @@
                     </ul>
                 </div>
                 <aside class="notes">
-                    As we wrap up, remember these key points: Always start with least privilege - give only the
-                    permissions that
-                    are absolutely necessary. Implement proper network segmentation using Cilium. Enable runtime
-                    security with
-                    Tetragon. And most importantly, maintain continuous monitoring and auditing of your security
-                    posture.
+                    We're almost at the finish line, folks! Let's recap the key things to remember:
+
+                    Start with least privilege - it's like the "stranger danger" rule for your cluster. Don't trust anyone until they prove themselves!
+
+                    Network segmentation is your friend - it's like having separate rooms for a party instead of one big open space where chaos can spread.
+
+                    Runtime security isn't optional anymore - it's like having security cameras that actually work, instead of those fake ones some stores use! *laughs*
+
+                    And finally, monitor EVERYTHING. Yes, it sounds paranoid, but in security, paranoid is just another word for prepared!
                 </aside>
             </section>
 
@@ -415,11 +441,13 @@
                     <p class="contact">Contact: your@email.com</p>
                 </div>
                 <aside class="notes">
-                    Thank you for your attention! Here are some resources to help you continue learning about zero trust
-                    security
-                    with eBPF and Cilium. Feel free to reach out if you have any questions. The journey to zero trust is
-                    continuous,
-                    and these tools make it achievable.
+                    And that's a wrap, folks! Thank you all for being such an amazing audience! 
+
+                    I've put together some links where you can learn more about everything we've covered today. Think of these as your security homework - but don't worry, it's the fun kind!
+
+                    The journey to zero trust might seem daunting, but remember - even Iron Man had to start somewhere with his suit! Start small, keep learning, and before you know it, you'll be a security superhero too!
+
+                    Feel free to reach out if you have questions - I promise I don't bite! Unless you're a malicious pod trying to escape its container, then all bets are off! *laughs*
                 </aside>
             </section>
 
