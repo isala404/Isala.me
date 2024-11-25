@@ -4,7 +4,7 @@ import { enhancedImages } from '@sveltejs/enhanced-img';
 
 export default defineConfig({
 	optimizeDeps: {
-	  include: ['lodash.get', 'lodash.isequal', 'lodash.clonedeep']
+		include: ['lodash.get', 'lodash.isequal', 'lodash.clonedeep']
 	},
 	plugins: [enhancedImages(), sveltekit()]
-})
+});
