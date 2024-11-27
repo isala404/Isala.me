@@ -8,7 +8,7 @@
 	let { data }: Props = $props();
 </script>
 
-<h3 class="text-xl my-4">Nerd Stats</h3>
+<h3 class="text-xl my-4 text-gray-900 dark:text-gray-100">Nerd Stats</h3>
 {#if browser}
 	<div class="w-full text-center">
 		<Carousel
@@ -26,7 +26,7 @@
 					></div>
 					<div class="z-20 absolute w-full text-center">
 						<img src={stat.icon} alt={stat.title} class="w-10 h-10 mx-auto opacity-75" />
-						<p class="text-lg">{stat.value} {stat.title}</p>
+						<p class="text-lg text-gray-900 dark:text-gray-100">{stat.value} {stat.title}</p>
 					</div>
 				</div>
 			{/each}

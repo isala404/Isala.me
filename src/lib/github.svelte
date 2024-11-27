@@ -12,10 +12,12 @@
 	let { title, description, tag, link, stars, forks, color }: Props = $props();
 </script>
 
-<div class="border bg-card text-card-foreground w-[21rem] shadow-lg rounded-lg overflow-hidden m-3">
+<div
+	class="border bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 w-[21rem] shadow-lg rounded-lg overflow-hidden m-3"
+>
 	<div class="p-6">
 		<div class="flex justify-between items-center">
-			<div class="flex items-center">
+			<div class="flex items-center dark-icon-white">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					width="24"
@@ -33,13 +35,15 @@
 					></path>
 					<path d="M9 18c-4.51 2-5-2-7-2"></path>
 				</svg>
-				<h3 class="tracking-tight text-lg font-bold text-gray-900 ml-2">{title}</h3>
+				<h3 class="tracking-tight text-lg font-bold text-gray-900 dark:text-gray-100 ml-2">
+					{title}
+				</h3>
 			</div>
 			<div class="text-gray-100 {color} text-sm font-medium px-2 py-1 rounded-md">
 				{tag}
 			</div>
 		</div>
-		<p class="text-sm mt-4 text-gray-600 text-left">{description}</p>
+		<p class="text-sm mt-4 text-gray-600 dark:text-gray-300 text-left">{description}</p>
 		<div class="mt-4 flex items-center justify-between">
 			<div class="flex items-center">
 				<svg

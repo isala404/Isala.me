@@ -15,7 +15,7 @@
 	}
 
 	let { data }: Props = $props();
-	let scrolled = $state(true);
+	let scrolled = $state(false);
 	const checkScroll = () => {
 		scrolled = window.scrollY > 15;
 	};
@@ -59,7 +59,7 @@
 	<div class="flex flex-col items-center md:my-auto text-center justify-evenly h-full flex-1">
 		<section class="mt-12">
 			<!-- <h2 class="text-2xl font-bold mb-5 hidden md:block">About Me</h2> -->
-			<p class="max-w-[45rem] mx-4">
+			<p class="max-w-[45rem] mx-4 text-gray-800 dark:text-gray-200">
 				Sure, I could build an army of killer robots, but where's the fun in that? I am more
 				interested in perfecting my robot that passes butter. When I'm not busy with my day job or
 				working on my pet projects, you'll find me strategizing in video games - the perfect way to
@@ -86,7 +86,7 @@
 		<img
 			src="/icons/down-arrow.svg"
 			alt="Arrow to hint to scroll down"
-			class="w-6 hidden lg:block transition-opacity duration-500 {scrolled
+			class="dark-icon-white w-6 hidden lg:block transition-opacity duration-500 {scrolled
 				? 'opacity-0'
 				: 'opacity-100'}"
 			id="arrow"
@@ -94,10 +94,10 @@
 	</div>
 </div>
 
-<div class="flex flex-col items-center md:my-auto text-center">
+<div class="flex flex-col items-center md:my-auto text-center w-full">
 	<div class="w-screen flex flex-col items-center">
 		<section class="mb-5">
-			<h2 class="text-2xl font-bold mb-5">Featured Articles</h2>
+			<h2 class="text-2xl font-bold mb-5 text-gray-900 dark:text-gray-100">Featured Articles</h2>
 			<div class="flex flex-row flex-wrap justify-center max-w-[60rem]">
 				{#each data.articles as article (article.link)}
 					<Medium {...article} />
@@ -106,7 +106,7 @@
 		</section>
 
 		<section class="my-10">
-			<h2 class="text-2xl font-bold mb-5">Featured Projects</h2>
+			<h2 class="text-2xl font-bold mb-5 text-gray-900 dark:text-gray-100">Featured Projects</h2>
 			<div class="flex flex-row flex-wrap justify-center max-w-[60rem]">
 				{#each data.project as project (project.link)}
 					<Github {...project} />
@@ -118,9 +118,9 @@
 			<Credentials />
 		</section>
 	</div>
-	<footer class="mb-3 mt-8">
+	<footer class="mb-3 mt-8 text-gray-800 dark:text-gray-200">
 		Built with ❤ from <a
-			class="text-red-500"
+			class="text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300"
 			href="https://github.com/isala404/Isala.me"
 			target="_blank">svelte</a
 		>

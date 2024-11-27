@@ -20,19 +20,19 @@
 		},
 		{
 			"title": "Talks Given",
-			"value": 6,
+			"value": 7,
 			"color": "bg-slate-100",
 			"icon": "/icons/presentation.svg"
 		},
 		{
-			"title": "Hackathons Attended",
+			"title": "Events Attended",
 			"value": 8,
 			"color": "bg-cyan-100",
 			"icon": "/icons/rocket.svg"
 		},
 		{
 			"title": "Tech T-shirts Owned",
-			"value": 28,
+			"value": 29,
 			"color": "bg-purple-100",
 			"icon": "/icons/t-shirt.svg"
 		}

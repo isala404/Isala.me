@@ -1,4 +1,4 @@
-<h2 class="text-2xl font-bold mb-5">Credentials</h2>
+<h2 class="text-2xl font-bold mb-5 text-gray-900 dark:text-gray-100">Credentials</h2>
 <div class="w-auto text-center flex flex-row flex-wrap justify-center">
 	<a href="https://www.credly.com/badges/94b77613-5470-4e2b-9a3f-7dd9891737eb" target="_blank">
 		<enhanced:img

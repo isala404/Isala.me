@@ -12,10 +12,16 @@
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.36.0",
 		"globals": "^15.0.0",
-		"mdsvex": "^0.11.2",
+		"lucide-svelte": "^0.461.0",
+		"mdsvex": "^0.12.3",
 		"postcss": "^8.4.32",
+		"postcss-nesting": "^13.0.1",
 		"prettier": "^3.3.2",
 		"prettier-plugin-svelte": "^3.2.6",
+		"rehype-slug": "^6.0.0",
+		"remark-toc": "^9.0.0",
+		"shiki": "^1.23.1",
+		"shiki-transformer-copy-button": "^0.0.3",
 		"svelte": "^5.0.0",
 		"svelte-adapter-bun": "^0.5.2",
 		"svelte-carousel": "^1.0.25",
@@ -39,5 +45,8 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint ."
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"caniuse-lite": "^1.0.30001684"
+	}
 }

@@ -1,3 +1,5 @@
+import daisyui from 'daisyui'
+
 /** @type {import('tailwindcss').Config} */
 export default {
 	content: ['./src/**/*.{html,js,svelte,ts}', 'src/lib/data.json'],
@@ -7,5 +9,5 @@ export default {
 	daisyui: {
 		themes: ['wireframe']
 	},
-	plugins: [require('daisyui')]
+	plugins: [daisyui]
 };
