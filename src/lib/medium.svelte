@@ -14,7 +14,11 @@
 	class="border text-card-foreground bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden max-w-[26rem] text-left mix-h-40 flex flex-row m-4"
 >
 	<div class="max-w-40">
-		<img class={'max-w-40 object-cover w-96 h-full dark-icon-white' + align} src={image} alt="Article thumbnail" />
+		<img
+			class={'max-w-40 object-cover w-96 h-full dark-icon-white' + align}
+			src={image}
+			alt="Article thumbnail"
+		/>
 	</div>
 	<div class="p-2 flex flex-col max-w-[19rem]">
 		<h2 class="block mt-1 text-lg leading-tight font-medium text-gray-900 dark:text-gray-100">

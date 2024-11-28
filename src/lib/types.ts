@@ -1,18 +1,17 @@
 export type Post = {
-    title: string;
-    slug: string;
-    description: string;
-    date: string;
-    author: string;
-    author_image: string;
-    audio: string;
-    image: string;
-    genre: string;
-    keywords: string[];
+	title: string;
+	slug: string;
+	description: string;
+	date: string;
+	author: string;
+	author_image: string;
+	audio: string;
+	image: string;
+	genre: string;
+	keywords: string[];
 	read_time: string;
-    published: boolean;
+	published: boolean;
 };
-
 
 // ---
 // title: 'SVEX: Supercharging Markdown with Svelte Components'

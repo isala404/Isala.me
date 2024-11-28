@@ -149,13 +149,14 @@
 		<div class="flex overflow-x-auto no-scrollbar pb-2">
 			<div class="flex gap-2 flex-nowrap">
 				{#each data.meta.keywords as keyword}
-					<span class="px-3 py-1 text-sm rounded-full bg-gray-100 dark:bg-gray-800 whitespace-nowrap">
+					<span
+						class="px-3 py-1 text-sm rounded-full bg-gray-100 dark:bg-gray-800 whitespace-nowrap"
+					>
 						#{keyword}
 					</span>
 				{/each}
 			</div>
 		</div>
-
 	</header>
 
 	<!-- Featured Image -->
