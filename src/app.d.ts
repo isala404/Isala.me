@@ -2,16 +2,19 @@
 // for information about these interfaces
 declare global {
 	namespace App {
+		// interface Error {}
+		// interface Locals {}
+		// interface PageData {}
 		interface Platform {
 			env: {
 				COUNTER: DurableObjectNamespace;
 			};
 			context: {
-				waitUntil(promise: Promise<any>): void;
+				waitUntil(promise: Promise<unknown>): void;
 			};
 			caches: CacheStorage & { default: Cache };
 		}
 	}
 }
 
-export {};
+export type {};

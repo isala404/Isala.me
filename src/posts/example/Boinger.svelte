@@ -1,17 +1,18 @@
 <script lang="ts">
 	import { flip } from 'svelte/animate';
-	import { crossfade, scale } from 'svelte/transition';
+	import { crossfade } from 'svelte/transition';
 
 	interface Boinger {
 		val: number;
 		boinged: boolean;
 	}
 
-	export let color: string = 'pink';
+	// biome-ignore lint/style/useConst: <explanation>
+	export let color = 'pink';
 
-	const [send, receive] = crossfade({ fallback: scale });
+	const [send, receive] = crossfade({});
 
-	let boingers: Boinger[] = [
+	const boingers: Boinger[] = [
 		{ val: 1, boinged: true },
 		{ val: 2, boinged: true },
 		{ val: 3, boinged: false },
@@ -28,13 +29,15 @@
 <div class="container">
 	<div class="boingers">
 		{#each boingers.filter((v) => !v.boinged) as { val } (val)}
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div
+				role="button"
+				tabindex="0"
 				animate:flip
 				in:receive={{ key: val }}
 				out:send={{ key: val }}
 				style="background:{color};"
 				on:click={() => toggleBoing(val)}
+				on:keydown={(e) => e.key === 'Enter' && toggleBoing(val)}
 			>
 				{val}
 			</div>
@@ -43,13 +46,15 @@
 
 	<div class="boingers">
 		{#each boingers.filter((v) => v.boinged) as { val } (val)}
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<div
+				role="button"
+				tabindex="0"
 				animate:flip
 				in:receive={{ key: val }}
 				out:send={{ key: val }}
 				style="background:{color};"
 				on:click={() => toggleBoing(val)}
+				on:keydown={(e) => e.key === 'Enter' && toggleBoing(val)}
 			>
 				{val}
 			</div>

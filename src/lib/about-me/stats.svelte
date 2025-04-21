@@ -1,11 +1,21 @@
 <script lang="ts">
 	import Carousel from 'svelte-carousel';
 	import { browser } from '$app/environment';
-	interface Props {
-		data: any;
+
+	interface NerdStat {
+		title: string;
+		value: string | number;
+		icon: string;
+		color: string;
 	}
 
-	let { data }: Props = $props();
+	interface Props {
+		data: {
+			'nerd-stats': NerdStat[];
+		};
+	}
+
+	const { data }: Props = $props();
 </script>
 
 <h3 class="text-xl my-4 text-gray-900 dark:text-gray-100">Nerd Stats</h3>
@@ -25,7 +35,11 @@
 							' flex flex-col justify-center absolute opacity-50 h-full w-full z-10 rounded-xl'}
 					></div>
 					<div class="z-20 absolute w-full text-center">
-						<img src={stat.icon} alt={stat.title} class="w-10 h-10 mx-auto opacity-75 dark-icon-white" />
+						<img
+							src={stat.icon}
+							alt={stat.title}
+							class="w-10 h-10 mx-auto opacity-75 dark-icon-white"
+						/>
 						<p class="text-lg text-gray-900 dark:text-gray-100">{stat.value} {stat.title}</p>
 					</div>
 				</div>

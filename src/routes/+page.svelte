@@ -10,20 +10,19 @@
 	import Icons from '$lib/icons.svelte';
 	import Credentials from '$lib/credentials.svelte';
 
-	interface Props {
-		data: any;
-	}
-
-	let { data }: Props = $props();
+	const { data } = $props();
 	let scrolled = $state(false);
 	const checkScroll = () => {
 		scrolled = window.scrollY > 15;
 	};
 	if (browser) {
 		window.addEventListener('scroll', checkScroll);
+		$effect(() => {
+			return () => window.removeEventListener('scroll', checkScroll);
+		});
 	}
-	let years_of_experience = new Date().getFullYear() - 2016;
-	let description = `Hi 👋, I am a DevOps engineer with over ${years_of_experience} years of experience. I am specializing in Kubernetes, Go, Python and Rust.`;
+	const years_of_experience = new Date().getFullYear() - 2016;
+	const description = `Hi 👋, I am a DevOps engineer with over ${years_of_experience} years of experience. I am specializing in Kubernetes, Go, Python and Rust.`;
 </script>
 
 <svelte:head>
