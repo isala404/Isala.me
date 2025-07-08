@@ -81,6 +81,9 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			$assets: 'src/assets'
+		},
+		csrf: {
+			checkOrigin: false
 		}
 	},
 

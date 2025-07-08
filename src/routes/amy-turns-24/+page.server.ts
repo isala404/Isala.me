@@ -2,7 +2,7 @@ import { redirect, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { env } from '$env/dynamic/private';
 
-const AMY_24_PASSWORD = env.AMY_24_PASSWORD || 'amaya2025';
+const AMY_24_PASSWORD = env.AMY_24_PASSWORD;
 
 export const load: PageServerLoad = async ({ cookies }) => {
 	const authenticated = cookies.get('amy-24-auth');
