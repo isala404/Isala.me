@@ -6,11 +6,7 @@ on:
       - main
 
 env:
-  PROJECT_ID: project-skybridge
-  POOL_ID: projects/878206023724/locations/global/workloadIdentityPools/github-actions
-  PROVIDER_NAME: isala404
-  ARTIFACTS_REGION: europe-west3
-  IMAGE_NAME: isala-me
+  IMAGE_NAME: isala404/isala-me
 
 jobs:
   pr-check:
@@ -43,39 +39,6 @@ jobs:
       - name: Build application
         run: bun run build
 
-      - name: Authenticate with Google Cloud
-        if: github.event_name == 'pull_request'
-        uses: google-github-actions/auth@v2
-        with:
-          project_id: ${{ env.PROJECT_ID }}
-          workload_identity_provider: ${{ env.POOL_ID }}/providers/${{ env.PROVIDER_NAME }}
-          export_environment_variables: 'true'
-
-      - name: Set up Cloud SDK
-        if: github.event_name == 'pull_request'
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          project_id: ${{ env.PROJECT_ID }}
-
-      - name: Configure Docker for Google Artifact Registry
-        if: github.event_name == 'pull_request'
-        run: gcloud auth configure-docker ${{ env.ARTIFACTS_REGION }}-docker.pkg.dev
-
-      - name: Set up Docker Buildx
-        if: github.event_name == 'pull_request'
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build Docker image
-        if: github.event_name == 'pull_request'
-        uses: docker/build-push-action@v6
-        with:
-          context: ./landing-page
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: |
-            ${{ env.ARTIFACTS_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/gitops/${{ env.IMAGE_NAME }}:${{ github.sha }}
-            ${{ env.ARTIFACTS_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/gitops/${{ env.IMAGE_NAME }}:dev-${{ github.run_id }}
-
   deploy:
     needs: pr-check
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -86,33 +49,37 @@ jobs:
       id-token: write
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          project_id: ${{ env.PROJECT_ID }}
-          workload_identity_provider: ${{ env.POOL_ID }}/providers/${{ env.PROVIDER_NAME }}
-          export_environment_variables: 'true'
-
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          project_id: ${{ env.PROJECT_ID }}
-
-      - name: Configure Docker for Google Artifact Registry
-        run: gcloud auth configure-docker ${{ env.ARTIFACTS_REGION }}-docker.pkg.dev
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Get GitHub OIDC token
+        id: oidc
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const token = await core.getIDToken()
+            core.setOutput('token', token)
+
+      - name: Get registry token
+        run: |
+          TOKEN="${{ steps.oidc.outputs.token }}"
+          RESPONSE=$(curl -s -X POST "https://utils.tallisa.dev/v1/github-oidc/token" \
+            -H "Content-Type: application/json" \
+            -d "{\"token\":\"${TOKEN}\"}")
+
+          REGISTRY=$(echo "${RESPONSE}" | jq -r '.registry_url')
+          USERNAME=$(echo "${RESPONSE}" | jq -r '.username')
+          PASSWORD=$(echo "${RESPONSE}" | jq -r '.password')
+          echo "REGISTRY=$REGISTRY" >> $GITHUB_ENV
+
+          echo $PASSWORD | docker login $REGISTRY -u $USERNAME --password-stdin
       - name: Build and push Docker image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          file: ./Dockerfile
           push: true
-          tags: |
-            ${{ env.ARTIFACTS_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/gitops/${{ env.IMAGE_NAME }}:latest
-            ${{ env.ARTIFACTS_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/gitops/${{ env.IMAGE_NAME }}:${{ github.sha }}
-            ${{ env.ARTIFACTS_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/gitops/${{ env.IMAGE_NAME }}:prod-${{ github.run_id }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:prod-${{ github.run_id }},${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
