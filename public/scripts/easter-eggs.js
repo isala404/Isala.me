@@ -213,7 +213,7 @@
     }
   }
 
-  function onMouseUp(e) {
+  function onMouseUp(_e) {
     const wasDragging = dragging !== null;
     const hadPending = pendingTile !== null;
 

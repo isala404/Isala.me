@@ -27,92 +27,113 @@ function formatDate(date: Date): string {
 ---
 
 <BaseLayout title="Isala Piyarisi | Observability Engineer & eBPF Enthusiast">
-  <main class="max-w-content mx-auto px-6 py-16 md:py-24 relative z-10">
+  <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Hero Section -->
-    <header class="mb-12 fade-in fade-in-delay-1">
+    <header class="fade-in fade-in-delay-1 mb-12">
       <div class="flex items-start justify-between gap-4">
         <div>
-          <h1 class="text-3xl md:text-4xl font-semibold text-summer-text mb-2 tracking-tight relative">
+          <h1
+            class="text-summer-text relative mb-2 text-3xl font-semibold tracking-tight md:text-4xl"
+          >
             <span id="name-text" class="name-clickable">{profile.name}</span>
             <span id="name-tooltip" class="name-tooltip">stop that!</span>
           </h1>
-          <p class="text-lg text-summer-text-secondary mb-4 font-medium">
+          <p class="text-summer-text-secondary mb-4 text-lg font-medium">
             {profile.title} · {profile.tagline}
           </p>
         </div>
-        <div class="dog-container w-20 h-20 md:w-24 md:h-24 flex-shrink-0">
+        <div class="dog-container h-20 w-20 flex-shrink-0 md:h-24 md:w-24">
           <img src="/dog-still.png" alt="A cute golden retriever" class="dog-still" />
           <div class="dog-sprite" aria-hidden="true"></div>
         </div>
       </div>
-      <nav class="flex gap-4 text-sm font-medium items-center mb-6">
-        <a href={`mailto:${profile.email}`} class="text-summer-accent hover:text-summer-accent-hover transition-colors" title={profile.email}>em</a>
+      <nav class="mb-6 flex items-center gap-4 text-sm font-medium">
+        <a
+          href={`mailto:${profile.email}`}
+          class="text-summer-accent hover:text-summer-accent-hover transition-colors"
+          title={profile.email}>em</a
+        >
         <span class="text-summer-text-secondary">·</span>
-        <a href={profile.github} class="text-summer-accent hover:text-summer-accent-hover transition-colors">gh</a>
+        <a
+          href={profile.github}
+          class="text-summer-accent hover:text-summer-accent-hover transition-colors">gh</a
+        >
         <span class="text-summer-text-secondary">·</span>
-        <a href={profile.twitter} class="text-summer-accent hover:text-summer-accent-hover transition-colors">x</a>
+        <a
+          href={profile.twitter}
+          class="text-summer-accent hover:text-summer-accent-hover transition-colors">x</a
+        >
         <span class="text-summer-text-secondary">·</span>
-        <a href={profile.linkedin} class="text-summer-accent hover:text-summer-accent-hover transition-colors">li</a>
+        <a
+          href={profile.linkedin}
+          class="text-summer-accent hover:text-summer-accent-hover transition-colors">li</a
+        >
       </nav>
-      <p class="text-base text-summer-text leading-relaxed max-w-prose mb-4">
+      <p class="text-summer-text mb-4 max-w-prose text-base leading-relaxed">
         {profile.bio}
       </p>
       <p>
-        <a href="/about" class="text-sm text-summer-text-secondary arrow-link">
+        <a href="/about" class="text-summer-text-secondary arrow-link text-sm">
           <span class="arrow">→</span><span class="text">the long version</span>
         </a>
       </p>
     </header>
 
     <!-- Now Grid -->
-    <section class="mb-12 fade-in fade-in-delay-2">
-      <div class="now-grid grid grid-cols-2 md:grid-cols-3 gap-3">
-        {nowTiles.map((tile) => {
-          const Icon = iconMap[tile.icon];
-          const Tag = tile.link ? 'a' : 'div';
-          return (
-            <Tag
-              href={tile.link}
-              target={tile.link ? "_blank" : undefined}
-              data-tile={tile.id}
-              class="now-tile group p-4 rounded-lg border border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 transition-all"
-            >
-              <div class="flex items-center gap-2 mb-2">
-                <Icon class="w-4 h-4 text-summer-text-secondary group-hover:text-summer-accent transition-colors" />
-                <span class="text-xs text-summer-text-secondary">{tile.label}</span>
-              </div>
-              <p class="text-sm font-medium text-summer-text group-hover:text-summer-accent transition-colors truncate">
-                {tile.title}
-              </p>
-              <p class="text-xs text-summer-text-secondary truncate">{tile.subtitle}</p>
-            </Tag>
-          );
-        })}
+    <section class="fade-in fade-in-delay-2 mb-12">
+      <div class="now-grid grid grid-cols-2 gap-3 md:grid-cols-3">
+        {
+          nowTiles.map((tile) => {
+            const Icon = iconMap[tile.icon];
+            const Tag = tile.link ? 'a' : 'div';
+            return (
+              <Tag
+                href={tile.link}
+                target={tile.link ? '_blank' : undefined}
+                data-tile={tile.id}
+                class="now-tile group border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 rounded-lg border p-4 transition-all"
+              >
+                <div class="mb-2 flex items-center gap-2">
+                  <Icon class="text-summer-text-secondary group-hover:text-summer-accent h-4 w-4 transition-colors" />
+                  <span class="text-summer-text-secondary text-xs">{tile.label}</span>
+                </div>
+                <p class="text-summer-text group-hover:text-summer-accent truncate text-sm font-medium transition-colors">
+                  {tile.title}
+                </p>
+                <p class="text-summer-text-secondary truncate text-xs">{tile.subtitle}</p>
+              </Tag>
+            );
+          })
+        }
       </div>
     </section>
 
     <!-- Experience Section -->
-    <section class="mb-10 fade-in fade-in-delay-2">
-      <div class="flex items-center gap-4 mb-6">
-        <h2 class="text-lg font-medium text-summer-text section-heading">Experience</h2>
-        <div class="h-px bg-summer-text/10 flex-grow border-b border-dotted border-summer-text/30"></div>
+    <section class="fade-in fade-in-delay-2 mb-10">
+      <div class="mb-6 flex items-center gap-4">
+        <h2 class="text-summer-text section-heading text-lg font-medium">Experience</h2>
+        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        </div>
       </div>
 
       <div class="space-y-4">
-        {experience.slice(0, 2).map((exp) => (
-          <article class="flex justify-between items-start group">
-            <div>
-              <span class="text-summer-text hover-underline block">{exp.positions[0].title}</span>
-              <p class="text-sm text-summer-text-secondary">{exp.company}</p>
-            </div>
-            <span class="text-sm text-summer-text-secondary font-mono shrink-0 ml-4">
-              {exp.positions[0].startDate} — {exp.positions[0].endDate === 'Present' ? 'now' : exp.positions[0].endDate}
-            </span>
-          </article>
-        ))}
+        {
+          experience.slice(0, 2).map((exp) => (
+            <article class="group flex items-start justify-between">
+              <div>
+                <span class="text-summer-text hover-underline block">{exp.positions[0].title}</span>
+                <p class="text-summer-text-secondary text-sm">{exp.company}</p>
+              </div>
+              <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
+                {exp.positions[0].startDate} —{' '}
+                {exp.positions[0].endDate === 'Present' ? 'now' : exp.positions[0].endDate}
+              </span>
+            </article>
+          ))
+        }
 
         <div class="pt-2">
-          <a href="/experience" class="text-sm text-summer-text-secondary arrow-link">
+          <a href="/experience" class="text-summer-text-secondary arrow-link text-sm">
             <span class="arrow">→</span><span class="text">all experience</span>
           </a>
         </div>
@@ -120,26 +141,29 @@ function formatDate(date: Date): string {
     </section>
 
     <!-- Writing Section -->
-    <section class="mb-10 fade-in fade-in-delay-2">
-      <div class="flex items-center gap-4 mb-6">
-        <h2 class="text-lg font-medium text-summer-text section-heading">Writing</h2>
-        <div class="h-px bg-summer-text/10 flex-grow border-b border-dotted border-summer-text/30"></div>
+    <section class="fade-in fade-in-delay-2 mb-10">
+      <div class="mb-6 flex items-center gap-4">
+        <h2 class="text-summer-text section-heading text-lg font-medium">Writing</h2>
+        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        </div>
       </div>
 
       <div class="space-y-4">
-        {blogPosts.map((post) => (
-          <article class="flex justify-between items-baseline group">
-            <a href={`/blog/${post.slug}`} class="hover-underline text-summer-text">
-              {post.data.title}
-            </a>
-            <span class="text-sm text-summer-text-secondary font-mono shrink-0 ml-4">
-              {post.data.readingTime || 5} min
-            </span>
-          </article>
-        ))}
+        {
+          blogPosts.map((post) => (
+            <article class="group flex items-baseline justify-between">
+              <a href={`/blog/${post.slug}`} class="hover-underline text-summer-text">
+                {post.data.title}
+              </a>
+              <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
+                {post.data.readingTime || 5} min
+              </span>
+            </article>
+          ))
+        }
 
         <div class="pt-2">
-          <a href="/blog" class="text-sm text-summer-text-secondary arrow-link">
+          <a href="/blog" class="text-summer-text-secondary arrow-link text-sm">
             <span class="arrow">→</span><span class="text">all writing</span>
           </a>
         </div>
@@ -147,39 +171,49 @@ function formatDate(date: Date): string {
     </section>
 
     <!-- Quote -->
-    <blockquote id="quote" class="mb-10 fade-in fade-in-delay-3 text-sm border-l-2 border-summer-accent/40 pl-4">
+    <blockquote
+      id="quote"
+      class="fade-in fade-in-delay-3 border-summer-accent/40 mb-10 border-l-2 pl-4 text-sm"
+    >
       <p id="quote-text" class="text-summer-text-secondary italic">
         "{quotes[0].text}"
       </p>
-      <cite id="quote-author" class="text-xs text-summer-text/40 not-italic">
+      <cite id="quote-author" class="text-summer-text/40 text-xs not-italic">
         — {quotes[0].author}
       </cite>
     </blockquote>
 
     <!-- Projects Section -->
-    <section class="mb-10 fade-in fade-in-delay-3">
-      <div class="flex items-center gap-4 mb-6">
-        <h2 class="text-lg font-medium text-summer-text section-heading">Projects</h2>
-        <div class="h-px bg-summer-text/10 flex-grow border-b border-dotted border-summer-text/30"></div>
+    <section class="fade-in fade-in-delay-3 mb-10">
+      <div class="mb-6 flex items-center gap-4">
+        <h2 class="text-summer-text section-heading text-lg font-medium">Projects</h2>
+        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        </div>
       </div>
 
       <div class="space-y-4">
-        {projects.slice(0, 2).map((project) => (
-          <article class="group flex justify-between items-baseline">
-            <div>
-              <a href={project.url || '#'} class="font-medium text-summer-text hover-underline block" target="_blank">
-                {project.name}
-              </a>
-              <p class="text-sm text-summer-text-secondary">{project.description}</p>
-            </div>
-            {project.stars && (
-              <span class="text-xs text-summer-golden shrink-0 ml-4">★ {project.stars}</span>
-            )}
-          </article>
-        ))}
+        {
+          projects.slice(0, 2).map((project) => (
+            <article class="group flex items-baseline justify-between">
+              <div>
+                <a
+                  href={project.url || '#'}
+                  class="text-summer-text hover-underline block font-medium"
+                  target="_blank"
+                >
+                  {project.name}
+                </a>
+                <p class="text-summer-text-secondary text-sm">{project.description}</p>
+              </div>
+              {project.stars && (
+                <span class="text-summer-golden ml-4 shrink-0 text-xs">★ {project.stars}</span>
+              )}
+            </article>
+          ))
+        }
 
         <div class="pt-2">
-          <a href="/projects" class="text-sm text-summer-text-secondary arrow-link">
+          <a href="/projects" class="text-summer-text-secondary arrow-link text-sm">
             <span class="arrow">→</span><span class="text">all projects</span>
           </a>
         </div>
@@ -187,26 +221,29 @@ function formatDate(date: Date): string {
     </section>
 
     <!-- Notes Section -->
-    <section class="mb-10 fade-in fade-in-delay-4">
-      <div class="flex items-center gap-4 mb-6">
-        <h2 class="text-lg font-medium text-summer-text section-heading">Notes</h2>
-        <div class="h-px bg-summer-text/10 flex-grow border-b border-dotted border-summer-text/30"></div>
+    <section class="fade-in fade-in-delay-4 mb-10">
+      <div class="mb-6 flex items-center gap-4">
+        <h2 class="text-summer-text section-heading text-lg font-medium">Notes</h2>
+        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        </div>
       </div>
 
       <div class="space-y-3">
-        {notes.map((note) => (
-          <article class="flex justify-between items-baseline group">
-            <a href={`/notes/${note.slug}`} class="hover-underline text-summer-text text-sm">
-              {note.data.title}
-            </a>
-            <span class="text-xs text-summer-text-secondary font-mono shrink-0 ml-4">
-              {formatDate(note.data.publishedAt)}
-            </span>
-          </article>
-        ))}
+        {
+          notes.map((note) => (
+            <article class="group flex items-baseline justify-between">
+              <a href={`/notes/${note.slug}`} class="hover-underline text-summer-text text-sm">
+                {note.data.title}
+              </a>
+              <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-xs">
+                {formatDate(note.data.publishedAt)}
+              </span>
+            </article>
+          ))
+        }
 
         <div class="pt-2">
-          <a href="/notes" class="text-sm text-summer-text-secondary arrow-link">
+          <a href="/notes" class="text-summer-text-secondary arrow-link text-sm">
             <span class="arrow">→</span><span class="text">all notes</span>
           </a>
         </div>
@@ -214,28 +251,31 @@ function formatDate(date: Date): string {
     </section>
 
     <!-- GitHub Activity -->
-    <section class="mb-10 fade-in fade-in-delay-4">
-      <div class="flex items-center gap-4 mb-6">
-        <h2 class="text-lg font-medium text-summer-text section-heading">Activity</h2>
-        <div class="h-px bg-summer-text/10 flex-grow border-b border-dotted border-summer-text/30"></div>
+    <section class="fade-in fade-in-delay-4 mb-10">
+      <div class="mb-6 flex items-center gap-4">
+        <h2 class="text-summer-text section-heading text-lg font-medium">Activity</h2>
+        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        </div>
       </div>
 
       <a
-        href="https://github.com/Supiri"
+        href="https://github.com/isala404"
         target="_blank"
-        class="block group aspect-[53/7] bg-summer-text/[0.02] rounded overflow-hidden"
+        class="group bg-summer-text/[0.02] block aspect-[53/7] overflow-hidden rounded"
       >
         <img
-          src="https://ghchart.rshah.org/e85a3c/Supiri"
-          alt="GitHub contribution graph for Supiri"
-          class="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity"
+          src="https://ghchart.rshah.org/e85a3c/isala404"
+          alt="GitHub contribution graph for isala404"
+          class="h-full w-full object-contain opacity-80 transition-opacity group-hover:opacity-100"
           loading="lazy"
         />
       </a>
     </section>
 
     <!-- Footer -->
-    <footer class="text-sm text-summer-text-secondary fade-in fade-in-delay-4 border-t border-dotted border-summer-text/20 pt-8 text-center">
+    <footer
+      class="text-summer-text-secondary fade-in fade-in-delay-4 border-summer-text/20 border-t border-dotted pt-8 text-center text-sm"
+    >
       <p id="footer-text" class="footer-text">
         {footerJokes[0]}
       </p>

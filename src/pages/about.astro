@@ -4,158 +4,169 @@ import { profile, education, certifications, speaking, publications } from '../d
 ---
 
 <BaseLayout title="About | Isala Piyarisi" description={profile.longBio.slice(0, 160)}>
-  <main class="max-w-content mx-auto px-6 py-16 md:py-24 relative z-10">
+  <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Header -->
-    <header class="mb-12 fade-in fade-in-delay-1">
-      <a href="/" class="text-sm text-summer-text-secondary arrow-link mb-6 inline-block">
-        <span class="arrow">←</span><span class="text">back home</span>
-      </a>
-      <h1 class="text-3xl md:text-4xl font-semibold text-summer-text mb-4 tracking-tight">
+    <header class="fade-in fade-in-delay-1 mb-12">
+      <h1 class="text-summer-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
         The Long Version
       </h1>
     </header>
 
     <!-- Bio Section -->
-    <section class="mb-12 fade-in fade-in-delay-2">
+    <section class="fade-in fade-in-delay-2 mb-12">
       <div class="prose prose-summer max-w-none">
-        {profile.longBio.split('\n\n').map((paragraph) => (
-          <p class="text-base text-summer-text leading-relaxed mb-4">{paragraph}</p>
-        ))}
+        {
+          profile.longBio
+            .split('\n\n')
+            .map((paragraph) => (
+              <p class="text-summer-text mb-4 text-base leading-relaxed">{paragraph}</p>
+            ))
+        }
       </div>
     </section>
 
     <!-- Skills -->
-    <section class="mb-12 fade-in fade-in-delay-2">
-      <div class="flex items-center gap-4 mb-6">
-        <h2 class="text-lg font-medium text-summer-text section-heading">Top Skills</h2>
-        <div class="h-px bg-summer-text/10 flex-grow border-b border-dotted border-summer-text/30"></div>
+    <section class="fade-in fade-in-delay-2 mb-12">
+      <div class="mb-6 flex items-center gap-4">
+        <h2 class="text-summer-text section-heading text-lg font-medium">Top Skills</h2>
+        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        </div>
       </div>
       <div class="flex flex-wrap gap-2">
-        {profile.topSkills.map((skill) => (
-          <span class="px-3 py-1 text-sm bg-summer-text/5 text-summer-text-secondary rounded-full border border-summer-text/10">
-            {skill}
-          </span>
-        ))}
+        {
+          profile.topSkills.map((skill) => (
+            <span class="bg-summer-text/5 text-summer-text-secondary border-summer-text/10 rounded-full border px-3 py-1 text-sm">
+              {skill}
+            </span>
+          ))
+        }
       </div>
     </section>
 
     <!-- Education -->
-    <section class="mb-12 fade-in fade-in-delay-2">
-      <div class="flex items-center gap-4 mb-6">
-        <h2 class="text-lg font-medium text-summer-text section-heading">Education</h2>
-        <div class="h-px bg-summer-text/10 flex-grow border-b border-dotted border-summer-text/30"></div>
+    <section class="fade-in fade-in-delay-2 mb-12">
+      <div class="mb-6 flex items-center gap-4">
+        <h2 class="text-summer-text section-heading text-lg font-medium">Education</h2>
+        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        </div>
       </div>
 
-      {education.map((edu) => (
-        <article class="mb-6">
-          <div class="flex justify-between items-start mb-2">
-            <div>
-              <h3 class="font-medium text-summer-text">{edu.institution}</h3>
-              <p class="text-sm text-summer-text-secondary">{edu.degree}</p>
+      {
+        education.map((edu) => (
+          <article class="mb-6">
+            <div class="mb-2 flex items-start justify-between">
+              <div>
+                <h3 class="text-summer-text font-medium">{edu.institution}</h3>
+                <p class="text-summer-text-secondary text-sm">{edu.degree}</p>
+              </div>
+              <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
+                {edu.startDate} — {edu.endDate}
+              </span>
             </div>
-            <span class="text-sm text-summer-text-secondary font-mono shrink-0 ml-4">
-              {edu.startDate} — {edu.endDate}
-            </span>
-          </div>
-          <p class="text-sm text-summer-golden mb-2">{edu.grade} · {edu.rank}</p>
-          <ul class="space-y-1">
-            {edu.highlights.map((highlight) => (
-              <li class="text-sm text-summer-text-secondary flex items-start gap-2">
-                <span class="text-summer-accent mt-1">·</span>
-                <span>{highlight}</span>
-              </li>
-            ))}
-          </ul>
-        </article>
-      ))}
+            <p class="text-summer-golden mb-2 text-sm">
+              {edu.grade} · {edu.rank}
+            </p>
+            <ul class="space-y-1">
+              {edu.highlights.map((highlight) => (
+                <li class="text-summer-text-secondary flex items-start gap-2 text-sm">
+                  <span class="text-summer-accent mt-1">·</span>
+                  <span>{highlight}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
     </section>
 
     <!-- Certifications -->
-    <section class="mb-12 fade-in fade-in-delay-3">
-      <div class="flex items-center gap-4 mb-6">
-        <h2 class="text-lg font-medium text-summer-text section-heading">Certifications</h2>
-        <div class="h-px bg-summer-text/10 flex-grow border-b border-dotted border-summer-text/30"></div>
+    <section class="fade-in fade-in-delay-3 mb-12">
+      <div class="mb-6 flex items-center gap-4">
+        <h2 class="text-summer-text section-heading text-lg font-medium">Certifications</h2>
+        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        </div>
       </div>
 
       <div class="space-y-3">
-        {certifications.map((cert) => (
-          <article class="flex justify-between items-start">
-            <div>
-              <span class="text-summer-text">{cert.name}</span>
-              <p class="text-sm text-summer-text-secondary">{cert.issuer}</p>
-            </div>
-            <span class="text-sm text-summer-text-secondary font-mono shrink-0 ml-4">
-              {cert.date}
-            </span>
-          </article>
-        ))}
+        {
+          certifications.map((cert) => (
+            <article class="flex items-start justify-between">
+              <div>
+                <span class="text-summer-text">{cert.name}</span>
+                <p class="text-summer-text-secondary text-sm">{cert.issuer}</p>
+              </div>
+              <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
+                {cert.date}
+              </span>
+            </article>
+          ))
+        }
       </div>
     </section>
 
     <!-- Speaking -->
-    <section class="mb-12 fade-in fade-in-delay-3">
-      <div class="flex items-center gap-4 mb-6">
-        <h2 class="text-lg font-medium text-summer-text section-heading">Speaking</h2>
-        <div class="h-px bg-summer-text/10 flex-grow border-b border-dotted border-summer-text/30"></div>
+    <section class="fade-in fade-in-delay-3 mb-12">
+      <div class="mb-6 flex items-center gap-4">
+        <h2 class="text-summer-text section-heading text-lg font-medium">Speaking</h2>
+        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        </div>
       </div>
 
       <div class="space-y-4">
-        {speaking.map((talk) => (
-          <article class="group">
-            <div class="flex justify-between items-start">
-              <div>
-                {talk.link ? (
-                  <a href={talk.link} target="_blank" class="text-summer-text hover-underline block">
-                    {talk.title}
-                  </a>
-                ) : (
-                  <span class="text-summer-text">{talk.title}</span>
-                )}
-                <p class="text-sm text-summer-text-secondary">{talk.event}</p>
+        {
+          speaking.map((talk) => (
+            <article class="group">
+              <div class="flex items-start justify-between">
+                <div>
+                  {talk.link ? (
+                    <a
+                      href={talk.link}
+                      target="_blank"
+                      class="text-summer-text hover-underline block"
+                    >
+                      {talk.title}
+                    </a>
+                  ) : (
+                    <span class="text-summer-text">{talk.title}</span>
+                  )}
+                  <p class="text-summer-text-secondary text-sm">{talk.event}</p>
+                </div>
+                <span class="text-summer-accent bg-summer-accent/10 ml-4 shrink-0 rounded px-2 py-0.5 text-xs">
+                  {talk.type}
+                </span>
               </div>
-              <span class="text-xs text-summer-accent shrink-0 ml-4 px-2 py-0.5 rounded bg-summer-accent/10">
-                {talk.type}
-              </span>
-            </div>
-          </article>
-        ))}
+            </article>
+          ))
+        }
       </div>
     </section>
 
     <!-- Publications -->
-    <section class="mb-12 fade-in fade-in-delay-4">
-      <div class="flex items-center gap-4 mb-6">
-        <h2 class="text-lg font-medium text-summer-text section-heading">Publications</h2>
-        <div class="h-px bg-summer-text/10 flex-grow border-b border-dotted border-summer-text/30"></div>
+    <section class="fade-in fade-in-delay-4 mb-12">
+      <div class="mb-6 flex items-center gap-4">
+        <h2 class="text-summer-text section-heading text-lg font-medium">Publications</h2>
+        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        </div>
       </div>
 
       <div class="space-y-4">
-        {publications.map((pub) => (
-          <article class="flex justify-between items-start">
-            <div>
-              <a href={pub.url} target="_blank" class="text-summer-text hover-underline block">
-                {pub.title}
-              </a>
-              <p class="text-sm text-summer-text-secondary">{pub.publisher}</p>
-            </div>
-            <span class="text-sm text-summer-text-secondary font-mono shrink-0 ml-4">
-              {pub.date}
-            </span>
-          </article>
-        ))}
+        {
+          publications.map((pub) => (
+            <article class="flex items-start justify-between">
+              <div>
+                <a href={pub.url} target="_blank" class="text-summer-text hover-underline block">
+                  {pub.title}
+                </a>
+                <p class="text-summer-text-secondary text-sm">{pub.publisher}</p>
+              </div>
+              <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
+                {pub.date}
+              </span>
+            </article>
+          ))
+        }
       </div>
     </section>
 
-    <!-- Footer Nav -->
-    <footer class="fade-in fade-in-delay-4 border-t border-dotted border-summer-text/20 pt-8">
-      <div class="flex justify-between text-sm">
-        <a href="/experience" class="text-summer-text-secondary arrow-link">
-          <span class="arrow">→</span><span class="text">experience</span>
-        </a>
-        <a href="/projects" class="text-summer-text-secondary arrow-link">
-          <span class="arrow">→</span><span class="text">projects</span>
-        </a>
-      </div>
-    </footer>
   </main>
 </BaseLayout>
