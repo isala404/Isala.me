@@ -1,0 +1,220 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes');
+  return notes.map((note) => ({
+    params: { slug: note.slug },
+    props: { note },
+  }));
+}
+
+const { note } = Astro.props;
+const { Content } = await note.render();
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
+// Get adjacent notes for navigation
+const allNotes = (await getCollection('notes', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+
+const currentIndex = allNotes.findIndex((n) => n.slug === note.slug);
+const prevNote = currentIndex < allNotes.length - 1 ? allNotes[currentIndex + 1] : null;
+const nextNote = currentIndex > 0 ? allNotes[currentIndex - 1] : null;
+---
+
+<BaseLayout
+  title={`${note.data.title} | Notes | Isala Piyarisi`}
+  description={note.data.title}
+  type="article"
+  publishedTime={note.data.publishedAt.toISOString()}
+>
+  <main class="max-w-content mx-auto px-6 py-16 md:py-24 relative z-10">
+    <!-- Header -->
+    <header class="mb-8 fade-in fade-in-delay-1">
+      <a href="/notes" class="text-sm text-summer-text-secondary arrow-link mb-6 inline-block">
+        <span class="arrow">←</span><span class="text">all notes</span>
+      </a>
+
+      <h1 class="text-xl md:text-2xl font-semibold text-summer-text mb-3 tracking-tight leading-tight">
+        {note.data.title}
+      </h1>
+
+      <div class="flex flex-wrap items-center gap-3 text-sm">
+        <time datetime={note.data.publishedAt.toISOString()} class="text-summer-text-secondary">
+          {formatDate(note.data.publishedAt)}
+        </time>
+        {note.data.tags && note.data.tags.length > 0 && (
+          <div class="flex gap-1.5">
+            {note.data.tags.map((tag) => (
+              <span class="px-1.5 py-0.5 text-xs bg-summer-teal/10 text-summer-teal rounded">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </header>
+
+    <!-- Content - Note style (more compact) -->
+    <article class="fade-in fade-in-delay-2 prose-note">
+      <Content />
+    </article>
+
+    <!-- Adjacent Notes Navigation -->
+    {(prevNote || nextNote) && (
+      <nav class="mt-10 fade-in fade-in-delay-3 grid grid-cols-2 gap-4">
+        {prevNote ? (
+          <a
+            href={`/notes/${prevNote.slug}`}
+            class="group p-3 rounded-lg border border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 transition-all"
+          >
+            <span class="text-xs text-summer-text-secondary">← older</span>
+            <p class="text-sm text-summer-text group-hover:text-summer-accent transition-colors truncate">
+              {prevNote.data.title}
+            </p>
+          </a>
+        ) : <div />}
+        {nextNote ? (
+          <a
+            href={`/notes/${nextNote.slug}`}
+            class="group p-3 rounded-lg border border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 transition-all text-right"
+          >
+            <span class="text-xs text-summer-text-secondary">newer →</span>
+            <p class="text-sm text-summer-text group-hover:text-summer-accent transition-colors truncate">
+              {nextNote.data.title}
+            </p>
+          </a>
+        ) : <div />}
+      </nav>
+    )}
+
+    <!-- Footer Nav -->
+    <footer class="mt-10 fade-in fade-in-delay-3 border-t border-dotted border-summer-text/20 pt-8">
+      <div class="flex justify-between text-sm">
+        <a href="/notes" class="text-summer-text-secondary arrow-link">
+          <span class="arrow">←</span><span class="text">all notes</span>
+        </a>
+        <a href="/" class="text-summer-text-secondary arrow-link">
+          <span class="arrow">→</span><span class="text">home</span>
+        </a>
+      </div>
+    </footer>
+  </main>
+</BaseLayout>
+
+<style>
+  /* Note prose styling - more compact than blog, uses teal accent */
+  .prose-note {
+    color: #2a2a35;
+  }
+
+  .prose-note p {
+    font-size: 1rem;
+    line-height: 1.75;
+    margin-bottom: 0.75rem;
+  }
+
+  .prose-note h2 {
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #2a2a35;
+  }
+
+  .prose-note h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #2a2a35;
+  }
+
+  .prose-note a {
+    color: #e85a3c;
+    text-decoration: underline;
+    text-decoration-color: rgba(232, 90, 60, 0.3);
+    text-underline-offset: 2px;
+    transition: text-decoration-color 0.2s;
+  }
+
+  .prose-note a:hover {
+    text-decoration-color: #e85a3c;
+  }
+
+  .prose-note strong {
+    font-weight: 600;
+    color: #2a2a35;
+  }
+
+  .prose-note code:not(pre code) {
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    background: rgba(42, 42, 53, 0.05);
+    font-size: 0.875rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: #e85a3c;
+  }
+
+  .prose-note pre {
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    overflow-x: auto;
+    font-size: 0.875rem;
+    background: #2a2a35;
+    color: #e8e0d5;
+    margin: 1rem 0;
+  }
+
+  .prose-note pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+  }
+
+  .prose-note blockquote {
+    border-left: 2px solid rgba(74, 155, 160, 0.4);
+    padding-left: 0.75rem;
+    font-style: italic;
+    color: #6b6b7a;
+    margin: 1rem 0;
+  }
+
+  .prose-note ul {
+    list-style-type: disc;
+    padding-left: 1.25rem;
+    margin: 0.75rem 0;
+  }
+
+  .prose-note ul li {
+    margin: 0.25rem 0;
+  }
+
+  .prose-note ul li::marker {
+    color: #4a9ba0;
+  }
+
+  .prose-note ol {
+    list-style-type: decimal;
+    padding-left: 1.25rem;
+    margin: 0.75rem 0;
+  }
+
+  .prose-note ol li {
+    margin: 0.25rem 0;
+  }
+
+  .prose-note img {
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+  }
+
+  .prose-note hr {
+    border-color: rgba(42, 42, 53, 0.1);
+    margin: 1.5rem 0;
+  }
+</style>

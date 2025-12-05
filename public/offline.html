@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline | Isala Piyarisi</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #e8e0d5;
+      color: #2a2a35;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #e85a3c;
+    }
+    p {
+      color: #6b6b7a;
+      max-width: 400px;
+      line-height: 1.6;
+    }
+    .icon {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+    }
+    button {
+      margin-top: 2rem;
+      padding: 0.75rem 1.5rem;
+      background: #e85a3c;
+      color: #e8e0d5;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    button:hover {
+      background: #d14a2c;
+    }
+  </style>
+</head>
+<body>
+  <div class="icon">📡</div>
+  <h1>You're Offline</h1>
+  <p>It looks like you've lost your internet connection. Don't worry, the cached pages should still work!</p>
+  <button onclick="window.location.reload()">Try Again</button>
+</body>
+</html>
