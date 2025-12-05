@@ -1,0 +1,691 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-summer-bg: #e8e0d5;
+  --color-summer-text: #2a2a35;
+  --color-summer-text-secondary: #6b6b7a;
+  --color-summer-accent: #e85a3c;
+  --color-summer-accent-hover: #d14a2c;
+  --color-summer-golden: #d4a84b;
+  --color-summer-teal: #4a9ba0;
+
+  /* Font families */
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Max widths */
+  --max-width-content: 640px;
+}
+
+:root {
+  --scanline-color: rgba(0, 0, 0, 0.05);
+}
+
+body {
+  background-color: #e8e0d5;
+  color: #2a2a35;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(232, 224, 213, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(232, 90, 60, 0.4);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(232, 90, 60, 0.6);
+}
+
+/* Selection */
+::selection {
+  background: rgba(232, 90, 60, 0.2);
+  color: inherit;
+}
+
+/* Link Wiggly Underline Animation */
+.hover-underline {
+  position: relative;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  width: fit-content;
+}
+
+.hover-underline:hover {
+  color: #2d2218 !important;
+}
+
+.hover-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 4px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 4'%3E%3Cpath d='M0 3.5 Q5 0 10 3.5 T20 3.5' fill='none' stroke='%23e85a3c' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 12px 4px;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.4s ease-out;
+}
+
+.hover-underline:hover::after {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Arrow Link Animation */
+.arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  transition: font-style 0.2s ease;
+}
+
+.arrow-link .arrow {
+  display: inline-block;
+  transition: transform 0.25s ease-out;
+}
+
+.arrow-link .text {
+  text-decoration: none;
+  transition: text-decoration 0.2s ease;
+}
+
+.arrow-link:hover .arrow {
+  transform: translateX(3px);
+}
+
+.arrow-link:hover .text {
+  text-decoration: underline;
+  font-style: italic;
+}
+
+/* Section Heading Highlight */
+.section-heading {
+  position: relative;
+  display: inline-block;
+  transition: color 0.2s ease;
+  z-index: 1;
+}
+
+.section-heading::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -5%;
+  left: -8px;
+  width: calc(100% + 16px);
+  height: 110%;
+  background-color: #ffd4a3;
+  opacity: 0.2;
+  clip-path: polygon(2% 10%, 98% 5%, 100% 90%, 0% 95%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease-out;
+}
+
+section:hover .section-heading::before {
+  transform: scaleX(1);
+}
+
+section:hover .section-heading {
+  color: #e85a3c;
+}
+
+/* Fade In Animation */
+.fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-in-delay-1 { animation-delay: 0.1s; }
+.fade-in-delay-2 { animation-delay: 0.2s; }
+.fade-in-delay-3 { animation-delay: 0.3s; }
+.fade-in-delay-4 { animation-delay: 0.4s; }
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Easter Egg: Draggable Tiles */
+.now-grid {
+  position: relative;
+}
+
+.now-tile {
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.now-tile:active {
+  cursor: grabbing;
+}
+
+.now-tile.dragging {
+  position: fixed;
+  z-index: 1000;
+  cursor: grabbing;
+  transform: scale(1.05) rotate(2deg);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  opacity: 0.95;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  pointer-events: none;
+}
+
+.now-tile.placeholder {
+  border-style: dashed;
+  border-color: rgba(232, 90, 60, 0.3);
+  background: transparent;
+}
+
+.now-tile.placeholder > * {
+  visibility: hidden;
+}
+
+.now-grid.dragging-active .now-tile:not(.dragging):not(.placeholder) {
+  transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.now-grid.dragging-active .now-tile:not(.dragging) {
+  pointer-events: none;
+  background: transparent !important;
+  border-color: rgba(42, 42, 53, 0.05) !important;
+}
+
+/* Hint animation for draggable tiles */
+@keyframes tileHint {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px) rotate(-0.5deg); }
+  75% { transform: translateX(2px) rotate(0.5deg); }
+}
+
+.now-tile.hint {
+  animation: tileHint 0.3s ease-in-out 2;
+}
+
+/* Dog Easter Egg */
+.dog-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.dog-sprite {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/dog-bark.png");
+  background-size: 300% 100%;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+  transition: transform 0.1s ease;
+  display: none;
+}
+
+.dog-still {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.1s ease;
+}
+
+.dog-container.barking .dog-still {
+  display: none;
+}
+
+.dog-container.barking .dog-sprite {
+  display: block;
+  animation: dogBark 0.5s steps(1) 2;
+}
+
+@keyframes dogBark {
+  0% { background-position: 0% 0%; }
+  33% { background-position: 50% 0%; }
+  66% { background-position: 100% 0%; }
+  100% { background-position: 0% 0%; }
+}
+
+.woof {
+  position: absolute;
+  top: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #e85a3c;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  animation: woofPop 0.5s ease-out forwards;
+}
+
+.woof-left { left: -8px; }
+.woof-right { right: -8px; }
+
+@keyframes woofPop {
+  0% { opacity: 0; transform: translateY(0) scale(0.5); }
+  20% { opacity: 1; transform: translateY(-5px) scale(1.1); }
+  100% { opacity: 0; transform: translateY(-25px) scale(0.8); }
+}
+
+/* Quote Glitch Effect */
+@keyframes glitch {
+  0% { transform: translate(0); opacity: 1; }
+  10% { transform: translate(-2px, 1px); opacity: 0.8; }
+  20% { transform: translate(2px, -1px); opacity: 0.9; }
+  30% { transform: translate(-1px, 2px); opacity: 0.7; }
+  40% { transform: translate(1px, -2px); opacity: 0.8; }
+  50% { transform: translate(-2px, 1px); opacity: 0.6; }
+  60% { transform: translate(2px, 1px); opacity: 0.9; }
+  70% { transform: translate(-1px, -1px); opacity: 0.7; }
+  80% { transform: translate(1px, 2px); opacity: 0.8; }
+  90% { transform: translate(-2px, -2px); opacity: 0.9; }
+  100% { transform: translate(0); opacity: 1; }
+}
+
+#quote.glitching {
+  animation: glitch 0.5s ease-in-out;
+}
+
+/* Konami Code - VHS Effect */
+.vhs-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.vhs-overlay.active {
+  opacity: 1;
+}
+
+.vhs-overlay .scanlines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15) 0px,
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  animation: scanlineMove 0.1s linear infinite;
+}
+
+.vhs-overlay .noise {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.08;
+  animation: noiseMove 0.2s steps(10) infinite;
+}
+
+.vhs-overlay .color-shift {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 0, 0, 0.03) 0%,
+    rgba(0, 255, 0, 0.02) 50%,
+    rgba(0, 0, 255, 0.03) 100%
+  );
+  animation: colorShift 3s ease-in-out infinite;
+}
+
+@keyframes scanlineMove {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(2px); }
+}
+
+@keyframes noiseMove {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-1%, -1%); }
+  20% { transform: translate(1%, 1%); }
+  30% { transform: translate(-1%, 1%); }
+  40% { transform: translate(1%, -1%); }
+  50% { transform: translate(-1%, 0); }
+  60% { transform: translate(1%, 0); }
+  70% { transform: translate(0, 1%); }
+  80% { transform: translate(0, -1%); }
+  90% { transform: translate(1%, 1%); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes colorShift {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+}
+
+.konami-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: rgba(0, 0, 0, 0.9);
+  color: #e85a3c;
+  padding: 20px 40px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  border: 2px solid #e85a3c;
+  z-index: 10000;
+  opacity: 0;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.konami-message.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.konami-message .subtitle {
+  font-size: 10px;
+  color: #6b6b7a;
+  margin-top: 8px;
+  letter-spacing: 2px;
+}
+
+/* Name Click Easter Egg */
+.name-clickable {
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.name-clickable:hover {
+  color: #e85a3c;
+}
+
+@keyframes nameShake {
+  0%, 100% { transform: translateX(0); }
+  10% { transform: translateX(-4px) rotate(-1deg); }
+  20% { transform: translateX(4px) rotate(1deg); }
+  30% { transform: translateX(-4px) rotate(-1deg); }
+  40% { transform: translateX(4px) rotate(1deg); }
+  50% { transform: translateX(-2px) rotate(-0.5deg); }
+  60% { transform: translateX(2px) rotate(0.5deg); }
+  70% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+  90% { transform: translateX(-1px); }
+}
+
+.name-clickable.shaking {
+  animation: nameShake 0.6s ease-in-out;
+  color: #e85a3c;
+}
+
+.name-tooltip {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: #2a2a35;
+  color: #e8e0d5;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.name-tooltip.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Footer Easter Egg */
+.footer-text {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.footer-text:hover {
+  color: #e85a3c;
+}
+
+.footer-text.switching {
+  animation: footerSwitch 0.3s ease;
+}
+
+@keyframes footerSwitch {
+  0% { opacity: 1; transform: translateY(0); }
+  50% { opacity: 0; transform: translateY(-5px); }
+  51% { transform: translateY(5px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Konami Hint */
+.konami-hint {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  color: rgba(42, 42, 53, 0.2);
+  letter-spacing: 3px;
+  transition: all 0.3s ease;
+  cursor: default;
+  user-select: none;
+}
+
+.konami-hint:hover {
+  color: rgba(42, 42, 53, 0.4);
+}
+
+.konami-hint.hidden {
+  opacity: 0;
+}
+
+/* Space Invaders Mini Game */
+.game-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(232, 224, 213, 0.98);
+  z-index: 10001;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.game-overlay.active {
+  display: flex;
+}
+
+.game-container {
+  position: relative;
+  width: 400px;
+  height: 500px;
+  background: #2a2a35;
+  border: 3px solid #e85a3c;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(232, 90, 60, 0.3);
+}
+
+.game-header {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+  font-size: 12px;
+  color: #e8e0d5;
+  z-index: 10;
+}
+
+.game-score { color: #e85a3c; }
+.game-lives { color: #d4a84b; }
+
+.game-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.game-start-screen,
+.game-over-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(42, 42, 53, 0.95);
+  z-index: 20;
+}
+
+.game-start-screen.hidden,
+.game-over-screen.hidden {
+  display: none;
+}
+
+.game-title {
+  font-size: 24px;
+  color: #e85a3c;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.game-subtitle {
+  font-size: 12px;
+  color: #6b6b7a;
+  margin-bottom: 30px;
+}
+
+.game-instruction {
+  font-size: 14px;
+  color: #e8e0d5;
+  animation: blink 1s ease-in-out infinite;
+}
+
+.game-final-score {
+  font-size: 18px;
+  color: #d4a84b;
+  margin-bottom: 20px;
+}
+
+.game-high-score {
+  font-size: 12px;
+  color: #6b6b7a;
+  margin-bottom: 30px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.game-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: none;
+  border: none;
+  color: #6b6b7a;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: "JetBrains Mono", monospace;
+  transition: color 0.2s ease;
+}
+
+.game-close:hover {
+  color: #e85a3c;
+}
+
+.game-hint {
+  margin-top: 20px;
+  font-size: 10px;
+  color: rgba(42, 42, 53, 0.4);
+  letter-spacing: 2px;
+}
+
+/* Prose styles for blog/notes */
+.prose a {
+  color: #e85a3c;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.prose a:hover {
+  color: #d14a2c;
+  text-decoration: underline;
+}
+
+.prose code {
+  background: rgba(232, 90, 60, 0.1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+
+.prose pre {
+  background: #2a2a35 !important;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+}
+
+/* Blog specific styles */
+.blog-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Notes specific styles - more compact, twitter-like */
+.note-card {
+  border-left: 2px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.note-card:hover {
+  border-left-color: #e85a3c;
+}

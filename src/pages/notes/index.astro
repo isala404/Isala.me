@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const notes = (await getCollection('notes', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+function getYear(date: Date): number {
+  return date.getFullYear();
+}
+
+// Group notes by year
+const notesByYear = notes.reduce((acc, note) => {
+  const year = getYear(note.data.publishedAt);
+  if (!acc[year]) acc[year] = [];
+  acc[year].push(note);
+  return acc;
+}, {} as Record<number, typeof notes>);
+
+const years = Object.keys(notesByYear).map(Number).sort((a, b) => b - a);
+---
+
+<BaseLayout title="Notes | Isala Piyarisi" description="Quick thoughts, TILs, and micro-posts about tech and engineering.">
+  <main class="max-w-content mx-auto px-6 py-16 md:py-24 relative z-10">
+    <!-- Header -->
+    <header class="mb-12 fade-in fade-in-delay-1">
+      <a href="/" class="text-sm text-summer-text-secondary arrow-link mb-6 inline-block">
+        <span class="arrow">←</span><span class="text">back home</span>
+      </a>
+      <h1 class="text-3xl md:text-4xl font-semibold text-summer-text mb-4 tracking-tight">
+        Notes
+      </h1>
+      <p class="text-base text-summer-text-secondary">
+        Quick thoughts, TILs, and things I want to remember
+      </p>
+    </header>
+
+    <!-- Notes List - Card Style -->
+    <section class="fade-in fade-in-delay-2">
+      {notes.length === 0 ? (
+        <p class="text-summer-text-secondary">No notes yet. Check back soon!</p>
+      ) : (
+        <div class="space-y-10">
+          {years.map((year) => (
+            <div>
+              <h2 class="text-sm font-mono text-summer-text-secondary mb-4 sticky top-4 bg-summer-bg py-1">
+                {year}
+              </h2>
+              <div class="grid gap-3">
+                {notesByYear[year].map((note) => (
+                  <a
+                    href={`/notes/${note.slug}`}
+                    class="group block p-4 rounded-lg border border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 transition-all"
+                  >
+                    <div class="flex justify-between items-start gap-4 mb-2">
+                      <h3 class="font-medium text-summer-text group-hover:text-summer-accent transition-colors">
+                        {note.data.title}
+                      </h3>
+                      <span class="text-xs text-summer-text-secondary font-mono shrink-0">
+                        {formatDate(note.data.publishedAt)}
+                      </span>
+                    </div>
+                    {note.data.tags && note.data.tags.length > 0 && (
+                      <div class="flex flex-wrap gap-1.5">
+                        {note.data.tags.map((tag) => (
+                          <span class="px-1.5 py-0.5 text-xs bg-summer-teal/10 text-summer-teal rounded">
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+
+    <!-- Footer Nav -->
+    <footer class="mt-12 fade-in fade-in-delay-3 border-t border-dotted border-summer-text/20 pt-8">
+      <div class="flex justify-between text-sm">
+        <a href="/blog" class="text-summer-text-secondary arrow-link">
+          <span class="arrow">→</span><span class="text">long-form writing</span>
+        </a>
+        <a href="/projects" class="text-summer-text-secondary arrow-link">
+          <span class="arrow">→</span><span class="text">projects</span>
+        </a>
+      </div>
+    </footer>
+  </main>
+</BaseLayout>

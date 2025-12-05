@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { projects } from '../data/profile';
+import { Github, ExternalLink, Star } from 'lucide-astro';
+---
+
+<BaseLayout title="Projects | Isala Piyarisi" description="Open source projects and side experiments in eBPF, Kubernetes, and beyond.">
+  <main class="max-w-content mx-auto px-6 py-16 md:py-24 relative z-10">
+    <!-- Header -->
+    <header class="mb-12 fade-in fade-in-delay-1">
+      <a href="/" class="text-sm text-summer-text-secondary arrow-link mb-6 inline-block">
+        <span class="arrow">←</span><span class="text">back home</span>
+      </a>
+      <h1 class="text-3xl md:text-4xl font-semibold text-summer-text mb-4 tracking-tight">
+        Projects
+      </h1>
+      <p class="text-base text-summer-text-secondary">
+        Things I've built, shipped, and occasionally abandoned
+      </p>
+    </header>
+
+    <!-- Projects Grid -->
+    <section class="fade-in fade-in-delay-2">
+      <div class="space-y-6">
+        {projects.map((project) => (
+          <article class="group p-5 rounded-lg border border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 transition-all">
+            <div class="flex justify-between items-start gap-4 mb-3">
+              <div class="flex-grow">
+                <div class="flex items-center gap-2 mb-1">
+                  <h2 class="font-medium text-summer-text group-hover:text-summer-accent transition-colors">
+                    {project.name}
+                  </h2>
+                  {project.publication && (
+                    <span class="px-1.5 py-0.5 text-xs bg-summer-golden/20 text-summer-golden rounded">
+                      {project.publication}
+                    </span>
+                  )}
+                </div>
+                <p class="text-sm text-summer-text-secondary leading-relaxed">
+                  {project.description}
+                </p>
+              </div>
+              {project.stars && (
+                <div class="flex items-center gap-1 text-summer-golden shrink-0">
+                  <Star class="w-3.5 h-3.5 fill-current" />
+                  <span class="text-sm">{project.stars}</span>
+                </div>
+              )}
+            </div>
+
+            <div class="flex items-center justify-between">
+              {project.tech && project.tech.length > 0 && (
+                <div class="flex flex-wrap gap-2">
+                  {project.tech.map((tech) => (
+                    <span class="px-2 py-0.5 text-xs bg-summer-text/5 text-summer-text-secondary rounded border border-summer-text/10">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {project.url && (
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex items-center gap-1 text-sm text-summer-accent hover:text-summer-accent-hover transition-colors shrink-0 ml-4"
+                >
+                  <Github class="w-4 h-4" />
+                  <span>View</span>
+                </a>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- More Projects CTA -->
+    <section class="mt-10 fade-in fade-in-delay-3 p-5 rounded-lg border border-dashed border-summer-text/20 text-center">
+      <p class="text-sm text-summer-text-secondary mb-3">
+        More experiments and half-baked ideas on GitHub
+      </p>
+      <a
+        href="https://github.com/Supiri"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 text-summer-accent hover:text-summer-accent-hover transition-colors"
+      >
+        <Github class="w-4 h-4" />
+        <span>@Supiri</span>
+        <ExternalLink class="w-3 h-3" />
+      </a>
+    </section>
+
+    <!-- Footer Nav -->
+    <footer class="mt-12 fade-in fade-in-delay-4 border-t border-dotted border-summer-text/20 pt-8">
+      <div class="flex justify-between text-sm">
+        <a href="/experience" class="text-summer-text-secondary arrow-link">
+          <span class="arrow">→</span><span class="text">experience</span>
+        </a>
+        <a href="/blog" class="text-summer-text-secondary arrow-link">
+          <span class="arrow">→</span><span class="text">writing</span>
+        </a>
+      </div>
+    </footer>
+  </main>
+</BaseLayout>

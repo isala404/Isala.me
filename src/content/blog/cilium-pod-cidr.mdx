@@ -1,0 +1,33 @@
+---
+title: "Learned it the hard way: Don't use Cilium's default Pod CIDR"
+description: "A networking issue that took 8 months to surface and the lessons learned from debugging Cilium in production."
+publishedAt: 2024-09-15
+tags: ["kubernetes", "cilium", "networking", "debugging"]
+readingTime: 5
+---
+
+Ever had a network issue that took 8 months to surface? That's exactly what happened to us at WSO2.
+
+## The Problem
+
+We migrated from Azure CNI to Cilium on a production cluster with over 10,000 pods. Everything seemed fine... until it wasn't.
+
+## What Went Wrong
+
+The default Pod CIDR in Cilium overlapped with internal services we hadn't documented. The issue manifested only when specific pod combinations tried to communicate.
+
+## The Debugging Journey
+
+Finding this issue involved:
+
+1. Packet captures across multiple nodes
+2. Deep diving into Cilium's eBPF maps
+3. Correlating sporadic connectivity failures
+
+## Lessons Learned
+
+- **Document your network ranges** - Even the ones you think are unused
+- **Test at scale** - Small test clusters won't catch every issue
+- **Monitor network metrics** - Packet drops can reveal hidden problems
+
+*Featured on [KubeFM Podcast](https://ku.bz/kJjXQlmTw)*

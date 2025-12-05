@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { experience } from '../data/profile';
+---
+
+<BaseLayout title="Experience | Isala Piyarisi" description="Professional experience spanning observability engineering, DevOps, and full-stack development.">
+  <main class="max-w-content mx-auto px-6 py-16 md:py-24 relative z-10">
+    <!-- Header -->
+    <header class="mb-12 fade-in fade-in-delay-1">
+      <a href="/" class="text-sm text-summer-text-secondary arrow-link mb-6 inline-block">
+        <span class="arrow">←</span><span class="text">back home</span>
+      </a>
+      <h1 class="text-3xl md:text-4xl font-semibold text-summer-text mb-4 tracking-tight">
+        Experience
+      </h1>
+      <p class="text-base text-summer-text-secondary">
+        Building infrastructure and observability systems since 2019
+      </p>
+    </header>
+
+    <!-- Experience Timeline -->
+    <section class="fade-in fade-in-delay-2">
+      <div class="space-y-12">
+        {experience.map((company, companyIdx) => (
+          <article class="relative">
+            <!-- Company Header -->
+            <div class="mb-6">
+              <h2 class="text-xl font-medium text-summer-text">{company.company}</h2>
+            </div>
+
+            <!-- Positions -->
+            <div class="space-y-6 border-l-2 border-summer-text/10 pl-6 ml-2">
+              {company.positions.map((position, posIdx) => (
+                <div class="relative">
+                  <!-- Timeline dot -->
+                  <div class="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-summer-bg border-2 border-summer-accent"></div>
+
+                  <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-1 mb-2">
+                    <div>
+                      <h3 class="font-medium text-summer-text">{position.title}</h3>
+                      <p class="text-sm text-summer-text-secondary">
+                        {position.type}
+                        {position.location && <span> · {position.location}</span>}
+                      </p>
+                    </div>
+                    <span class="text-sm text-summer-text-secondary font-mono shrink-0">
+                      {position.startDate} — {position.endDate === 'Present' ? 'now' : position.endDate}
+                    </span>
+                  </div>
+
+                  {position.description && (
+                    <p class="text-sm text-summer-text-secondary leading-relaxed mb-3">
+                      {position.description}
+                    </p>
+                  )}
+
+                  {position.link && (
+                    <a href={position.link} target="_blank" class="text-sm text-summer-accent hover:text-summer-accent-hover inline-flex items-center gap-1 mb-3">
+                      View project →
+                    </a>
+                  )}
+
+                  {position.skills && position.skills.length > 0 && (
+                    <div class="flex flex-wrap gap-2">
+                      {position.skills.map((skill) => (
+                        <span class="px-2 py-0.5 text-xs bg-summer-text/5 text-summer-text-secondary rounded border border-summer-text/10">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- Footer Nav -->
+    <footer class="mt-12 fade-in fade-in-delay-3 border-t border-dotted border-summer-text/20 pt-8">
+      <div class="flex justify-between text-sm">
+        <a href="/about" class="text-summer-text-secondary arrow-link">
+          <span class="arrow">→</span><span class="text">about me</span>
+        </a>
+        <a href="/projects" class="text-summer-text-secondary arrow-link">
+          <span class="arrow">→</span><span class="text">projects</span>
+        </a>
+      </div>
+    </footer>
+  </main>
+</BaseLayout>

@@ -1,0 +1,36 @@
+---
+title: "Getting Started on Kubernetes Observability with eBPF"
+description: "Explore how eBPF can supercharge observability within Kubernetes and learn how to implement a straightforward, end-to-end observability platform."
+publishedAt: 2022-08-25
+tags: ["kubernetes", "ebpf", "observability", "devops"]
+readingTime: 8
+---
+
+In this article, I discuss Linux eBPF (extended Berkeley Packet Filter) and its various capabilities that significantly enhance observability within Kubernetes.
+
+## What is eBPF?
+
+eBPF is a revolutionary technology that allows programs to run in the Linux kernel without changing kernel source code or loading kernel modules. This provides unprecedented visibility into system behavior.
+
+## Why eBPF for Observability?
+
+Traditional observability approaches require instrumenting applications with SDKs or agents. eBPF changes this by:
+
+- **Zero instrumentation** - Observe any application without code changes
+- **Low overhead** - Kernel-level efficiency
+- **Universal visibility** - Works with any programming language
+- **Deep insights** - Access to kernel-level metrics
+
+## Building an eBPF-based Observability Stack
+
+The key components you'll need:
+
+1. **Pixie** - Auto-instrumented observability for Kubernetes
+2. **Cilium** - eBPF-based networking and security
+3. **bpftrace** - High-level tracing language
+
+## Conclusion
+
+eBPF represents a paradigm shift in how we approach observability. By moving data collection to the kernel level, we achieve unprecedented visibility with minimal overhead.
+
+*Originally published on [Medium](https://medium.com/@isalapiyarisi/getting-started-on-kubernetes-observability-with-ebpf-88139eb13fb2)*

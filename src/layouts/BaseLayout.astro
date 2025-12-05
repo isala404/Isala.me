@@ -1,0 +1,153 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+}
+
+const {
+  title,
+  description = "Isala Piyarisi - Observability Engineer exploring Kubernetes, eBPF, and AI Infrastructure",
+  image = "/og-image.png",
+  type = "website",
+  publishedTime
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL(image, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="author" content="Isala Piyarisi" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImageURL} />
+    <meta property="og:site_name" content="Isala Piyarisi" />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={socialImageURL} />
+    <meta property="twitter:creator" content="@isala404" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#e8e0d5" />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Preload critical assets -->
+    <link rel="preload" href="/dog-still.png" as="image" />
+  </head>
+
+  <body class="antialiased font-sans">
+    <!-- VHS Overlay (Konami Code Easter Egg) -->
+    <div class="vhs-overlay" id="vhs-overlay">
+      <div class="scanlines"></div>
+      <div class="noise"></div>
+      <div class="color-shift"></div>
+    </div>
+    <div class="konami-message" id="konami-message">
+      Welcome Player
+      <div class="subtitle">↑↑↓↓←→←→BA</div>
+    </div>
+
+    <!-- Game Overlay -->
+    <div class="game-overlay" id="game-overlay">
+      <div class="game-container">
+        <button class="game-close" id="game-close">[ESC] close</button>
+        <div class="game-header">
+          <span class="game-score">SCORE: <span id="game-score">0</span></span>
+          <span class="game-lives">LIVES: <span id="game-lives">♥♥♥</span></span>
+        </div>
+        <canvas class="game-canvas" id="game-canvas"></canvas>
+        <div class="game-start-screen" id="game-start">
+          <div class="game-title">Bug Hunter</div>
+          <div class="game-subtitle">squash the bugs before they reach you</div>
+          <div class="game-instruction">[SPACE] to start</div>
+          <div class="game-subtitle" style="margin-top: 15px; margin-bottom: 0;">[A/D] move · [SPACE] shoot</div>
+        </div>
+        <div class="game-over-screen hidden" id="game-over">
+          <div class="game-title">Game Over</div>
+          <div class="game-final-score">SCORE: <span id="final-score">0</span></div>
+          <div class="game-high-score">HIGH SCORE: <span id="high-score">0</span></div>
+          <div class="game-instruction">[SPACE] to retry</div>
+        </div>
+      </div>
+      <div class="game-hint">[A] left · [D] right · [SPACE] shoot</div>
+    </div>
+
+    <slot />
+
+    <!-- Easter Eggs Script -->
+    <script is:inline src="/scripts/easter-eggs.js"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+          try {
+            const registration = await navigator.serviceWorker.register('/sw.js');
+
+            // Check for updates
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              if (newWorker) {
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // New content available, auto-refresh without popup
+                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                  }
+                });
+              }
+            });
+
+            // Reload page when new SW takes control
+            let refreshing = false;
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+              if (!refreshing) {
+                refreshing = true;
+                window.location.reload();
+              }
+            });
+          } catch (error) {
+            console.log('SW registration failed:', error);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
