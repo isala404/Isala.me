@@ -1,0 +1,58 @@
+---
+title: 'Proxyless Scale-to-Zero with eBPF'
+description: 'Exploring a proxyless approach to scale-to-zero in Kubernetes using eBPF, overcoming limitations of traditional proxy-based solutions like KEDA.'
+publishedAt: 2024-11-12
+tags: ['kubernetes', 'ebpf', 'scale-to-zero', 'keda']
+readingTime: 5
+---
+
+At WSO2, we run a PaaS called Choreo. From analyzing our usage data, we noticed that some customer workloads remain idle over 90% of the time—yet we still have to bill them for the associated resource usage. This led us to explore Scale-to-Zero.
+
+## What is Scale-to-Zero?
+
+The principle behind "Scale to Zero" aligns closely with what many cloud providers now offer through their "serverless" solutions. In serverless models, you deploy an app but only pay when it's actively in use. The magic behind this model lies in the ability to scale down services to zero resources when idle and then scale them back up when a request is made.
+
+## Starting with KEDA
+
+We decided to use KEDA as the control system, as it's widely regarded as the industry standard for Kubernetes event-driven autoscaling. However, as we built on top of it, we encountered some "inconveniences."
+
+### The Proxy Problem
+
+Because KEDA uses a proxy, every new request must go through it, which introduces:
+
+- **Additional latency** - Every request has an extra hop
+- **Single point of failure** - The proxy becomes critical infrastructure
+- **Complex inter-service communication** - Services within the cluster communicating via cluster IPs must ensure requests route through the KEDA proxy
+
+For example, if services within the cluster need to communicate via cluster IPs, they must ensure that requests are routed through the KEDA proxy rather than directly to the service. This adds complexity to the architecture.
+
+## Enter eBPF
+
+In recent years, eBPF has become the Swiss Army knife of technology. If you can dream it, there's a real possibility you can build it—at least as a proof of concept.
+
+After a few days of tinkering, I developed a system using eBPF that could potentially overcome these issues:
+
+1. **No proxy overhead** - Traffic flows directly to services
+2. **Kernel-level efficiency** - eBPF programs run with minimal overhead
+3. **Transparent interception** - No application changes required
+4. **Native cluster IP support** - Works with standard Kubernetes networking
+
+## The Approach
+
+The eBPF-based solution intercepts network traffic at the kernel level, allowing us to:
+
+- Detect incoming requests to scaled-down services
+- Trigger scale-up events without a proxy
+- Route traffic directly once pods are ready
+
+This eliminates the proxy from the data path while maintaining the ability to wake up scaled-to-zero workloads.
+
+## KubeCon and Beyond
+
+I was originally invited to present this talk at KubeCon NA 2024 during the Cilium + eBPF Day. Unfortunately, my visa application to the U.S. was denied. I was eager to meet people who are building tools I use daily, but things were out of my control.
+
+## What's Next
+
+As a next step, I'm exploring the potential benefits of integrating this with a solution like Cilium CNI or KEDA itself. The goal is to provide a production-ready, proxyless scale-to-zero solution for the Kubernetes ecosystem.
+
+_Originally published on [Medium](https://medium.com/@isalapiyarisi/proxyless-scale-to-zero-with-ebpf-61efc6917310)_
