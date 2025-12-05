@@ -1,0 +1,97 @@
+---
+// This component provides client-side search for blog posts
+interface Props {
+  posts: {
+    slug: string;
+    title: string;
+    description: string;
+    tags: string[];
+    publishedAt: string;
+    readingTime: number;
+  }[];
+}
+
+const { posts } = Astro.props;
+const postsJson = JSON.stringify(posts);
+---
+
+<div class="blog-search mb-8">
+  <div class="relative">
+    <input
+      type="text"
+      id="blog-search-input"
+      placeholder="Search posts..."
+      class="bg-summer-text/5 border-summer-text/10 text-summer-text placeholder:text-summer-text-secondary/50 focus:border-summer-accent/30 focus:ring-summer-accent/20 w-full rounded-lg border px-4 py-2.5 text-sm outline-none transition-colors focus:ring-2"
+      data-posts={postsJson}
+    />
+    <svg
+      class="text-summer-text-secondary/50 pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+    </svg>
+  </div>
+  <p id="search-results-count" class="text-summer-text-secondary mt-2 hidden text-xs"></p>
+</div>
+
+<script>
+  function initSearch() {
+    const searchInput = document.getElementById('blog-search-input') as HTMLInputElement;
+    const resultsCount = document.getElementById('search-results-count');
+    const postsContainer = document.querySelector('[data-posts-container]');
+
+    if (!searchInput || !postsContainer || !resultsCount) return;
+
+    // Get posts data from the input's data attribute
+    const postsData = searchInput.dataset.posts;
+    if (!postsData) return;
+
+    const posts = JSON.parse(postsData);
+    const allArticles = postsContainer.querySelectorAll('article');
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase().trim();
+
+      if (!query) {
+        // Reset to show all posts
+        allArticles.forEach((article) => {
+          (article as HTMLElement).style.display = '';
+        });
+        resultsCount.classList.add('hidden');
+        return;
+      }
+
+      let visibleCount = 0;
+
+      allArticles.forEach((article) => {
+        const slug = (article as HTMLElement).dataset.slug || '';
+        const post = posts.find((p: { slug: string }) => p.slug === slug);
+
+        if (post) {
+          const searchText =
+            `${post.title} ${post.description} ${post.tags.join(' ')}`.toLowerCase();
+          const isMatch = searchText.includes(query);
+
+          (article as HTMLElement).style.display = isMatch ? '' : 'none';
+          if (isMatch) visibleCount++;
+        }
+      });
+
+      // Update results count
+      resultsCount.textContent = `${visibleCount} post${visibleCount !== 1 ? 's' : ''} found`;
+      resultsCount.classList.remove('hidden');
+    });
+  }
+
+  // Run on initial load
+  initSearch();
+
+  // Re-run on Astro page transitions
+  document.addEventListener('astro:page-load', initSearch);
+</script>

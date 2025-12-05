@@ -1,10 +1,21 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogSearch from '../../components/BlogSearch.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
 );
+
+// Prepare posts data for search
+const searchablePosts = posts.map((post) => ({
+  slug: post.slug,
+  title: post.data.title,
+  description: post.data.description,
+  tags: post.data.tags || [],
+  publishedAt: post.data.publishedAt.toISOString(),
+  readingTime: post.data.readingTime || 5,
+}));
 
 // Get all unique tags with counts
 const tagCounts = posts.reduce(
@@ -41,6 +52,11 @@ function formatDate(date: Date): string {
       </p>
     </header>
 
+    <!-- Search -->
+    <div class="fade-in fade-in-delay-1">
+      <BlogSearch posts={searchablePosts} />
+    </div>
+
     <!-- Tags Filter -->
     {
       allTags.length > 0 && (
@@ -66,9 +82,12 @@ function formatDate(date: Date): string {
         posts.length === 0 ? (
           <p class="text-summer-text-secondary">No posts yet. Check back soon!</p>
         ) : (
-          <div class="space-y-8">
+          <div class="space-y-8" data-posts-container>
             {posts.map((post) => (
-              <article class="group border-summer-text/10 border-b border-dotted pb-8 last:border-0">
+              <article
+                class="group border-summer-text/10 border-b border-dotted pb-8 last:border-0"
+                data-slug={post.slug}
+              >
                 <div class="mb-2 flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
                   <a
                     href={`/blog/${post.slug}`}
