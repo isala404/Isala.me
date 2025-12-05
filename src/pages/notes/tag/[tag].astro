@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes', ({ data }) => !data.draft);
+
+  // Get all unique tags
+  const allTags = [...new Set(notes.flatMap((note) => note.data.tags || []))];
+
+  return allTags.map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      notes: notes
+        .filter((note) => note.data.tags?.includes(tag))
+        .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()),
+    },
+  }));
+}
+
+const { tag, notes } = Astro.props;
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+---
+
+<BaseLayout
+  title={`Notes tagged "${tag}" | Isala Piyarisi`}
+  description={`All notes tagged with ${tag}`}
+>
+  <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
+    <!-- Header -->
+    <header class="fade-in fade-in-delay-1 mb-12">
+      <a href="/notes" class="text-summer-text-secondary arrow-link mb-6 inline-block text-sm">
+        <span class="arrow">←</span><span class="text">all notes</span>
+      </a>
+      <h1 class="text-summer-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
+        Tagged: <span class="text-summer-teal">{tag}</span>
+      </h1>
+      <p class="text-summer-text-secondary text-base">
+        {notes.length} note{notes.length !== 1 ? 's' : ''} found
+      </p>
+    </header>
+
+    <!-- Notes List -->
+    <section class="fade-in fade-in-delay-2">
+      {
+        notes.length === 0 ? (
+          <p class="text-summer-text-secondary">No notes found with this tag.</p>
+        ) : (
+          <div class="grid gap-3">
+            {notes.map((note) => (
+              <a
+                href={`/notes/${note.slug}`}
+                class="group border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 block rounded-lg border p-4 transition-all"
+              >
+                <div class="mb-2 flex items-start justify-between gap-4">
+                  <h3 class="text-summer-text group-hover:text-summer-accent font-medium transition-colors">
+                    {note.data.title}
+                  </h3>
+                  <span class="text-summer-text-secondary shrink-0 font-mono text-xs">
+                    {formatDate(note.data.publishedAt)}
+                  </span>
+                </div>
+                {note.data.tags && note.data.tags.length > 0 && (
+                  <div class="flex flex-wrap gap-1.5">
+                    {note.data.tags.map((t) => (
+                      <span
+                        class:list={[
+                          'rounded px-1.5 py-0.5 text-xs',
+                          t === tag
+                            ? 'bg-summer-teal/20 text-summer-teal'
+                            : 'bg-summer-teal/10 text-summer-teal',
+                        ]}
+                      >
+                        #{t}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </section>
+  </main>
+</BaseLayout>

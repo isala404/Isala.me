@@ -54,9 +54,12 @@ const nextNote = currentIndex > 0 ? allNotes[currentIndex - 1] : null;
           note.data.tags && note.data.tags.length > 0 && (
             <div class="flex gap-1.5">
               {note.data.tags.map((tag) => (
-                <span class="bg-summer-teal/10 text-summer-teal rounded px-1.5 py-0.5 text-xs">
+                <a
+                  href={`/notes/tag/${tag}`}
+                  class="bg-summer-teal/10 text-summer-teal hover:bg-summer-teal/20 rounded px-1.5 py-0.5 text-xs transition-colors"
+                >
                   #{tag}
-                </span>
+                </a>
               ))}
             </div>
           )
