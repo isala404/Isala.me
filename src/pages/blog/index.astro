@@ -2,78 +2,70 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
+);
 
 function formatDate(date: Date): string {
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 ---
 
-<BaseLayout title="Writing | Isala Piyarisi" description="Thoughts on eBPF, Kubernetes, observability, and engineering adventures.">
-  <main class="max-w-content mx-auto px-6 py-16 md:py-24 relative z-10">
+<BaseLayout
+  title="Writing | Isala Piyarisi"
+  description="Thoughts on eBPF, Kubernetes, observability, and engineering adventures."
+>
+  <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Header -->
-    <header class="mb-12 fade-in fade-in-delay-1">
-      <a href="/" class="text-sm text-summer-text-secondary arrow-link mb-6 inline-block">
-        <span class="arrow">←</span><span class="text">back home</span>
-      </a>
-      <h1 class="text-3xl md:text-4xl font-semibold text-summer-text mb-4 tracking-tight">
+    <header class="fade-in fade-in-delay-1 mb-12">
+      <h1 class="text-summer-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
         Writing
       </h1>
-      <p class="text-base text-summer-text-secondary">
+      <p class="text-summer-text-secondary text-base">
         Long-form thoughts on engineering, infrastructure, and lessons learned the hard way
       </p>
     </header>
 
     <!-- Posts List -->
     <section class="fade-in fade-in-delay-2">
-      {posts.length === 0 ? (
-        <p class="text-summer-text-secondary">No posts yet. Check back soon!</p>
-      ) : (
-        <div class="space-y-8">
-          {posts.map((post) => (
-            <article class="group border-b border-dotted border-summer-text/10 pb-8 last:border-0">
-              <a href={`/blog/${post.slug}`} class="block">
-                <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-2">
-                  <h2 class="text-lg font-medium text-summer-text group-hover:text-summer-accent transition-colors">
-                    {post.data.title}
-                  </h2>
-                  <span class="text-sm text-summer-text-secondary font-mono shrink-0">
-                    {formatDate(post.data.publishedAt)}
-                  </span>
-                </div>
-                <p class="text-sm text-summer-text-secondary mb-3 leading-relaxed">
-                  {post.data.description}
-                </p>
-                <div class="flex items-center gap-4 text-xs text-summer-text-secondary">
-                  <span>{post.data.readingTime || 5} min read</span>
-                  {post.data.tags && post.data.tags.length > 0 && (
-                    <div class="flex gap-2">
-                      {post.data.tags.slice(0, 3).map((tag) => (
-                        <span class="px-2 py-0.5 bg-summer-text/5 rounded border border-summer-text/10">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </a>
-            </article>
-          ))}
-        </div>
-      )}
+      {
+        posts.length === 0 ? (
+          <p class="text-summer-text-secondary">No posts yet. Check back soon!</p>
+        ) : (
+          <div class="space-y-8">
+            {posts.map((post) => (
+              <article class="group border-summer-text/10 border-b border-dotted pb-8 last:border-0">
+                <a href={`/blog/${post.slug}`} class="block">
+                  <div class="mb-2 flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+                    <h2 class="text-summer-text group-hover:text-summer-accent text-lg font-medium transition-colors">
+                      {post.data.title}
+                    </h2>
+                    <span class="text-summer-text-secondary shrink-0 font-mono text-sm">
+                      {formatDate(post.data.publishedAt)}
+                    </span>
+                  </div>
+                  <p class="text-summer-text-secondary mb-3 text-sm leading-relaxed">
+                    {post.data.description}
+                  </p>
+                  <div class="text-summer-text-secondary flex items-center gap-4 text-xs">
+                    <span>{post.data.readingTime || 5} min read</span>
+                    {post.data.tags && post.data.tags.length > 0 && (
+                      <div class="flex gap-2">
+                        {post.data.tags.slice(0, 3).map((tag) => (
+                          <span class="bg-summer-text/5 border-summer-text/10 rounded border px-2 py-0.5">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </a>
+              </article>
+            ))}
+          </div>
+        )
+      }
     </section>
 
-    <!-- Footer Nav -->
-    <footer class="mt-12 fade-in fade-in-delay-3 border-t border-dotted border-summer-text/20 pt-8">
-      <div class="flex justify-between text-sm">
-        <a href="/notes" class="text-summer-text-secondary arrow-link">
-          <span class="arrow">→</span><span class="text">quick notes</span>
-        </a>
-        <a href="/projects" class="text-summer-text-secondary arrow-link">
-          <span class="arrow">→</span><span class="text">projects</span>
-        </a>
-      </div>
-    </footer>
   </main>
 </BaseLayout>

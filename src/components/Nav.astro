@@ -1,0 +1,51 @@
+---
+const { pathname } = Astro.url;
+
+const links = [
+  { href: '/', label: 'home' },
+  { href: '/about', label: 'about' },
+  { href: '/experience', label: 'experience' },
+  { href: '/projects', label: 'projects' },
+  { href: '/blog', label: 'blog' },
+  { href: '/notes', label: 'notes' },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/') {
+    return pathname === '/';
+  }
+  return pathname.startsWith(href);
+}
+---
+
+<nav class="fade-in relative z-20 mb-8 pt-6 md:pt-8">
+  <div class="max-w-content mx-auto px-6">
+    <div class="flex items-center justify-between">
+      <a
+        href="/"
+        class="text-summer-text hover:text-summer-accent font-medium transition-colors"
+      >
+        isala.me
+      </a>
+      <ul class="flex items-center gap-1 md:gap-2">
+        {
+          links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class:list={[
+                  'px-2 py-1 text-sm transition-colors rounded',
+                  isActive(link.href)
+                    ? 'text-summer-accent'
+                    : 'text-summer-text-secondary hover:text-summer-text',
+                ]}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</nav>

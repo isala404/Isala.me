@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   /* Colors */
@@ -67,7 +67,7 @@ body {
 }
 
 .hover-underline::after {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   right: 0;
@@ -121,7 +121,7 @@ body {
 }
 
 .section-heading::before {
-  content: "";
+  content: '';
   position: absolute;
   z-index: -1;
   top: -5%;
@@ -151,10 +151,18 @@ section:hover .section-heading {
   transform: translateY(10px);
 }
 
-.fade-in-delay-1 { animation-delay: 0.1s; }
-.fade-in-delay-2 { animation-delay: 0.2s; }
-.fade-in-delay-3 { animation-delay: 0.3s; }
-.fade-in-delay-4 { animation-delay: 0.4s; }
+.fade-in-delay-1 {
+  animation-delay: 0.1s;
+}
+.fade-in-delay-2 {
+  animation-delay: 0.2s;
+}
+.fade-in-delay-3 {
+  animation-delay: 0.3s;
+}
+.fade-in-delay-4 {
+  animation-delay: 0.4s;
+}
 
 @keyframes fadeIn {
   to {
@@ -172,7 +180,10 @@ section:hover .section-heading {
   cursor: grab;
   user-select: none;
   touch-action: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .now-tile:active {
@@ -186,7 +197,9 @@ section:hover .section-heading {
   transform: scale(1.05) rotate(2deg);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   opacity: 0.95;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease;
   pointer-events: none;
 }
 
@@ -212,9 +225,16 @@ section:hover .section-heading {
 
 /* Hint animation for draggable tiles */
 @keyframes tileHint {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-2px) rotate(-0.5deg); }
-  75% { transform: translateX(2px) rotate(0.5deg); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px) rotate(-0.5deg);
+  }
+  75% {
+    transform: translateX(2px) rotate(0.5deg);
+  }
 }
 
 .now-tile.hint {
@@ -233,7 +253,7 @@ section:hover .section-heading {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("/dog-bark.png");
+  background-image: url('/dog-bark.png');
   background-size: 300% 100%;
   background-position: 0% 0%;
   background-repeat: no-repeat;
@@ -257,10 +277,18 @@ section:hover .section-heading {
 }
 
 @keyframes dogBark {
-  0% { background-position: 0% 0%; }
-  33% { background-position: 50% 0%; }
-  66% { background-position: 100% 0%; }
-  100% { background-position: 0% 0%; }
+  0% {
+    background-position: 0% 0%;
+  }
+  33% {
+    background-position: 50% 0%;
+  }
+  66% {
+    background-position: 100% 0%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
 }
 
 .woof {
@@ -275,28 +303,74 @@ section:hover .section-heading {
   animation: woofPop 0.5s ease-out forwards;
 }
 
-.woof-left { left: -8px; }
-.woof-right { right: -8px; }
+.woof-left {
+  left: -8px;
+}
+.woof-right {
+  right: -8px;
+}
 
 @keyframes woofPop {
-  0% { opacity: 0; transform: translateY(0) scale(0.5); }
-  20% { opacity: 1; transform: translateY(-5px) scale(1.1); }
-  100% { opacity: 0; transform: translateY(-25px) scale(0.8); }
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.5);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-25px) scale(0.8);
+  }
 }
 
 /* Quote Glitch Effect */
 @keyframes glitch {
-  0% { transform: translate(0); opacity: 1; }
-  10% { transform: translate(-2px, 1px); opacity: 0.8; }
-  20% { transform: translate(2px, -1px); opacity: 0.9; }
-  30% { transform: translate(-1px, 2px); opacity: 0.7; }
-  40% { transform: translate(1px, -2px); opacity: 0.8; }
-  50% { transform: translate(-2px, 1px); opacity: 0.6; }
-  60% { transform: translate(2px, 1px); opacity: 0.9; }
-  70% { transform: translate(-1px, -1px); opacity: 0.7; }
-  80% { transform: translate(1px, 2px); opacity: 0.8; }
-  90% { transform: translate(-2px, -2px); opacity: 0.9; }
-  100% { transform: translate(0); opacity: 1; }
+  0% {
+    transform: translate(0);
+    opacity: 1;
+  }
+  10% {
+    transform: translate(-2px, 1px);
+    opacity: 0.8;
+  }
+  20% {
+    transform: translate(2px, -1px);
+    opacity: 0.9;
+  }
+  30% {
+    transform: translate(-1px, 2px);
+    opacity: 0.7;
+  }
+  40% {
+    transform: translate(1px, -2px);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-2px, 1px);
+    opacity: 0.6;
+  }
+  60% {
+    transform: translate(2px, 1px);
+    opacity: 0.9;
+  }
+  70% {
+    transform: translate(-1px, -1px);
+    opacity: 0.7;
+  }
+  80% {
+    transform: translate(1px, 2px);
+    opacity: 0.8;
+  }
+  90% {
+    transform: translate(-2px, -2px);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(0);
+    opacity: 1;
+  }
 }
 
 #quote.glitching {
@@ -363,27 +437,58 @@ section:hover .section-heading {
 }
 
 @keyframes scanlineMove {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(2px); }
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(2px);
+  }
 }
 
 @keyframes noiseMove {
-  0% { transform: translate(0, 0); }
-  10% { transform: translate(-1%, -1%); }
-  20% { transform: translate(1%, 1%); }
-  30% { transform: translate(-1%, 1%); }
-  40% { transform: translate(1%, -1%); }
-  50% { transform: translate(-1%, 0); }
-  60% { transform: translate(1%, 0); }
-  70% { transform: translate(0, 1%); }
-  80% { transform: translate(0, -1%); }
-  90% { transform: translate(1%, 1%); }
-  100% { transform: translate(0, 0); }
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-1%, -1%);
+  }
+  20% {
+    transform: translate(1%, 1%);
+  }
+  30% {
+    transform: translate(-1%, 1%);
+  }
+  40% {
+    transform: translate(1%, -1%);
+  }
+  50% {
+    transform: translate(-1%, 0);
+  }
+  60% {
+    transform: translate(1%, 0);
+  }
+  70% {
+    transform: translate(0, 1%);
+  }
+  80% {
+    transform: translate(0, -1%);
+  }
+  90% {
+    transform: translate(1%, 1%);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 @keyframes colorShift {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 0.8; }
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
 }
 
 .konami-message {
@@ -394,7 +499,7 @@ section:hover .section-heading {
   background: rgba(0, 0, 0, 0.9);
   color: #e85a3c;
   padding: 20px 40px;
-  font-family: "JetBrains Mono", monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 4px;
@@ -429,16 +534,37 @@ section:hover .section-heading {
 }
 
 @keyframes nameShake {
-  0%, 100% { transform: translateX(0); }
-  10% { transform: translateX(-4px) rotate(-1deg); }
-  20% { transform: translateX(4px) rotate(1deg); }
-  30% { transform: translateX(-4px) rotate(-1deg); }
-  40% { transform: translateX(4px) rotate(1deg); }
-  50% { transform: translateX(-2px) rotate(-0.5deg); }
-  60% { transform: translateX(2px) rotate(0.5deg); }
-  70% { transform: translateX(-2px); }
-  80% { transform: translateX(2px); }
-  90% { transform: translateX(-1px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10% {
+    transform: translateX(-4px) rotate(-1deg);
+  }
+  20% {
+    transform: translateX(4px) rotate(1deg);
+  }
+  30% {
+    transform: translateX(-4px) rotate(-1deg);
+  }
+  40% {
+    transform: translateX(4px) rotate(1deg);
+  }
+  50% {
+    transform: translateX(-2px) rotate(-0.5deg);
+  }
+  60% {
+    transform: translateX(2px) rotate(0.5deg);
+  }
+  70% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+  90% {
+    transform: translateX(-1px);
+  }
 }
 
 .name-clickable.shaking {
@@ -482,15 +608,26 @@ section:hover .section-heading {
 }
 
 @keyframes footerSwitch {
-  0% { opacity: 1; transform: translateY(0); }
-  50% { opacity: 0; transform: translateY(-5px); }
-  51% { transform: translateY(5px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  51% {
+    transform: translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Konami Hint */
 .konami-hint {
-  font-family: "JetBrains Mono", monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   color: rgba(42, 42, 53, 0.2);
   letter-spacing: 3px;
@@ -520,7 +657,7 @@ section:hover .section-heading {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: "JetBrains Mono", monospace;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .game-overlay.active {
@@ -551,8 +688,12 @@ section:hover .section-heading {
   z-index: 10;
 }
 
-.game-score { color: #e85a3c; }
-.game-lives { color: #d4a84b; }
+.game-score {
+  color: #e85a3c;
+}
+.game-lives {
+  color: #d4a84b;
+}
 
 .game-canvas {
   width: 100%;
@@ -612,8 +753,13 @@ section:hover .section-heading {
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
 
 .game-close {
@@ -625,7 +771,7 @@ section:hover .section-heading {
   color: #6b6b7a;
   font-size: 12px;
   cursor: pointer;
-  font-family: "JetBrains Mono", monospace;
+  font-family: 'JetBrains Mono', monospace;
   transition: color 0.2s ease;
 }
 
@@ -672,7 +818,9 @@ section:hover .section-heading {
 
 /* Blog specific styles */
 .blog-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .blog-card:hover {

@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Nav from '../components/Nav.astro';
 
 interface Props {
   title: string;
@@ -11,10 +12,10 @@ interface Props {
 
 const {
   title,
-  description = "Isala Piyarisi - Observability Engineer exploring Kubernetes, eBPF, and AI Infrastructure",
-  image = "/og-image.png",
-  type = "website",
-  publishedTime
+  description = 'Isala Piyarisi - Observability Engineer exploring Kubernetes, eBPF, and AI Infrastructure',
+  image = '/og-image.png',
+  type = 'website',
+  publishedTime,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -73,7 +74,7 @@ const socialImageURL = new URL(image, Astro.site);
     <link rel="preload" href="/dog-still.png" as="image" />
   </head>
 
-  <body class="antialiased font-sans">
+  <body class="font-sans antialiased">
     <!-- VHS Overlay (Konami Code Easter Egg) -->
     <div class="vhs-overlay" id="vhs-overlay">
       <div class="scanlines"></div>
@@ -98,7 +99,9 @@ const socialImageURL = new URL(image, Astro.site);
           <div class="game-title">Bug Hunter</div>
           <div class="game-subtitle">squash the bugs before they reach you</div>
           <div class="game-instruction">[SPACE] to start</div>
-          <div class="game-subtitle" style="margin-top: 15px; margin-bottom: 0;">[A/D] move · [SPACE] shoot</div>
+          <div class="game-subtitle" style="margin-top: 15px; margin-bottom: 0;">
+            [A/D] move · [SPACE] shoot
+          </div>
         </div>
         <div class="game-over-screen hidden" id="game-over">
           <div class="game-title">Game Over</div>
@@ -109,6 +112,8 @@ const socialImageURL = new URL(image, Astro.site);
       </div>
       <div class="game-hint">[A] left · [D] right · [SPACE] shoot</div>
     </div>
+
+    <Nav />
 
     <slot />
 
