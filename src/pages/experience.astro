@@ -18,7 +18,7 @@ import { experience } from '../lib/profile';
         Experience
       </h1>
       <p class="text-summer-text-secondary text-base">
-        Building infrastructure and observability systems since 2019
+        Building infrastructure and systems since 2014
       </p>
     </header>
 
@@ -51,9 +51,14 @@ import { experience } from '../lib/profile';
                     </div>
 
                     {position.description && (
-                      <p class="text-summer-text-secondary mb-3 text-sm leading-relaxed">
-                        {position.description}
-                      </p>
+                      <ul class="text-summer-text-secondary mb-3 space-y-1 text-sm leading-relaxed">
+                        {position.description.split('\n').filter((line: string) => line.trim()).map((line: string) => (
+                          <li class="flex items-start gap-2">
+                            <span class="text-summer-accent mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-current" />
+                            <span>{line.trim().replace(/^[-•]\s*/, '')}</span>
+                          </li>
+                        ))}
+                      </ul>
                     )}
 
                     {position.link && (
