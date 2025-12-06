@@ -144,33 +144,6 @@ section:hover .section-heading {
   color: #e85a3c;
 }
 
-/* Fade In Animation */
-.fade-in {
-  animation: fadeIn 0.8s ease-out forwards;
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-.fade-in-delay-1 {
-  animation-delay: 0.1s;
-}
-.fade-in-delay-2 {
-  animation-delay: 0.2s;
-}
-.fade-in-delay-3 {
-  animation-delay: 0.3s;
-}
-.fade-in-delay-4 {
-  animation-delay: 0.4s;
-}
-
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* Easter Egg: Draggable Tiles */
 .now-grid {
   position: relative;
