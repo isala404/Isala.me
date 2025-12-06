@@ -1,0 +1,40 @@
+---
+title: 'My AGENTS.md: A Rulebook for AI Dev Agents'
+publishedAt: 2024-12-07
+tags: ['ai']
+featured: true
+---
+
+I've been using AI coding assistants more and more, and the biggest problem I kept running into was inconsistency. One day it writes clean code with proper error handling, the next day it's spaghetti. So I wrote a rulebook.
+
+My [AGENTS.md](https://github.com/isala404/dotfiles/blob/main/workflows/base/AGENTS.md) is basically a behavior contract for AI agents. It defines how they should plan, implement, and deliver code changes across all my projects.
+
+## The Core Idea
+
+The agent maintains two persistent files:
+- **PROGRESS.md** - tracks completed tasks with file changes and flags
+- **MEMORIES.md** - stores stack info, coding preferences, patterns, and domain context
+
+Every task follows a three-phase workflow:
+
+1. **Planning** - read memory, clarify scope, scan codebase, create a PLAN.md, seek approval before touching anything
+2. **Execution** - implement step-by-step with verification, make surgical changes only
+3. **Finalization** - get approval, update tracking files, delete PLAN.md, suggest commit message
+
+## The Coding Principles
+
+I extracted 12 universal rules that apply regardless of language or framework:
+
+- Design for unit testability through dependency injection
+- Write idiomatic code leveraging language features
+- Favor simplicity over cleverness (call it "Linus's good taste")
+- Single responsibility per function/class
+- Fail fast with explicit validation
+- Keep code short, immutable by default
+- Structured logging with context, not string interpolation
+
+## Why This Matters
+
+It's about consistency and predictability. The agent operates as a disciplined developer, not a code generator. No more god objects, no more premature abstractions, no more untestable mess.
+
+Feel free to fork it and adapt to your own workflow: [github.com/isala404/dotfiles/workflows/base/AGENTS.md](https://github.com/isala404/dotfiles/blob/main/workflows/base/AGENTS.md)

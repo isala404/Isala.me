@@ -807,3 +807,178 @@ section:hover .section-heading {
 .note-card:hover {
   border-left-color: #e85a3c;
 }
+
+/* Note prose styling - for MDX content in notes */
+.prose-note {
+  color: #2a2a35;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.prose-note > *:first-child {
+  margin-top: 0;
+}
+
+.prose-note > *:last-child {
+  margin-bottom: 0;
+}
+
+.prose-note p {
+  margin-bottom: 1rem;
+}
+
+.prose-note h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: #2a2a35;
+  letter-spacing: -0.01em;
+}
+
+.prose-note h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #2a2a35;
+}
+
+.prose-note a {
+  color: #4a9ba0;
+  text-decoration: underline;
+  text-decoration-color: rgba(74, 155, 160, 0.4);
+  text-underline-offset: 2px;
+  transition: all 0.2s ease;
+}
+
+.prose-note a:hover {
+  color: #3a8a8f;
+  text-decoration-color: #4a9ba0;
+}
+
+.prose-note strong {
+  font-weight: 600;
+  color: #2a2a35;
+}
+
+.prose-note code:not(pre code) {
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.375rem;
+  background: rgba(74, 155, 160, 0.1);
+  font-size: 0.875em;
+  font-family: 'JetBrains Mono', monospace;
+  color: #3a8a8f;
+}
+
+.prose-note pre {
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  background: #2a2a35;
+  color: #e8e0d5;
+  margin: 1.25rem 0;
+  border: 1px solid rgba(42, 42, 53, 0.1);
+}
+
+.prose-note pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+.prose-note blockquote {
+  border-left: 3px solid #4a9ba0;
+  margin: 1.25rem 0;
+  color: #6b6b7a;
+  font-style: italic;
+  background: rgba(74, 155, 160, 0.05);
+  padding: 0.75rem 1rem;
+  border-radius: 0 0.375rem 0.375rem 0;
+}
+
+.prose-note blockquote p {
+  margin-bottom: 0;
+}
+
+.prose-note ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.prose-note ul li {
+  margin: 0.375rem 0;
+  padding-left: 0.25rem;
+}
+
+.prose-note ul li::marker {
+  color: #4a9ba0;
+}
+
+.prose-note ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.prose-note ol li {
+  margin: 0.375rem 0;
+  padding-left: 0.25rem;
+}
+
+.prose-note ol li::marker {
+  color: #4a9ba0;
+  font-weight: 600;
+}
+
+/* Nested lists */
+.prose-note ul ul,
+.prose-note ol ul {
+  list-style-type: circle;
+  margin: 0.25rem 0;
+}
+
+.prose-note ul ol,
+.prose-note ol ol {
+  margin: 0.25rem 0;
+}
+
+.prose-note img {
+  border-radius: 0.5rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.prose-note hr {
+  border: none;
+  border-top: 1px solid rgba(42, 42, 53, 0.1);
+  margin: 2rem 0;
+}
+
+/* Tables */
+.prose-note table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0;
+  font-size: 0.9375rem;
+}
+
+.prose-note th {
+  background: rgba(74, 155, 160, 0.1);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 2px solid rgba(74, 155, 160, 0.3);
+}
+
+.prose-note td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid rgba(42, 42, 53, 0.1);
+}
+
+.prose-note tr:hover td {
+  background: rgba(74, 155, 160, 0.03);
+}

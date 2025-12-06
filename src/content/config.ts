@@ -9,6 +9,7 @@ const blog = defineCollection({
     updatedAt: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    featured: z.boolean().default(false),
     readingTime: z.number().optional(), // in minutes
     cover: z.string().optional(),
     externalUrl: z.string().optional(), // for external blog posts (e.g., Medium)
@@ -22,6 +23,7 @@ const notes = defineCollection({
     publishedAt: z.coerce.date(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    featured: z.boolean().default(false),
   }),
 });
 
@@ -99,6 +101,7 @@ const profileSchema = z.object({
       stars: z.number().optional(),
       tech: z.array(z.string()),
       publication: z.string().optional(),
+      featured: z.boolean().optional(),
     })
   ),
 
@@ -109,6 +112,7 @@ const profileSchema = z.object({
       event: z.string(),
       type: z.string(),
       link: z.string().optional(),
+      featured: z.boolean().optional(),
     })
   ),
 

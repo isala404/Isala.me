@@ -1,0 +1,30 @@
+---
+title: 'I Built a Chrome Extension to Declutter My Google Photos'
+publishedAt: 2024-12-01
+tags: ['ai', 'side-project']
+featured: true
+---
+
+Google kept showing me this 94% storage warning and I had two options: either pay for the 200GB plan or actually delete stuff I don't need.
+
+My problem is I take burst shots of everything because I'm paranoid about blinking and bad timing, but then I never go back and pick the good one so they just pile up. I had like 30k photos and most of them were basically useless backup shots.
+
+I had some time off work and realized I could either spend 2 days manually going through everything or spend my entire week off writing a program to do it for me, and as any sane developer would I went with option two :D
+
+![TopPics in action](/images/notes/toppics-demo.png)
+
+## How It Works
+
+It uses an AI model ([DinoV2](https://dinov2.metademolab.com/)) that runs in your browser (thanks to [WebGPUs](https://huggingface.co/blog/transformersjs-v3)) and groups similar looking photos together. Instead of scrolling through everything I can just see "here are the 25 photos from that dinner" and pick one good one and delete the rest.
+
+The grouping runs entirely on-device - no photos leave your browser. That was important to me because these are personal photos.
+
+## The Launch
+
+After clearing all the photos, I showed how it works to my girlfriend and she said I should publish it because her and some of her friends have the same problem, so here we are.
+
+**Try it out:** [TopPics on Chrome Web Store](https://chromewebstore.google.com/detail/toppics-smart-duplicate-r/bfldbbnccphgfbkgncakfphgipgdfibg)
+
+The grouping part is free if anyone wants to try it. I also launched it on Product Hunt and there's a discount code there if you want to try the auto select feature (gets you 5000 photos for free): [TopPics on Product Hunt](https://www.producthunt.com/products/toppics-declutter-your-google-photos)
+
+Happy to answer questions about how it works.
