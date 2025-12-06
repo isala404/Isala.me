@@ -1,24 +1,24 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { profile, education, certifications, speaking, publications } from '../data/profile';
+import { profileInfo as profile, education, certifications, speaking, publications } from '../lib/profile';
 ---
 
 <BaseLayout title="About | Isala Piyarisi" description={profile.longBio.slice(0, 160)}>
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Back Home -->
-    <a href="/" class="text-summer-text-secondary arrow-link fade-in mb-8 inline-block text-sm">
+    <a href="/" class="text-summer-text-secondary arrow-link mb-8 inline-block text-sm">
       <span class="arrow">←</span><span class="text">back home</span>
     </a>
 
     <!-- Header -->
-    <header class="fade-in fade-in-delay-1 mb-12">
+    <header class="mb-12">
       <h1 class="text-summer-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
         The Long Version
       </h1>
     </header>
 
     <!-- Bio Section -->
-    <section class="fade-in fade-in-delay-2 mb-12">
+    <section class="mb-12">
       <div class="prose prose-summer max-w-none">
         {
           profile.longBio
@@ -31,7 +31,7 @@ import { profile, education, certifications, speaking, publications } from '../d
     </section>
 
     <!-- Skills -->
-    <section class="fade-in fade-in-delay-2 mb-12">
+    <section class="mb-12">
       <div class="mb-6 flex items-center gap-4">
         <h2 class="text-summer-text section-heading text-lg font-medium">Top Skills</h2>
         <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
@@ -49,7 +49,7 @@ import { profile, education, certifications, speaking, publications } from '../d
     </section>
 
     <!-- Education -->
-    <section class="fade-in fade-in-delay-2 mb-12">
+    <section class="mb-12">
       <div class="mb-6 flex items-center gap-4">
         <h2 class="text-summer-text section-heading text-lg font-medium">Education</h2>
         <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
@@ -85,7 +85,7 @@ import { profile, education, certifications, speaking, publications } from '../d
     </section>
 
     <!-- Certifications -->
-    <section class="fade-in fade-in-delay-3 mb-12">
+    <section class="mb-12">
       <div class="mb-6 flex items-center gap-4">
         <h2 class="text-summer-text section-heading text-lg font-medium">Certifications</h2>
         <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
@@ -110,7 +110,7 @@ import { profile, education, certifications, speaking, publications } from '../d
     </section>
 
     <!-- Speaking -->
-    <section class="fade-in fade-in-delay-3 mb-12">
+    <section class="mb-12">
       <div class="mb-6 flex items-center gap-4">
         <h2 class="text-summer-text section-heading text-lg font-medium">Speaking</h2>
         <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
@@ -147,7 +147,7 @@ import { profile, education, certifications, speaking, publications } from '../d
     </section>
 
     <!-- Publications -->
-    <section class="fade-in fade-in-delay-4 mb-12">
+    <section class="mb-12">
       <div class="mb-6 flex items-center gap-4">
         <h2 class="text-summer-text section-heading text-lg font-medium">Publications</h2>
         <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">

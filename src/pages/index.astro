@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import { profile, experience, projects, nowTiles, quotes, footerJokes } from '../data/profile';
+import { profileInfo as profile, experience, projects, nowTiles, quotes, footerJokes } from '../lib/profile';
 import { Headphones, Coffee, Tv, Flame, Cpu, Laptop } from 'lucide-astro';
 
 const blogPosts = (await getCollection('blog', ({ data }) => !data.draft))
@@ -29,7 +29,7 @@ function formatDate(date: Date): string {
 <BaseLayout title="Isala Piyarisi | Observability Engineer & eBPF Enthusiast">
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Hero Section -->
-    <header class="fade-in fade-in-delay-1 mb-12">
+    <header class="mb-12">
       <div class="flex items-start justify-between gap-4">
         <div>
           <h1
@@ -80,7 +80,7 @@ function formatDate(date: Date): string {
     </header>
 
     <!-- Now Grid -->
-    <section class="fade-in fade-in-delay-2 mb-12">
+    <section class="mb-12">
       <div class="now-grid grid grid-cols-2 gap-3 md:grid-cols-3">
         {
           nowTiles.map((tile) => {
@@ -109,7 +109,7 @@ function formatDate(date: Date): string {
     </section>
 
     <!-- Experience Section -->
-    <section class="fade-in fade-in-delay-2 mb-10">
+    <section class="mb-10">
       <div class="mb-6 flex items-center gap-4">
         <h2 class="text-summer-text section-heading text-lg font-medium">Experience</h2>
         <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
@@ -141,7 +141,7 @@ function formatDate(date: Date): string {
     </section>
 
     <!-- Writing Section -->
-    <section class="fade-in fade-in-delay-2 mb-10">
+    <section class="mb-10">
       <div class="mb-6 flex items-center gap-4">
         <h2 class="text-summer-text section-heading text-lg font-medium">Writing</h2>
         <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
@@ -173,7 +173,7 @@ function formatDate(date: Date): string {
     <!-- Quote -->
     <blockquote
       id="quote"
-      class="fade-in fade-in-delay-3 border-summer-accent/40 mb-10 border-l-2 pl-4 text-sm"
+      class="border-summer-accent/40 mb-10 border-l-2 pl-4 text-sm"
     >
       <p id="quote-text" class="text-summer-text-secondary italic">
         "{quotes[0].text}"
@@ -184,7 +184,7 @@ function formatDate(date: Date): string {
     </blockquote>
 
     <!-- Projects Section -->
-    <section class="fade-in fade-in-delay-3 mb-10">
+    <section class="mb-10">
       <div class="mb-6 flex items-center gap-4">
         <h2 class="text-summer-text section-heading text-lg font-medium">Projects</h2>
         <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
@@ -221,7 +221,7 @@ function formatDate(date: Date): string {
     </section>
 
     <!-- Notes Section -->
-    <section class="fade-in fade-in-delay-4 mb-10">
+    <section class="mb-10">
       <div class="mb-6 flex items-center gap-4">
         <h2 class="text-summer-text section-heading text-lg font-medium">Notes</h2>
         <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
@@ -251,7 +251,7 @@ function formatDate(date: Date): string {
     </section>
 
     <!-- GitHub Activity -->
-    <section class="fade-in fade-in-delay-4 mb-10">
+    <section class="mb-10">
       <div class="mb-6 flex items-center gap-4">
         <h2 class="text-summer-text section-heading text-lg font-medium">Activity</h2>
         <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
@@ -274,7 +274,7 @@ function formatDate(date: Date): string {
 
     <!-- Footer -->
     <footer
-      class="text-summer-text-secondary fade-in fade-in-delay-4 border-summer-text/20 border-t border-dotted pt-8 text-center text-sm"
+      class="text-summer-text-secondary border-summer-text/20 border-t border-dotted pt-8 text-center text-sm"
     >
       <p id="footer-text" class="footer-text">
         {footerJokes[0]}

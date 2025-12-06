@@ -1,0 +1,161 @@
+import matter from 'gray-matter';
+import type { Profile } from '../content/config';
+// @ts-ignore - Vite raw import
+import profileRawContent from '../content/index.mdx?raw';
+
+// Parse the profile MDX file
+const { data, content } = matter(profileRawContent);
+
+// Export typed profile data
+export const profile = data as Profile;
+
+// Export the markdown content (for LLM endpoint)
+export const profileContent = content;
+
+// Export the raw file contents (frontmatter + content)
+export const profileRaw = profileRawContent;
+
+// Convenience exports matching the old profile.ts structure
+export const {
+  name,
+  title,
+  tagline,
+  location,
+  contact,
+  bio,
+  longBio,
+  topSkills,
+  experience,
+  education,
+  certifications,
+  projects,
+  speaking,
+  publications,
+  now: nowTiles,
+  quotes,
+  footerJokes,
+} = profile;
+
+// Re-export with old variable names for backwards compatibility
+export const profileInfo = {
+  name: profile.name,
+  title: profile.title,
+  tagline: profile.tagline,
+  location: profile.location,
+  email: profile.contact.email,
+  github: profile.contact.github,
+  twitter: profile.contact.twitter,
+  linkedin: profile.contact.linkedin,
+  bio: profile.bio,
+  longBio: profile.longBio,
+  topSkills: profile.topSkills,
+};
+
+// Generate LLM-readable text from structured data
+export function generateLLMText(): string {
+  const p = profile;
+  const lines: string[] = [];
+
+  // Header
+  lines.push(`# ${p.name}`);
+  lines.push('');
+  lines.push(`**${p.title}** based in ${p.location}`);
+  lines.push(`${p.tagline}`);
+  lines.push('');
+
+  // Contact
+  lines.push('## Contact');
+  lines.push(`- Email: ${p.contact.email}`);
+  lines.push(`- GitHub: ${p.contact.github}`);
+  lines.push(`- Twitter: ${p.contact.twitter}`);
+  lines.push(`- LinkedIn: ${p.contact.linkedin}`);
+  lines.push('');
+
+  // Bio
+  lines.push('## About');
+  lines.push(p.longBio.trim());
+  lines.push('');
+  lines.push(`**Top Skills:** ${p.topSkills.join(', ')}`);
+  lines.push('');
+
+  // Experience
+  lines.push('## Experience');
+  for (const company of p.experience) {
+    lines.push(`### ${company.company}`);
+    for (const pos of company.positions) {
+      lines.push(`**${pos.title}** (${pos.type}) | ${pos.startDate} - ${pos.endDate}`);
+      if (pos.location) lines.push(`Location: ${pos.location}`);
+      if (pos.description) lines.push(pos.description);
+      if (pos.skills?.length) lines.push(`Skills: ${pos.skills.join(', ')}`);
+      if (pos.link) lines.push(`Project: ${pos.link}`);
+      lines.push('');
+    }
+  }
+
+  // Education
+  lines.push('## Education');
+  for (const edu of p.education) {
+    lines.push(`### ${edu.institution}`);
+    lines.push(`**${edu.degree}** | ${edu.startDate} - ${edu.endDate}`);
+    lines.push(`${edu.grade} | ${edu.rank}`);
+    if (edu.highlights?.length) {
+      for (const h of edu.highlights) {
+        lines.push(`- ${h}`);
+      }
+    }
+    lines.push('');
+  }
+
+  // Certifications
+  lines.push('## Certifications');
+  for (const cert of p.certifications) {
+    lines.push(`- **${cert.name}** - ${cert.issuer} (${cert.date}, expires ${cert.expires})`);
+  }
+  lines.push('');
+
+  // Projects
+  lines.push('## Projects');
+  for (const proj of p.projects) {
+    lines.push(`### ${proj.name}`);
+    lines.push(proj.description);
+    if (proj.url) lines.push(`URL: ${proj.url}`);
+    lines.push(`Tech: ${proj.tech.join(', ')}`);
+    if (proj.stars) lines.push(`Stars: ${proj.stars}`);
+    if (proj.publication) lines.push(`Publication: ${proj.publication}`);
+    lines.push('');
+  }
+
+  // Speaking
+  lines.push('## Speaking');
+  for (const talk of p.speaking) {
+    let line = `- **${talk.title}** - ${talk.event} (${talk.type})`;
+    if (talk.link) line += ` [Link](${talk.link})`;
+    lines.push(line);
+  }
+  lines.push('');
+
+  // Publications
+  lines.push('## Publications');
+  for (const pub of p.publications) {
+    lines.push(`- **${pub.title}** - ${pub.publisher}, ${pub.date} [Read](${pub.url})`);
+  }
+  lines.push('');
+
+  // Currently
+  lines.push('## Currently');
+  for (const item of p.now) {
+    let line = `- **${item.label}:** ${item.title}`;
+    if (item.subtitle) line += ` (${item.subtitle})`;
+    lines.push(line);
+  }
+  lines.push('');
+
+  // Quote
+  const visibleQuote = p.quotes.find((q) => !q.hidden);
+  if (visibleQuote) {
+    lines.push('---');
+    lines.push(`*"${visibleQuote.text}"* — ${visibleQuote.author}`);
+  }
+
+  return lines.join('\n');
+}

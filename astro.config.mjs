@@ -3,6 +3,19 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
+// Plugin to force full reload when profile MDX changes
+function profileHotReload() {
+  return {
+    name: 'profile-hot-reload',
+    handleHotUpdate({ file, server }) {
+      if (file.endsWith('src/content/index.mdx')) {
+        server.ws.send({ type: 'full-reload' });
+        return [];
+      }
+    },
+  };
+}
+
 export default defineConfig({
   site: 'https://isala.me',
   integrations: [
@@ -19,5 +32,6 @@ export default defineConfig({
     css: {
       postcss: './postcss.config.mjs',
     },
+    plugins: [profileHotReload()],
   },
 });

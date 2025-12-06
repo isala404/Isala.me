@@ -43,12 +43,12 @@ function formatDate(date: Date): string {
 >
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Back Home -->
-    <a href="/" class="text-summer-text-secondary arrow-link fade-in mb-8 inline-block text-sm">
+    <a href="/" class="text-summer-text-secondary arrow-link mb-8 inline-block text-sm">
       <span class="arrow">←</span><span class="text">back home</span>
     </a>
 
     <!-- Header -->
-    <header class="fade-in fade-in-delay-1 mb-8">
+    <header class="mb-8">
       <h1 class="text-summer-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
         Writing
       </h1>
@@ -58,14 +58,14 @@ function formatDate(date: Date): string {
     </header>
 
     <!-- Search -->
-    <div class="fade-in fade-in-delay-1">
+    <div>
       <BlogSearch posts={searchablePosts} />
     </div>
 
     <!-- Tags Filter -->
     {
       allTags.length > 0 && (
-        <section class="fade-in fade-in-delay-1 mb-10">
+        <section class="mb-10">
           <div class="flex flex-wrap gap-2">
             {allTags.map((tag) => (
               <a
@@ -82,7 +82,7 @@ function formatDate(date: Date): string {
     }
 
     <!-- Posts List -->
-    <section class="fade-in fade-in-delay-2">
+    <section>
       {
         posts.length === 0 ? (
           <p class="text-summer-text-secondary">No posts yet. Check back soon!</p>

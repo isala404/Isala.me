@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { experience } from '../data/profile';
+import { experience } from '../lib/profile';
 ---
 
 <BaseLayout
@@ -9,11 +9,11 @@ import { experience } from '../data/profile';
 >
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Back Home -->
-    <a href="/" class="text-summer-text-secondary arrow-link fade-in mb-8 inline-block text-sm">
+    <a href="/" class="text-summer-text-secondary arrow-link mb-8 inline-block text-sm">
       <span class="arrow">←</span><span class="text">back home</span>
     </a>
 
-    <header class="fade-in fade-in-delay-1 mb-12">
+    <header class="mb-12">
       <h1 class="text-summer-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
         Experience
       </h1>
@@ -22,7 +22,7 @@ import { experience } from '../data/profile';
       </p>
     </header>
 
-    <section class="fade-in fade-in-delay-2">
+    <section>
       <div class="space-y-12">
         {
           experience.map((company) => (

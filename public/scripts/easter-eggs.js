@@ -42,7 +42,7 @@
   if (!quote) return;
 
   setTimeout(() => {
-    quote.classList.remove("fade-in", "fade-in-delay-3");
+    
     quote.style.opacity = "1";
     quote.style.transform = "none";
   }, 1200);

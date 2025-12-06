@@ -20,6 +20,7 @@
     "@tailwindcss/postcss": "^4.1.17",
     "@tailwindcss/typography": "^0.5.19",
     "astro": "^5.16.4",
+    "gray-matter": "^4.0.3",
     "lucide-astro": "^0.556.0",
     "tailwindcss": "^4.1.17",
     "typescript": "^5.7.2"
