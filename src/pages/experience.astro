@@ -175,7 +175,13 @@ import {
           certifications.map((cert) => (
             <article class="flex items-start justify-between">
               <div>
-                <span class="text-summer-text">{cert.name}</span>
+                {cert.url ? (
+                  <a href={cert.url} target="_blank" class="text-summer-text hover-underline">
+                    {cert.name}
+                  </a>
+                ) : (
+                  <span class="text-summer-text">{cert.name}</span>
+                )}
                 <p class="text-summer-text-secondary text-sm">{cert.issuer}</p>
               </div>
               <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
