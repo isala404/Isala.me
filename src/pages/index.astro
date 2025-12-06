@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import { profileInfo as profile, experience, projects, nowTiles, quotes, footerJokes } from '../lib/profile';
+import { profileInfo as profile, experience, projects, nowTiles, quotes, footerJokes, speaking } from '../lib/profile';
 import { Headphones, Coffee, Tv, Flame, Cpu, Laptop } from 'lucide-astro';
 
 const blogPosts = (await getCollection('blog', ({ data }) => !data.draft))
@@ -118,7 +118,7 @@ function formatDate(date: Date): string {
 
       <div class="space-y-4">
         {
-          experience.slice(0, 2).map((exp) => (
+          experience.slice(0, 4).map((exp) => (
             <article class="group flex items-start justify-between">
               <div>
                 <span class="text-summer-text hover-underline block">{exp.positions[0].title}</span>
@@ -150,16 +150,24 @@ function formatDate(date: Date): string {
 
       <div class="space-y-4">
         {
-          blogPosts.map((post) => (
-            <article class="group flex items-baseline justify-between">
-              <a href={`/blog/${post.slug}`} class="hover-underline text-summer-text">
-                {post.data.title}
-              </a>
-              <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
-                {post.data.readingTime || 5} min
-              </span>
-            </article>
-          ))
+          blogPosts.map((post) => {
+            const postUrl = post.data.externalUrl || `/blog/${post.slug}`;
+            const isExternal = !!post.data.externalUrl;
+            return (
+              <article class="group flex items-baseline justify-between">
+                <a
+                  href={postUrl}
+                  target={isExternal ? '_blank' : undefined}
+                  class="hover-underline text-summer-text"
+                >
+                  {post.data.title}
+                </a>
+                <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
+                  {post.data.readingTime || 5} min
+                </span>
+              </article>
+            );
+          })
         }
 
         <div class="pt-2">
@@ -183,6 +191,43 @@ function formatDate(date: Date): string {
       </cite>
     </blockquote>
 
+    <!-- Talks Section -->
+    <section class="mb-10">
+      <div class="mb-6 flex items-center gap-4">
+        <h2 class="text-summer-text section-heading text-lg font-medium">Talks</h2>
+        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        {
+          speaking.slice(0, 3).map((talk) => (
+            <article class="group flex items-start justify-between">
+              <div>
+                {talk.link ? (
+                  <a href={talk.link} target="_blank" class="hover-underline text-summer-text block">
+                    {talk.title}
+                  </a>
+                ) : (
+                  <span class="text-summer-text">{talk.title}</span>
+                )}
+                <p class="text-summer-text-secondary text-sm">{talk.event}</p>
+              </div>
+              <span class="text-summer-accent bg-summer-accent/10 ml-4 shrink-0 rounded px-2 py-0.5 text-xs">
+                {talk.type.split(' ')[0]}
+              </span>
+            </article>
+          ))
+        }
+
+        <div class="pt-2">
+          <a href="/talks" class="text-summer-text-secondary arrow-link text-sm">
+            <span class="arrow">→</span><span class="text">all talks</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- Projects Section -->
     <section class="mb-10">
       <div class="mb-6 flex items-center gap-4">
@@ -198,7 +243,7 @@ function formatDate(date: Date): string {
               <div>
                 <a
                   href={project.url || '#'}
-                  class="text-summer-text hover-underline block font-medium"
+                  class="text-summer-text hover-underline inline font-medium"
                   target="_blank"
                 >
                   {project.name}
@@ -277,7 +322,7 @@ function formatDate(date: Date): string {
       class="text-summer-text-secondary border-summer-text/20 border-t border-dotted pt-8 text-center text-sm"
     >
       <p id="footer-text" class="footer-text">
-        {footerJokes[0]}
+        {footerJokes[Math.floor(Math.random() * footerJokes.length)]}
       </p>
       <p id="konami-hint" class="konami-hint mt-3">↑↑↓↓←→←→BA</p>
     </footer>

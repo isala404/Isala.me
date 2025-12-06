@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { speaking } from '../lib/profile';
+---
+
+<BaseLayout
+  title="Talks | Isala Piyarisi"
+  description="Conference talks, podcasts, and presentations on eBPF, Kubernetes, and observability."
+>
+  <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
+    <!-- Back Home -->
+    <a href="/" class="text-summer-text-secondary arrow-link mb-8 inline-block text-sm">
+      <span class="arrow">←</span><span class="text">back home</span>
+    </a>
+
+    <!-- Header -->
+    <header class="mb-12">
+      <h1 class="text-summer-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
+        Talks
+      </h1>
+      <p class="text-summer-text-secondary text-base">
+        Conference talks, podcasts, and presentations
+      </p>
+    </header>
+
+    <!-- Talks List -->
+    <section>
+      <div class="space-y-6">
+        {
+          speaking.map((talk) => (
+            <article class="group border-summer-text/10 border-b border-dotted pb-6 last:border-0">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  {talk.link ? (
+                    <a
+                      href={talk.link}
+                      target="_blank"
+                      class="text-summer-text hover:text-summer-accent text-lg font-medium transition-colors"
+                    >
+                      {talk.title}
+                    </a>
+                  ) : (
+                    <span class="text-summer-text text-lg font-medium">{talk.title}</span>
+                  )}
+                  <p class="text-summer-text-secondary mt-1 text-sm">{talk.event}</p>
+                </div>
+                <span class="text-summer-accent bg-summer-accent/10 shrink-0 rounded px-2 py-0.5 text-xs">
+                  {talk.type}
+                </span>
+              </div>
+              {talk.link && (
+                <a
+                  href={talk.link}
+                  target="_blank"
+                  class="text-summer-text-secondary arrow-link mt-3 inline-block text-sm"
+                >
+                  <span class="arrow">→</span><span class="text">watch / listen</span>
+                </a>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>

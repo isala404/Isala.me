@@ -28,33 +28,39 @@ import { Github, ExternalLink, Star } from 'lucide-astro';
     <section>
       <div class="space-y-6">
         {
-          projects.map((project) => (
-            <article class="group border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 rounded-lg border p-5 transition-all">
-              <div class="mb-3 flex items-start justify-between gap-4">
-                <div class="flex-grow">
-                  <div class="mb-1 flex items-center gap-2">
-                    <h2 class="text-summer-text group-hover:text-summer-accent font-medium transition-colors">
-                      {project.name}
-                    </h2>
-                    {project.publication && (
-                      <span class="bg-summer-golden/20 text-summer-golden rounded px-1.5 py-0.5 text-xs">
-                        {project.publication}
-                      </span>
-                    )}
+          projects.map((project) => {
+            const Tag = project.url ? 'a' : 'div';
+            return (
+              <Tag
+                href={project.url}
+                target={project.url ? '_blank' : undefined}
+                rel={project.url ? 'noopener noreferrer' : undefined}
+                class="group border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 block rounded-lg border p-5 transition-all"
+              >
+                <div class="mb-3 flex items-start justify-between gap-4">
+                  <div class="flex-grow">
+                    <div class="mb-1 flex items-center gap-2">
+                      <h2 class="text-summer-text group-hover:text-summer-accent font-medium transition-colors">
+                        {project.name}
+                      </h2>
+                      {project.publication && (
+                        <span class="bg-summer-golden/20 text-summer-golden rounded px-1.5 py-0.5 text-xs">
+                          {project.publication}
+                        </span>
+                      )}
+                    </div>
+                    <p class="text-summer-text-secondary text-sm leading-relaxed">
+                      {project.description}
+                    </p>
                   </div>
-                  <p class="text-summer-text-secondary text-sm leading-relaxed">
-                    {project.description}
-                  </p>
+                  {project.stars && (
+                    <div class="text-summer-golden flex shrink-0 items-center gap-1">
+                      <Star class="h-3.5 w-3.5 fill-current" />
+                      <span class="text-sm">{project.stars}</span>
+                    </div>
+                  )}
                 </div>
-                {project.stars && (
-                  <div class="text-summer-golden flex shrink-0 items-center gap-1">
-                    <Star class="h-3.5 w-3.5 fill-current" />
-                    <span class="text-sm">{project.stars}</span>
-                  </div>
-                )}
-              </div>
 
-              <div class="flex items-center justify-between">
                 {project.tech && project.tech.length > 0 && (
                   <div class="flex flex-wrap gap-2">
                     {project.tech.map((tech) => (
@@ -64,21 +70,9 @@ import { Github, ExternalLink, Star } from 'lucide-astro';
                     ))}
                   </div>
                 )}
-
-                {project.url && (
-                  <a
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-summer-accent hover:text-summer-accent-hover ml-4 flex shrink-0 items-center gap-1 text-sm transition-colors"
-                  >
-                    <Github class="h-4 w-4" />
-                    <span>View</span>
-                  </a>
-                )}
-              </div>
-            </article>
-          ))
+              </Tag>
+            );
+          })
         }
       </div>
     </section>

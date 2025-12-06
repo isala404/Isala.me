@@ -11,6 +11,7 @@ const blog = defineCollection({
     draft: z.boolean().default(false),
     readingTime: z.number().optional(), // in minutes
     cover: z.string().optional(),
+    externalUrl: z.string().optional(), // for external blog posts (e.g., Medium)
   }),
 });
 

@@ -1,6 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { experience } from '../lib/profile';
+import {
+  experience,
+  profileInfo as profile,
+  education,
+  certifications,
+  publications,
+} from '../lib/profile';
 ---
 
 <BaseLayout
@@ -22,13 +28,38 @@ import { experience } from '../lib/profile';
       </p>
     </header>
 
-    <section>
+    <!-- Skills -->
+    <section class="mb-12">
+      <div class="mb-6 flex items-center gap-4">
+        <h2 class="text-summer-text section-heading text-lg font-medium">Top Skills</h2>
+        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        {
+          profile.topSkills.map((skill) => (
+            <span class="bg-summer-text/5 text-summer-text-secondary border-summer-text/10 rounded-full border px-3 py-1 text-sm">
+              {skill}
+            </span>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Work Experience -->
+    <section class="mb-12">
+      <div class="mb-6 flex items-center gap-4">
+        <h2 class="text-summer-text section-heading text-lg font-medium">Work</h2>
+        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        </div>
+      </div>
+
       <div class="space-y-12">
         {
           experience.map((company) => (
             <article class="relative">
               <div class="mb-6">
-                <h2 class="text-summer-text text-xl font-medium">{company.company}</h2>
+                <h3 class="text-summer-text text-xl font-medium">{company.company}</h3>
               </div>
 
               <div class="border-summer-text/10 ml-2 space-y-6 border-l-2 pl-6">
@@ -38,7 +69,7 @@ import { experience } from '../lib/profile';
 
                     <div class="mb-2 flex flex-col gap-1 md:flex-row md:items-start md:justify-between">
                       <div>
-                        <h3 class="text-summer-text font-medium">{position.title}</h3>
+                        <h4 class="text-summer-text font-medium">{position.title}</h4>
                         <p class="text-summer-text-secondary text-sm">
                           {position.type}
                           {position.location && <span> · {position.location}</span>}
@@ -52,12 +83,15 @@ import { experience } from '../lib/profile';
 
                     {position.description && (
                       <ul class="text-summer-text-secondary mb-3 space-y-1 text-sm leading-relaxed">
-                        {position.description.split('\n').filter((line: string) => line.trim()).map((line: string) => (
-                          <li class="flex items-start gap-2">
-                            <span class="text-summer-accent mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-current" />
-                            <span>{line.trim().replace(/^[-•]\s*/, '')}</span>
-                          </li>
-                        ))}
+                        {position.description
+                          .split('\n')
+                          .filter((line: string) => line.trim())
+                          .map((line: string) => (
+                            <li class="flex items-start gap-2">
+                              <span class="text-summer-accent mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-current" />
+                              <span>{line.trim().replace(/^[-•]\s*/, '')}</span>
+                            </li>
+                          ))}
                       </ul>
                     )}
 
@@ -65,9 +99,10 @@ import { experience } from '../lib/profile';
                       <a
                         href={position.link}
                         target="_blank"
-                        class="text-summer-accent hover:text-summer-accent-hover mb-3 inline-flex items-center gap-1 text-sm"
+                        class="text-summer-text-secondary arrow-link mb-3 inline-block text-sm"
                       >
-                        View project →
+                        <span class="arrow">→</span>
+                        <span class="text">view project</span>
                       </a>
                     )}
 
@@ -89,5 +124,94 @@ import { experience } from '../lib/profile';
       </div>
     </section>
 
+    <!-- Education -->
+    <section class="mb-12">
+      <div class="mb-6 flex items-center gap-4">
+        <h2 class="text-summer-text section-heading text-lg font-medium">Education</h2>
+        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        </div>
+      </div>
+
+      {
+        education.map((edu) => (
+          <article class="mb-6">
+            <div class="mb-2 flex items-start justify-between">
+              <div>
+                <h3 class="text-summer-text font-medium">{edu.institution}</h3>
+                <p class="text-summer-text-secondary text-sm">{edu.degree}</p>
+              </div>
+              <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
+                {edu.startDate} — {edu.endDate}
+              </span>
+            </div>
+            {edu.grade && (
+              <p class="text-summer-golden mb-2 text-sm">
+                {edu.grade} · {edu.rank}
+              </p>
+            )}
+            <ul class="space-y-1">
+              {edu.highlights.map((highlight) => (
+                <li class="text-summer-text-secondary flex items-start gap-2 text-sm">
+                  <span class="text-summer-accent mt-1">·</span>
+                  <span>{highlight}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </section>
+
+    <!-- Certifications -->
+    <section class="mb-12">
+      <div class="mb-6 flex items-center gap-4">
+        <h2 class="text-summer-text section-heading text-lg font-medium">Certifications</h2>
+        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        {
+          certifications.map((cert) => (
+            <article class="flex items-start justify-between">
+              <div>
+                <span class="text-summer-text">{cert.name}</span>
+                <p class="text-summer-text-secondary text-sm">{cert.issuer}</p>
+              </div>
+              <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
+                {cert.date}
+              </span>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Publications -->
+    <section class="mb-12">
+      <div class="mb-6 flex items-center gap-4">
+        <h2 class="text-summer-text section-heading text-lg font-medium">Publications</h2>
+        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        {
+          publications.map((pub) => (
+            <article class="flex items-start justify-between">
+              <div>
+                <a href={pub.url} target="_blank" class="text-summer-text hover-underline block">
+                  {pub.title}
+                </a>
+                <p class="text-summer-text-secondary text-sm">{pub.publisher}</p>
+              </div>
+              <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
+                {pub.date}
+              </span>
+            </article>
+          ))
+        }
+      </div>
+    </section>
   </main>
 </BaseLayout>
