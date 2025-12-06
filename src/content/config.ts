@@ -76,8 +76,8 @@ const profileSchema = z.object({
       degree: z.string(),
       startDate: z.string(),
       endDate: z.string(),
-      grade: z.string(),
-      rank: z.string(),
+      grade: z.string().optional(),
+      rank: z.string().optional(),
       highlights: z.array(z.string()),
     })
   ),
@@ -89,6 +89,7 @@ const profileSchema = z.object({
       issuer: z.string(),
       date: z.string(),
       expires: z.string(),
+      url: z.string().optional(),
     })
   ),
 
@@ -111,6 +112,7 @@ const profileSchema = z.object({
       title: z.string(),
       event: z.string(),
       type: z.string(),
+      date: z.string().optional(),
       link: z.string().optional(),
       featured: z.boolean().optional(),
     })

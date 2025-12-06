@@ -7,6 +7,7 @@ import sitemap from '@astrojs/sitemap';
 function profileHotReload() {
   return {
     name: 'profile-hot-reload',
+    /** @param {{ file: string, server: { ws: { send: (msg: { type: string }) => void } } }} ctx */
     handleHotUpdate({ file, server }) {
       if (file.endsWith('src/content/index.mdx')) {
         server.ws.send({ type: 'full-reload' });

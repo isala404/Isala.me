@@ -1,14 +1,24 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import { profileInfo as profile, experience, projects, nowTiles, quotes, footerJokes, speaking } from '../lib/profile';
+import {
+  profileInfo as profile,
+  experience,
+  projects,
+  nowTiles,
+  quotes,
+  footerJokes,
+  speaking,
+} from '../lib/profile';
 import { Headphones, Coffee, Tv, Flame, Cpu, Laptop } from 'lucide-astro';
 
-const blogPosts = (await getCollection('blog', ({ data }) => !data.draft && data.featured))
-  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+const blogPosts = (await getCollection('blog', ({ data }) => !data.draft && data.featured)).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
+);
 
-const notes = (await getCollection('notes', ({ data }) => !data.draft && data.featured))
-  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+const notes = (await getCollection('notes', ({ data }) => !data.draft && data.featured)).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
+);
 
 const iconMap: Record<string, any> = {
   Headphones,
@@ -177,10 +187,7 @@ function formatDate(date: Date): string {
     </section>
 
     <!-- Quote -->
-    <blockquote
-      id="quote"
-      class="border-summer-accent/40 mb-10 border-l-2 pl-4 text-sm"
-    >
+    <blockquote id="quote" class="border-summer-accent/40 mb-10 border-l-2 pl-4 text-sm">
       <p id="quote-text" class="text-summer-text-secondary italic">
         "{quotes[0].text}"
       </p>
@@ -199,23 +206,29 @@ function formatDate(date: Date): string {
 
       <div class="space-y-4">
         {
-          speaking.filter((talk) => talk.featured).map((talk) => (
-            <article class="group flex items-start justify-between">
-              <div>
-                {talk.link ? (
-                  <a href={talk.link} target="_blank" class="hover-underline text-summer-text block">
-                    {talk.title}
-                  </a>
-                ) : (
-                  <span class="text-summer-text">{talk.title}</span>
-                )}
-                <p class="text-summer-text-secondary text-sm">{talk.event}</p>
-              </div>
-              <span class="text-summer-accent bg-summer-accent/10 ml-4 shrink-0 rounded px-2 py-0.5 text-xs">
-                {talk.type}
-              </span>
-            </article>
-          ))
+          speaking
+            .filter((talk) => talk.featured)
+            .map((talk) => (
+              <article class="group flex items-start justify-between">
+                <div>
+                  {talk.link ? (
+                    <a
+                      href={talk.link}
+                      target="_blank"
+                      class="hover-underline text-summer-text block"
+                    >
+                      {talk.title}
+                    </a>
+                  ) : (
+                    <span class="text-summer-text">{talk.title}</span>
+                  )}
+                  <p class="text-summer-text-secondary text-sm">{talk.event}</p>
+                </div>
+                <span class="text-summer-accent bg-summer-accent/10 ml-4 shrink-0 rounded px-2 py-0.5 text-xs">
+                  {talk.type}
+                </span>
+              </article>
+            ))
         }
 
         <div class="pt-2">
@@ -236,23 +249,25 @@ function formatDate(date: Date): string {
 
       <div class="space-y-4">
         {
-          projects.filter((project) => project.featured).map((project) => (
-            <article class="group flex items-baseline justify-between">
-              <div>
-                <a
-                  href={project.url || '#'}
-                  class="text-summer-text hover-underline inline font-medium"
-                  target="_blank"
-                >
-                  {project.name}
-                </a>
-                <p class="text-summer-text-secondary text-sm">{project.description}</p>
-              </div>
-              {project.stars && (
-                <span class="text-summer-golden ml-4 shrink-0 text-xs">★ {project.stars}</span>
-              )}
-            </article>
-          ))
+          projects
+            .filter((project) => project.featured)
+            .map((project) => (
+              <article class="group flex items-baseline justify-between">
+                <div>
+                  <a
+                    href={project.url || '#'}
+                    class="text-summer-text hover-underline inline font-medium"
+                    target="_blank"
+                  >
+                    {project.name}
+                  </a>
+                  <p class="text-summer-text-secondary text-sm">{project.description}</p>
+                </div>
+                {project.stars && (
+                  <span class="text-summer-golden ml-4 shrink-0 text-xs">★ {project.stars}</span>
+                )}
+              </article>
+            ))
         }
 
         <div class="pt-2">
