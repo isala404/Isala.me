@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import Nav from '../components/Nav.astro';
 
 interface Props {
   title: string;
@@ -112,8 +111,6 @@ const socialImageURL = new URL(image, Astro.site);
       </div>
       <div class="game-hint">[A] left · [D] right · [SPACE] shoot</div>
     </div>
-
-    <Nav />
 
     <slot />
 
