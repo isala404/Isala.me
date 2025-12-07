@@ -1,7 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
-import sitemap from '@astrojs/sitemap';
 
 // Plugin to force full reload when profile MDX changes
 function profileHotReload() {
@@ -19,10 +18,7 @@ function profileHotReload() {
 
 export default defineConfig({
   site: 'https://isala.me',
-  integrations: [
-    mdx(),
-    sitemap(),
-  ],
+  integrations: [mdx()],
   markdown: {
     shikiConfig: {
       theme: 'github-dark',
