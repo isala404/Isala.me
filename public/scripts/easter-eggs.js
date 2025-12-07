@@ -126,16 +126,55 @@
   let tileRect = null;
   let lastHovered = null;
 
+  let hintTimeoutId = null;
+  let isHintAnimating = false;
+
   function showHint() {
-    if (dragging) return;
+    // Don't show hint if page is hidden, dragging, or already animating
+    if (document.hidden || dragging || isHintAnimating) {
+      scheduleNextHint();
+      return;
+    }
+
     const tiles = Array.from(grid.querySelectorAll(".now-tile"));
     const tile = tiles[Math.floor(Math.random() * tiles.length)];
+
+    isHintAnimating = true;
     tile.classList.add("hint");
-    tile.addEventListener("animationend", () => tile.classList.remove("hint"), { once: true });
+    tile.addEventListener("animationend", () => {
+      tile.classList.remove("hint");
+      isHintAnimating = false;
+    }, { once: true });
+
+    scheduleNextHint();
   }
 
-  setTimeout(showHint, 5000);
-  setInterval(showHint, 30000);
+  function scheduleNextHint() {
+    // Clear any existing timeout to prevent overlaps
+    if (hintTimeoutId) {
+      clearTimeout(hintTimeoutId);
+    }
+    hintTimeoutId = setTimeout(showHint, 30000);
+  }
+
+  // Initial hint after 5 seconds
+  hintTimeoutId = setTimeout(showHint, 5000);
+
+  // Pause/resume when page visibility changes
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      // Page is hidden, clear the timeout
+      if (hintTimeoutId) {
+        clearTimeout(hintTimeoutId);
+        hintTimeoutId = null;
+      }
+    } else {
+      // Page is visible again, schedule next hint
+      if (!hintTimeoutId) {
+        scheduleNextHint();
+      }
+    }
+  });
 
   grid.addEventListener("mousedown", function (e) {
     const tile = e.target.closest(".now-tile");

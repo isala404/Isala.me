@@ -25,6 +25,11 @@ export const {
   bio,
   longBio,
   topSkills,
+  interests,
+  values,
+  writingStyle,
+  achievements,
+  tools,
   experience,
   education,
   certifications,
@@ -78,6 +83,66 @@ export function generateLLMText(): string {
   lines.push(`**Top Skills:** ${p.topSkills.join(', ')}`);
   lines.push('');
 
+  // Key Achievements (with metrics)
+  if (p.achievements?.length) {
+    lines.push('## Key Achievements');
+    for (const achievement of p.achievements) {
+      lines.push(`- **${achievement.metric}**: ${achievement.description}${achievement.context ? ` (${achievement.context})` : ''}`);
+    }
+    lines.push('');
+  }
+
+  // Values & Philosophy
+  if (p.values?.length) {
+    lines.push('## Values & Philosophy');
+    for (const value of p.values) {
+      lines.push(`- ${value}`);
+    }
+    lines.push('');
+  }
+
+  // Interests & Hobbies
+  if (p.interests?.length) {
+    lines.push('## Interests & Hobbies');
+    for (const category of p.interests) {
+      lines.push(`### ${category.category}`);
+      for (const item of category.items) {
+        lines.push(`- ${item}`);
+      }
+    }
+    lines.push('');
+  }
+
+  // Preferred Tools
+  if (p.tools) {
+    lines.push('## Preferred Tools & Technologies');
+    if (p.tools.daily?.length) lines.push(`**Daily drivers:** ${p.tools.daily.join(', ')}`);
+    if (p.tools.languages?.length) lines.push(`**Languages:** ${p.tools.languages.join(', ')}`);
+    if (p.tools.infrastructure?.length) lines.push(`**Infrastructure:** ${p.tools.infrastructure.join(', ')}`);
+    if (p.tools.editors?.length) lines.push(`**Editors:** ${p.tools.editors.join(', ')}`);
+    if (p.tools.os?.length) lines.push(`**OS:** ${p.tools.os.join(', ')}`);
+    lines.push('');
+  }
+
+  // Writing Style (for document generation)
+  if (p.writingStyle) {
+    lines.push('## Writing Style Guide');
+    lines.push('Use this when generating documents, bios, or content in my voice:');
+    if (p.writingStyle.tone?.length) {
+      lines.push('**Tone:**');
+      for (const t of p.writingStyle.tone) lines.push(`- ${t}`);
+    }
+    if (p.writingStyle.preferences?.length) {
+      lines.push('**Preferences:**');
+      for (const pref of p.writingStyle.preferences) lines.push(`- ${pref}`);
+    }
+    if (p.writingStyle.avoid?.length) {
+      lines.push('**Avoid:**');
+      for (const a of p.writingStyle.avoid) lines.push(`- ${a}`);
+    }
+    lines.push('');
+  }
+
   // Experience
   lines.push('## Experience');
   for (const company of p.experience) {
@@ -85,7 +150,18 @@ export function generateLLMText(): string {
     for (const pos of company.positions) {
       lines.push(`**${pos.title}** (${pos.type}) | ${pos.startDate} - ${pos.endDate}`);
       if (pos.location) lines.push(`Location: ${pos.location}`);
-      if (pos.description) lines.push(pos.description);
+      // Use summary + details if available, fallback to description
+      if (pos.summary?.length) {
+        lines.push('Key achievements:');
+        for (const point of pos.summary) lines.push(`- ${point}`);
+      }
+      if (pos.details?.length) {
+        lines.push('Additional details:');
+        for (const point of pos.details) lines.push(`- ${point}`);
+      }
+      if (!pos.summary?.length && pos.description) {
+        lines.push(pos.description);
+      }
       if (pos.skills?.length) lines.push(`Skills: ${pos.skills.join(', ')}`);
       if (pos.link) lines.push(`Project: ${pos.link}`);
       lines.push('');
@@ -97,7 +173,7 @@ export function generateLLMText(): string {
   for (const edu of p.education) {
     lines.push(`### ${edu.institution}`);
     lines.push(`**${edu.degree}** | ${edu.startDate} - ${edu.endDate}`);
-    lines.push(`${edu.grade} | ${edu.rank}`);
+    if (edu.grade) lines.push(`${edu.grade}${edu.rank ? ` | ${edu.rank}` : ''}`);
     if (edu.highlights?.length) {
       for (const h of edu.highlights) {
         lines.push(`- ${h}`);
@@ -109,7 +185,9 @@ export function generateLLMText(): string {
   // Certifications
   lines.push('## Certifications');
   for (const cert of p.certifications) {
-    lines.push(`- **${cert.name}** - ${cert.issuer} (${cert.date}, expires ${cert.expires})`);
+    let line = `- **${cert.name}** - ${cert.issuer} (${cert.date}, expires ${cert.expires})`;
+    if (cert.url) line += ` [Verify](${cert.url})`;
+    lines.push(line);
   }
   lines.push('');
 
@@ -129,6 +207,7 @@ export function generateLLMText(): string {
   lines.push('## Speaking');
   for (const talk of p.speaking) {
     let line = `- **${talk.title}** - ${talk.event} (${talk.type})`;
+    if (talk.date) line += ` | ${talk.date}`;
     if (talk.link) line += ` [Link](${talk.link})`;
     lines.push(line);
   }
@@ -146,6 +225,7 @@ export function generateLLMText(): string {
   for (const item of p.now) {
     let line = `- **${item.label}:** ${item.title}`;
     if (item.subtitle) line += ` (${item.subtitle})`;
+    if (item.link) line += ` [Link](${item.link})`;
     lines.push(line);
   }
   lines.push('');

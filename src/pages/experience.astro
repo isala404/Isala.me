@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { ChevronDown } from 'lucide-astro';
 import {
   experience,
   profileInfo as profile,
@@ -56,67 +57,118 @@ import {
 
       <div class="space-y-12">
         {
-          experience.map((company) => (
+          experience.map((company, companyIdx) => (
             <article class="relative">
               <div class="mb-6">
                 <h3 class="text-summer-text text-xl font-medium">{company.company}</h3>
               </div>
 
               <div class="border-summer-text/10 ml-2 space-y-6 border-l-2 pl-6">
-                {company.positions.map((position) => (
-                  <div class="relative">
-                    <div class="bg-summer-bg border-summer-accent absolute top-1 -left-[31px] h-3 w-3 rounded-full border-2" />
+                {company.positions.map((position, posIdx) => {
+                  const positionId = `pos-${companyIdx}-${posIdx}`;
+                  const hasSummary = position.summary && position.summary.length > 0;
+                  const hasDetails = position.details && position.details.length > 0;
+                  const hasExpandableContent = hasSummary && hasDetails;
 
-                    <div class="mb-2 flex flex-col gap-1 md:flex-row md:items-start md:justify-between">
-                      <div>
-                        <h4 class="text-summer-text font-medium">{position.title}</h4>
-                        <p class="text-summer-text-secondary text-sm">
-                          {position.type}
-                          {position.location && <span> · {position.location}</span>}
-                        </p>
+                  return (
+                    <div class="relative" data-position-id={positionId}>
+                      <div class="bg-summer-bg border-summer-accent absolute top-1 -left-[31px] h-3 w-3 rounded-full border-2" />
+
+                      <div class="mb-2 flex flex-col gap-1 md:flex-row md:items-start md:justify-between">
+                        <div>
+                          {hasExpandableContent ? (
+                            <button
+                              class="position-toggle group flex items-center gap-1.5 text-left"
+                              data-target={positionId}
+                              aria-expanded="false"
+                            >
+                              <h4 class="text-summer-text group-hover:text-summer-accent font-medium transition-colors">
+                                {position.title}
+                              </h4>
+                              <ChevronDown class="text-summer-text-secondary group-hover:text-summer-accent h-4 w-4 transition-transform duration-200" />
+                            </button>
+                          ) : (
+                            <h4 class="text-summer-text font-medium">{position.title}</h4>
+                          )}
+                          <p class="text-summer-text-secondary text-sm">
+                            {position.type}
+                            {position.location && <span> · {position.location}</span>}
+                          </p>
+                        </div>
+                        <span class="text-summer-text-secondary shrink-0 font-mono text-sm">
+                          {position.startDate} —{' '}
+                          {position.endDate === 'Present' ? 'now' : position.endDate}
+                        </span>
                       </div>
-                      <span class="text-summer-text-secondary shrink-0 font-mono text-sm">
-                        {position.startDate} —{' '}
-                        {position.endDate === 'Present' ? 'now' : position.endDate}
-                      </span>
-                    </div>
 
-                    {position.description && (
-                      <ul class="text-summer-text-secondary mb-3 space-y-1 text-sm leading-relaxed">
-                        {position.description
-                          .split('\n')
-                          .filter((line: string) => line.trim())
-                          .map((line: string) => (
+                      {/* Summary points (always visible) */}
+                      {hasSummary && (
+                        <ul class="text-summer-text-secondary mb-1 space-y-1 text-sm leading-relaxed">
+                          {position.summary!.map((point: string) => (
                             <li class="flex items-start gap-2">
                               <span class="text-summer-accent mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-current" />
-                              <span>{line.trim().replace(/^[-•]\s*/, '')}</span>
+                              <span>{point}</span>
                             </li>
                           ))}
-                      </ul>
-                    )}
+                        </ul>
+                      )}
 
-                    {position.link && (
-                      <a
-                        href={position.link}
-                        target="_blank"
-                        class="text-summer-text-secondary arrow-link mb-3 inline-block text-sm"
-                      >
-                        <span class="arrow">→</span>
-                        <span class="text">view project</span>
-                      </a>
-                    )}
+                      {/* Additional details (expandable) */}
+                      {hasDetails && (
+                        <ul
+                          class="details-content text-summer-text-secondary mb-3 hidden space-y-1 text-sm leading-relaxed"
+                          data-details-for={positionId}
+                        >
+                          {position.details!.map((point: string, idx: number) => (
+                            <li
+                              class="details-item flex items-start gap-2"
+                              style={`--delay: ${idx * 30}ms`}
+                            >
+                              <span class="text-summer-text-secondary/50 mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-current" />
+                              <span>{point}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
 
-                    {position.skills && position.skills.length > 0 && (
-                      <div class="flex flex-wrap gap-2">
-                        {position.skills.map((skill) => (
-                          <span class="bg-summer-text/5 text-summer-text-secondary border-summer-text/10 rounded border px-2 py-0.5 text-xs">
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                      {/* Fallback for legacy description field */}
+                      {!hasSummary && position.description && (
+                        <ul class="text-summer-text-secondary mb-3 space-y-1 text-sm leading-relaxed">
+                          {position.description
+                            .split('\n')
+                            .filter((line: string) => line.trim())
+                            .map((line: string) => (
+                              <li class="flex items-start gap-2">
+                                <span class="text-summer-accent mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-current" />
+                                <span>{line.trim().replace(/^[-•]\s*/, '')}</span>
+                              </li>
+                            ))}
+                        </ul>
+                      )}
+
+                      {position.link && (
+                        <a
+                          href={position.link}
+                          target="_blank"
+                          class="text-summer-text-secondary arrow-link mb-3 inline-block text-sm"
+                        >
+                          <span class="arrow">→</span>
+                          <span class="text">view project</span>
+                        </a>
+                      )}
+
+                      {position.skills && position.skills.length > 0 && (
+                        <div class="flex flex-wrap gap-2">
+                          {position.skills.map((skill) => (
+                            <span class="bg-summer-text/5 text-summer-text-secondary border-summer-text/10 rounded border px-2 py-0.5 text-xs">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </article>
           ))
@@ -220,4 +272,110 @@ import {
       </div>
     </section>
   </main>
+
+  <style>
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .details-content {
+      overflow: hidden;
+      transition: height 0.3s ease-out, opacity 0.2s ease-out;
+    }
+
+    .details-content.expanding .details-item {
+      animation: slideIn 0.25s ease-out forwards;
+      animation-delay: var(--delay, 0ms);
+      opacity: 0;
+    }
+
+    .details-content.collapsing {
+      opacity: 0;
+    }
+  </style>
+
+  <script>
+    function initToggles() {
+      document.querySelectorAll('.position-toggle').forEach((button) => {
+        button.addEventListener('click', () => {
+          const targetId = button.getAttribute('data-target');
+          if (!targetId) return;
+
+          const isExpanded = button.getAttribute('aria-expanded') === 'true';
+          const details = document.querySelector(`[data-details-for="${targetId}"]`) as HTMLElement;
+          const chevron = button.querySelector('svg');
+          const items = details?.querySelectorAll('.details-item');
+
+          if (isExpanded) {
+            // Collapse: animate height and opacity
+            button.setAttribute('aria-expanded', 'false');
+            chevron?.classList.remove('rotate-180');
+
+            if (details) {
+              // Set current height explicitly so we can animate from it
+              const currentHeight = details.scrollHeight;
+              details.style.height = `${currentHeight}px`;
+
+              // Force reflow
+              details.offsetHeight;
+
+              // Start collapse animation
+              details.classList.remove('expanding');
+              details.classList.add('collapsing');
+              details.style.height = '0px';
+
+              // After animation, hide
+              setTimeout(() => {
+                details.classList.add('hidden');
+                details.classList.remove('collapsing');
+                details.style.height = '';
+              }, 300);
+            }
+          } else {
+            // Expand: show and animate in
+            button.setAttribute('aria-expanded', 'true');
+            chevron?.classList.add('rotate-180');
+
+            if (details) {
+              details.classList.remove('hidden', 'collapsing');
+
+              // Get the target height
+              details.style.height = 'auto';
+              const targetHeight = details.scrollHeight;
+
+              // Start from 0
+              details.style.height = '0px';
+
+              // Force reflow
+              details.offsetHeight;
+
+              // Animate to target height
+              details.classList.add('expanding');
+              details.style.height = `${targetHeight}px`;
+
+              // Remove expanding class and height after animations complete
+              const totalDuration = Math.max((items?.length || 0) * 30 + 250, 300);
+              setTimeout(() => {
+                details.classList.remove('expanding');
+                details.style.height = '';
+              }, totalDuration);
+            }
+          }
+        });
+      });
+    }
+
+    // Initialize on page load
+    initToggles();
+
+    // Re-initialize after Astro page transitions
+    document.addEventListener('astro:page-load', initToggles);
+  </script>
 </BaseLayout>

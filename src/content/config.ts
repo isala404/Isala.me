@@ -34,6 +34,11 @@ const positionSchema = z.object({
   startDate: z.string(),
   endDate: z.string(),
   location: z.string().optional(),
+  // Summary points for quick view (3-5 key achievements)
+  summary: z.array(z.string()).optional(),
+  // Detailed points for expanded view
+  details: z.array(z.string()).optional(),
+  // Legacy description field (deprecated, use summary/details)
   description: z.string().optional(),
   skills: z.array(z.string()).optional(),
   link: z.string().optional(),
@@ -59,6 +64,50 @@ const profileSchema = z.object({
   bio: z.string(),
   longBio: z.string(),
   topSkills: z.array(z.string()),
+
+  // Interests & Hobbies (beyond work)
+  interests: z
+    .array(
+      z.object({
+        category: z.string(),
+        items: z.array(z.string()),
+      })
+    )
+    .optional(),
+
+  // Values & Philosophy
+  values: z.array(z.string()).optional(),
+
+  // Writing style notes (for LLM document generation)
+  writingStyle: z
+    .object({
+      tone: z.array(z.string()).optional(),
+      preferences: z.array(z.string()).optional(),
+      avoid: z.array(z.string()).optional(),
+    })
+    .optional(),
+
+  // Key achievements with metrics
+  achievements: z
+    .array(
+      z.object({
+        metric: z.string(),
+        description: z.string(),
+        context: z.string().optional(),
+      })
+    )
+    .optional(),
+
+  // Preferred tools & technologies
+  tools: z
+    .object({
+      daily: z.array(z.string()).optional(),
+      languages: z.array(z.string()).optional(),
+      infrastructure: z.array(z.string()).optional(),
+      editors: z.array(z.string()).optional(),
+      os: z.array(z.string()).optional(),
+    })
+    .optional(),
 
   // Experience
   experience: z.array(

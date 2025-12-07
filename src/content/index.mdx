@@ -3,6 +3,7 @@
 name: Isala Piyarisi
 title: Platform Engineering
 tagline: eBPF · AI Infrastructure
+location: Colombo, Sri Lanka
 
 contact:
   email: ping@isala.me
@@ -55,6 +56,125 @@ topSkills:
   - GitOps
   - Vector Databases
 
+# Interests & Hobbies
+interests:
+  - category: Gaming
+    items:
+      - League of Legends (played competitively for WSO2 e-sports team)
+      - Call of Duty 4 (ran servers for 6 years)
+      - Dr. Stone (current anime obsession)
+      - Game modding (started with GTA, NFS as a kid)
+  - category: Hardware & Tinkering
+    items:
+      - Smart home automation with Raspberry Pi
+      - Robotics (built ML-powered line-following robots)
+      - Arduino projects (burned through 10+ chips learning)
+  - category: Open Source
+    items:
+      - Contributing to Cilium ecosystem
+      - Pixie observability platform
+      - Building tools for Kubernetes community
+  - category: Learning
+    items:
+      - Deep diving into kernel internals
+      - Rust systems programming
+      - ML/AI infrastructure
+
+# Core Values & Philosophy
+values:
+  - Automate everything - would rather spend 10 hours automating a 10-minute task than do it twice
+  - Learn by breaking things - understanding comes from getting hands dirty and failing
+  - Teach to master - the best way to truly understand something is to explain it to others
+  - Ship early, iterate fast - perfect is the enemy of good
+  - Own your work end-to-end - from design to production to on-call
+  - Curiosity over credentials - what you've built matters more than certificates
+  - Help others level up - success is multiplied when shared
+
+# Writing Style (for LLM document generation)
+writingStyle:
+  tone:
+    - Direct and conversational, not corporate
+    - Technical but accessible
+    - Self-deprecating humor when appropriate
+    - Honest about failures and learnings
+  preferences:
+    - Use concrete examples and metrics over vague claims
+    - Start with the impact, then explain the how
+    - Keep sentences short and punchy
+    - Use "I" not "we" for individual contributions
+    - Prefer active voice
+  avoid:
+    - Buzzword soup (synergy, leverage, paradigm shift)
+    - Overly formal or stiff language
+    - Exaggerating accomplishments
+    - Generic phrases like "team player" or "hard worker"
+    - Passive voice where active is clearer
+
+# Key Achievements with Metrics
+achievements:
+  - metric: 500GB/day
+    description: Telemetry processed by eBPF observability layer with zero instrumentation overhead
+    context: WSO2 Choreo platform
+  - metric: 10,000+ pods
+    description: Kubernetes cluster migrated from Azure CNI to Cilium while maintaining 99.9% SLA
+    context: One of WSO2's most complex migrations
+  - metric: 78% memory reduction
+    description: Achieved by moving Cilium network policies to cluster scope
+    context: Also reduced startup delay by 90%
+  - metric: 80 security issues
+    description: Resolved in Pixie project, contributing majority of fixes upstream
+    context: Proactively fixed over-provisioned permissions beyond assigned scope
+  - metric: 85,000+ players
+    description: Served across 6-year operation of top 10 ranked COD4 server worldwide
+    context: Became most prominent server in Asia
+  - metric: 8x performance
+    description: Improvement in data access after migrating legacy storage to GCP
+    context: ThinkSmart Solutions
+  - metric: 10-15x query speed
+    description: Achieved by redesigning database schemas from the ground up
+    context: ThinkSmart Solutions
+  - metric: 50% cost reduction
+    description: Cloud infrastructure costs reduced through optimization
+    context: First optimization project at ThinkSmart
+  - metric: 60% faster releases
+    description: Production releases accelerated through CI/CD pipeline engineering
+    context: ThinkSmart DevOps role
+  - metric: First Class Honours
+    description: Graduated with 79.37%, ranked 4th in class
+    context: University of Westminster, Computer Science
+  - metric: 13+ hackathons
+    description: Participated with top placements during university
+    context: Where most friendships and skills were built
+
+# Preferred Tools & Technologies
+tools:
+  daily:
+    - Kubernetes
+    - Cilium
+    - Prometheus
+    - Git
+    - Docker
+    - Helm
+  languages:
+    - Go (primary for infrastructure)
+    - Rust (systems programming, side projects)
+    - Python (ML, scripting)
+    - TypeScript (when frontend is unavoidable)
+  infrastructure:
+    - Kubernetes
+    - eBPF/Cilium
+    - Prometheus/Grafana
+    - OpenTelemetry
+    - FluxCD/ArgoCD
+    - KEDA
+  editors:
+    - Zed (current daily driver)
+    - VS Code (fallback)
+    - Neovim (for quick edits)
+  os:
+    - macOS (work machine)
+    - Linux (servers, always)
+
 # Work Experience
 experience:
   - company: WSO2
@@ -65,16 +185,27 @@ experience:
         startDate: Feb 2024
         endDate: Present
         location: Colombo, Sri Lanka
-        description: |
-          Architected eBPF-powered observability layer → processing ~500GB/day telemetry with zero instrumentation overhead
-          Designed proxyless scale-to-zero system for Kubernetes → reduced idle resource costs for customer workloads
-          Built sidecar-less service connectivity → eliminated proxy latency and simplified network stack
-          Maintained platform network infrastructure under strict SLAs → 99.9% uptime for production workloads
-          Recognized as top performer across multiple review cycles
+        summary:
+          - Architected eBPF-powered observability layer processing ~500GB/day telemetry with zero instrumentation overhead
+          - Optimized Cilium network policies achieving 78% memory reduction and 90% startup delay decrease
+          - Traced and fixed persistent Gateway 503s down to RST packet handling in Envoy/Cilium L7 proxy
+          - Led all Cilium upgrades across production, managing major and minor versions with zero downtime
+          - Consistently rated "Top 5%" in performance reviews
+        details:
+          - Took ownership of scale-to-zero infrastructure, quickly learning intricacies and fixing premature scale-down issues
+          - Rewrote observability API for vendor independence using modern Go frameworks and TestContainers for e2e testing
+          - Integrated Prometheus into observability stack and made it production-ready with HA configuration
+          - Debugged Prometheus rate() edge cases causing incorrect CPU metrics by understanding recording rule evaluation timing
+          - Addressed CVSS vulnerabilities and optimized Prometheus memory usage for production workloads
+          - Migrated KEDA deployments from manual YAML to Helm chart for easier upgrades
+          - Fixed component-to-component traffic flow in service graph by implementing custom metric endpoint
+          - Documented issues and solutions thoroughly in GitHub, reducing redundant troubleshooting efforts
+          - Advocated for Cilium/eBPF internally and externally through KubeFM podcast, Conf42, and KubeCon India talks
         skills:
           - Kubernetes
           - eBPF
           - Cilium
+          - Prometheus
           - Observability
           - Go
           - Platform Engineering
@@ -83,11 +214,21 @@ experience:
         startDate: Jun 2022
         endDate: Feb 2024
         location: Colombo, Sri Lanka
-        description: |
-          Led migration from Azure CNI to Cilium on 10,000+ pod cluster → maintained 99.9% SLA during transition
-          Developed zero-instrumentation observability using eBPF → enabled monitoring for any language without code changes
-          Contributed upstream security fixes to Pixie observability platform
-          Received excellent customer feedback for observability features → key differentiator for Choreo platform
+        summary:
+          - Led CNI migration from Azure to Cilium on 10,000+ pod cluster, designing rollback strategies and traffic validation to maintain 99.9% SLA
+          - Built zero-instrumentation observability using eBPF and Pixie, enabling monitoring for any language without code changes
+          - Resolved 80 security issues in Pixie including over-provisioned RBAC permissions, contributing fixes upstream
+          - Delivered observability feature under tight deadline, coordinating with multiple teams to ship before KubeCon
+          - Achieved "Top 5%" and "Top 20%" ratings with recognition for mastering eBPF and Kubernetes internals
+        details:
+          - Designed and built OpenTelemetry collector-based telemetry exporting pipeline
+          - Proactively audited and fixed over-provisioned permissions in Pixie beyond assigned security scope
+          - Collaborated with SecOps and SRE teams on cross-team security fixes
+          - Completed CKA and CKS certifications, deepening Kubernetes and security expertise
+          - Conducted Hubble network monitoring sessions, enabling team to independently debug networking issues
+          - Executed one of company's most complex infrastructure migrations with minimal disruption to live traffic
+          - Accelerated development of logging experience, Scale to Zero, and Build Packs features
+          - Played for WSO2's League of Legends e-sport team, reached quarterfinals in mercantile esports
         skills:
           - DevOps
           - eBPF
@@ -95,6 +236,7 @@ experience:
           - Kubernetes
           - Cilium
           - Pixie
+          - OpenTelemetry
 
   - company: SUSE
     logo: /logos/suse.svg
@@ -103,11 +245,14 @@ experience:
         type: Contract
         startDate: Jun 2021
         endDate: Aug 2021
-        description: |
-          Built 'Logging Pipeline Plumber' Kubernetes operator → simplified debugging of Rancher/Banzai logging pipelines
-          Implemented log stream capture and replay with Flow resource correlation → enabled root cause analysis for delivery issues
-          Received praise from SUSE: "going to help SUSE Rancher immensely"
-          Mentored by Jacob Payne
+        summary:
+          - Built 'Logging Pipeline Plumber' Kubernetes operator for debugging Rancher/Banzai logging pipelines
+          - Received praise from SUSE stating the project was "going to help SUSE Rancher immensely"
+          - Learned how open source projects work from inside through mentorship from experienced SUSE engineer
+        details:
+          - Implemented log stream capture and replay with Flow resource correlation
+          - Built React-based UI bundled inside the operator enabling operation on air-gapped systems
+          - Worked closely with mentor Jacob Payne on distributed systems and Kubernetes operator development
         skills:
           - Go
           - Kubernetes
@@ -122,9 +267,14 @@ experience:
         type: Part-time
         startDate: Jul 2021
         endDate: Jun 2022
-        description: |
-          Mentored development team on cloud-native practices → improved deployment velocity and code quality
-          Managed company infrastructure and guided architecture decisions → enabled horizontal scaling
+        summary:
+          - Mentored development team on cloud-native practices and code quality
+          - Provided guidance on architecture decisions enabling horizontal scaling
+          - Transitioned to part-time to focus on final year while continuing to contribute
+        details:
+          - Facilitated professional growth of developer team through effective mentoring
+          - Offered suggestions for continuous improvement of development processes
+          - Oversaw infrastructure management ensuring seamless operations
         skills:
           - GitOps
           - DevOps
@@ -134,31 +284,63 @@ experience:
         type: Full-time
         startDate: Jul 2020
         endDate: Jun 2021
-        description: |
-          Introduced GitOps with FluxCD → achieved declarative, auditable infrastructure deployments
-          Migrated legacy storage to GCP → 8x performance improvement in data access
-          Led monolith decomposition to Go microservices → improved scalability and deployment independence
-          Redesigned database schemas → 10x query performance gains
-          Optimized CI/CD pipelines → significantly reduced build and deployment times
+        summary:
+          - Introduced GitOps with FluxCD for declarative, auditable infrastructure deployments
+          - Migrated legacy storage to GCP achieving 8x performance improvement
+          - Led monolith to Go microservices decomposition improving scalability
+          - Redesigned database schemas achieving 10-15x query performance gains
+          - Engineered CI/CD pipeline accelerating production releases by 60%
+        details:
+          - Developed multi-functional dashboard with ReactJS to streamline EatMealFirst operations
+          - Led migration towards microservices to secure modularity and resiliency
+          - Maintained primary database overseeing all changes to ensure standards compliance
+          - Supported backend team through complex problems and performed code reviews
+          - Planned and designed new feature implementations for marketing requirements
         skills:
           - Python
           - GitOps
           - Go
           - GCP
           - FluxCD
+          - ReactJS
+          - PostgreSQL
       - title: Associate Software Engineer
         type: Part-time
         startDate: Jul 2019
         endDate: Jun 2020
-        description: |
-          Optimized cloud resource utilization → reduced infrastructure costs by 50%
-          Maintained web infrastructure across GCP, AWS, and DigitalOcean → ensured multi-cloud reliability
+        summary:
+          - Achieved 50% reduction in cloud infrastructure costs through optimization
+          - Maintained multi-cloud infrastructure across GCP, AWS, and DigitalOcean
+          - Maintained MealFirst Operation Management Portal with ReactJS, Apollo, GraphQL
+        details:
+          - Ensured multi-cloud reliability across all web infrastructure platforms
+          - Maintained Self-Registration portal for Restaurants with ReactJS
         skills:
           - Python
           - DevOps
           - React
+          - Apollo
+          - GraphQL
           - AWS
           - GCP
+      - title: Software Engineering Trainee
+        type: Internship
+        startDate: Jan 2019
+        endDate: Jun 2019
+        summary:
+          - Established entire web infrastructure utilizing AWS and Google Cloud Platform
+          - Devised CI/CD Pipeline with BitBucket Pipelines for rapid deployments
+          - Demonstrated potential through hobby work leading to cloud infrastructure ownership
+        details:
+          - Designed and implemented Self-Registration portal for Restaurants with ReactJS
+          - Created MealFirst Operation Management Portal with ReactJS, Apollo, and GraphQL
+        skills:
+          - AWS
+          - GCP
+          - ReactJS
+          - Apollo
+          - GraphQL
+          - CI/CD
 
   - company: Black Assassins E-Sport
     logo: /logos/gaming.svg
@@ -167,14 +349,23 @@ experience:
         type: Volunteer
         startDate: Mar 2014
         endDate: Jun 2020
-        description: |
-          Built and operated top 10 ranked Call of Duty 4 server worldwide → served tens of thousands of players over 4 years
-          Managed Linux servers, networking, and game server infrastructure → developed foundational sysadmin skills
-          Sparked passion for systems engineering → evolved into professional cloud engineering career
+        summary:
+          - Built and operated top 10 ranked Call of Duty 4 server worldwide, became most prominent server in Asia
+          - Served over 85,000 players worldwide across 6-year operation period
+          - Learned DDoS mitigation implementing Cloudflare protection and fail2ban for UDP floods
+          - Developed foundational sysadmin and Linux skills that evolved into cloud engineering career
+        details:
+          - Managed Linux servers, networking, and game server infrastructure on DigitalOcean
+          - Developed web application with Django to auto-provision game servers
+          - Discovered and submitted fix for SQL injection vulnerability in B3 server management tool
+          - Dug into IW engine code to optimize server performance
+          - Server successfully operated for 6 years before shutdown in June 2020
         skills:
           - Linux
           - Networking
           - Server Administration
+          - Django
+          - DDoS Mitigation
         link: https://web.archive.org/web/20200517050530/https://www.gametracker.com/server_info/128.199.145.90:28960/
 
 # Education
