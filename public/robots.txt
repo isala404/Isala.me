@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://isala.me/sitemap.xml
+
+# LLMs.txt for AI agents
+# See https://llmstxt.org/
+# Available at: https://isala.me/llms.txt
