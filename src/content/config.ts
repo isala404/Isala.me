@@ -38,8 +38,6 @@ const positionSchema = z.object({
   summary: z.array(z.string()).optional(),
   // Detailed points for expanded view
   details: z.array(z.string()).optional(),
-  // Legacy description field (deprecated, use summary/details)
-  description: z.string().optional(),
   skills: z.array(z.string()).optional(),
   link: z.string().optional(),
 });

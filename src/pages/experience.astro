@@ -1,13 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { ChevronDown } from 'lucide-astro';
-import {
-  experience,
-  profileInfo as profile,
-  education,
-  certifications,
-  publications,
-} from '../lib/profile';
+import { experience, topSkills, education, certifications, publications } from '../lib/profile';
 ---
 
 <BaseLayout
@@ -38,7 +32,7 @@ import {
       </div>
       <div class="flex flex-wrap gap-2">
         {
-          profile.topSkills.map((skill) => (
+          topSkills.map((skill) => (
             <span class="bg-summer-text/5 text-summer-text-secondary border-summer-text/10 rounded-full border px-3 py-1 text-sm">
               {skill}
             </span>
@@ -128,21 +122,6 @@ import {
                               <span>{point}</span>
                             </li>
                           ))}
-                        </ul>
-                      )}
-
-                      {/* Fallback for legacy description field */}
-                      {!hasSummary && position.description && (
-                        <ul class="text-summer-text-secondary mb-3 space-y-1 text-sm leading-relaxed">
-                          {position.description
-                            .split('\n')
-                            .filter((line: string) => line.trim())
-                            .map((line: string) => (
-                              <li class="flex items-start gap-2">
-                                <span class="text-summer-accent mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-current" />
-                                <span>{line.trim().replace(/^[-•]\s*/, '')}</span>
-                              </li>
-                            ))}
                         </ul>
                       )}
 

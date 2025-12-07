@@ -2,15 +2,21 @@ const CACHE_NAME = 'isala-me-v1';
 const OFFLINE_URL = '/offline.html';
 
 const PRECACHE_ASSETS = [
+  // Pages
   '/',
   '/about',
   '/experience',
   '/blog',
   '/notes',
   '/projects',
+  '/offline.html',
+  // Scene assets - dog/bark animation
   '/dog-still.png',
   '/dog-bark.png',
-  '/offline.html',
+  '/scripts/easter-eggs.js',
+  // PWA essentials
+  '/favicon.svg',
+  '/manifest.json',
 ];
 
 // Install event - cache essential assets
@@ -23,21 +29,21 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// Activate event - clean up old caches
+// Activate event - clean up old caches and take control immediately
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
-      );
-    })
+    caches
+      .keys()
+      .then((cacheNames) => {
+        return Promise.all(
+          cacheNames.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name))
+        );
+      })
+      .then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
-// Fetch event - stale-while-revalidate strategy
+// Fetch event - network-first for all requests, cache as fallback
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
@@ -47,37 +53,26 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== location.origin) return;
 
   event.respondWith(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      const cachedResponse = await cache.match(event.request);
-
-      // Start fetching in background
-      const fetchPromise = fetch(event.request)
-        .then((networkResponse) => {
-          if (networkResponse.ok) {
-            cache.put(event.request, networkResponse.clone());
+    fetch(event.request, { cache: 'no-cache' })
+      .then((response) => {
+        // Cache the fresh response
+        const responseClone = response.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseClone);
+        });
+        return response;
+      })
+      .catch(() => {
+        // Fallback to cache when offline
+        return caches.match(event.request).then((cached) => {
+          if (cached) return cached;
+          // For navigation requests, show offline page
+          if (event.request.mode === 'navigate') {
+            return caches.match(OFFLINE_URL);
           }
-          return networkResponse;
-        })
-        .catch(() => null);
-
-      // Return cached response immediately if available
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-
-      // Wait for network if no cache
-      const networkResponse = await fetchPromise;
-      if (networkResponse) {
-        return networkResponse;
-      }
-
-      // Fallback to offline page for navigation requests
-      if (event.request.mode === 'navigate') {
-        return cache.match(OFFLINE_URL);
-      }
-
-      return new Response('Offline', { status: 503 });
-    })
+          return new Response('Offline', { status: 503 });
+        });
+      })
   );
 });
 

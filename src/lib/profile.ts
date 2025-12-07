@@ -4,18 +4,12 @@ import type { Profile } from '../content/config';
 import profileRawContent from '../content/index.mdx?raw';
 
 // Parse the profile MDX file
-const { data, content } = matter(profileRawContent);
+const { data } = matter(profileRawContent);
 
 // Export typed profile data
 export const profile = data as Profile;
 
-// Export the markdown content (for LLM endpoint)
-export const profileContent = content;
-
-// Export the raw file contents (frontmatter + content)
-export const profileRaw = profileRawContent;
-
-// Convenience exports matching the old profile.ts structure
+// Named exports for convenience
 export const {
   name,
   title,
@@ -40,21 +34,6 @@ export const {
   quotes,
   footerJokes,
 } = profile;
-
-// Re-export with old variable names for backwards compatibility
-export const profileInfo = {
-  name: profile.name,
-  title: profile.title,
-  tagline: profile.tagline,
-  location: profile.location,
-  email: profile.contact.email,
-  github: profile.contact.github,
-  twitter: profile.contact.twitter,
-  linkedin: profile.contact.linkedin,
-  bio: profile.bio,
-  longBio: profile.longBio,
-  topSkills: profile.topSkills,
-};
 
 // Generate LLM-readable text from structured data
 export function generateLLMText(): string {
@@ -150,7 +129,6 @@ export function generateLLMText(): string {
     for (const pos of company.positions) {
       lines.push(`**${pos.title}** (${pos.type}) | ${pos.startDate} - ${pos.endDate}`);
       if (pos.location) lines.push(`Location: ${pos.location}`);
-      // Use summary + details if available, fallback to description
       if (pos.summary?.length) {
         lines.push('Key achievements:');
         for (const point of pos.summary) lines.push(`- ${point}`);
@@ -158,9 +136,6 @@ export function generateLLMText(): string {
       if (pos.details?.length) {
         lines.push('Additional details:');
         for (const point of pos.details) lines.push(`- ${point}`);
-      }
-      if (!pos.summary?.length && pos.description) {
-        lines.push(pos.description);
       }
       if (pos.skills?.length) lines.push(`Skills: ${pos.skills.join(', ')}`);
       if (pos.link) lines.push(`Project: ${pos.link}`);
