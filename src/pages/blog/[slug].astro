@@ -24,6 +24,20 @@ function formatDate(date: Date): string {
   type="article"
   publishedTime={post.data.publishedAt.toISOString()}
 >
+  <!-- Track article read -->
+  <script is:inline define:vars={{ postTitle: post.data.title, postSlug: post.slug }}>
+    if (typeof umami !== 'undefined') {
+      umami.track('article-view', { title: postTitle, slug: postSlug });
+    } else {
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          if (typeof umami !== 'undefined') {
+            umami.track('article-view', { title: postTitle, slug: postSlug });
+          }
+        }, 500);
+      });
+    }
+  </script>
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Header -->
     <header class="mb-10">

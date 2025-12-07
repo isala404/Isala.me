@@ -63,29 +63,33 @@ function formatDate(date: Date): string {
         <a
           href={`mailto:${contact.email}`}
           class="text-summer-accent hover:text-summer-accent-hover transition-colors"
-          title={contact.email}>em</a
+          title={contact.email}
+          data-umami-event="contact-email">em</a
         >
         <span class="text-summer-text-secondary">·</span>
         <a
           href={contact.github}
-          class="text-summer-accent hover:text-summer-accent-hover transition-colors">gh</a
+          class="text-summer-accent hover:text-summer-accent-hover transition-colors"
+          data-umami-event="contact-github">gh</a
         >
         <span class="text-summer-text-secondary">·</span>
         <a
           href={contact.twitter}
-          class="text-summer-accent hover:text-summer-accent-hover transition-colors">x</a
+          class="text-summer-accent hover:text-summer-accent-hover transition-colors"
+          data-umami-event="contact-twitter">x</a
         >
         <span class="text-summer-text-secondary">·</span>
         <a
           href={contact.linkedin}
-          class="text-summer-accent hover:text-summer-accent-hover transition-colors">li</a
+          class="text-summer-accent hover:text-summer-accent-hover transition-colors"
+          data-umami-event="contact-linkedin">li</a
         >
       </nav>
       <p class="text-summer-text mb-4 max-w-prose text-base leading-relaxed">
         {bio}
       </p>
       <p>
-        <a href="/about" class="text-summer-text-secondary arrow-link text-sm">
+        <a href="/about" class="text-summer-text-secondary arrow-link text-sm" data-umami-event="read-more" data-umami-event-section="about">
           <span class="arrow">→</span><span class="text">the long version</span>
         </a>
       </p>
@@ -104,6 +108,8 @@ function formatDate(date: Date): string {
                 target={tile.link ? '_blank' : undefined}
                 data-tile={tile.id}
                 class="now-tile group border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 rounded-lg border p-4 transition-all"
+                data-umami-event={`now-tile-${tile.id}`}
+                data-umami-event-title={tile.title}
               >
                 <div class="mb-2 flex items-center gap-2">
                   <Icon class="text-summer-text-secondary group-hover:text-summer-accent h-4 w-4 transition-colors" />
@@ -145,7 +151,7 @@ function formatDate(date: Date): string {
         }
 
         <div class="pt-2">
-          <a href="/experience" class="text-summer-text-secondary arrow-link text-sm">
+          <a href="/experience" class="text-summer-text-secondary arrow-link text-sm" data-umami-event="read-more" data-umami-event-section="experience">
             <span class="arrow">→</span><span class="text">all experience</span>
           </a>
         </div>
@@ -171,6 +177,8 @@ function formatDate(date: Date): string {
                   href={postUrl}
                   target={isExternal ? '_blank' : undefined}
                   class="hover-underline text-summer-text"
+                  data-umami-event="blog-click"
+                  data-umami-event-title={post.data.title}
                 >
                   {post.data.title}
                 </a>
@@ -183,7 +191,7 @@ function formatDate(date: Date): string {
         }
 
         <div class="pt-2">
-          <a href="/blog" class="text-summer-text-secondary arrow-link text-sm">
+          <a href="/blog" class="text-summer-text-secondary arrow-link text-sm" data-umami-event="read-more" data-umami-event-section="blog">
             <span class="arrow">→</span><span class="text">all writing</span>
           </a>
         </div>
@@ -220,6 +228,8 @@ function formatDate(date: Date): string {
                       href={talk.link}
                       target="_blank"
                       class="hover-underline text-summer-text block"
+                      data-umami-event="talk-click"
+                      data-umami-event-title={talk.title}
                     >
                       {talk.title}
                     </a>
@@ -236,7 +246,7 @@ function formatDate(date: Date): string {
         }
 
         <div class="pt-2">
-          <a href="/talks" class="text-summer-text-secondary arrow-link text-sm">
+          <a href="/talks" class="text-summer-text-secondary arrow-link text-sm" data-umami-event="read-more" data-umami-event-section="talks">
             <span class="arrow">→</span><span class="text">all talks</span>
           </a>
         </div>
@@ -262,6 +272,8 @@ function formatDate(date: Date): string {
                     href={project.url || '#'}
                     class="text-summer-text hover-underline inline font-medium"
                     target="_blank"
+                    data-umami-event="project-click"
+                    data-umami-event-name={project.name}
                   >
                     {project.name}
                   </a>
@@ -275,7 +287,7 @@ function formatDate(date: Date): string {
         }
 
         <div class="pt-2">
-          <a href="/projects" class="text-summer-text-secondary arrow-link text-sm">
+          <a href="/projects" class="text-summer-text-secondary arrow-link text-sm" data-umami-event="read-more" data-umami-event-section="projects">
             <span class="arrow">→</span><span class="text">all projects</span>
           </a>
         </div>
@@ -294,7 +306,7 @@ function formatDate(date: Date): string {
         {
           notes.map((note) => (
             <article class="group flex items-baseline justify-between">
-              <a href={`/notes/${note.slug}`} class="hover-underline text-summer-text text-sm">
+              <a href={`/notes/${note.slug}`} class="hover-underline text-summer-text text-sm" data-umami-event="note-click" data-umami-event-title={note.data.title}>
                 {note.data.title}
               </a>
               <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-xs">
@@ -305,7 +317,7 @@ function formatDate(date: Date): string {
         }
 
         <div class="pt-2">
-          <a href="/notes" class="text-summer-text-secondary arrow-link text-sm">
+          <a href="/notes" class="text-summer-text-secondary arrow-link text-sm" data-umami-event="read-more" data-umami-event-section="notes">
             <span class="arrow">→</span><span class="text">all notes</span>
           </a>
         </div>
@@ -324,6 +336,7 @@ function formatDate(date: Date): string {
         href="https://github.com/isala404"
         target="_blank"
         class="group bg-summer-text/[0.02] block aspect-[53/7] overflow-hidden rounded"
+        data-umami-event="github-activity-click"
       >
         <img
           src="https://ghchart.rshah.org/e85a3c/isala404"

@@ -71,6 +71,9 @@ const socialImageURL = new URL(image, Astro.site);
 
     <!-- Preload critical assets -->
     <link rel="preload" href="/dog-still.png" as="image" />
+
+    <!-- Umami Analytics -->
+    <script defer src="https://umami.tallisa.dev/script.js" data-website-id="1c01b274-60a2-4a66-a735-23f436180e58"></script>
   </head>
 
   <body class="font-sans antialiased">
@@ -157,6 +160,151 @@ const socialImageURL = new URL(image, Astro.site);
           }
         });
       }
+    </script>
+
+    <!-- Umami Analytics Tracking -->
+    <script is:inline>
+      (function() {
+        // Wait for umami to be available
+        function waitForUmami(callback) {
+          if (typeof umami !== 'undefined') {
+            callback();
+          } else {
+            setTimeout(() => waitForUmami(callback), 100);
+          }
+        }
+
+        waitForUmami(function() {
+          // Track scroll depth
+          let maxScroll = 0;
+          const scrollMilestones = [25, 50, 75, 90, 100];
+          const trackedMilestones = new Set();
+
+          function trackScrollDepth() {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (scrollHeight <= 0) return;
+
+            const scrollPercent = Math.round((window.scrollY / scrollHeight) * 100);
+            maxScroll = Math.max(maxScroll, scrollPercent);
+
+            scrollMilestones.forEach(milestone => {
+              if (scrollPercent >= milestone && !trackedMilestones.has(milestone)) {
+                trackedMilestones.add(milestone);
+                umami.track('scroll-depth', { depth: milestone, page: window.location.pathname });
+              }
+            });
+          }
+
+          // Throttled scroll handler
+          let scrollTimeout;
+          window.addEventListener('scroll', () => {
+            if (scrollTimeout) return;
+            scrollTimeout = setTimeout(() => {
+              trackScrollDepth();
+              scrollTimeout = null;
+            }, 250);
+          }, { passive: true });
+
+          // Track time on page
+          const startTime = Date.now();
+          const timeIntervals = [30, 60, 120, 300]; // seconds
+          const trackedIntervals = new Set();
+
+          setInterval(() => {
+            const timeOnPage = Math.floor((Date.now() - startTime) / 1000);
+            timeIntervals.forEach(interval => {
+              if (timeOnPage >= interval && !trackedIntervals.has(interval)) {
+                trackedIntervals.add(interval);
+                umami.track('engagement-time', { seconds: interval, page: window.location.pathname });
+              }
+            });
+          }, 5000);
+
+          // Track external link clicks
+          document.addEventListener('click', (e) => {
+            const link = e.target.closest('a');
+            if (!link) return;
+
+            const href = link.getAttribute('href');
+            if (!href) return;
+
+            // External links
+            if (href.startsWith('http') && !href.includes(window.location.hostname)) {
+              umami.track('external-link', {
+                url: href,
+                text: link.textContent?.trim().slice(0, 50),
+                from: window.location.pathname
+              });
+            }
+
+            // Contact links
+            if (href.startsWith('mailto:')) {
+              umami.track('contact-click', { type: 'email', from: window.location.pathname });
+            }
+
+            // Social links
+            if (href.includes('github.com')) {
+              umami.track('social-click', { platform: 'github', from: window.location.pathname });
+            } else if (href.includes('twitter.com') || href.includes('x.com')) {
+              umami.track('social-click', { platform: 'twitter', from: window.location.pathname });
+            } else if (href.includes('linkedin.com')) {
+              umami.track('social-click', { platform: 'linkedin', from: window.location.pathname });
+            }
+
+            // Internal navigation
+            if (href.startsWith('/') && !href.startsWith('//')) {
+              const section = href.split('/')[1] || 'home';
+              umami.track('navigation', { to: section, from: window.location.pathname });
+            }
+          });
+
+          // Track copy events (e.g., code blocks)
+          document.addEventListener('copy', () => {
+            umami.track('content-copy', { page: window.location.pathname });
+          });
+
+          // Track page visibility changes
+          document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+              umami.track('page-exit', {
+                page: window.location.pathname,
+                maxScroll: maxScroll,
+                timeOnPage: Math.floor((Date.now() - startTime) / 1000)
+              });
+            }
+          });
+
+          // Track Easter egg discoveries
+          const gameOverlay = document.getElementById('game-overlay');
+          if (gameOverlay) {
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                  if (!gameOverlay.classList.contains('hidden')) {
+                    umami.track('easter-egg', { type: 'game-opened' });
+                  }
+                }
+              });
+            });
+            observer.observe(gameOverlay, { attributes: true });
+          }
+
+          // Track Konami code activation
+          const vhsOverlay = document.getElementById('vhs-overlay');
+          if (vhsOverlay) {
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                  if (vhsOverlay.classList.contains('active')) {
+                    umami.track('easter-egg', { type: 'konami-code' });
+                  }
+                }
+              });
+            });
+            observer.observe(vhsOverlay, { attributes: true });
+          }
+        });
+      })();
     </script>
   </body>
 </html>
