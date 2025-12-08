@@ -61,7 +61,7 @@ Finally, all the collected data about the TCP data transfer will be written to a
 
 ![Still with me?](/images/blog/kubernetes-observability-ebpf/its-that-easy-meme.webp)
 
-Code for the completed probe can be found from [https://github.com/MrSupiri/kube-ebpf/blob/v0.0.1/prober.c](https://github.com/MrSupiri/kube-ebpf/blob/v0.0.1/prober.c)
+Code for the completed probe can be found from [https://github.com/isala404/kube-ebpf/blob/v0.0.1/prober.c](https://github.com/isala404/kube-ebpf/blob/v0.0.1/prober.c)
 
 ## eBPF + Kubernetes
 
@@ -95,7 +95,7 @@ for pod in pods.items:
     print(f"{pod.metadata.namespace}/{pod.metadata.name}: {pod.status.pod_ip}")
 ```
 
-A proper implementation of this which can be integrated with eBPF probe can be found from [https://github.com/MrSupiri/kube-ebpf/blob/v0.0.1/kube_crawler.py](https://github.com/MrSupiri/kube-ebpf/blob/v0.0.1/kube_crawler.py)
+A proper implementation of this which can be integrated with eBPF probe can be found from [https://github.com/isala404/kube-ebpf/blob/v0.0.1/kube_crawler.py](https://github.com/isala404/kube-ebpf/blob/v0.0.1/kube_crawler.py)
 
 ### Annotating TCP data
 
@@ -173,7 +173,7 @@ def update_metrics(data):
 
 Prometheus client library will aggregate these data points properly and expose those in a way the Prometheus can easily escape and persist the data for long term analysis.
 
-Complete implementation of this process can be found from [https://github.com/MrSupiri/kube-ebpf/blob/v0.0.1/prober.py](https://github.com/MrSupiri/kube-ebpf/blob/v0.0.1/prober.py)
+Complete implementation of this process can be found from [https://github.com/isala404/kube-ebpf/blob/v0.0.1/prober.py](https://github.com/isala404/kube-ebpf/blob/v0.0.1/prober.py)
 
 ## Deploying in Kubernetes
 
@@ -182,7 +182,7 @@ As mentioned in the architecture section, this agent must be deployed as a Daemo
 Finally, we can combine all these into a single deployment yaml file and submit to Kubernetes API. This will spawn a Daemon Set which will hook into the Kernel of each node start scrapeable prometheus endpoint.
 
 ```bash
-kubectl apply -f https://github.com/MrSupiri/kube-ebpf/blob/v0.0.1/deployment.yaml
+kubectl apply -f https://github.com/isala404/kube-ebpf/blob/v0.0.1/deployment.yaml
 ```
 
 ## Observe
@@ -190,7 +190,7 @@ kubectl apply -f https://github.com/MrSupiri/kube-ebpf/blob/v0.0.1/deployment.ya
 Finally, we can deploy a prometheus server with a scrape target on a pods that has the `prometheus.io/scrape: 'true'` .
 
 ```bash
-kubectl apply -f https://github.com/MrSupiri/kube-ebpf/blob/v0.0.1/prometheus-deployment.yaml
+kubectl apply -f https://github.com/isala404/kube-ebpf/blob/v0.0.1/prometheus-deployment.yaml
 ```
 
 If we let it run for a few minutes and log-on to its dashboard using a port-forward, we can observe the TCP data flow within the cluster.
@@ -207,4 +207,4 @@ This article describes how you can leverage eBPF monitor applications run within
 
 A working prototype of the application can be found by following the link given below. In a later article, we will explore how we can integrate AIOps on top of eBPF to achieve real-time anomaly detection.
 
-**GitHub Repository:** [MrSupiri/kube-ebpf at v0.0.1](https://github.com/MrSupiri/kube-ebpf/tree/v0.0.1)
+**GitHub Repository:** [isala404/kube-ebpf at v0.0.1](https://github.com/isala404/kube-ebpf/tree/v0.0.1)
