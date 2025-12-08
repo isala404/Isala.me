@@ -25,13 +25,13 @@ There are many projects like [cilium](https://cilium.io/) and [pixie](https://px
 
 One of the main challenges in monitoring backend applications is that we are often at the mercy of the developer of the application to provide visibility into its key vitals such as throughput and latencies. If it's a third-party application, we have little to no say in its observability capabilities.
 
-![Works on my machine, It's Ops problem now](/images/blog/ebpf/ops-problem-meme.jpg)
+![Works on my machine, It's Ops problem now](/images/blog/kubernetes-observability-ebpf/ops-problem-meme.webp)
 
 With eBPF, we can win back this power by building a wall around the application and carefully inspecting everything that goes in and out of the wall's gates. With that data, we can reconstruct some of the crucial observability capabilities required to operate a service reliably in a language **agnostic** way. At the same time, this will help application developers to focus on building a better application for end users rather than wasting time instrumenting them.
 
 ## Architecture
 
-![High level architecture diagram for this project](/images/blog/ebpf/architecture-diagram.png)
+![High level architecture diagram for this project](/images/blog/kubernetes-observability-ebpf/architecture-diagram.webp)
 
 In a typical Kubernetes setup, we have multiple nodes, each containing separate sets of pods. Within a node, all the pods share the single instance of a kernel. [This design](https://stackoverflow.com/questions/60004292/what-is-the-difference-between-a-pod-and-a-virtual-machine-in-terms-of-computing) is one of the main differences between virtual machines and containerized applications.
 
@@ -47,7 +47,7 @@ For this tutorial, we will use [BPF Compiler Collection (BCC)](https://github.co
 
 The goal of this probe is to trace the life cycle of a TCP data transfer from start to finish and export aggregated data about that request to the userspace. According to Linux Kernel [documentation](https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt), TCP sent events can be triggered from either [tcp_sendmsg](https://elixir.bootlin.com/linux/latest/source/net/ipv4/tcp.c#L1457) or [tcp_sendpage](https://elixir.bootlin.com/linux/latest/source/net/ipv4/tcp.c#L1103).
 
-![TCP output engine](/images/blog/ebpf/tcp-output-engine.png)
+![TCP output engine](/images/blog/kubernetes-observability-ebpf/tcp-output-engine.webp)
 
 By attaching [kprobes](https://docs.kernel.org/trace/kprobes.html) to these two functions, we are able to get a reference to the underlying socket [data structure](https://elixir.bootlin.com/linux/latest/source/include/net/sock.h#L349), which contains all the TCP connection metadata such as designation IP and the port. We can also remember the time of this call which can be later used to calculate the TCP transfer time.
 
@@ -59,7 +59,7 @@ Once the data transfer is completed `tcp_cleanup_rbuf` will be called and it has
 
 Finally, all the collected data about the TCP data transfer will be written to a [ring buffer](https://www.kernel.org/doc/html/next/bpf/ringbuf.html) which can be read from the userspace.
 
-![Still with me?](/images/blog/ebpf/its-that-easy-meme.jpg)
+![Still with me?](/images/blog/kubernetes-observability-ebpf/its-that-easy-meme.webp)
 
 Code for the completed probe can be found from [https://github.com/MrSupiri/kube-ebpf/blob/v0.0.1/prober.c](https://github.com/MrSupiri/kube-ebpf/blob/v0.0.1/prober.c)
 
@@ -69,7 +69,7 @@ Now, since we have the raw TCP data we need to infuse it with Kubernetes metadat
 
 ### Access Kubernetes metadata
 
-![The components of a Kubernetes cluster](/images/blog/ebpf/kubernetes-components.png)
+![The components of a Kubernetes cluster](/images/blog/kubernetes-observability-ebpf/kubernetes-components.webp)
 
 kube-apiserver is a central place where all the components connect to sync up the status. Lucky for us it exposes a powerful REST API which we can use to control pretty much anything within the cluster as long as we have to correct permission.
 
@@ -77,6 +77,7 @@ For this project, we only need read access to the pods running in the cluster. S
 
 ```python
 from kubernetes import client, config
+import os
 
 # Load kube config from inside a pod
 config.load_incluster_config()
@@ -126,7 +127,7 @@ Even though this data makes sense in a VM type setups. Once plugged into Kuberne
 }
 ```
 
-![We are almost done!](/images/blog/ebpf/yaml-files-meme.jpg)
+![We are almost done!](/images/blog/kubernetes-observability-ebpf/yaml-files-meme.webp)
 
 ## Exporting to prometheus
 
@@ -198,7 +199,7 @@ If we let it run for a few minutes and log-on to its dashboard using a port-forw
 kubectl port-forward prometheus-<POD-ID> -n monitoring 9090:9090
 ```
 
-![Number of bytes ingested per minute by port and the pod name](/images/blog/ebpf/prometheus-dashboard.png)
+![Number of bytes ingested per minute by port and the pod name](/images/blog/kubernetes-observability-ebpf/prometheus-dashboard.webp)
 
 ## Conclusion
 
