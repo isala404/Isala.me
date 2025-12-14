@@ -11,8 +11,8 @@ interface Props {
 
 const {
   title,
-  description = 'Isala Piyarisi - Observability Engineer exploring Kubernetes, eBPF, and AI Infrastructure',
-  image = '/og-image.png',
+  description = 'Isala Piyarisi - Platform Engineer building infrastructure that disappears. Exploring Kubernetes, eBPF, and AI Infrastructure.',
+  image = '/og-image.jpeg',
   type = 'website',
   publishedTime,
 } = Astro.props;
@@ -81,7 +81,10 @@ const socialImageURL = new URL(image, Astro.site);
     <link rel="preload" href="/dog-still.png" as="image" />
 
     <!-- Umami Analytics -->
-    <script defer src="https://umami.tallisa.dev/script.js" data-website-id="1c01b274-60a2-4a66-a735-23f436180e58"></script>
+    <script
+      defer
+      src="https://umami.tallisa.dev/script.js"
+      data-website-id="1c01b274-60a2-4a66-a735-23f436180e58"></script>
   </head>
 
   <body class="font-sans antialiased">
@@ -172,7 +175,7 @@ const socialImageURL = new URL(image, Astro.site);
 
     <!-- Umami Analytics Tracking -->
     <script is:inline>
-      (function() {
+      (function () {
         // Wait for umami to be available
         function waitForUmami(callback) {
           if (typeof umami !== 'undefined') {
@@ -182,7 +185,7 @@ const socialImageURL = new URL(image, Astro.site);
           }
         }
 
-        waitForUmami(function() {
+        waitForUmami(function () {
           // Track scroll depth
           let maxScroll = 0;
           const scrollMilestones = [25, 50, 75, 90, 100];
@@ -195,7 +198,7 @@ const socialImageURL = new URL(image, Astro.site);
             const scrollPercent = Math.round((window.scrollY / scrollHeight) * 100);
             maxScroll = Math.max(maxScroll, scrollPercent);
 
-            scrollMilestones.forEach(milestone => {
+            scrollMilestones.forEach((milestone) => {
               if (scrollPercent >= milestone && !trackedMilestones.has(milestone)) {
                 trackedMilestones.add(milestone);
                 umami.track('scroll-depth', { depth: milestone, page: window.location.pathname });
@@ -205,13 +208,17 @@ const socialImageURL = new URL(image, Astro.site);
 
           // Throttled scroll handler
           let scrollTimeout;
-          window.addEventListener('scroll', () => {
-            if (scrollTimeout) return;
-            scrollTimeout = setTimeout(() => {
-              trackScrollDepth();
-              scrollTimeout = null;
-            }, 250);
-          }, { passive: true });
+          window.addEventListener(
+            'scroll',
+            () => {
+              if (scrollTimeout) return;
+              scrollTimeout = setTimeout(() => {
+                trackScrollDepth();
+                scrollTimeout = null;
+              }, 250);
+            },
+            { passive: true }
+          );
 
           // Track time on page
           const startTime = Date.now();
@@ -220,10 +227,13 @@ const socialImageURL = new URL(image, Astro.site);
 
           setInterval(() => {
             const timeOnPage = Math.floor((Date.now() - startTime) / 1000);
-            timeIntervals.forEach(interval => {
+            timeIntervals.forEach((interval) => {
               if (timeOnPage >= interval && !trackedIntervals.has(interval)) {
                 trackedIntervals.add(interval);
-                umami.track('engagement-time', { seconds: interval, page: window.location.pathname });
+                umami.track('engagement-time', {
+                  seconds: interval,
+                  page: window.location.pathname,
+                });
               }
             });
           }, 5000);
@@ -241,7 +251,7 @@ const socialImageURL = new URL(image, Astro.site);
               umami.track('external-link', {
                 url: href,
                 text: link.textContent?.trim().slice(0, 50),
-                from: window.location.pathname
+                from: window.location.pathname,
               });
             }
 
@@ -277,7 +287,7 @@ const socialImageURL = new URL(image, Astro.site);
               umami.track('page-exit', {
                 page: window.location.pathname,
                 maxScroll: maxScroll,
-                timeOnPage: Math.floor((Date.now() - startTime) / 1000)
+                timeOnPage: Math.floor((Date.now() - startTime) / 1000),
               });
             }
           });

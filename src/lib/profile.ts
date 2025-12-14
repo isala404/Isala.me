@@ -66,7 +66,9 @@ export function generateLLMText(): string {
   if (p.achievements?.length) {
     lines.push('## Key Achievements');
     for (const achievement of p.achievements) {
-      lines.push(`- **${achievement.metric}**: ${achievement.description}${achievement.context ? ` (${achievement.context})` : ''}`);
+      lines.push(
+        `- **${achievement.metric}**: ${achievement.description}${achievement.context ? ` (${achievement.context})` : ''}`
+      );
     }
     lines.push('');
   }
@@ -97,7 +99,8 @@ export function generateLLMText(): string {
     lines.push('## Preferred Tools & Technologies');
     if (p.tools.daily?.length) lines.push(`**Daily drivers:** ${p.tools.daily.join(', ')}`);
     if (p.tools.languages?.length) lines.push(`**Languages:** ${p.tools.languages.join(', ')}`);
-    if (p.tools.infrastructure?.length) lines.push(`**Infrastructure:** ${p.tools.infrastructure.join(', ')}`);
+    if (p.tools.infrastructure?.length)
+      lines.push(`**Infrastructure:** ${p.tools.infrastructure.join(', ')}`);
     if (p.tools.editors?.length) lines.push(`**Editors:** ${p.tools.editors.join(', ')}`);
     if (p.tools.os?.length) lines.push(`**OS:** ${p.tools.os.join(', ')}`);
     lines.push('');
