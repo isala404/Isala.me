@@ -77,6 +77,20 @@ function formatDate(date: Date): string {
       </div>
     </header>
 
+    <!-- Cover Image -->
+    {
+      post.data.cover && (
+        <div class="-mx-6 mb-10 md:-mx-0">
+          <img
+            src={post.data.cover}
+            alt={post.data.title}
+            class="h-auto w-full rounded-lg"
+            loading="eager"
+          />
+        </div>
+      )
+    }
+
     <!-- Content -->
     <article class="prose prose-summer max-w-none">
       <Content />
@@ -84,23 +98,24 @@ function formatDate(date: Date): string {
   </main>
 </BaseLayout>
 
-<style>
+<style is:global>
   /* Blog prose styling */
   .prose-summer {
     color: #2a2a35;
   }
 
   .prose-summer h2 {
-    font-size: 1.25rem;
-    font-weight: 500;
+    font-size: 1.375rem;
+    font-weight: 700;
     margin-top: 2.5rem;
     margin-bottom: 1rem;
     color: #2a2a35;
+    letter-spacing: -0.01em;
   }
 
   .prose-summer h3 {
     font-size: 1.125rem;
-    font-weight: 500;
+    font-weight: 600;
     margin-top: 2rem;
     margin-bottom: 0.75rem;
     color: #2a2a35;
@@ -140,19 +155,150 @@ function formatDate(date: Date): string {
     font-size: 0.875rem;
     background: #2a2a35 !important;
     color: #e8e0d5;
+    white-space: pre;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(232, 224, 213, 0.3) transparent;
+  }
+
+  .prose-summer pre::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .prose-summer pre::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .prose-summer pre::-webkit-scrollbar-thumb {
+    background: rgba(232, 224, 213, 0.3);
+    border-radius: 2px;
+  }
+
+  .prose-summer pre::-webkit-scrollbar-thumb:hover {
+    background: rgba(232, 224, 213, 0.5);
   }
 
   .prose-summer pre code {
     background: none;
     padding: 0;
     color: inherit;
+    white-space: pre;
+    word-wrap: normal;
+    overflow-wrap: normal;
   }
 
   .prose-summer blockquote {
-    border-left: 2px solid rgba(232, 90, 60, 0.4);
-    padding-left: 1rem;
-    font-style: italic;
+    border-left: none;
+    padding: 1rem 0 1rem 3rem;
+    margin: 2rem 0;
+    font-style: normal;
+    color: #2a2a35;
+    position: relative;
+  }
+
+  .prose-summer blockquote::before {
+    content: '"';
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 4rem;
+    line-height: 1;
+    color: rgba(232, 90, 60, 0.3);
+    font-family: Georgia, serif;
+  }
+
+  .prose-summer blockquote p {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+
+  .prose-summer blockquote p:last-child {
+    font-size: 0.9rem;
     color: #6b6b7a;
+    margin-bottom: 0;
+  }
+
+  .prose-summer blockquote a {
+    color: #e85a3c;
+  }
+
+  /* Code block wrapper with copy button */
+  .prose-summer .code-wrapper {
+    position: relative;
+  }
+
+  .prose-summer .copy-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(232, 224, 213, 0.1);
+    color: #e8e0d5;
+    border: 1px solid rgba(232, 224, 213, 0.2);
+    border-radius: 0.25rem;
+    cursor: pointer;
+    opacity: 0;
+    transition:
+      opacity 0.2s,
+      background 0.2s;
+  }
+
+  .prose-summer .code-wrapper:hover .copy-btn {
+    opacity: 1;
+  }
+
+  .prose-summer .copy-btn:hover {
+    background: rgba(232, 224, 213, 0.2);
+  }
+
+  .prose-summer .copy-btn.copied {
+    background: rgba(232, 90, 60, 0.3);
+  }
+
+  /* Image lightbox */
+  .prose-summer figure img {
+    cursor: zoom-in;
+    transition: transform 0.2s;
+  }
+
+  .lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s,
+      visibility 0.3s;
+  }
+
+  .lightbox-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .lightbox-overlay img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    border-radius: 0.5rem;
+    transform: scale(0.9);
+    transition: transform 0.3s;
+  }
+
+  .lightbox-overlay.active img {
+    transform: scale(1);
   }
 
   .prose-summer ul {
@@ -179,8 +325,24 @@ function formatDate(date: Date): string {
     margin: 0.5rem 0;
   }
 
+  /* Images with captions - centered */
   .prose-summer img {
     border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .prose-summer figure {
+    margin: 1.5rem 0;
+  }
+
+  .prose-summer figcaption {
+    font-size: 0.8rem;
+    color: #6b6b7a;
+    margin-top: 0.75rem;
+    text-align: center;
   }
 
   .prose-summer strong {
@@ -193,3 +355,84 @@ function formatDate(date: Date): string {
     margin: 2rem 0;
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Add captions to images based on alt text
+    const images = document.querySelectorAll('.prose-summer img[alt]');
+    images.forEach((img) => {
+      const alt = img.getAttribute('alt');
+      if (alt && alt.trim() !== '') {
+        const figure = document.createElement('figure');
+        const figcaption = document.createElement('figcaption');
+        figcaption.textContent = alt;
+
+        img.parentNode?.insertBefore(figure, img);
+        figure.appendChild(img);
+        figure.appendChild(figcaption);
+      }
+    });
+
+    // Open external links in new tab
+    const links = document.querySelectorAll('.prose-summer a[href^="http"]');
+    links.forEach((link) => {
+      link.setAttribute('target', '_blank');
+      link.setAttribute('rel', 'noopener noreferrer');
+    });
+
+    // Add copy button to code blocks
+    const codeBlocks = document.querySelectorAll('.prose-summer pre');
+    codeBlocks.forEach((pre) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'code-wrapper';
+      pre.parentNode?.insertBefore(wrapper, pre);
+      wrapper.appendChild(pre);
+
+      const copyBtn = document.createElement('button');
+      copyBtn.className = 'copy-btn';
+      copyBtn.textContent = 'copy';
+      wrapper.appendChild(copyBtn);
+
+      copyBtn.addEventListener('click', async () => {
+        const code = pre.querySelector('code')?.textContent || pre.textContent || '';
+        await navigator.clipboard.writeText(code);
+        copyBtn.textContent = 'copied!';
+        copyBtn.classList.add('copied');
+        setTimeout(() => {
+          copyBtn.textContent = 'copy';
+          copyBtn.classList.remove('copied');
+        }, 2000);
+      });
+    });
+
+    // Image lightbox
+    const lightbox = document.createElement('div');
+    lightbox.className = 'lightbox-overlay';
+    const lightboxImg = document.createElement('img');
+    lightbox.appendChild(lightboxImg);
+    document.body.appendChild(lightbox);
+
+    const figureImages = document.querySelectorAll<HTMLImageElement>('.prose-summer figure img');
+    figureImages.forEach((img) => {
+      img.addEventListener('click', () => {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    const closeLightbox = () => {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    lightbox.addEventListener('click', closeLightbox);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+  });
+</script>

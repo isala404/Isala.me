@@ -5,6 +5,7 @@ publishedAt: 2022-08-25
 tags: ['kubernetes', 'ebpf', 'observability']
 featured: true
 readingTime: 9
+cover: '/images/blog/kubernetes-observability-ebpf/cover.webp'
 ---
 
 From Netflix extracting [network flow insight](https://netflixtechblog.com/how-netflix-uses-ebpf-flow-logs-at-scale-for-network-insight-e3ea997dca96) in near real time, to Cloudflare [Live-patching](https://blog.cloudflare.com/live-patch-security-vulnerabilities-with-ebpf-lsm/) security vulnerabilities inside the Linux kernel and building "[Magic Firewall](https://blog.cloudflare.com/programmable-packet-filtering-with-magic-firewall/)" to mitigate DDoS attacks, eBPF has become a crucial part in maintaining modern infrastructure.
@@ -103,13 +104,13 @@ After parsing the raw data return from the eBPF ring buffer we will end up with 
 
 ```json
 {
-   "source_ip":"192.168.1.203",
-   "source_port":56266,
-   "destination_ip":"162.159.153.4",
-   "destination_port":443,
-   "transmit_bytes":145,
-   "receive_bytes":39,
-   "duration":54.274
+  "source_ip": "192.168.1.203",
+  "source_port": 56266,
+  "destination_ip": "162.159.153.4",
+  "destination_port": 443,
+  "transmit_bytes": 145,
+  "receive_bytes": 39,
+  "duration": 54.274
 }
 ```
 
@@ -117,13 +118,13 @@ Even though this data makes sense in a VM type setups. Once plugged into Kuberne
 
 ```json
 {
-   "source":"default/pod-1-39cb975d71-twjbk",
-   "source_port":56266,
-   "destination":"kube-system/kube-dns-k8976dfcl-acyjn",
-   "destination_port":443,
-   "transmit_bytes":145,
-   "receive_bytes":39,
-   "duration":54.274
+  "source": "default/pod-1-39cb975d71-twjbk",
+  "source_port": 56266,
+  "destination": "kube-system/kube-dns-k8976dfcl-acyjn",
+  "destination_port": 443,
+  "transmit_bytes": 145,
+  "receive_bytes": 39,
+  "duration": 54.274
 }
 ```
 
