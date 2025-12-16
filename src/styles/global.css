@@ -782,6 +782,7 @@ section:hover .section-heading {
   background: #2a2a35 !important;
   border-radius: 0.5rem;
   padding: 1rem;
+  margin: 1.5rem 0;
 }
 
 .prose pre code {
