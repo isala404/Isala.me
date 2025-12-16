@@ -259,6 +259,56 @@ function formatDate(date: Date): string {
     background: rgba(232, 90, 60, 0.3);
   }
 
+  /* Collapsible code blocks */
+  .prose-summer .code-wrapper.collapsed pre {
+    max-height: 450px;
+    overflow: hidden;
+  }
+
+  .prose-summer .code-wrapper.expanded pre {
+    max-height: none;
+  }
+
+  .prose-summer .code-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, #2a2a35 85%);
+    border-radius: 0 0 0.5rem 0.5rem;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 0.75rem;
+  }
+
+  .prose-summer .code-wrapper.expanded .code-fade {
+    background: linear-gradient(to bottom, transparent, #2a2a35);
+    height: 60px;
+  }
+
+  .prose-summer .expand-btn {
+    padding: 0.375rem 1rem;
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(232, 90, 60, 0.9);
+    color: #e8e0d5;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    pointer-events: auto;
+    transition:
+      background 0.2s,
+      transform 0.2s;
+  }
+
+  .prose-summer .expand-btn:hover {
+    background: #e85a3c;
+    transform: translateY(-1px);
+  }
+
   /* Image lightbox */
   .prose-summer figure img {
     cursor: zoom-in;
@@ -381,14 +431,17 @@ function formatDate(date: Date): string {
       link.setAttribute('rel', 'noopener noreferrer');
     });
 
-    // Add copy button to code blocks
+    // Add copy button and collapse functionality to code blocks
     const codeBlocks = document.querySelectorAll('.prose-summer pre');
+    const COLLAPSE_THRESHOLD = 450;
+
     codeBlocks.forEach((pre) => {
       const wrapper = document.createElement('div');
       wrapper.className = 'code-wrapper';
       pre.parentNode?.insertBefore(wrapper, pre);
       wrapper.appendChild(pre);
 
+      // Add copy button
       const copyBtn = document.createElement('button');
       copyBtn.className = 'copy-btn';
       copyBtn.textContent = 'copy';
@@ -404,6 +457,35 @@ function formatDate(date: Date): string {
           copyBtn.classList.remove('copied');
         }, 2000);
       });
+
+      // Add collapse functionality for long code blocks
+      if (pre.scrollHeight > COLLAPSE_THRESHOLD) {
+        wrapper.classList.add('collapsed');
+
+        const fadeOverlay = document.createElement('div');
+        fadeOverlay.className = 'code-fade';
+
+        const expandBtn = document.createElement('button');
+        expandBtn.className = 'expand-btn';
+        expandBtn.textContent = 'show more';
+        fadeOverlay.appendChild(expandBtn);
+        wrapper.appendChild(fadeOverlay);
+
+        expandBtn.addEventListener('click', () => {
+          const isCollapsed = wrapper.classList.contains('collapsed');
+          if (isCollapsed) {
+            wrapper.classList.remove('collapsed');
+            wrapper.classList.add('expanded');
+            expandBtn.textContent = 'show less';
+          } else {
+            wrapper.classList.remove('expanded');
+            wrapper.classList.add('collapsed');
+            expandBtn.textContent = 'show more';
+            // Scroll to top of code block when collapsing
+            wrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        });
+      }
     });
 
     // Image lightbox
