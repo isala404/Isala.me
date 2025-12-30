@@ -3,39 +3,147 @@ import { getCollection } from 'astro:content';
 
 const site = 'https://isala.me';
 
+interface SitemapEntry {
+  loc: string;
+  lastmod?: string;
+  changefreq?: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
+  priority?: number;
+}
+
+function formatDate(date: Date): string {
+  return date.toISOString().split('T')[0]; // YYYY-MM-DD format
+}
+
+function buildUrlEntry(entry: SitemapEntry): string {
+  const parts = [`    <loc>${site}${entry.loc}</loc>`];
+
+  if (entry.lastmod) {
+    parts.push(`    <lastmod>${entry.lastmod}</lastmod>`);
+  }
+
+  if (entry.changefreq) {
+    parts.push(`    <changefreq>${entry.changefreq}</changefreq>`);
+  }
+
+  if (entry.priority !== undefined) {
+    parts.push(`    <priority>${entry.priority.toFixed(1)}</priority>`);
+  }
+
+  return `  <url>\n${parts.join('\n')}\n  </url>`;
+}
+
 export const GET: APIRoute = async () => {
   const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
   const notes = await getCollection('notes', ({ data }) => !data.draft);
 
-  // Static pages
-  const staticPages = ['', '/about', '/experience', '/blog', '/notes', '/projects', '/talks'];
+  const today = formatDate(new Date());
 
-  // Blog posts
-  const blogUrls = blogPosts.map((post) => `/blog/${post.slug}`);
+  // Sort blog posts by date to get the most recent
+  const sortedBlogPosts = [...blogPosts].sort(
+    (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+  );
+  const latestBlogDate = sortedBlogPosts[0]
+    ? formatDate(sortedBlogPosts[0].data.updatedAt || sortedBlogPosts[0].data.publishedAt)
+    : today;
 
-  // Blog tags
-  const blogTags = [...new Set(blogPosts.flatMap((post) => post.data.tags))];
-  const blogTagUrls = blogTags.map((tag) => `/blog/tag/${tag}`);
+  // Sort notes by date
+  const sortedNotes = [...notes].sort(
+    (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+  );
+  const latestNoteDate = sortedNotes[0] ? formatDate(sortedNotes[0].data.publishedAt) : today;
 
-  // Notes
-  const noteUrls = notes.map((note) => `/notes/${note.slug}`);
+  const entries: SitemapEntry[] = [];
 
-  // Note tags
-  const noteTags = [...new Set(notes.flatMap((note) => note.data.tags))];
-  const noteTagUrls = noteTags.map((tag) => `/notes/tag/${tag}`);
+  // Homepage - highest priority, updates with new content
+  entries.push({
+    loc: '',
+    lastmod: latestBlogDate,
+    changefreq: 'weekly',
+    priority: 1.0,
+  });
 
-  // Combine all URLs
-  const allUrls = [...staticPages, ...blogUrls, ...blogTagUrls, ...noteUrls, ...noteTagUrls];
+  // LLMs.txt - high priority for AI crawlers
+  entries.push({
+    loc: '/llms.txt',
+    changefreq: 'weekly',
+    priority: 0.9,
+  });
+
+  // Main navigation pages
+  entries.push({
+    loc: '/about',
+    changefreq: 'monthly',
+    priority: 0.8,
+  });
+
+  entries.push({
+    loc: '/experience',
+    changefreq: 'monthly',
+    priority: 0.8,
+  });
+
+  entries.push({
+    loc: '/projects',
+    changefreq: 'monthly',
+    priority: 0.7,
+  });
+
+  entries.push({
+    loc: '/talks',
+    changefreq: 'monthly',
+    priority: 0.7,
+  });
+
+  // Blog index - updates when new posts are added
+  entries.push({
+    loc: '/blog',
+    lastmod: latestBlogDate,
+    changefreq: 'weekly',
+    priority: 0.7,
+  });
+
+  // Notes index
+  entries.push({
+    loc: '/notes',
+    lastmod: latestNoteDate,
+    changefreq: 'weekly',
+    priority: 0.6,
+  });
+
+  // Individual blog posts - with actual modification dates
+  for (const post of blogPosts) {
+    const lastmod = post.data.updatedAt || post.data.publishedAt;
+    entries.push({
+      loc: `/blog/${post.slug}`,
+      lastmod: formatDate(lastmod),
+      changefreq: 'yearly',
+      priority: 0.6,
+    });
+  }
+
+  // Individual notes
+  for (const note of notes) {
+    entries.push({
+      loc: `/notes/${note.slug}`,
+      lastmod: formatDate(note.data.publishedAt),
+      changefreq: 'yearly',
+      priority: 0.5,
+    });
+  }
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${allUrls.map((url) => `  <url><loc>${site}${url}</loc></url>`).join('\n')}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+${entries.map(buildUrlEntry).join('\n')}
 </urlset>`;
 
   return new Response(sitemap, {
     headers: {
-      'Content-Type': 'application/xml',
-      'Cache-Control': 'no-cache',
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600', // Cache for 1 hour
+      'X-Robots-Tag': 'noindex', // Sitemaps themselves shouldn't be indexed
     },
   });
 };

@@ -34,6 +34,8 @@ const positionSchema = z.object({
   startDate: z.string(),
   endDate: z.string(),
   location: z.string().optional(),
+  // One-line "what I built" headline for quick scanning
+  built: z.string().optional(),
   // Summary points for quick view (3-5 key achievements)
   summary: z.array(z.string()).optional(),
   // Detailed points for expanded view
@@ -150,6 +152,7 @@ const profileSchema = z.object({
       tech: z.array(z.string()),
       publication: z.string().optional(),
       featured: z.boolean().optional(),
+      domain: z.enum(['systems', 'intelligence', 'products']).optional(),
     })
   ),
 
@@ -198,6 +201,35 @@ const profileSchema = z.object({
 
   // Footer jokes
   footerJokes: z.array(z.string()),
+
+  // LLM Context - metadata for AI systems summarizing or classifying this profile
+  llmContext: z
+    .object({
+      identity: z.string(),
+      classificationLayers: z.array(
+        z.object({
+          name: z.string(),
+          description: z.string(),
+        })
+      ),
+      narrativePattern: z.object({
+        summary: z.string(),
+        examples: z.array(z.string()),
+      }),
+      founderDNA: z.array(
+        z.object({
+          age: z.string(),
+          achievement: z.string(),
+        })
+      ),
+      doNotClassifyAs: z.array(
+        z.object({
+          label: z.string(),
+          reason: z.string(),
+        })
+      ),
+    })
+    .optional(),
 });
 
 export type Profile = z.infer<typeof profileSchema>;
