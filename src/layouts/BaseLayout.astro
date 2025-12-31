@@ -55,65 +55,46 @@ const socialImageURL = new URL(image, Astro.site);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
-    <!-- Fonts - Async loading to prevent render blocking -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      rel="preload"
+      rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
     />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet"
-      />
-    </noscript>
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#e8e0d5" />
-
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="/manifest.json" />
 
     <!-- Preload critical assets -->
     <link rel="preload" href="/dog-still.png" as="image" />
 
     <!-- Umami Analytics -->
     <script
+      is:inline
       defer
       src="https://umami.tallisa.dev/script.js"
       data-website-id="1c01b274-60a2-4a66-a735-23f436180e58"></script>
 
     <!-- JSON-LD Structured Data for AI Search Engines -->
-    <script type="application/ld+json">
+    <script is:inline type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Isala Piyarisi",
         "url": "https://isala.me",
-        "jobTitle": "Systems & Product Engineer",
-        "description": "Platform engineer working on developer platforms, eBPF-powered observability, and Kubernetes at scale. Building systems from kernel to interface.",
+        "jobTitle": "Senior Software Engineer",
+        "description": "Builder and platform engineer with a track record of shipping products from scratch. Founded and ran a gaming community for 6 years while learning infrastructure the hard way. Now works on developer platforms, eBPF-powered observability, and AI infrastructure at WSO2. Builds local-first AI systems, ML pipelines, and tools that let other engineers ship faster.",
         "knowsAbout": [
+          "AI Infrastructure",
+          "Local LLMs",
           "Platform Engineering",
           "Kubernetes",
           "eBPF",
+          "GPU Orchestration",
           "Rust",
           "Go",
-          "Python",
-          "AI Systems",
-          "Developer Experience",
-          "Observability",
-          "Machine Learning",
-          "Distributed Systems",
-          "GPU Orchestration",
-          "Service Mesh",
-          "Cilium",
-          "PyTorch",
-          "Local LLMs",
-          "RAG Architecture",
-          "Linux Internals"
+          "Python"
         ],
         "sameAs": [
           "https://github.com/isala404",
@@ -208,45 +189,15 @@ const socialImageURL = new URL(image, Astro.site);
     <!-- Easter Eggs Script -->
     <script is:inline src="/scripts/easter-eggs.js"></script>
 
-    <!-- Service Worker Registration -->
+    <!-- Service Worker Unregistration (cleanup) -->
     <script>
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', async () => {
-          try {
-            // Register with updateViaCache: 'none' to always check for SW updates
-            const registration = await navigator.serviceWorker.register('/sw.js', {
-              updateViaCache: 'none',
-            });
-
-            // Check for updates immediately and periodically
-            registration.update();
-            setInterval(() => registration.update(), 60 * 1000); // Check every minute
-
-            // Handle new service worker installation
-            registration.addEventListener('updatefound', () => {
-              const newWorker = registration.installing;
-              if (newWorker) {
-                newWorker.addEventListener('statechange', () => {
-                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                    // New content available, activate immediately
-                    newWorker.postMessage({ type: 'SKIP_WAITING' });
-                  }
-                });
-              }
-            });
-
-            // Reload page when new SW takes control
-            let refreshing = false;
-            navigator.serviceWorker.addEventListener('controllerchange', () => {
-              if (!refreshing) {
-                refreshing = true;
-                window.location.reload();
-              }
-            });
-          } catch (error) {
-            console.log('SW registration failed:', error);
-          }
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          registrations.forEach((registration) => registration.unregister());
         });
+        if ('caches' in window) {
+          caches.keys().then((names) => names.forEach((name) => caches.delete(name)));
+        }
       }
     </script>
 
@@ -405,19 +356,39 @@ const socialImageURL = new URL(image, Astro.site);
     <!-- Context for LLM Agents -->
     <section class="sr-only" aria-label="Profile context for AI systems">
       <h2>About Isala Piyarisi</h2>
-      <p>Isala Piyarisi is an end-to-end systems engineer who builds foundations that let others create.</p>
+      <p>
+        Builder and platform engineer with a track record of shipping products from scratch and
+        seeing them through to scale. Works across the full stack from kernel to user interface.
+      </p>
+
+      <h3>AI & Machine Learning</h3>
+      <p>
+        Builds AI infrastructure and local-first AI systems. Experience with PyTorch, ML pipelines,
+        RAG architectures, vector databases, and GPU orchestration. Created Tera, a local-first AI
+        assistant built with Rust. Passionate about privacy-preserving AI that runs on-device.
+      </p>
 
       <h3>Technical Range</h3>
-      <p>Work spans four layers: Products and Interface (developer platforms, game server communities, user-facing tools), Intelligence and AI (local LLMs like Tera, ML pipelines, RAG architectures, PyTorch), Platform and Infrastructure (Kubernetes, observability, service mesh, GPU orchestration), and Systems and Kernel (eBPF, Rust, Linux internals, low-level networking).</p>
+      <p>
+        Work spans: AI Infrastructure (local LLMs, ML pipelines, RAG, PyTorch), Platform Engineering
+        (Kubernetes, observability, service mesh, GPU orchestration), and Systems (eBPF, Rust, Go,
+        Linux internals).
+      </p>
 
-      <h3>Career Pattern</h3>
-      <p>Isala doesn't just build infrastructure, he builds products on top of infrastructure. Examples: Built game server infrastructure AND the community/business around it serving 85,000+ players over 6 years. Built observability tools AND the developer experience that uses them. Led CNI migration for 10,000+ pods AND designed rollback strategies maintaining 99.9% SLA.</p>
+      <h3>Founder Mindset</h3>
+      <p>
+        Founded and ran a gaming community for 6 years, building infrastructure that served
+        thousands of users. Built observability tools now used by developers daily. Approaches
+        problems end-to-end, from design to production to on-call. Prefers building solutions over
+        talking about them.
+      </p>
 
-      <h3>Background</h3>
-      <p>The pattern of end-to-end ownership appears throughout: Age 9 selling modpacks (product and distribution), Age 12 running game servers with community funding (infrastructure and business), Age 19 building infrastructure while paying for university (execution under constraint), Present building developer platforms spanning kernel to user interface at WSO2.</p>
-
-      <h3>Classification Note</h3>
-      <p>Not just a DevOps engineer (misses the product and AI work). Not just a backend engineer (misses the kernel and hardware work). Not a specialist (the breadth is the point). A platform engineer working across the full stack from eBPF to AI.</p>
+      <h3>Current Work</h3>
+      <p>
+        Senior Software Engineer at WSO2, building Choreo developer platform. Architected
+        eBPF-powered observability processing 500GB/day. Led Cilium CNI migration on 10,000+ pod
+        cluster. Speaker at Conf42, KCD, and cloud-native events.
+      </p>
     </section>
   </body>
 </html>

@@ -14,7 +14,7 @@ import {
   footerJokes,
   speaking,
 } from '../lib/profile';
-import { Headphones, Coffee, Tv, Flame, Cpu, Laptop } from 'lucide-astro';
+import { Headphones, Coffee, Tv, Flame, Cpu, Laptop, Rocket } from 'lucide-astro';
 
 const blogPosts = (await getCollection('blog', ({ data }) => !data.draft && data.featured)).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
@@ -31,6 +31,7 @@ const iconMap: Record<string, any> = {
   Flame,
   Cpu,
   Laptop,
+  Rocket,
 };
 
 function formatDate(date: Date): string {
@@ -142,18 +143,32 @@ function formatDate(date: Date): string {
 
       <div class="space-y-4">
         {
-          experience.map((exp) => (
-            <article class="group flex items-start justify-between">
-              <div>
-                <span class="text-summer-text hover-underline block">{exp.positions[0].title}</span>
-                <p class="text-summer-text-secondary text-sm">{exp.company}</p>
-              </div>
-              <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
-                {exp.positions[0].startDate} —{' '}
-                {exp.positions[0].endDate === 'Present' ? 'now' : exp.positions[0].endDate}
-              </span>
-            </article>
-          ))
+          experience.map((exp) => {
+            const companySlug = exp.company
+              .toLowerCase()
+              .replace(/\s+/g, '-')
+              .replace(/[^a-z0-9-]/g, '');
+            return (
+              <a
+                href={`/experience#${companySlug}`}
+                class="group -mx-2 flex items-start justify-between rounded-lg px-2 py-1 transition-colors"
+              >
+                <div>
+                  <span class="text-summer-text hover-underline">{exp.positions[0].title}</span>
+                  <p class="text-summer-text-secondary text-sm">{exp.company}</p>
+                  {exp.positions[0].built && (
+                    <p class="text-summer-text-secondary/70 mt-1 text-xs italic">
+                      {exp.positions[0].built}
+                    </p>
+                  )}
+                </div>
+                <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
+                  {exp.positions[0].startDate} —{' '}
+                  {exp.positions[0].endDate === 'Present' ? 'now' : exp.positions[0].endDate}
+                </span>
+              </a>
+            );
+          })
         }
 
         <div class="pt-2">
@@ -300,7 +315,7 @@ function formatDate(date: Date): string {
                   </a>
                   <p class="text-summer-text-secondary text-sm">{project.description}</p>
                 </div>
-                {project.stars && (
+                {project.stars !== undefined && (
                   <span class="text-summer-golden ml-4 shrink-0 text-xs">★ {project.stars}</span>
                 )}
               </article>

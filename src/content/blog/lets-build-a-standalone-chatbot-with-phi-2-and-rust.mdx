@@ -17,12 +17,12 @@ Most chatbots today are built on a framework called RAG (Retrieval-Augmented Gen
 Any RAG implementation has 3 key components:
 
 - **LLM**: The large language model that analyses text and generates responses.
-- **Knowledge base**: A special database holding "embeddings" — vector representations of data that encode semantic meaning.
+- **Knowledge base**: A special database holding "embeddings", vector representations of data that encode semantic meaning.
 - **Context engine**: Code that interfaces between the LLM and database.
 
 ![RAG Architecture Flow](/images/blog/lets-build-a-standalone-chatbot-with-phi-2-and-rust/rag-architecture.webp)
 
-The above picture shows how the end-to-end data path of a RAG flow works. When a user enters a query, we encodes it into an "embedding vector" that captures its underlying semantic meaning. This is done using a pre-trained language model — while the vector itself would look like nonsense to a human, it allows the machine learning model to represent the query's "essence" in a way it can match against other data.
+The above picture shows how the end-to-end data path of a RAG flow works. When a user enters a query, we encodes it into an "embedding vector" that captures its underlying semantic meaning. This is done using a pre-trained language model. While the vector itself would look like nonsense to a human, it allows the machine learning model to represent the query's "essence" in a way it can match against other data.
 
 Similarly, embeddings can be pre-generated for all the source documents and store it in the Knowledge base (vector database). When a new user question comes in, similarity algorithms like cosine similarity compare the question embedding to the document embeddings to find documents that are relevant to the question.
 
@@ -272,7 +272,7 @@ And there we have it, a way to converts any text into a representative vector ca
 
 ![The complexity of building a chatbot](/images/blog/lets-build-a-standalone-chatbot-with-phi-2-and-rust/complexity-meme.webp)
 
-Our chatbot can now remember facts users teach it and find related information when asked questions later. But coming up with intelligent answers requires more than just search — our bot needs a brain!
+Our chatbot can now remember facts users teach it and find related information when asked questions later. But coming up with intelligent answers requires more than just search. Our bot needs a brain!
 
 For the brains, we'll using fine-tuned version of Phi-2, a lightweight yet very capable LLM that was originally trained by Microsoft. This will allow our chatbot to truly understand questions and form thoughtful, helpful answers using its accumulated knowledge. Let's plug Phi-2 into our system...
 
@@ -399,6 +399,6 @@ Yes, it does. For a model with only 2.7 million parameters, its performance is a
 
 ## What's Next?
 
-The full source code for this project is available on my GitHub with additional features like uploading PDFs, audio files, and even WhatsApp chats. This chatbot can serve as a customizable local assistant. Feel free to tinker with the code and suggest any improvements! I welcome your ideas for enhancing Tera into an even more capable digital companion. But enough from me — go explore and have fun seeing what this bot can do!
+The full source code for this project is available on my GitHub with additional features like uploading PDFs, audio files, and even WhatsApp chats. This chatbot can serve as a customizable local assistant. Feel free to tinker with the code and suggest any improvements! I welcome your ideas for enhancing Tera into an even more capable digital companion. But enough from me. Go explore and have fun seeing what this bot can do!
 
 **GitHub Repository:** [isala404/Tera](https://github.com/isala404/Tera)

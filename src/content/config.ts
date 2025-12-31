@@ -216,10 +216,10 @@ const profileSchema = z.object({
         summary: z.string(),
         examples: z.array(z.string()),
       }),
-      founderDNA: z.array(
+      earlyProjects: z.array(
         z.object({
           age: z.string(),
-          achievement: z.string(),
+          description: z.string(),
         })
       ),
       doNotClassifyAs: z.array(

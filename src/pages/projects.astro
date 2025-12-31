@@ -11,11 +11,13 @@ const domainLabels: Record<string, string> = {
   products: 'Products',
 };
 
-const groupedProjects = domainOrder.map((domain) => ({
-  domain,
-  label: domainLabels[domain],
-  projects: projects.filter((p) => p.domain === domain),
-})).filter((group) => group.projects.length > 0);
+const groupedProjects = domainOrder
+  .map((domain) => ({
+    domain,
+    label: domainLabels[domain],
+    projects: projects.filter((p) => p.domain === domain),
+  }))
+  .filter((group) => group.projects.length > 0);
 
 // Projects without domain go at the end
 const ungroupedProjects = projects.filter((p) => !p.domain);
@@ -46,7 +48,7 @@ const ungroupedProjects = projects.filter((p) => !p.domain);
       {
         groupedProjects.map((group) => (
           <div>
-            <h2 class="text-summer-text-secondary font-mono text-sm mb-4 uppercase tracking-wider">
+            <h2 class="text-summer-text-secondary mb-4 font-mono text-sm tracking-wider uppercase">
               {group.label}
             </h2>
             <div class="space-y-4">
@@ -75,7 +77,7 @@ const ungroupedProjects = projects.filter((p) => !p.domain);
                           {project.description}
                         </p>
                       </div>
-                      {project.stars && (
+                      {project.stars !== undefined && (
                         <div class="text-summer-golden flex shrink-0 items-center gap-1">
                           <Star class="h-3.5 w-3.5 fill-current" />
                           <span class="text-sm">{project.stars}</span>
@@ -101,55 +103,57 @@ const ungroupedProjects = projects.filter((p) => !p.domain);
       }
 
       {/* Ungrouped projects if any */}
-      {ungroupedProjects.length > 0 && (
-        <div class="space-y-4">
-          {ungroupedProjects.map((project) => {
-            const Tag = project.url ? 'a' : 'div';
-            return (
-              <Tag
-                href={project.url}
-                target={project.url ? '_blank' : undefined}
-                rel={project.url ? 'noopener noreferrer' : undefined}
-                class="group border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 block rounded-lg border p-5 transition-all"
-              >
-                <div class="mb-3 flex items-start justify-between gap-4">
-                  <div class="flex-grow">
-                    <div class="mb-1 flex items-center gap-2">
-                      <h3 class="text-summer-text group-hover:text-summer-accent font-medium transition-colors">
-                        {project.name}
-                      </h3>
-                      {project.publication && (
-                        <span class="bg-summer-golden/20 text-summer-golden rounded px-1.5 py-0.5 text-xs">
-                          {project.publication}
-                        </span>
-                      )}
+      {
+        ungroupedProjects.length > 0 && (
+          <div class="space-y-4">
+            {ungroupedProjects.map((project) => {
+              const Tag = project.url ? 'a' : 'div';
+              return (
+                <Tag
+                  href={project.url}
+                  target={project.url ? '_blank' : undefined}
+                  rel={project.url ? 'noopener noreferrer' : undefined}
+                  class="group border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 block rounded-lg border p-5 transition-all"
+                >
+                  <div class="mb-3 flex items-start justify-between gap-4">
+                    <div class="flex-grow">
+                      <div class="mb-1 flex items-center gap-2">
+                        <h3 class="text-summer-text group-hover:text-summer-accent font-medium transition-colors">
+                          {project.name}
+                        </h3>
+                        {project.publication && (
+                          <span class="bg-summer-golden/20 text-summer-golden rounded px-1.5 py-0.5 text-xs">
+                            {project.publication}
+                          </span>
+                        )}
+                      </div>
+                      <p class="text-summer-text-secondary text-sm leading-relaxed">
+                        {project.description}
+                      </p>
                     </div>
-                    <p class="text-summer-text-secondary text-sm leading-relaxed">
-                      {project.description}
-                    </p>
+                    {project.stars !== undefined && (
+                      <div class="text-summer-golden flex shrink-0 items-center gap-1">
+                        <Star class="h-3.5 w-3.5 fill-current" />
+                        <span class="text-sm">{project.stars}</span>
+                      </div>
+                    )}
                   </div>
-                  {project.stars && (
-                    <div class="text-summer-golden flex shrink-0 items-center gap-1">
-                      <Star class="h-3.5 w-3.5 fill-current" />
-                      <span class="text-sm">{project.stars}</span>
+
+                  {project.tech && project.tech.length > 0 && (
+                    <div class="flex flex-wrap gap-2">
+                      {project.tech.map((tech) => (
+                        <span class="bg-summer-text/5 text-summer-text-secondary border-summer-text/10 rounded border px-2 py-0.5 text-xs">
+                          {tech}
+                        </span>
+                      ))}
                     </div>
                   )}
-                </div>
-
-                {project.tech && project.tech.length > 0 && (
-                  <div class="flex flex-wrap gap-2">
-                    {project.tech.map((tech) => (
-                      <span class="bg-summer-text/5 text-summer-text-secondary border-summer-text/10 rounded border px-2 py-0.5 text-xs">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </Tag>
-            );
-          })}
-        </div>
-      )}
+                </Tag>
+              );
+            })}
+          </div>
+        )
+      }
     </section>
 
     <!-- More Projects CTA -->
