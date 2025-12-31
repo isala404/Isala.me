@@ -292,16 +292,25 @@
   const konamiMessage = document.getElementById("konami-message");
   const konamiHint = document.getElementById("konami-hint");
 
+  // Use data attributes + CSS pseudo-elements to keep content out of innerText
+  if (konamiMessage) {
+    konamiMessage.dataset.text = "Welcome Player";
+    konamiMessage.querySelector(".subtitle").dataset.text = "↑↑↓↓←→←→BA";
+  }
+  if (konamiHint) {
+    konamiHint.dataset.hint = hintChars.join("");
+  }
+
   function updateHint() {
     if (!konamiHint) return;
     if (konamiIndex > 0) {
       konamiHint.classList.add("progress");
-      const completed = hintChars.slice(0, konamiIndex).join("");
-      const remaining = hintChars.slice(konamiIndex).join("");
-      konamiHint.innerHTML = `<span style="color: #e85a3c">${completed}</span>${remaining}`;
+      konamiHint.dataset.completed = hintChars.slice(0, konamiIndex).join("");
+      konamiHint.dataset.remaining = hintChars.slice(konamiIndex).join("");
     } else {
       konamiHint.classList.remove("progress");
-      konamiHint.textContent = hintChars.join("");
+      konamiHint.dataset.completed = "";
+      konamiHint.dataset.remaining = "";
     }
   }
 

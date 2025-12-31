@@ -146,48 +146,51 @@ const socialImageURL = new URL(image, Astro.site);
   </head>
 
   <body class="font-sans antialiased">
-    <!-- VHS Overlay (Konami Code Easter Egg) -->
-    <div class="vhs-overlay" id="vhs-overlay">
-      <div class="scanlines"></div>
-      <div class="noise"></div>
-      <div class="color-shift"></div>
-    </div>
-    <div class="konami-message" id="konami-message">
-      Welcome Player
-      <div class="subtitle">↑↑↓↓←→←→BA</div>
-    </div>
-
-    <!-- Game Overlay -->
-    <div class="game-overlay" id="game-overlay">
-      <div class="game-container">
-        <button class="game-close" id="game-close">[ESC] close</button>
-        <div class="game-header">
-          <span class="game-score">SCORE: <span id="game-score">0</span></span>
-          <span class="game-lives">LIVES: <span id="game-lives">♥♥♥</span></span>
-        </div>
-        <canvas class="game-canvas" id="game-canvas"></canvas>
-        <div class="game-start-screen" id="game-start">
-          <div class="game-title">Bug Hunter</div>
-          <div class="game-subtitle">squash the bugs before they reach you</div>
-          <div class="game-instruction">[SPACE] to start</div>
-          <div class="game-subtitle" style="margin-top: 15px; margin-bottom: 0;">
-            [A/D] move · [SPACE] shoot
-          </div>
-        </div>
-        <div class="game-over-screen hidden" id="game-over">
-          <div class="game-title">Game Over</div>
-          <div class="game-final-score">SCORE: <span id="final-score">0</span></div>
-          <div class="game-high-score">HIGH SCORE: <span id="high-score">0</span></div>
-          <div class="game-instruction">[SPACE] to retry</div>
-        </div>
-      </div>
-      <div class="game-hint">[A] left · [D] right · [SPACE] shoot</div>
-    </div>
-
     <slot />
 
-    <!-- Easter Eggs Script -->
-    <script is:inline src="/scripts/easter-eggs.js"></script>
+    {Astro.url.pathname === '/' && (
+      <>
+        <!-- VHS Overlay (Konami Code Easter Egg) -->
+        <div class="vhs-overlay" id="vhs-overlay">
+          <div class="scanlines"></div>
+          <div class="noise"></div>
+          <div class="color-shift"></div>
+        </div>
+        <div class="konami-message" id="konami-message">
+          <div class="subtitle"></div>
+        </div>
+
+        <!-- Game Overlay -->
+        <div class="game-overlay" id="game-overlay">
+          <div class="game-container">
+            <button class="game-close" id="game-close">[ESC] close</button>
+            <div class="game-header">
+              <span class="game-score">SCORE: <span id="game-score">0</span></span>
+              <span class="game-lives">LIVES: <span id="game-lives">♥♥♥</span></span>
+            </div>
+            <canvas class="game-canvas" id="game-canvas"></canvas>
+            <div class="game-start-screen" id="game-start">
+              <div class="game-title">Bug Hunter</div>
+              <div class="game-subtitle">squash the bugs before they reach you</div>
+              <div class="game-instruction">[SPACE] to start</div>
+              <div class="game-subtitle" style="margin-top: 15px; margin-bottom: 0;">
+                [A/D] move · [SPACE] shoot
+              </div>
+            </div>
+            <div class="game-over-screen hidden" id="game-over">
+              <div class="game-title">Game Over</div>
+              <div class="game-final-score">SCORE: <span id="final-score">0</span></div>
+              <div class="game-high-score">HIGH SCORE: <span id="high-score">0</span></div>
+              <div class="game-instruction">[SPACE] to retry</div>
+            </div>
+          </div>
+          <div class="game-hint">[A] left · [D] right · [SPACE] shoot</div>
+        </div>
+
+        <!-- Easter Eggs Script -->
+        <script is:inline src="/scripts/easter-eggs.js"></script>
+      </>
+    )}
 
     <!-- Service Worker Unregistration (cleanup) -->
     <script>

@@ -49,7 +49,7 @@ function formatDate(date: Date): string {
             class="text-summer-text relative mb-2 text-3xl font-semibold tracking-tight md:text-4xl"
           >
             <span id="name-text" class="name-clickable">{name}</span>
-            <span id="name-tooltip" class="name-tooltip">stop that!</span>
+            <span id="name-tooltip" class="name-tooltip"></span>
           </h1>
           <p class="text-summer-text-secondary mb-4 text-lg font-medium">
             {title}
@@ -405,7 +405,7 @@ function formatDate(date: Date): string {
       <p id="footer-text" class="footer-text">
         {footerJokes[Math.floor(Math.random() * footerJokes.length)]}
       </p>
-      <p id="konami-hint" class="konami-hint mt-3">↑↑↓↓←→←→BA</p>
+      <p id="konami-hint" class="konami-hint mt-3"></p>
     </footer>
   </main>
 </BaseLayout>

@@ -483,6 +483,10 @@ section:hover .section-heading {
   text-align: center;
 }
 
+.konami-message::before {
+  content: attr(data-text);
+}
+
 .konami-message.show {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
@@ -493,6 +497,10 @@ section:hover .section-heading {
   color: #6b6b7a;
   margin-top: 8px;
   letter-spacing: 2px;
+}
+
+.konami-message .subtitle::before {
+  content: attr(data-text);
 }
 
 /* Name Click Easter Egg */
@@ -607,6 +615,19 @@ section:hover .section-heading {
   transition: all 0.3s ease;
   cursor: default;
   user-select: none;
+}
+
+.konami-hint::before {
+  content: attr(data-hint);
+}
+
+.konami-hint.progress::before {
+  content: attr(data-completed);
+  color: #e85a3c;
+}
+
+.konami-hint.progress::after {
+  content: attr(data-remaining);
 }
 
 .konami-hint:hover {
