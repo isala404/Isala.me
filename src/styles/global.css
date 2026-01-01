@@ -6,13 +6,13 @@
    ============================================ */
 :root {
   /* Core Theme Variables */
-  --theme-bg: #e8e0d5;
-  --theme-card: #f5f0e8;
-  --theme-text: #2a2a35;
-  --theme-text-secondary: #6b6b7a;
-  --theme-accent: #e85a3c;
-  --theme-badge: #4a9ba0;
-  --theme-highlight: #a67c2e;
+  --theme-bg: #f4f4f5;
+  --theme-card: #ffffff;
+  --theme-text: #18181b;
+  --theme-text-secondary: #52525b;
+  --theme-accent: #dc2626;
+  --theme-badge: #e4e4e7;
+  --theme-highlight: #f87171;
 
   /* Derived Variables (auto-calculated from core) */
   --theme-accent-hover: color-mix(in srgb, var(--theme-accent) 80%, black);
@@ -25,7 +25,8 @@
   --theme-text-muted: color-mix(in srgb, var(--theme-text) 40%, transparent);
   --theme-bg-translucent: color-mix(in srgb, var(--theme-bg) 98%, transparent);
 
-  /* Special derived colors */
+  /* Special derived colors - dark bg for github-dark syntax theme */
+  --theme-code-bg: color-mix(in srgb, var(--theme-text) 90%, var(--theme-bg));
   --theme-badge-hover: color-mix(in srgb, var(--theme-badge) 80%, black);
   --theme-scrollbar-track: color-mix(in srgb, var(--theme-bg) 50%, transparent);
   --theme-scrollbar-thumb: color-mix(in srgb, var(--theme-accent) 40%, transparent);
@@ -107,14 +108,14 @@ body {
    ============================================ */
 
 /* Link Wiggly Underline Animation
-   NOTE: SVG stroke color must be manually updated to match --theme-accent
-   Current value: %23e85a3c (URL-encoded #e85a3c) */
+   NOTE: SVG stroke color is resolved at Astro build time from --theme-accent in BaseLayout.astro
+   This is a fallback definition - the build-time generated style takes precedence */
 .hover-underline {
   text-decoration: none;
   padding-bottom: 4px;
   background-image:
     linear-gradient(to right, var(--theme-bg) 50%, transparent 50%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 4'%3E%3Cpath d='M0 3.5 Q5 0 10 3.5 T20 3.5' fill='none' stroke='%23e85a3c' stroke-width='1.5'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 4'%3E%3Cpath d='M0 3.5 Q5 0 10 3.5 T20 3.5' fill='none' stroke='%23dc2626' stroke-width='1.5'/%3E%3C/svg%3E");
   background-size:
     200% 4px,
     12px 4px;
@@ -875,10 +876,10 @@ section:hover .section-heading {
 }
 
 .prose pre {
-  background: var(--theme-text) !important;
   border-radius: 0.5rem;
   padding: 1rem;
   margin: 1.5rem 0;
+  border: 1px solid var(--theme-border);
 }
 
 .prose pre code {
@@ -947,16 +948,16 @@ section:hover .section-heading {
 }
 
 .prose-note a {
-  color: var(--theme-badge);
+  color: var(--theme-accent);
   text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--theme-badge) 40%, transparent);
+  text-decoration-color: color-mix(in srgb, var(--theme-accent) 40%, transparent);
   text-underline-offset: 2px;
   transition: all 0.2s ease;
 }
 
 .prose-note a:hover {
-  color: var(--theme-badge-hover);
-  text-decoration-color: var(--theme-badge);
+  color: var(--theme-accent-hover);
+  text-decoration-color: var(--theme-accent);
 }
 
 .prose-note strong {
@@ -978,8 +979,6 @@ section:hover .section-heading {
   padding: 1rem;
   overflow-x: auto;
   font-size: 0.875rem;
-  background: var(--theme-text);
-  color: var(--theme-bg);
   margin: 1.25rem 0;
   border: 1px solid var(--theme-border);
 }

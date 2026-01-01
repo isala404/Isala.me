@@ -154,11 +154,10 @@ function formatDate(date: Date): string {
     padding: 1rem;
     overflow-x: auto;
     font-size: 0.875rem;
-    background: var(--theme-text) !important;
-    color: var(--theme-bg);
     white-space: pre;
     scrollbar-width: thin;
     scrollbar-color: var(--theme-scrollbar-thumb) transparent;
+    border: 1px solid var(--theme-border);
   }
 
   .prose-summer pre::-webkit-scrollbar {
@@ -236,27 +235,19 @@ function formatDate(date: Date): string {
     padding: 0.25rem 0.5rem;
     font-size: 0.75rem;
     font-family: 'JetBrains Mono', monospace;
-    background: var(--theme-accent-bg);
-    color: var(--theme-bg);
+    background: var(--theme-bg);
+    color: var(--theme-text-secondary);
     border: 1px solid var(--theme-border);
     border-radius: 0.25rem;
     cursor: pointer;
-    opacity: 0;
     transition:
-      opacity 0.2s,
-      background 0.2s;
-  }
-
-  .prose-summer .code-wrapper:hover .copy-btn {
-    opacity: 1;
+      background 0.2s,
+      color 0.2s;
   }
 
   .prose-summer .copy-btn:hover {
-    background: var(--theme-scrollbar-thumb);
-  }
-
-  .prose-summer .copy-btn.copied {
     background: var(--theme-accent-bg);
+    color: var(--theme-accent);
   }
 
   /* Collapsible code blocks */
@@ -275,7 +266,7 @@ function formatDate(date: Date): string {
     left: 0;
     right: 0;
     height: 100px;
-    background: linear-gradient(to bottom, transparent, var(--theme-text) 85%);
+    background: linear-gradient(to bottom, transparent, #24292e 85%);
     border-radius: 0 0 0.5rem 0.5rem;
     pointer-events: none;
     display: flex;
@@ -285,7 +276,7 @@ function formatDate(date: Date): string {
   }
 
   .prose-summer .code-wrapper.expanded .code-fade {
-    background: linear-gradient(to bottom, transparent, var(--theme-text));
+    background: linear-gradient(to bottom, transparent, #24292e);
     height: 60px;
   }
 
@@ -451,10 +442,8 @@ function formatDate(date: Date): string {
         const code = pre.querySelector('code')?.textContent || pre.textContent || '';
         await navigator.clipboard.writeText(code);
         copyBtn.textContent = 'copied!';
-        copyBtn.classList.add('copied');
         setTimeout(() => {
           copyBtn.textContent = 'copy';
-          copyBtn.classList.remove('copied');
         }, 2000);
       });
 

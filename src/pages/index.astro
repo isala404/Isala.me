@@ -14,6 +14,7 @@ import {
   footerJokes,
   speaking,
 } from '../lib/profile';
+import { getThemeColors, darkenHex } from '../lib/theme';
 import { Headphones, Coffee, Tv, Flame, Cpu, Laptop, Rocket } from 'lucide-astro';
 
 const blogPosts = (await getCollection('blog', ({ data }) => !data.draft && data.featured)).sort(
@@ -37,6 +38,10 @@ const iconMap: Record<string, any> = {
 function formatDate(date: Date): string {
   return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 }
+
+const theme = getThemeColors();
+const githubChartColor = darkenHex(theme.accent, 0.8);
+const githubUsername = 'isala404';
 ---
 
 <BaseLayout title="Isala Piyarisi | Platform Engineer · eBPF · AI Infrastructure">
@@ -384,14 +389,14 @@ function formatDate(date: Date): string {
       </div>
 
       <a
-        href="https://github.com/isala404"
+        href={`https://github.com/${githubUsername}`}
         target="_blank"
         class="group bg-theme-card/30 block aspect-[53/7] overflow-hidden rounded"
         data-umami-event="github-activity-click"
       >
         <img
-          src="https://ghchart.rshah.org/e85a3c/isala404"
-          alt="GitHub contribution graph for isala404"
+          src={`https://ghchart.rshah.org/${githubChartColor}/${githubUsername}`}
+          alt={`GitHub contribution graph for ${githubUsername}`}
           class="h-full w-full object-contain opacity-80 transition-opacity group-hover:opacity-100"
           loading="lazy"
         />

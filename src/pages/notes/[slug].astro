@@ -56,7 +56,7 @@ const nextNote = currentIndex > 0 ? allNotes[currentIndex - 1] : null;
               {note.data.tags.map((tag) => (
                 <a
                   href={`/notes/tag/${tag}`}
-                  class="bg-theme-badge-bg text-theme-badge hover:bg-theme-badge/20 rounded px-1.5 py-0.5 text-xs transition-colors"
+                  class="bg-theme-accent-bg text-theme-accent hover:bg-theme-accent/20 rounded px-1.5 py-0.5 text-xs transition-colors"
                 >
                   #{tag}
                 </a>
@@ -67,7 +67,7 @@ const nextNote = currentIndex > 0 ? allNotes[currentIndex - 1] : null;
       </div>
     </header>
 
-    <!-- Content - Note style (more compact) -->
+    <!-- Content -->
     <article class="prose-note">
       <Content />
     </article>

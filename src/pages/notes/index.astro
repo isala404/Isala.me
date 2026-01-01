@@ -71,10 +71,10 @@ const years = Object.keys(notesByYear)
             {allTags.map((tag) => (
               <a
                 href={`/notes/tag/${tag}`}
-                class="bg-theme-badge-bg text-theme-badge hover:bg-theme-badge/20 rounded px-3 py-1 text-sm transition-colors"
+                class="bg-theme-accent-bg text-theme-accent hover:bg-theme-accent/20 rounded px-3 py-1 text-sm transition-colors"
               >
                 #{tag}
-                <span class="text-theme-badge/50 ml-1">({tagCounts[tag]})</span>
+                <span class="text-theme-accent/50 ml-1">({tagCounts[tag]})</span>
               </a>
             ))}
           </div>
@@ -113,7 +113,7 @@ const years = Object.keys(notesByYear)
                           {note.data.tags.map((tag) => (
                             <a
                               href={`/notes/tag/${tag}`}
-                              class="bg-theme-badge-bg text-theme-badge hover:bg-theme-badge/20 rounded px-1.5 py-0.5 text-xs transition-colors"
+                              class="bg-theme-accent-bg text-theme-accent hover:bg-theme-accent/20 rounded px-1.5 py-0.5 text-xs transition-colors"
                             >
                               #{tag}
                             </a>

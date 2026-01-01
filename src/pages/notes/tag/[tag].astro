@@ -37,7 +37,7 @@ function formatDate(date: Date): string {
         <span class="arrow">←</span><span class="text">all notes</span>
       </a>
       <h1 class="text-theme-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
-        Tagged: <span class="text-theme-badge">{tag}</span>
+        Tagged: <span class="text-theme-accent">{tag}</span>
       </h1>
       <p class="text-theme-text-secondary text-base">
         {notes.length} note{notes.length !== 1 ? 's' : ''} found
@@ -71,8 +71,8 @@ function formatDate(date: Date): string {
                         class:list={[
                           'rounded px-1.5 py-0.5 text-xs',
                           t === tag
-                            ? 'bg-theme-badge/20 text-theme-badge'
-                            : 'bg-theme-badge-bg text-theme-badge',
+                            ? 'bg-theme-accent/20 text-theme-accent'
+                            : 'bg-theme-accent-bg text-theme-accent',
                         ]}
                       >
                         #{t}
