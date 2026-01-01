@@ -10,15 +10,15 @@ import { experience, topSkills, education, certifications, publications } from '
 >
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Back Home -->
-    <a href="/" class="text-summer-text-secondary arrow-link mb-8 inline-block text-sm">
+    <a href="/" class="text-theme-text-secondary arrow-link mb-8 inline-block text-sm">
       <span class="arrow">←</span><span class="text">back home</span>
     </a>
 
     <header class="mb-12">
-      <h1 class="text-summer-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
+      <h1 class="text-theme-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
         Experience
       </h1>
-      <p class="text-summer-text-secondary text-base">
+      <p class="text-theme-text-secondary text-base">
         Building infrastructure and systems since 2014
       </p>
     </header>
@@ -26,14 +26,14 @@ import { experience, topSkills, education, certifications, publications } from '
     <!-- Skills -->
     <section class="mb-12">
       <div class="mb-6 flex items-center gap-4">
-        <h2 class="text-summer-text section-heading text-lg font-medium">Top Skills</h2>
-        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        <h2 class="text-theme-text section-heading text-lg font-medium">Top Skills</h2>
+        <div class="bg-theme-border border-theme-border h-px flex-grow border-b border-dotted">
         </div>
       </div>
       <div class="flex flex-wrap gap-2">
         {
           topSkills.map((skill) => (
-            <span class="bg-summer-text/5 text-summer-text-secondary border-summer-text/10 rounded-full border px-3 py-1 text-sm">
+            <span class="bg-theme-card text-theme-text-secondary border-theme-border rounded-full border px-3 py-1 text-sm">
               {skill}
             </span>
           ))
@@ -44,8 +44,8 @@ import { experience, topSkills, education, certifications, publications } from '
     <!-- Work Experience -->
     <section class="mb-12">
       <div class="mb-6 flex items-center gap-4">
-        <h2 class="text-summer-text section-heading text-lg font-medium">Work</h2>
-        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        <h2 class="text-theme-text section-heading text-lg font-medium">Work</h2>
+        <div class="bg-theme-border border-theme-border h-px flex-grow border-b border-dotted">
         </div>
       </div>
 
@@ -59,10 +59,10 @@ import { experience, topSkills, education, certifications, publications } from '
             return (
               <article class="relative scroll-mt-24" id={companySlug}>
                 <div class="mb-6">
-                  <h3 class="text-summer-text text-xl font-medium">{company.company}</h3>
+                  <h3 class="text-theme-text text-xl font-medium">{company.company}</h3>
                 </div>
 
-                <div class="border-summer-text/10 ml-2 space-y-6 border-l-2 pl-6">
+                <div class="border-theme-border ml-2 space-y-6 border-l-2 pl-6">
                   {company.positions.map((position, posIdx) => {
                     const positionId = `pos-${companyIdx}-${posIdx}`;
                     const hasSummary = position.summary && position.summary.length > 0;
@@ -71,7 +71,7 @@ import { experience, topSkills, education, certifications, publications } from '
 
                     return (
                       <div class="relative" data-position-id={positionId}>
-                        <div class="bg-summer-bg border-summer-accent absolute top-1 -left-[31px] h-3 w-3 rounded-full border-2" />
+                        <div class="bg-theme-bg border-theme-accent absolute top-1 -left-[31px] h-3 w-3 rounded-full border-2" />
 
                         <div class="mb-2 flex flex-col gap-1 md:flex-row md:items-start md:justify-between">
                           <div>
@@ -81,20 +81,20 @@ import { experience, topSkills, education, certifications, publications } from '
                                 data-target={positionId}
                                 aria-expanded="false"
                               >
-                                <h4 class="text-summer-text group-hover:text-summer-accent font-medium transition-colors">
+                                <h4 class="text-theme-text group-hover:text-theme-accent font-medium transition-colors">
                                   {position.title}
                                 </h4>
-                                <ChevronDown class="text-summer-text-secondary group-hover:text-summer-accent h-4 w-4 transition-transform duration-200" />
+                                <ChevronDown class="text-theme-text-secondary group-hover:text-theme-accent h-4 w-4 transition-transform duration-200" />
                               </button>
                             ) : (
-                              <h4 class="text-summer-text font-medium">{position.title}</h4>
+                              <h4 class="text-theme-text font-medium">{position.title}</h4>
                             )}
-                            <p class="text-summer-text-secondary text-sm">
+                            <p class="text-theme-text-secondary text-sm">
                               {position.type}
                               {position.location && <span> · {position.location}</span>}
                             </p>
                           </div>
-                          <span class="text-summer-text-secondary shrink-0 font-mono text-sm">
+                          <span class="text-theme-text-secondary shrink-0 font-mono text-sm">
                             {position.startDate} —{' '}
                             {position.endDate === 'Present' ? 'now' : position.endDate}
                           </span>
@@ -102,10 +102,10 @@ import { experience, topSkills, education, certifications, publications } from '
 
                         {/* Summary points (always visible) */}
                         {hasSummary && (
-                          <ul class="text-summer-text-secondary mb-1 space-y-1 text-sm leading-relaxed">
+                          <ul class="text-theme-text-secondary mb-1 space-y-1 text-sm leading-relaxed">
                             {position.summary!.map((point: string) => (
                               <li class="flex items-start gap-2">
-                                <span class="text-summer-accent mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-current" />
+                                <span class="text-theme-accent mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-current" />
                                 <span>{point}</span>
                               </li>
                             ))}
@@ -115,7 +115,7 @@ import { experience, topSkills, education, certifications, publications } from '
                         {/* Additional details (expandable) */}
                         {hasDetails && (
                           <ul
-                            class="details-content text-summer-text-secondary mb-3 hidden space-y-1 text-sm leading-relaxed"
+                            class="details-content text-theme-text-secondary mb-3 hidden space-y-1 text-sm leading-relaxed"
                             data-details-for={positionId}
                           >
                             {position.details!.map((point: string, idx: number) => (
@@ -123,7 +123,7 @@ import { experience, topSkills, education, certifications, publications } from '
                                 class="details-item flex items-start gap-2"
                                 style={`--delay: ${idx * 30}ms`}
                               >
-                                <span class="text-summer-text-secondary/50 mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-current" />
+                                <span class="text-theme-text-muted mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-current" />
                                 <span>{point}</span>
                               </li>
                             ))}
@@ -134,7 +134,7 @@ import { experience, topSkills, education, certifications, publications } from '
                           <a
                             href={position.link}
                             target="_blank"
-                            class="text-summer-text-secondary arrow-link mb-3 inline-block text-sm"
+                            class="text-theme-text-secondary arrow-link mb-3 inline-block text-sm"
                           >
                             <span class="arrow">→</span>
                             <span class="text">view project</span>
@@ -144,7 +144,7 @@ import { experience, topSkills, education, certifications, publications } from '
                         {position.skills && position.skills.length > 0 && (
                           <div class="flex flex-wrap gap-2">
                             {position.skills.map((skill) => (
-                              <span class="bg-summer-text/5 text-summer-text-secondary border-summer-text/10 rounded border px-2 py-0.5 text-xs">
+                              <span class="bg-theme-card text-theme-text-secondary border-theme-border rounded border px-2 py-0.5 text-xs">
                                 {skill}
                               </span>
                             ))}
@@ -164,8 +164,8 @@ import { experience, topSkills, education, certifications, publications } from '
     <!-- Education -->
     <section class="mb-12">
       <div class="mb-6 flex items-center gap-4">
-        <h2 class="text-summer-text section-heading text-lg font-medium">Education</h2>
-        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        <h2 class="text-theme-text section-heading text-lg font-medium">Education</h2>
+        <div class="bg-theme-border border-theme-border h-px flex-grow border-b border-dotted">
         </div>
       </div>
 
@@ -174,22 +174,22 @@ import { experience, topSkills, education, certifications, publications } from '
           <article class="mb-6">
             <div class="mb-2 flex items-start justify-between">
               <div>
-                <h3 class="text-summer-text font-medium">{edu.institution}</h3>
-                <p class="text-summer-text-secondary text-sm">{edu.degree}</p>
+                <h3 class="text-theme-text font-medium">{edu.institution}</h3>
+                <p class="text-theme-text-secondary text-sm">{edu.degree}</p>
               </div>
-              <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
+              <span class="text-theme-text-secondary ml-4 shrink-0 font-mono text-sm">
                 {edu.startDate} — {edu.endDate}
               </span>
             </div>
             {edu.grade && (
-              <p class="text-summer-golden mb-2 text-sm">
+              <p class="text-theme-highlight mb-2 text-sm">
                 {edu.grade} · {edu.rank}
               </p>
             )}
             <ul class="space-y-1">
               {edu.highlights.map((highlight) => (
-                <li class="text-summer-text-secondary flex items-start gap-2 text-sm">
-                  <span class="text-summer-accent mt-1">·</span>
+                <li class="text-theme-text-secondary flex items-start gap-2 text-sm">
+                  <span class="text-theme-accent mt-1">·</span>
                   <span>{highlight}</span>
                 </li>
               ))}
@@ -202,8 +202,8 @@ import { experience, topSkills, education, certifications, publications } from '
     <!-- Certifications -->
     <section class="mb-12">
       <div class="mb-6 flex items-center gap-4">
-        <h2 class="text-summer-text section-heading text-lg font-medium">Certifications</h2>
-        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        <h2 class="text-theme-text section-heading text-lg font-medium">Certifications</h2>
+        <div class="bg-theme-border border-theme-border h-px flex-grow border-b border-dotted">
         </div>
       </div>
 
@@ -213,15 +213,15 @@ import { experience, topSkills, education, certifications, publications } from '
             <article class="flex items-start justify-between">
               <div>
                 {cert.url ? (
-                  <a href={cert.url} target="_blank" class="text-summer-text hover-underline">
+                  <a href={cert.url} target="_blank" class="text-theme-text hover-underline">
                     {cert.name}
                   </a>
                 ) : (
-                  <span class="text-summer-text">{cert.name}</span>
+                  <span class="text-theme-text">{cert.name}</span>
                 )}
-                <p class="text-summer-text-secondary text-sm">{cert.issuer}</p>
+                <p class="text-theme-text-secondary text-sm">{cert.issuer}</p>
               </div>
-              <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
+              <span class="text-theme-text-secondary ml-4 shrink-0 font-mono text-sm">
                 {cert.date}
               </span>
             </article>
@@ -233,8 +233,8 @@ import { experience, topSkills, education, certifications, publications } from '
     <!-- Publications -->
     <section class="mb-12">
       <div class="mb-6 flex items-center gap-4">
-        <h2 class="text-summer-text section-heading text-lg font-medium">Publications</h2>
-        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        <h2 class="text-theme-text section-heading text-lg font-medium">Publications</h2>
+        <div class="bg-theme-border border-theme-border h-px flex-grow border-b border-dotted">
         </div>
       </div>
 
@@ -243,12 +243,12 @@ import { experience, topSkills, education, certifications, publications } from '
           publications.map((pub) => (
             <article class="flex items-start justify-between">
               <div>
-                <a href={pub.url} target="_blank" class="text-summer-text hover-underline block">
+                <a href={pub.url} target="_blank" class="text-theme-text hover-underline block">
                   {pub.title}
                 </a>
-                <p class="text-summer-text-secondary text-sm">{pub.publisher}</p>
+                <p class="text-theme-text-secondary text-sm">{pub.publisher}</p>
               </div>
-              <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
+              <span class="text-theme-text-secondary ml-4 shrink-0 font-mono text-sm">
                 {pub.date}
               </span>
             </article>

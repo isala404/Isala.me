@@ -1,5 +1,5 @@
 ---
-title: "Push Notifications on iOS Without an Apple Developer Account"
+title: 'Push Notifications on iOS Without an Apple Developer Account'
 description: 'Send push notifications to iPhones, Android, and desktop browsers - no Firebase, no $99 Apple fee, no app stores. Just the Web Push API.'
 publishedAt: 2025-12-31
 tags: ['web-push', 'pwa', 'javascript', 'notifications']
@@ -64,7 +64,7 @@ self.addEventListener('push', (event) => {
   event.waitUntil(
     self.registration.showNotification(data.title, {
       body: data.body,
-      icon: '/icon-192.png'
+      icon: '/icon-192.png',
     })
   );
 });
@@ -87,14 +87,14 @@ async function subscribeToPush(vapidPublicKey: string) {
   const registration = await navigator.serviceWorker.ready;
   const subscription = await registration.pushManager.subscribe({
     userVisibleOnly: true,
-    applicationServerKey: vapidPublicKey
+    applicationServerKey: vapidPublicKey,
   });
 
   // Send endpoint and keys to your server
   await fetch('/api/push/subscribe', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(subscription.toJSON())
+    body: JSON.stringify(subscription.toJSON()),
   });
 
   return subscription;
@@ -113,10 +113,10 @@ const response = await fetch(subscription.endpoint, {
   headers: {
     'Content-Type': 'application/octet-stream',
     'Content-Encoding': 'aes128gcm',
-    'Authorization': `vapid t=${jwt}, k=${vapidPublicKey}`,
-    'TTL': '86400'
+    Authorization: `vapid t=${jwt}, k=${vapidPublicKey}`,
+    TTL: '86400',
   },
-  body: encryptedPayload
+  body: encryptedPayload,
 });
 
 // 410/404 means subscription expired - clean it up
@@ -132,6 +132,7 @@ The encryption (ECDH + HKDF + AES-GCM) and VAPID JWT signing are complex - this 
 ## Platform Support
 
 **iOS Safari (16.4+)**: Works, but with restrictions:
+
 - Must be installed via "Add to Home Screen"
 - Permission requested from within the PWA, not Safari
 - Only works when launched from home screen

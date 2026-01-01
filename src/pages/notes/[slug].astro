@@ -36,18 +36,18 @@ const nextNote = currentIndex > 0 ? allNotes[currentIndex - 1] : null;
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Header -->
     <header class="mb-8">
-      <a href="/notes" class="text-summer-text-secondary arrow-link mb-6 inline-block text-sm">
+      <a href="/notes" class="text-theme-text-secondary arrow-link mb-6 inline-block text-sm">
         <span class="arrow">←</span><span class="text">all notes</span>
       </a>
 
       <h1
-        class="text-summer-text mb-3 text-xl leading-tight font-semibold tracking-tight md:text-2xl"
+        class="text-theme-text mb-3 text-xl leading-tight font-semibold tracking-tight md:text-2xl"
       >
         {note.data.title}
       </h1>
 
       <div class="flex flex-wrap items-center gap-3 text-sm">
-        <time datetime={note.data.publishedAt.toISOString()} class="text-summer-text-secondary">
+        <time datetime={note.data.publishedAt.toISOString()} class="text-theme-text-secondary">
           {formatDate(note.data.publishedAt)}
         </time>
         {
@@ -56,7 +56,7 @@ const nextNote = currentIndex > 0 ? allNotes[currentIndex - 1] : null;
               {note.data.tags.map((tag) => (
                 <a
                   href={`/notes/tag/${tag}`}
-                  class="bg-summer-teal/10 text-summer-teal hover:bg-summer-teal/20 rounded px-1.5 py-0.5 text-xs transition-colors"
+                  class="bg-theme-badge-bg text-theme-badge hover:bg-theme-badge/20 rounded px-1.5 py-0.5 text-xs transition-colors"
                 >
                   #{tag}
                 </a>
@@ -79,10 +79,10 @@ const nextNote = currentIndex > 0 ? allNotes[currentIndex - 1] : null;
           {prevNote ? (
             <a
               href={`/notes/${prevNote.slug}`}
-              class="group border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 rounded-lg border p-3 transition-all"
+              class="group border-theme-border bg-theme-card/30 hover:bg-theme-card hover:border-theme-border-hover rounded-lg border p-3 transition-all"
             >
-              <span class="text-summer-text-secondary text-xs">← older</span>
-              <p class="text-summer-text group-hover:text-summer-accent truncate text-sm transition-colors">
+              <span class="text-theme-text-secondary text-xs">← older</span>
+              <p class="text-theme-text group-hover:text-theme-accent truncate text-sm transition-colors">
                 {prevNote.data.title}
               </p>
             </a>
@@ -92,10 +92,10 @@ const nextNote = currentIndex > 0 ? allNotes[currentIndex - 1] : null;
           {nextNote ? (
             <a
               href={`/notes/${nextNote.slug}`}
-              class="group border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 rounded-lg border p-3 text-right transition-all"
+              class="group border-theme-border bg-theme-card/30 hover:bg-theme-card hover:border-theme-border-hover rounded-lg border p-3 text-right transition-all"
             >
-              <span class="text-summer-text-secondary text-xs">newer →</span>
-              <p class="text-summer-text group-hover:text-summer-accent truncate text-sm transition-colors">
+              <span class="text-theme-text-secondary text-xs">newer →</span>
+              <p class="text-theme-text group-hover:text-theme-accent truncate text-sm transition-colors">
                 {nextNote.data.title}
               </p>
             </a>

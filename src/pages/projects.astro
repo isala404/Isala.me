@@ -29,16 +29,16 @@ const ungroupedProjects = projects.filter((p) => !p.domain);
 >
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Back Home -->
-    <a href="/" class="text-summer-text-secondary arrow-link mb-8 inline-block text-sm">
+    <a href="/" class="text-theme-text-secondary arrow-link mb-8 inline-block text-sm">
       <span class="arrow">←</span><span class="text">back home</span>
     </a>
 
     <!-- Header -->
     <header class="mb-12">
-      <h1 class="text-summer-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
+      <h1 class="text-theme-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
         Projects
       </h1>
-      <p class="text-summer-text-secondary text-base">
+      <p class="text-theme-text-secondary text-base">
         Things I've built, shipped, and occasionally abandoned
       </p>
     </header>
@@ -48,7 +48,7 @@ const ungroupedProjects = projects.filter((p) => !p.domain);
       {
         groupedProjects.map((group) => (
           <div>
-            <h2 class="text-summer-text-secondary mb-4 font-mono text-sm tracking-wider uppercase">
+            <h2 class="text-theme-text-secondary mb-4 font-mono text-sm tracking-wider uppercase">
               {group.label}
             </h2>
             <div class="space-y-4">
@@ -59,26 +59,26 @@ const ungroupedProjects = projects.filter((p) => !p.domain);
                     href={project.url}
                     target={project.url ? '_blank' : undefined}
                     rel={project.url ? 'noopener noreferrer' : undefined}
-                    class="group border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 block rounded-lg border p-5 transition-all"
+                    class="group border-theme-border bg-theme-card/30 hover:bg-theme-card hover:border-theme-border-hover block rounded-lg border p-5 transition-all"
                   >
                     <div class="mb-3 flex items-start justify-between gap-4">
                       <div class="flex-grow">
                         <div class="mb-1 flex items-center gap-2">
-                          <h3 class="text-summer-text group-hover:text-summer-accent font-medium transition-colors">
+                          <h3 class="text-theme-text group-hover:text-theme-accent font-medium transition-colors">
                             {project.name}
                           </h3>
                           {project.publication && (
-                            <span class="bg-summer-golden/20 text-summer-golden rounded px-1.5 py-0.5 text-xs">
+                            <span class="bg-theme-highlight-bg text-theme-highlight rounded px-1.5 py-0.5 text-xs">
                               {project.publication}
                             </span>
                           )}
                         </div>
-                        <p class="text-summer-text-secondary text-sm leading-relaxed">
+                        <p class="text-theme-text-secondary text-sm leading-relaxed">
                           {project.description}
                         </p>
                       </div>
                       {project.stars !== undefined && (
-                        <div class="text-summer-golden flex shrink-0 items-center gap-1">
+                        <div class="text-theme-highlight flex shrink-0 items-center gap-1">
                           <Star class="h-3.5 w-3.5 fill-current" />
                           <span class="text-sm">{project.stars}</span>
                         </div>
@@ -88,7 +88,7 @@ const ungroupedProjects = projects.filter((p) => !p.domain);
                     {project.tech && project.tech.length > 0 && (
                       <div class="flex flex-wrap gap-2">
                         {project.tech.map((tech) => (
-                          <span class="bg-summer-text/5 text-summer-text-secondary border-summer-text/10 rounded border px-2 py-0.5 text-xs">
+                          <span class="bg-theme-card text-theme-text-secondary border-theme-border rounded border px-2 py-0.5 text-xs">
                             {tech}
                           </span>
                         ))}
@@ -113,26 +113,26 @@ const ungroupedProjects = projects.filter((p) => !p.domain);
                   href={project.url}
                   target={project.url ? '_blank' : undefined}
                   rel={project.url ? 'noopener noreferrer' : undefined}
-                  class="group border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 block rounded-lg border p-5 transition-all"
+                  class="group border-theme-border bg-theme-card/30 hover:bg-theme-card hover:border-theme-border-hover block rounded-lg border p-5 transition-all"
                 >
                   <div class="mb-3 flex items-start justify-between gap-4">
                     <div class="flex-grow">
                       <div class="mb-1 flex items-center gap-2">
-                        <h3 class="text-summer-text group-hover:text-summer-accent font-medium transition-colors">
+                        <h3 class="text-theme-text group-hover:text-theme-accent font-medium transition-colors">
                           {project.name}
                         </h3>
                         {project.publication && (
-                          <span class="bg-summer-golden/20 text-summer-golden rounded px-1.5 py-0.5 text-xs">
+                          <span class="bg-theme-highlight-bg text-theme-highlight rounded px-1.5 py-0.5 text-xs">
                             {project.publication}
                           </span>
                         )}
                       </div>
-                      <p class="text-summer-text-secondary text-sm leading-relaxed">
+                      <p class="text-theme-text-secondary text-sm leading-relaxed">
                         {project.description}
                       </p>
                     </div>
                     {project.stars !== undefined && (
-                      <div class="text-summer-golden flex shrink-0 items-center gap-1">
+                      <div class="text-theme-highlight flex shrink-0 items-center gap-1">
                         <Star class="h-3.5 w-3.5 fill-current" />
                         <span class="text-sm">{project.stars}</span>
                       </div>
@@ -142,7 +142,7 @@ const ungroupedProjects = projects.filter((p) => !p.domain);
                   {project.tech && project.tech.length > 0 && (
                     <div class="flex flex-wrap gap-2">
                       {project.tech.map((tech) => (
-                        <span class="bg-summer-text/5 text-summer-text-secondary border-summer-text/10 rounded border px-2 py-0.5 text-xs">
+                        <span class="bg-theme-card text-theme-text-secondary border-theme-border rounded border px-2 py-0.5 text-xs">
                           {tech}
                         </span>
                       ))}
@@ -157,15 +157,15 @@ const ungroupedProjects = projects.filter((p) => !p.domain);
     </section>
 
     <!-- More Projects CTA -->
-    <section class="border-summer-text/20 mt-10 rounded-lg border border-dashed p-5 text-center">
-      <p class="text-summer-text-secondary mb-3 text-sm">
+    <section class="border-theme-border mt-10 rounded-lg border border-dashed p-5 text-center">
+      <p class="text-theme-text-secondary mb-3 text-sm">
         More experiments and half-baked ideas on GitHub
       </p>
       <a
         href="https://github.com/isala404"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-summer-accent hover:text-summer-accent-hover inline-flex items-center gap-2 transition-colors"
+        class="text-theme-accent hover:text-theme-accent-hover inline-flex items-center gap-2 transition-colors"
       >
         <Github class="h-4 w-4" />
         <span>@isala404</span>

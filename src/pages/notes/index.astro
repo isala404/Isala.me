@@ -51,14 +51,14 @@ const years = Object.keys(notesByYear)
 >
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Back Home -->
-    <a href="/" class="text-summer-text-secondary arrow-link mb-8 inline-block text-sm">
+    <a href="/" class="text-theme-text-secondary arrow-link mb-8 inline-block text-sm">
       <span class="arrow">←</span><span class="text">back home</span>
     </a>
 
     <!-- Header -->
     <header class="mb-8">
-      <h1 class="text-summer-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">Notes</h1>
-      <p class="text-summer-text-secondary text-base">
+      <h1 class="text-theme-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">Notes</h1>
+      <p class="text-theme-text-secondary text-base">
         Quick thoughts, TILs, and things I want to remember
       </p>
     </header>
@@ -71,10 +71,10 @@ const years = Object.keys(notesByYear)
             {allTags.map((tag) => (
               <a
                 href={`/notes/tag/${tag}`}
-                class="bg-summer-teal/10 text-summer-teal hover:bg-summer-teal/20 rounded px-3 py-1 text-sm transition-colors"
+                class="bg-theme-badge-bg text-theme-badge hover:bg-theme-badge/20 rounded px-3 py-1 text-sm transition-colors"
               >
                 #{tag}
-                <span class="text-summer-teal/50 ml-1">({tagCounts[tag]})</span>
+                <span class="text-theme-badge/50 ml-1">({tagCounts[tag]})</span>
               </a>
             ))}
           </div>
@@ -86,25 +86,25 @@ const years = Object.keys(notesByYear)
     <section>
       {
         notes.length === 0 ? (
-          <p class="text-summer-text-secondary">No notes yet. Check back soon!</p>
+          <p class="text-theme-text-secondary">No notes yet. Check back soon!</p>
         ) : (
           <div class="space-y-10">
             {years.map((year) => (
               <div>
-                <h2 class="text-summer-text-secondary bg-summer-bg sticky top-4 mb-4 py-1 font-mono text-sm">
+                <h2 class="text-theme-text-secondary bg-theme-bg sticky top-4 mb-4 py-1 font-mono text-sm">
                   {year}
                 </h2>
                 <div class="grid gap-3">
                   {notesByYear[year].map((note) => (
-                    <article class="border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 rounded-lg border p-4 transition-all">
+                    <article class="border-theme-border bg-theme-card/30 hover:bg-theme-card hover:border-theme-border-hover rounded-lg border p-4 transition-all">
                       <div class="mb-2 flex items-start justify-between gap-4">
                         <a
                           href={`/notes/${note.slug}`}
-                          class="text-summer-text hover:text-summer-accent font-medium transition-colors"
+                          class="text-theme-text hover:text-theme-accent font-medium transition-colors"
                         >
                           {note.data.title}
                         </a>
-                        <span class="text-summer-text-secondary shrink-0 font-mono text-xs">
+                        <span class="text-theme-text-secondary shrink-0 font-mono text-xs">
                           {formatDate(note.data.publishedAt)}
                         </span>
                       </div>
@@ -113,7 +113,7 @@ const years = Object.keys(notesByYear)
                           {note.data.tags.map((tag) => (
                             <a
                               href={`/notes/tag/${tag}`}
-                              class="bg-summer-teal/10 text-summer-teal hover:bg-summer-teal/20 rounded px-1.5 py-0.5 text-xs transition-colors"
+                              class="bg-theme-badge-bg text-theme-badge hover:bg-theme-badge/20 rounded px-1.5 py-0.5 text-xs transition-colors"
                             >
                               #{tag}
                             </a>

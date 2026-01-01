@@ -33,13 +33,13 @@ function formatDate(date: Date): string {
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Header -->
     <header class="mb-12">
-      <a href="/blog" class="text-summer-text-secondary arrow-link mb-6 inline-block text-sm">
+      <a href="/blog" class="text-theme-text-secondary arrow-link mb-6 inline-block text-sm">
         <span class="arrow">←</span><span class="text">all writing</span>
       </a>
-      <h1 class="text-summer-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
-        Tagged: <span class="text-summer-accent">{tag}</span>
+      <h1 class="text-theme-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
+        Tagged: <span class="text-theme-accent">{tag}</span>
       </h1>
-      <p class="text-summer-text-secondary text-base">
+      <p class="text-theme-text-secondary text-base">
         {posts.length} post{posts.length !== 1 ? 's' : ''} found
       </p>
     </header>
@@ -48,24 +48,24 @@ function formatDate(date: Date): string {
     <section>
       {
         posts.length === 0 ? (
-          <p class="text-summer-text-secondary">No posts found with this tag.</p>
+          <p class="text-theme-text-secondary">No posts found with this tag.</p>
         ) : (
           <div class="space-y-8">
             {posts.map((post) => (
-              <article class="group border-summer-text/10 border-b border-dotted pb-8 last:border-0">
+              <article class="group border-theme-border border-b border-dotted pb-8 last:border-0">
                 <a href={`/blog/${post.slug}`} class="block">
                   <div class="mb-2 flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
-                    <h2 class="text-summer-text group-hover:text-summer-accent text-lg font-medium transition-colors">
+                    <h2 class="text-theme-text group-hover:text-theme-accent text-lg font-medium transition-colors">
                       {post.data.title}
                     </h2>
-                    <span class="text-summer-text-secondary shrink-0 font-mono text-sm">
+                    <span class="text-theme-text-secondary shrink-0 font-mono text-sm">
                       {formatDate(post.data.publishedAt)}
                     </span>
                   </div>
-                  <p class="text-summer-text-secondary mb-3 text-sm leading-relaxed">
+                  <p class="text-theme-text-secondary mb-3 text-sm leading-relaxed">
                     {post.data.description}
                   </p>
-                  <div class="text-summer-text-secondary flex items-center gap-4 text-xs">
+                  <div class="text-theme-text-secondary flex items-center gap-4 text-xs">
                     <span>{post.data.readingTime || 5} min read</span>
                     {post.data.tags && post.data.tags.length > 0 && (
                       <div class="flex gap-2">
@@ -74,8 +74,8 @@ function formatDate(date: Date): string {
                             class:list={[
                               'rounded border px-2 py-0.5',
                               t === tag
-                                ? 'bg-summer-accent/10 border-summer-accent/30 text-summer-accent'
-                                : 'bg-summer-text/5 border-summer-text/10',
+                                ? 'bg-theme-accent-bg border-theme-border-hover text-theme-accent'
+                                : 'bg-theme-card border-theme-border',
                             ]}
                           >
                             {t}

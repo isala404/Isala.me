@@ -24,7 +24,7 @@ function isActive(href: string): boolean {
     <div class="flex items-center justify-between">
       <a
         href="/"
-        class="text-summer-text hover:text-summer-accent font-medium transition-colors"
+        class="text-theme-text hover:text-theme-accent font-medium transition-colors"
         data-umami-event="nav-logo-click"
       >
         isala.me
@@ -38,8 +38,8 @@ function isActive(href: string): boolean {
                 class:list={[
                   'rounded px-2 py-1 text-sm transition-colors',
                   isActive(link.href)
-                    ? 'text-summer-accent'
-                    : 'text-summer-text-secondary hover:text-summer-text',
+                    ? 'text-theme-accent'
+                    : 'text-theme-text-secondary hover:text-theme-text',
                 ]}
                 data-umami-event={`nav-${link.label}`}
               >

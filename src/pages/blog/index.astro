@@ -63,16 +63,16 @@ const years = Object.keys(postsByYear)
 >
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Back Home -->
-    <a href="/" class="text-summer-text-secondary arrow-link mb-8 inline-block text-sm">
+    <a href="/" class="text-theme-text-secondary arrow-link mb-8 inline-block text-sm">
       <span class="arrow">←</span><span class="text">back home</span>
     </a>
 
     <!-- Header -->
     <header class="mb-8">
-      <h1 class="text-summer-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
+      <h1 class="text-theme-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
         Writing
       </h1>
-      <p class="text-summer-text-secondary text-base">
+      <p class="text-theme-text-secondary text-base">
         Long-form thoughts on engineering, infrastructure, and lessons learned the hard way
       </p>
     </header>
@@ -90,10 +90,10 @@ const years = Object.keys(postsByYear)
             {allTags.map((tag) => (
               <a
                 href={`/blog/tag/${tag}`}
-                class="bg-summer-text/5 text-summer-text-secondary border-summer-text/10 hover:bg-summer-accent/10 hover:text-summer-accent hover:border-summer-accent/30 rounded border px-3 py-1 text-sm transition-colors"
+                class="bg-theme-card text-theme-text-secondary border-theme-border hover:bg-theme-accent-bg hover:text-theme-accent hover:border-theme-border-hover rounded border px-3 py-1 text-sm transition-colors"
               >
                 {tag}
-                <span class="text-summer-text-secondary/50 ml-1">({tagCounts[tag]})</span>
+                <span class="text-theme-text-muted ml-1">({tagCounts[tag]})</span>
               </a>
             ))}
           </div>
@@ -105,12 +105,12 @@ const years = Object.keys(postsByYear)
     <section>
       {
         posts.length === 0 ? (
-          <p class="text-summer-text-secondary">No posts yet. Check back soon!</p>
+          <p class="text-theme-text-secondary">No posts yet. Check back soon!</p>
         ) : (
           <div class="space-y-10" data-posts-container>
             {years.map((year) => (
               <div>
-                <h2 class="text-summer-text-secondary bg-summer-bg sticky top-4 mb-4 py-1 font-mono text-sm">
+                <h2 class="text-theme-text-secondary bg-theme-bg sticky top-4 mb-4 py-1 font-mono text-sm">
                   {year}
                 </h2>
                 <div class="space-y-6">
@@ -119,34 +119,34 @@ const years = Object.keys(postsByYear)
                     const isExternal = !!post.data.externalUrl;
                     return (
                       <article
-                        class="group border-summer-text/10 border-b border-dotted pb-6 last:border-0"
+                        class="group border-theme-border border-b border-dotted pb-6 last:border-0"
                         data-slug={post.slug}
                       >
                         <div class="mb-2 flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
                           <a
                             href={postUrl}
                             target={isExternal ? '_blank' : undefined}
-                            class="text-summer-text hover:text-summer-accent text-lg font-medium transition-colors"
+                            class="text-theme-text hover:text-theme-accent text-lg font-medium transition-colors"
                           >
                             {post.data.title}
                           </a>
-                          <span class="text-summer-text-secondary shrink-0 font-mono text-sm">
+                          <span class="text-theme-text-secondary shrink-0 font-mono text-sm">
                             {formatDate(post.data.publishedAt)}
                           </span>
                         </div>
                         <a href={postUrl} target={isExternal ? '_blank' : undefined} class="block">
-                          <p class="text-summer-text-secondary mb-3 text-sm leading-relaxed">
+                          <p class="text-theme-text-secondary mb-3 text-sm leading-relaxed">
                             {post.data.description}
                           </p>
                         </a>
-                        <div class="text-summer-text-secondary flex items-center gap-4 text-xs">
+                        <div class="text-theme-text-secondary flex items-center gap-4 text-xs">
                           <span>{post.data.readingTime || 5} min read</span>
                           {post.data.tags && post.data.tags.length > 0 && (
                             <div class="flex gap-2">
                               {post.data.tags.slice(0, 3).map((tag) => (
                                 <a
                                   href={`/blog/tag/${tag}`}
-                                  class="bg-summer-text/5 border-summer-text/10 hover:bg-summer-accent/10 hover:text-summer-accent hover:border-summer-accent/30 rounded border px-2 py-0.5 transition-colors"
+                                  class="bg-theme-card border-theme-border hover:bg-theme-accent-bg hover:text-theme-accent hover:border-theme-border-hover rounded border px-2 py-0.5 transition-colors"
                                 >
                                   {tag}
                                 </a>

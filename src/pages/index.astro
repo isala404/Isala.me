@@ -46,12 +46,12 @@ function formatDate(date: Date): string {
       <div class="flex items-start justify-between gap-4">
         <div>
           <h1
-            class="text-summer-text relative mb-2 text-3xl font-semibold tracking-tight md:text-4xl"
+            class="text-theme-text relative mb-2 text-3xl font-semibold tracking-tight md:text-4xl"
           >
             <span id="name-text" class="name-clickable">{name}</span>
             <span id="name-tooltip" class="name-tooltip"></span>
           </h1>
-          <p class="text-summer-text-secondary mb-4 text-lg font-medium">
+          <p class="text-theme-text-secondary mb-4 text-lg font-medium">
             {title}
             <span class="whitespace-nowrap">· {tagline}</span>
           </p>
@@ -64,36 +64,36 @@ function formatDate(date: Date): string {
       <nav class="mb-6 flex items-center gap-4 text-sm font-medium">
         <a
           href={`mailto:${contact.email}`}
-          class="text-summer-accent hover:text-summer-accent-hover transition-colors"
+          class="text-theme-accent hover:text-theme-accent-hover transition-colors"
           title={contact.email}
           data-umami-event="contact-email">em</a
         >
-        <span class="text-summer-text-secondary">·</span>
+        <span class="text-theme-text-secondary">·</span>
         <a
           href={contact.github}
-          class="text-summer-accent hover:text-summer-accent-hover transition-colors"
+          class="text-theme-accent hover:text-theme-accent-hover transition-colors"
           data-umami-event="contact-github">gh</a
         >
-        <span class="text-summer-text-secondary">·</span>
+        <span class="text-theme-text-secondary">·</span>
         <a
           href={contact.twitter}
-          class="text-summer-accent hover:text-summer-accent-hover transition-colors"
+          class="text-theme-accent hover:text-theme-accent-hover transition-colors"
           data-umami-event="contact-twitter">x</a
         >
-        <span class="text-summer-text-secondary">·</span>
+        <span class="text-theme-text-secondary">·</span>
         <a
           href={contact.linkedin}
-          class="text-summer-accent hover:text-summer-accent-hover transition-colors"
+          class="text-theme-accent hover:text-theme-accent-hover transition-colors"
           data-umami-event="contact-linkedin">li</a
         >
       </nav>
-      <p class="text-summer-text mb-4 max-w-prose text-base leading-relaxed">
+      <p class="text-theme-text mb-4 max-w-prose text-base leading-relaxed">
         {bio}
       </p>
       <p>
         <a
           href="/about"
-          class="text-summer-text-secondary arrow-link text-sm"
+          class="text-theme-text-secondary arrow-link text-sm"
           data-umami-event="read-more"
           data-umami-event-section="about"
         >
@@ -114,18 +114,18 @@ function formatDate(date: Date): string {
                 href={tile.link}
                 target={tile.link ? '_blank' : undefined}
                 data-tile={tile.id}
-                class="now-tile group border-summer-text/5 bg-summer-text/[0.02] hover:bg-summer-text/[0.04] hover:border-summer-accent/20 rounded-lg border p-4 transition-all"
+                class="now-tile group border-theme-border bg-theme-card/30 hover:bg-theme-card hover:border-theme-border-hover rounded-lg border p-4 transition-all"
                 data-umami-event={`now-tile-${tile.id}`}
                 data-umami-event-title={tile.title}
               >
                 <div class="mb-2 flex items-center gap-2">
-                  <Icon class="text-summer-text-secondary group-hover:text-summer-accent h-4 w-4 transition-colors" />
-                  <span class="text-summer-text-secondary text-xs">{tile.label}</span>
+                  <Icon class="text-theme-text-secondary group-hover:text-theme-accent h-4 w-4 transition-colors" />
+                  <span class="text-theme-text-secondary text-xs">{tile.label}</span>
                 </div>
-                <p class="text-summer-text group-hover:text-summer-accent truncate text-sm font-medium transition-colors">
+                <p class="text-theme-text group-hover:text-theme-accent truncate text-sm font-medium transition-colors">
                   {tile.title}
                 </p>
-                <p class="text-summer-text-secondary truncate text-xs">{tile.subtitle}</p>
+                <p class="text-theme-text-secondary truncate text-xs">{tile.subtitle}</p>
               </Tag>
             );
           })
@@ -136,8 +136,8 @@ function formatDate(date: Date): string {
     <!-- Experience Section -->
     <section class="mb-10">
       <div class="mb-6 flex items-center gap-4">
-        <h2 class="text-summer-text section-heading text-lg font-medium">Experience</h2>
-        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        <h2 class="text-theme-text section-heading text-lg font-medium">Experience</h2>
+        <div class="bg-theme-border border-theme-border h-px flex-grow border-b border-dotted">
         </div>
       </div>
 
@@ -154,15 +154,15 @@ function formatDate(date: Date): string {
                 class="group -mx-2 flex items-start justify-between rounded-lg px-2 py-1 transition-colors"
               >
                 <div>
-                  <span class="text-summer-text hover-underline">{exp.positions[0].title}</span>
-                  <p class="text-summer-text-secondary text-sm">{exp.company}</p>
+                  <span class="text-theme-text hover-underline">{exp.positions[0].title}</span>
+                  <p class="text-theme-text-secondary text-sm">{exp.company}</p>
                   {exp.positions[0].built && (
-                    <p class="text-summer-text-secondary/70 mt-1 text-xs italic">
+                    <p class="text-theme-text-muted mt-1 text-xs italic">
                       {exp.positions[0].built}
                     </p>
                   )}
                 </div>
-                <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
+                <span class="text-theme-text-secondary ml-4 shrink-0 font-mono text-sm">
                   {exp.positions[0].startDate} —{' '}
                   {exp.positions[0].endDate === 'Present' ? 'now' : exp.positions[0].endDate}
                 </span>
@@ -174,7 +174,7 @@ function formatDate(date: Date): string {
         <div class="pt-2">
           <a
             href="/experience"
-            class="text-summer-text-secondary arrow-link text-sm"
+            class="text-theme-text-secondary arrow-link text-sm"
             data-umami-event="read-more"
             data-umami-event-section="experience"
           >
@@ -187,8 +187,8 @@ function formatDate(date: Date): string {
     <!-- Writing Section -->
     <section class="mb-10">
       <div class="mb-6 flex items-center gap-4">
-        <h2 class="text-summer-text section-heading text-lg font-medium">Writing</h2>
-        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        <h2 class="text-theme-text section-heading text-lg font-medium">Writing</h2>
+        <div class="bg-theme-border border-theme-border h-px flex-grow border-b border-dotted">
         </div>
       </div>
 
@@ -202,13 +202,13 @@ function formatDate(date: Date): string {
                 <a
                   href={postUrl}
                   target={isExternal ? '_blank' : undefined}
-                  class="hover-underline text-summer-text"
+                  class="hover-underline text-theme-text"
                   data-umami-event="blog-click"
                   data-umami-event-title={post.data.title}
                 >
                   {post.data.title}
                 </a>
-                <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-sm">
+                <span class="text-theme-text-secondary ml-4 shrink-0 font-mono text-sm">
                   {post.data.readingTime || 5} min
                 </span>
               </article>
@@ -219,7 +219,7 @@ function formatDate(date: Date): string {
         <div class="pt-2">
           <a
             href="/blog"
-            class="text-summer-text-secondary arrow-link text-sm"
+            class="text-theme-text-secondary arrow-link text-sm"
             data-umami-event="read-more"
             data-umami-event-section="blog"
           >
@@ -230,11 +230,11 @@ function formatDate(date: Date): string {
     </section>
 
     <!-- Quote -->
-    <blockquote id="quote" class="border-summer-accent/40 mb-10 border-l-2 pl-4 text-sm">
-      <p id="quote-text" class="text-summer-text-secondary italic">
+    <blockquote id="quote" class="border-theme-accent/40 mb-10 border-l-2 pl-4 text-sm">
+      <p id="quote-text" class="text-theme-text-secondary italic">
         "{quotes[0].text}"
       </p>
-      <cite id="quote-author" class="text-summer-text/40 text-xs not-italic">
+      <cite id="quote-author" class="text-theme-text-muted text-xs not-italic">
         — {quotes[0].author}
       </cite>
     </blockquote>
@@ -242,8 +242,8 @@ function formatDate(date: Date): string {
     <!-- Talks Section -->
     <section class="mb-10">
       <div class="mb-6 flex items-center gap-4">
-        <h2 class="text-summer-text section-heading text-lg font-medium">Talks</h2>
-        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        <h2 class="text-theme-text section-heading text-lg font-medium">Talks</h2>
+        <div class="bg-theme-border border-theme-border h-px flex-grow border-b border-dotted">
         </div>
       </div>
 
@@ -258,18 +258,18 @@ function formatDate(date: Date): string {
                     <a
                       href={talk.link}
                       target="_blank"
-                      class="hover-underline text-summer-text block"
+                      class="hover-underline text-theme-text block"
                       data-umami-event="talk-click"
                       data-umami-event-title={talk.title}
                     >
                       {talk.title}
                     </a>
                   ) : (
-                    <span class="text-summer-text">{talk.title}</span>
+                    <span class="text-theme-text">{talk.title}</span>
                   )}
-                  <p class="text-summer-text-secondary text-sm">{talk.event}</p>
+                  <p class="text-theme-text-secondary text-sm">{talk.event}</p>
                 </div>
-                <span class="text-summer-accent bg-summer-accent/10 ml-4 shrink-0 rounded px-2 py-0.5 text-xs">
+                <span class="text-theme-accent bg-theme-accent-bg ml-4 shrink-0 rounded px-2 py-0.5 text-xs">
                   {talk.type}
                 </span>
               </article>
@@ -279,7 +279,7 @@ function formatDate(date: Date): string {
         <div class="pt-2">
           <a
             href="/talks"
-            class="text-summer-text-secondary arrow-link text-sm"
+            class="text-theme-text-secondary arrow-link text-sm"
             data-umami-event="read-more"
             data-umami-event-section="talks"
           >
@@ -292,8 +292,8 @@ function formatDate(date: Date): string {
     <!-- Projects Section -->
     <section class="mb-10">
       <div class="mb-6 flex items-center gap-4">
-        <h2 class="text-summer-text section-heading text-lg font-medium">Projects</h2>
-        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        <h2 class="text-theme-text section-heading text-lg font-medium">Projects</h2>
+        <div class="bg-theme-border border-theme-border h-px flex-grow border-b border-dotted">
         </div>
       </div>
 
@@ -306,17 +306,17 @@ function formatDate(date: Date): string {
                 <div>
                   <a
                     href={project.url || '#'}
-                    class="text-summer-text hover-underline inline font-medium"
+                    class="text-theme-text hover-underline inline font-medium"
                     target="_blank"
                     data-umami-event="project-click"
                     data-umami-event-name={project.name}
                   >
                     {project.name}
                   </a>
-                  <p class="text-summer-text-secondary text-sm">{project.description}</p>
+                  <p class="text-theme-text-secondary text-sm">{project.description}</p>
                 </div>
                 {project.stars !== undefined && (
-                  <span class="text-summer-golden ml-4 shrink-0 text-xs">★ {project.stars}</span>
+                  <span class="text-theme-highlight ml-4 shrink-0 text-xs">★ {project.stars}</span>
                 )}
               </article>
             ))
@@ -325,7 +325,7 @@ function formatDate(date: Date): string {
         <div class="pt-2">
           <a
             href="/projects"
-            class="text-summer-text-secondary arrow-link text-sm"
+            class="text-theme-text-secondary arrow-link text-sm"
             data-umami-event="read-more"
             data-umami-event-section="projects"
           >
@@ -338,8 +338,8 @@ function formatDate(date: Date): string {
     <!-- Notes Section -->
     <section class="mb-10">
       <div class="mb-6 flex items-center gap-4">
-        <h2 class="text-summer-text section-heading text-lg font-medium">Notes</h2>
-        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        <h2 class="text-theme-text section-heading text-lg font-medium">Notes</h2>
+        <div class="bg-theme-border border-theme-border h-px flex-grow border-b border-dotted">
         </div>
       </div>
 
@@ -349,13 +349,13 @@ function formatDate(date: Date): string {
             <article class="group flex items-baseline justify-between">
               <a
                 href={`/notes/${note.slug}`}
-                class="hover-underline text-summer-text text-sm"
+                class="hover-underline text-theme-text text-sm"
                 data-umami-event="note-click"
                 data-umami-event-title={note.data.title}
               >
                 {note.data.title}
               </a>
-              <span class="text-summer-text-secondary ml-4 shrink-0 font-mono text-xs">
+              <span class="text-theme-text-secondary ml-4 shrink-0 font-mono text-xs">
                 {formatDate(note.data.publishedAt)}
               </span>
             </article>
@@ -365,7 +365,7 @@ function formatDate(date: Date): string {
         <div class="pt-2">
           <a
             href="/notes"
-            class="text-summer-text-secondary arrow-link text-sm"
+            class="text-theme-text-secondary arrow-link text-sm"
             data-umami-event="read-more"
             data-umami-event-section="notes"
           >
@@ -378,15 +378,15 @@ function formatDate(date: Date): string {
     <!-- GitHub Activity -->
     <section class="mb-10">
       <div class="mb-6 flex items-center gap-4">
-        <h2 class="text-summer-text section-heading text-lg font-medium">Activity</h2>
-        <div class="bg-summer-text/10 border-summer-text/30 h-px flex-grow border-b border-dotted">
+        <h2 class="text-theme-text section-heading text-lg font-medium">Activity</h2>
+        <div class="bg-theme-border border-theme-border h-px flex-grow border-b border-dotted">
         </div>
       </div>
 
       <a
         href="https://github.com/isala404"
         target="_blank"
-        class="group bg-summer-text/[0.02] block aspect-[53/7] overflow-hidden rounded"
+        class="group bg-theme-card/30 block aspect-[53/7] overflow-hidden rounded"
         data-umami-event="github-activity-click"
       >
         <img
@@ -400,7 +400,7 @@ function formatDate(date: Date): string {
 
     <!-- Footer -->
     <footer
-      class="text-summer-text-secondary border-summer-text/20 border-t border-dotted pt-8 text-center text-sm"
+      class="text-theme-text-secondary border-theme-border border-t border-dotted pt-8 text-center text-sm"
     >
       <p id="footer-text" class="footer-text">
         {footerJokes[Math.floor(Math.random() * footerJokes.length)]}

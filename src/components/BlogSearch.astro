@@ -22,11 +22,11 @@ const postsJson = JSON.stringify(posts);
       type="text"
       id="blog-search-input"
       placeholder="Search posts..."
-      class="bg-summer-text/5 border-summer-text/10 text-summer-text placeholder:text-summer-text-secondary/50 focus:border-summer-accent/30 focus:ring-summer-accent/20 w-full rounded-lg border px-4 py-2.5 text-sm transition-colors outline-none focus:ring-2"
+      class="bg-theme-card border-theme-border text-theme-text placeholder:text-theme-text-muted focus:border-theme-border-hover focus:ring-theme-accent-bg w-full rounded-lg border px-4 py-2.5 text-sm transition-colors outline-none focus:ring-2"
       data-posts={postsJson}
     />
     <svg
-      class="text-summer-text-secondary/50 pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2"
+      class="text-theme-text-muted pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
@@ -38,7 +38,7 @@ const postsJson = JSON.stringify(posts);
         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
     </svg>
   </div>
-  <p id="search-results-count" class="text-summer-text-secondary mt-2 hidden text-xs"></p>
+  <p id="search-results-count" class="text-theme-text-secondary mt-2 hidden text-xs"></p>
 </div>
 
 <script>
