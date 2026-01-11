@@ -56,13 +56,13 @@ export const GET: APIRoute = async () => {
 
   // Homepage - highest priority, updates with new content
   entries.push({
-    loc: '',
+    loc: '/',
     lastmod: latestBlogDate,
     changefreq: 'weekly',
     priority: 1.0,
   });
 
-  // LLMs.txt - high priority for AI crawlers
+  // LLMs.txt - high priority for AI crawlers (no trailing slash for files)
   entries.push({
     loc: '/llms.txt',
     changefreq: 'weekly',
@@ -71,32 +71,32 @@ export const GET: APIRoute = async () => {
 
   // Main navigation pages
   entries.push({
-    loc: '/about',
+    loc: '/about/',
     changefreq: 'monthly',
     priority: 0.8,
   });
 
   entries.push({
-    loc: '/experience',
+    loc: '/experience/',
     changefreq: 'monthly',
     priority: 0.8,
   });
 
   entries.push({
-    loc: '/projects',
+    loc: '/projects/',
     changefreq: 'monthly',
     priority: 0.7,
   });
 
   entries.push({
-    loc: '/talks',
+    loc: '/talks/',
     changefreq: 'monthly',
     priority: 0.7,
   });
 
   // Blog index - updates when new posts are added
   entries.push({
-    loc: '/blog',
+    loc: '/blog/',
     lastmod: latestBlogDate,
     changefreq: 'weekly',
     priority: 0.7,
@@ -104,7 +104,7 @@ export const GET: APIRoute = async () => {
 
   // Notes index
   entries.push({
-    loc: '/notes',
+    loc: '/notes/',
     lastmod: latestNoteDate,
     changefreq: 'weekly',
     priority: 0.6,
@@ -114,7 +114,7 @@ export const GET: APIRoute = async () => {
   for (const post of blogPosts) {
     const lastmod = post.data.updatedAt || post.data.publishedAt;
     entries.push({
-      loc: `/blog/${post.slug}`,
+      loc: `/blog/${post.slug}/`,
       lastmod: formatDate(lastmod),
       changefreq: 'yearly',
       priority: 0.6,
@@ -124,7 +124,7 @@ export const GET: APIRoute = async () => {
   // Individual notes
   for (const note of notes) {
     entries.push({
-      loc: `/notes/${note.slug}`,
+      loc: `/notes/${note.slug}/`,
       lastmod: formatDate(note.data.publishedAt),
       changefreq: 'yearly',
       priority: 0.5,

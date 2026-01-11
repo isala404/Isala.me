@@ -18,6 +18,7 @@ function profileHotReload() {
 
 export default defineConfig({
   site: 'https://isala.me',
+  trailingSlash: 'always',
   integrations: [mdx()],
   markdown: {
     shikiConfig: {
