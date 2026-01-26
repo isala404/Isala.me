@@ -1,0 +1,255 @@
+---
+title: "You don't need a $599 Mac Mini for ClawdBot. A $45 Raspberry Pi works fine."
+description: 'A step-by-step guide to running ClawdBot on a Raspberry Pi 5 with Z.AI for under $75, complete with kubectl and GitHub skills.'
+publishedAt: 2026-01-26
+tags: ['clawdbot', 'ai-agent', 'raspberry-pi']
+featured: true
+readingTime: 12
+cover: '/images/blog/clawdbot-raspberry-pi/cover.jpg'
+---
+
+Twitter/X lost its mind over [ClawdBot](https://github.com/clawdbot/clawdbot) last week. The project jumped from 5,000 to 20,000 GitHub stars in a few days, and somehow people convinced themselves they needed to buy Mac Minis to run it. Tech blogs started calling it a "full-time AI employee." Mac Minis are selling out because of this.
+
+Here's the thing. ClawdBot needs 1GB of RAM and 500MB of disk space. That's it.
+
+I'm running mine on a Raspberry Pi 5 with 1GB of RAM. Forty-five bucks. Combined with a [Z.AI](https://z.ai/subscribe) subscription at $30/year, I have what people are calling "AGI at home" for less than a decent dinner out. This post covers exactly how I set it up.
+
+You could also use an older Raspberry Pi 4 with 1GB for $35 if you want to save even more. ClawdBot doesn't care.
+
+## What is ClawdBot?
+
+[ClawdBot](https://clawd.bot/) is an open-source personal AI assistant that runs on your own hardware. You talk to it through Telegram, WhatsApp, Discord, Slack, or iMessage. It can run commands on the host machine, check systems, manage files.
+
+The interesting part is skills. ClawdBot has a skill registry called ClawdHub where you install capabilities like kubectl management, GitHub workflows, home automation. Your bot can then check if your website is down by tracing through Kubernetes logs, or look up what's left on your release checklist.
+
+## Why a dedicated device?
+
+ClawdBot agents execute commands on the host machine. A misconfigured skill or bad prompt could delete files or mess with your dotfiles. Running on your daily driver where you have unsaved work and years of accumulated stuff is risky.
+
+A dedicated device is a sandbox. Something goes wrong, you reflash the SD card. A Pi sitting in the corner also runs 24/7. Your laptop sleeps and travels. A VM works too if you don't want extra hardware.
+
+## What you'll need
+
+- [Raspberry Pi 5](https://www.raspberrypi.com/products/) 1GB at $45 (or Pi 4 1GB at $35)
+- MicroSD card, 32GB is plenty
+- Power supply for the Pi
+- Another computer to flash the SD card
+- [Z.AI account](https://z.ai/subscribe) at $30/year for Pro or $3/month
+- Telegram account for free
+
+Total around $75 upfront plus $30/year. Compare that to a Mac Mini.
+
+## Step 1. Flash Raspberry Pi OS
+
+Download [Raspberry Pi Imager](https://www.raspberrypi.com/software/) and open it. Select your Pi model, then choose **Raspberry Pi OS Lite (64-bit)**. The Lite version has no desktop environment. Exactly what we want for a headless bot server.
+
+![Selecting Raspberry Pi OS Lite in the imager](/images/blog/clawdbot-raspberry-pi/os-lite-selection.png)
+
+Select your SD card as the storage device.
+
+![Selecting the SD card](/images/blog/clawdbot-raspberry-pi/storage-selection.png)
+
+Before writing, go through the customization options. These matter.
+
+- **Hostname** pick something memorable
+- **User account** create your login credentials
+- **Wi-Fi** enter your network details so it connects on first boot
+- **SSH** enable this with password authentication
+
+![Enabling SSH access](/images/blog/clawdbot-raspberry-pi/ssh-configuration.png)
+
+Review the summary. You should see hostname configured, localisation configured, user account configured, Wi-Fi configured, SSH enabled.
+
+![Configuration summary before writing](/images/blog/clawdbot-raspberry-pi/configuration-summary.png)
+
+Hit Write. Wait.
+
+## Step 2. First boot and SSH
+
+Put the SD card in your Pi and power it on. Give it a minute or two to boot and connect to your network. Then SSH in.
+
+```bash
+ssh pi@<your-pi-ip>
+```
+
+You can find the IP from your router's admin page, or try `ssh pi@raspberrypi.local` if mDNS works on your network.
+
+![First SSH connection to the Pi](/images/blog/clawdbot-raspberry-pi/first-ssh-connection.png)
+
+You might see some locale warnings. Ignore them.
+
+## Step 3. Disable Wi-Fi power saving
+
+Don't skip this. Raspberry Pi's Wi-Fi goes to sleep to save power, which drops your bot's connection at random times. Super annoying. Disable it.
+
+```bash
+echo -e "[connection]\nwifi.powersave = 2" | sudo tee /etc/NetworkManager/conf.d/wifi-powersave-off.conf
+sudo systemctl restart NetworkManager
+```
+
+Verify.
+
+```bash
+iwconfig wlan0 | grep "Power Management"
+```
+
+Should say `Power Management:off`.
+
+![Disabling Wi-Fi power management](/images/blog/clawdbot-raspberry-pi/wifi-power-management.png)
+
+## Step 4. Install agent dependencies
+
+ClawdBot's agent needs some tools to work well. Not strictly required for the gateway to run, but without them the agent is limited.
+
+```bash
+sudo apt install -y git jq ripgrep
+```
+
+- **git** for cloning repos, checking history, managing code
+- **jq** for parsing JSON like API responses, config files, kubectl output
+- **ripgrep** for fast code search
+
+For **yq** which handles YAML parsing, it's not in the default repos.
+
+```bash
+sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_arm64
+sudo chmod +x /usr/local/bin/yq
+```
+
+## Step 5. Install Node.js
+
+ClawdBot runs on Node.js. The version in Raspberry Pi OS repos is ancient, so install from NodeSource.
+
+```bash
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+```
+
+![Setting up NodeSource repository](/images/blog/clawdbot-raspberry-pi/nodesource-setup.png)
+
+Then.
+
+```bash
+sudo apt install nodejs -y
+```
+
+![Installing Node.js](/images/blog/clawdbot-raspberry-pi/nodejs-install.png)
+
+## Step 6. Install ClawdBot
+
+```bash
+sudo npm i -g clawdbot
+```
+
+![Installing ClawdBot globally](/images/blog/clawdbot-raspberry-pi/clawdbot-install.png)
+
+About 674 packages. Takes a couple minutes on the Pi.
+
+## Step 7. Run the onboarding
+
+Start the setup wizard.
+
+```bash
+clawdbot onboard
+```
+
+![ClawdBot onboarding welcome screen](/images/blog/clawdbot-raspberry-pi/onboarding-welcome.png)
+
+Read the security notice. ClawdBot agents can run commands on your machine, so understand what you're enabling. Select **Yes** to continue, then choose **QuickStart**.
+
+The defaults are fine.
+
+- Gateway port 18789
+- Gateway bind Loopback (127.0.0.1)
+- Gateway auth Token
+- Tailscale exposure Off
+
+![QuickStart configuration options](/images/blog/clawdbot-raspberry-pi/quickstart-config.png)
+
+### Configuring Z.AI
+
+For the model provider, select **Z.AI (GLM 4.7)** and enter your API key.
+
+On Z.AI pricing. Their Pro plan is $30/year or $3/month with no token limits, just rate limits around 600 prompts per 5 hours. For a personal assistant that's plenty. Way cheaper than paying per-token with other providers.
+
+**One gotcha.** If you're on Z.AI's GLM Coding Plan, you need the coding endpoint `/api/coding/paas/v4` instead of the standard endpoint. ClawdBot's onboarding should handle this, but if you hit auth issues later, that's probably why.
+
+### Connecting Telegram
+
+Select **Telegram (Bot API)** as your channel.
+
+![Telegram channel selection](/images/blog/clawdbot-raspberry-pi/telegram-channel.png)
+
+To get your bot token.
+
+1. Open Telegram and message @BotFather
+2. Send `/newbot`
+3. Follow the prompts to name your bot
+4. Copy the token which looks like `123456789:ABCdefGHI...`
+
+Paste it when prompted.
+
+## Step 8. Install skills from ClawdHub
+
+This is where it gets interesting. ClawdHub is the skill registry where you add capabilities to your bot.
+
+Search.
+
+```bash
+clawdhub search "kubernetes"
+```
+
+Install.
+
+```bash
+clawdhub install kubectl-skill
+clawdhub install github
+```
+
+Some skills I'm running.
+
+- **kubectl-skill** for executing and managing Kubernetes clusters
+- **k8s-troubleshooter** for systematic Kubernetes troubleshooting and incident response
+- **github** for GitHub workflow management
+
+Skills load on the next session, not immediately. Restart the gateway or start a new conversation.
+
+```bash
+clawdhub list            # See installed skills
+clawdhub update --all    # Update all skills
+```
+
+## The result
+
+Here's ClawdBot running on my Pi, connected to Telegram.
+
+![ClawdBot running and connected](/images/blog/clawdbot-raspberry-pi/clawdbot-running.png)
+
+Bot shows up, confirms it's running on a Raspberry Pi with Linux 6.13.63 arm64, ready to go.
+
+## What can it actually do?
+
+This is what convinced me the setup is worth it.
+
+With kubectl and GitHub skills installed, ClawdBot becomes genuinely useful. Two real examples from today.
+
+### Example 1. Checking if my website is down
+
+I asked my bot to check if my website was having issues. It didn't just ping the URL. It ran kubectl commands to check the pods, traced through the logs, identified the actual problem, told me what was wrong. All through Telegram while I was away from my desk.
+
+![ClawdBot checking website status via kubectl](/images/blog/clawdbot-raspberry-pi/telegram-kubectl-check.png)
+
+### Example 2. What's left for the next release?
+
+Asked what I need to do for my next release. Bot looked up my GitHub issues, checked the milestone, gave me a summary of remaining tasks.
+
+![ClawdBot checking GitHub release tasks](/images/blog/clawdbot-raspberry-pi/telegram-github-release.png)
+
+This is running on a $45 Raspberry Pi. No Mac Mini.
+
+## So yeah
+
+The hype around ClawdBot and Mac Minis is a bit silly. Cool software. Doesn't need expensive hardware.
+
+A Raspberry Pi 5, a Z.AI subscription, and an hour of setup gets you a personal AI assistant that runs 24/7 on hardware you control, talks to you through Telegram, and can actually do things on your infrastructure with skills. About $75 upfront, $30/year to run.
+
+Not "AGI" obviously. But a useful assistant running on a computer the size of a credit card. Good enough for me.
