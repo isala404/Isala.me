@@ -8,6 +8,7 @@ const blog = defineCollection({
     publishedAt: z.coerce.date(),
     updatedAt: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
+    seoTags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
     featured: z.boolean().default(false),
     readingTime: z.number().optional(), // in minutes
@@ -22,6 +23,7 @@ const notes = defineCollection({
     title: z.string(),
     publishedAt: z.coerce.date(),
     tags: z.array(z.string()).default([]),
+    seoTags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
     featured: z.boolean().default(false),
   }),

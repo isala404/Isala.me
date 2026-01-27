@@ -87,7 +87,7 @@ const years = Object.keys(postsByYear)
       allTags.length > 0 && (
         <section class="mb-10">
           <div class="flex flex-wrap gap-2">
-            {allTags.map((tag) => (
+            {allTags.slice(0, 8).map((tag) => (
               <a
                 href={`/blog/tag/${tag}`}
                 class="bg-theme-card text-theme-text-secondary border-theme-border hover:bg-theme-accent-bg hover:text-theme-accent hover:border-theme-border-hover rounded border px-3 py-1 text-sm transition-colors"

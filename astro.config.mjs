@@ -19,6 +19,10 @@ function profileHotReload() {
 export default defineConfig({
   site: 'https://isala.me',
   trailingSlash: 'always',
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'load',
+  },
   integrations: [mdx()],
   markdown: {
     shikiConfig: {

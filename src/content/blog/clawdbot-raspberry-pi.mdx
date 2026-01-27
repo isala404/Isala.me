@@ -2,7 +2,8 @@
 title: "You don't need a $599 Mac Mini for ClawdBot. A $45 Raspberry Pi works fine."
 description: 'A step-by-step guide to running ClawdBot on a Raspberry Pi 5 with Z.AI for under $75, complete with kubectl and GitHub skills.'
 publishedAt: 2026-01-26
-tags: ['clawdbot', 'ai-agent', 'raspberry-pi']
+tags: ['llm', 'iot', 'raspberry-pi', 'ai-agents']
+seoTags: ['raspberry pi ai agent', 'clawdbot setup', 'cheap ai assistant', 'raspberry pi llm']
 featured: true
 readingTime: 12
 cover: '/images/blog/clawdbot-raspberry-pi/cover.jpg'
@@ -12,7 +13,7 @@ Twitter/X lost its mind over [ClawdBot](https://github.com/clawdbot/clawdbot) la
 
 Here's the thing. ClawdBot needs 1GB of RAM and 500MB of disk space. That's it.
 
-I'm running mine on a Raspberry Pi 5 with 1GB of RAM. Forty-five bucks. Combined with a [Z.AI](https://z.ai/subscribe) subscription at $30/year, I have what people are calling "AGI at home" for less than a decent dinner out. This post covers exactly how I set it up.
+I'm running mine on the Raspberry Pi 5 with 8GB RAM my girlfriend got me (btw coolest birthday gift ever). Combined with a [Z.AI](https://z.ai/subscribe) subscription at $30/year, I have what people are calling "AGI at home" for less than a decent dinner out. This post covers exactly how I set it up.
 
 You could also use an older Raspberry Pi 4 with 1GB for $35 if you want to save even more. ClawdBot doesn't care.
 
@@ -34,7 +35,7 @@ A dedicated device is a sandbox. Something goes wrong, you reflash the SD card. 
 - MicroSD card, 32GB is plenty
 - Power supply for the Pi
 - Another computer to flash the SD card
-- [Z.AI account](https://z.ai/subscribe) at $30/year for Pro or $3/month
+- [Z.AI account](https://z.ai/subscribe) at $30/year for Lite or $3/month
 - Telegram account for free
 
 Total around $75 upfront plus $30/year. Compare that to a Mac Mini.
@@ -169,7 +170,7 @@ The defaults are fine.
 
 For the model provider, select **Z.AI (GLM 4.7)** and enter your API key.
 
-On Z.AI pricing. Their Pro plan is $30/year or $3/month with no token limits, just rate limits around 600 prompts per 5 hours. For a personal assistant that's plenty. Way cheaper than paying per-token with other providers.
+On Z.AI pricing. Their Lite plan is $30/year or $3/month with no token limits, just rate limits around 600 prompts per 5 hours. For a personal assistant that's plenty. Way cheaper than paying per-token with other providers.
 
 **One gotcha.** If you're on Z.AI's GLM Coding Plan, you need the coding endpoint `/api/coding/paas/v4` instead of the standard endpoint. ClawdBot's onboarding should handle this, but if you hit auth issues later, that's probably why.
 

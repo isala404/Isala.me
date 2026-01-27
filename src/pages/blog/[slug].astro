@@ -24,6 +24,7 @@ function formatDate(date: Date): string {
   image={post.data.cover}
   type="article"
   publishedTime={post.data.publishedAt.toISOString()}
+  seoTags={post.data.seoTags}
 >
   <!-- Track article read -->
   <script is:inline define:vars={{ postTitle: post.data.title, postSlug: post.slug }}>
