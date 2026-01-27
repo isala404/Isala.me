@@ -196,27 +196,27 @@ This is where it gets interesting. ClawdHub is the skill registry where you add 
 Search.
 
 ```bash
-clawdhub search "kubernetes"
+npx clawdhub@latest search "kubernetes"
 ```
 
 Install.
 
 ```bash
-clawdhub install kubectl-skill
-clawdhub install github
+npx clawdhub@latest install kubernetes
+npx clawdhub@latest install github
 ```
 
 Some skills I'm running.
 
-- **kubectl-skill** for executing and managing Kubernetes clusters
+- **kubernetes** for executing and managing Kubernetes clusters
 - **k8s-troubleshooter** for systematic Kubernetes troubleshooting and incident response
 - **github** for GitHub workflow management
 
 Skills load on the next session, not immediately. Restart the gateway or start a new conversation.
 
 ```bash
-clawdhub list            # See installed skills
-clawdhub update --all    # Update all skills
+npx clawdhub@latest list            # See installed skills
+npx clawdhub@latest update --all    # Update all skills
 ```
 
 ## The result
