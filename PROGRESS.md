@@ -18,3 +18,6 @@ Fixed trailing slash mismatch causing Google Search Console "Alternate page with
 
 Updated ClawdBot Raspberry Pi article to Moltbot/MoltHub branding for SEO.
 - Updated `src/content/blog/clawdbot-raspberry-pi.mdx` to use Moltbot name, new domain, and MoltHub (formerly ClawdHub) phrasing while preserving slug and CLI commands.
+
+Restored ClawdBot SEO metadata for Moltbot rebrand.
+- Updated `src/content/blog/clawdbot-raspberry-pi.mdx` description and seoTags to include "formerly ClawdBot" and ClawdBot keywords.
