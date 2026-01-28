@@ -1,31 +1,31 @@
 ---
-title: "You don't need a $599 Mac Mini for ClawdBot. A $45 Raspberry Pi works fine."
-description: 'A step-by-step guide to running ClawdBot on a Raspberry Pi 5 with Z.AI for under $75, complete with kubectl and GitHub skills.'
+title: "You don't need a $599 Mac Mini for Moltbot. A $45 Raspberry Pi works fine."
+description: 'A step-by-step guide to running Moltbot on a Raspberry Pi 5 with Z.AI for under $75, complete with kubectl and GitHub skills.'
 publishedAt: 2026-01-26
 tags: ['llm', 'iot', 'raspberry-pi', 'ai-agents']
-seoTags: ['raspberry pi ai agent', 'clawdbot setup', 'cheap ai assistant', 'raspberry pi llm']
+seoTags: ['raspberry pi ai agent', 'moltbot setup', 'cheap ai assistant', 'raspberry pi llm']
 featured: true
 readingTime: 12
 cover: '/images/blog/clawdbot-raspberry-pi/cover.jpg'
 ---
 
-Twitter/X lost its mind over [ClawdBot](https://github.com/clawdbot/clawdbot) last week. The project jumped from 5,000 to 20,000 GitHub stars in a few days, and somehow people convinced themselves they needed to buy Mac Minis to run it. Tech blogs started calling it a "full-time AI employee." Mac Minis are selling out because of this.
+Twitter/X lost its mind over [Moltbot (formerly ClawdBot)](https://github.com/clawdbot/clawdbot) last week. The project jumped from 5,000 to 20,000 GitHub stars in a few days, and somehow people convinced themselves they needed to buy Mac Minis to run it. Tech blogs started calling it a "full-time AI employee." Mac Minis are selling out because of this.
 
-Here's the thing. ClawdBot needs 1GB of RAM and 500MB of disk space. That's it.
+Here's the thing. Moltbot needs 1GB of RAM and 500MB of disk space. That's it.
 
 I'm running mine on the Raspberry Pi 5 with 8GB RAM my girlfriend got me (btw coolest birthday gift ever). Combined with a [Z.AI](https://z.ai/subscribe) subscription at $30/year, I have what people are calling "AGI at home" for less than a decent dinner out. This post covers exactly how I set it up.
 
-You could also use an older Raspberry Pi 4 with 1GB for $35 if you want to save even more. ClawdBot doesn't care.
+You could also use an older Raspberry Pi 4 with 1GB for $35 if you want to save even more. Moltbot doesn't care.
 
-## What is ClawdBot?
+## What is Moltbot?
 
-[ClawdBot](https://clawd.bot/) is an open-source personal AI assistant that runs on your own hardware. You talk to it through Telegram, WhatsApp, Discord, Slack, or iMessage. It can run commands on the host machine, check systems, manage files.
+[Moltbot](https://www.molt.bot/) is an open-source personal AI assistant that runs on your own hardware. You talk to it through Telegram, WhatsApp, Discord, Slack, or iMessage. It can run commands on the host machine, check systems, manage files.
 
-The interesting part is skills. ClawdBot has a skill registry called ClawdHub where you install capabilities like kubectl management, GitHub workflows, home automation. Your bot can then check if your website is down by tracing through Kubernetes logs, or look up what's left on your release checklist.
+The interesting part is skills. Moltbot has a skill registry called MoltHub (formerly ClawdHub) where you install capabilities like kubectl management, GitHub workflows, home automation. Your bot can then check if your website is down by tracing through Kubernetes logs, or look up what's left on your release checklist.
 
 ## Why a dedicated device?
 
-ClawdBot agents execute commands on the host machine. A misconfigured skill or bad prompt could delete files or mess with your dotfiles. Running on your daily driver where you have unsaved work and years of accumulated stuff is risky.
+Moltbot agents execute commands on the host machine. A misconfigured skill or bad prompt could delete files or mess with your dotfiles. Running on your daily driver where you have unsaved work and years of accumulated stuff is risky.
 
 A dedicated device is a sandbox. Something goes wrong, you reflash the SD card. A Pi sitting in the corner also runs 24/7. Your laptop sleeps and travels. A VM works too if you don't want extra hardware.
 
@@ -100,7 +100,7 @@ Should say `Power Management:off`.
 
 ## Step 4. Install agent dependencies
 
-ClawdBot's agent needs some tools to work well. Not strictly required for the gateway to run, but without them the agent is limited.
+Moltbot's agent needs some tools to work well. Not strictly required for the gateway to run, but without them the agent is limited.
 
 ```bash
 sudo apt install -y git jq ripgrep
@@ -119,7 +119,7 @@ sudo chmod +x /usr/local/bin/yq
 
 ## Step 5. Install Node.js
 
-ClawdBot runs on Node.js. The version in Raspberry Pi OS repos is ancient, so install from NodeSource.
+Moltbot runs on Node.js. The version in Raspberry Pi OS repos is ancient, so install from NodeSource.
 
 ```bash
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
@@ -135,13 +135,13 @@ sudo apt install nodejs -y
 
 ![Installing Node.js](/images/blog/clawdbot-raspberry-pi/nodejs-install.png)
 
-## Step 6. Install ClawdBot
+## Step 6. Install Moltbot
 
 ```bash
 sudo npm i -g clawdbot
 ```
 
-![Installing ClawdBot globally](/images/blog/clawdbot-raspberry-pi/clawdbot-install.png)
+![Installing Moltbot globally](/images/blog/clawdbot-raspberry-pi/clawdbot-install.png)
 
 About 674 packages. Takes a couple minutes on the Pi.
 
@@ -153,9 +153,9 @@ Start the setup wizard.
 clawdbot onboard
 ```
 
-![ClawdBot onboarding welcome screen](/images/blog/clawdbot-raspberry-pi/onboarding-welcome.png)
+![Moltbot onboarding welcome screen](/images/blog/clawdbot-raspberry-pi/onboarding-welcome.png)
 
-Read the security notice. ClawdBot agents can run commands on your machine, so understand what you're enabling. Select **Yes** to continue, then choose **QuickStart**.
+Read the security notice. Moltbot agents can run commands on your machine, so understand what you're enabling. Select **Yes** to continue, then choose **QuickStart**.
 
 The defaults are fine.
 
@@ -172,7 +172,7 @@ For the model provider, select **Z.AI (GLM 4.7)** and enter your API key.
 
 On Z.AI pricing. Their Lite plan is $30/year or $3/month with no token limits, just rate limits around 600 prompts per 5 hours. For a personal assistant that's plenty. Way cheaper than paying per-token with other providers.
 
-**One gotcha.** If you're on Z.AI's GLM Coding Plan, you need the coding endpoint `/api/coding/paas/v4` instead of the standard endpoint. ClawdBot's onboarding should handle this, but if you hit auth issues later, that's probably why.
+**One gotcha.** If you're on Z.AI's GLM Coding Plan, you need the coding endpoint `/api/coding/paas/v4` instead of the standard endpoint. Moltbot's onboarding should handle this, but if you hit auth issues later, that's probably why.
 
 ### Connecting Telegram
 
@@ -189,9 +189,9 @@ To get your bot token.
 
 Paste it when prompted.
 
-## Step 8. Install skills from ClawdHub
+## Step 8. Install skills from MoltHub
 
-This is where it gets interesting. ClawdHub is the skill registry where you add capabilities to your bot.
+This is where it gets interesting. MoltHub is the skill registry where you add capabilities to your bot.
 
 Search.
 
@@ -221,9 +221,9 @@ npx clawdhub@latest update --all    # Update all skills
 
 ## The result
 
-Here's ClawdBot running on my Pi, connected to Telegram.
+Here's Moltbot running on my Pi, connected to Telegram.
 
-![ClawdBot running and connected](/images/blog/clawdbot-raspberry-pi/clawdbot-running.png)
+![Moltbot running and connected](/images/blog/clawdbot-raspberry-pi/clawdbot-running.png)
 
 Bot shows up, confirms it's running on a Raspberry Pi with Linux 6.13.63 arm64, ready to go.
 
@@ -231,25 +231,25 @@ Bot shows up, confirms it's running on a Raspberry Pi with Linux 6.13.63 arm64, 
 
 This is what convinced me the setup is worth it.
 
-With kubectl and GitHub skills installed, ClawdBot becomes genuinely useful. Two real examples from today.
+With kubectl and GitHub skills installed, Moltbot becomes genuinely useful. Two real examples from today.
 
 ### Example 1. Checking if my website is down
 
 I asked my bot to check if my website was having issues. It didn't just ping the URL. It ran kubectl commands to check the pods, traced through the logs, identified the actual problem, told me what was wrong. All through Telegram while I was away from my desk.
 
-![ClawdBot checking website status via kubectl](/images/blog/clawdbot-raspberry-pi/telegram-kubectl-check.png)
+![Moltbot checking website status via kubectl](/images/blog/clawdbot-raspberry-pi/telegram-kubectl-check.png)
 
 ### Example 2. What's left for the next release?
 
 Asked what I need to do for my next release. Bot looked up my GitHub issues, checked the milestone, gave me a summary of remaining tasks.
 
-![ClawdBot checking GitHub release tasks](/images/blog/clawdbot-raspberry-pi/telegram-github-release.png)
+![Moltbot checking GitHub release tasks](/images/blog/clawdbot-raspberry-pi/telegram-github-release.png)
 
 This is running on a $45 Raspberry Pi. No Mac Mini.
 
 ## So yeah
 
-The hype around ClawdBot and Mac Minis is a bit silly. Cool software. Doesn't need expensive hardware.
+The hype around Moltbot and Mac Minis is a bit silly. Cool software. Doesn't need expensive hardware.
 
 A Raspberry Pi 5, a Z.AI subscription, and an hour of setup gets you a personal AI assistant that runs 24/7 on hardware you control, talks to you through Telegram, and can actually do things on your infrastructure with skills. About $75 upfront, $30/year to run.
 

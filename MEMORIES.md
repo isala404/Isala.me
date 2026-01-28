@@ -22,6 +22,7 @@ SEO Notes
 - Two-tier tagging: display tags (UI) and seoTags (meta keywords only)
 - Each article has 4+ specific tags, blog index shows top 8 only
 - Individual article pages show all tags
+- Moltbot rebrand keeps original blog slug; first mention uses "formerly" phrasing
 
 Prefetch
 - Astro prefetch enabled with prefetchAll: true, defaultStrategy: 'load'

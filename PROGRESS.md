@@ -15,3 +15,6 @@ Fixed trailing slash mismatch causing Google Search Console "Alternate page with
 - Updated `src/pages/sitemap.xml.ts` to use trailing slashes on all page URLs
 - Added nginx redirect rule in `nginx.conf` to 301 redirect `/path` to `/path/`
 - Canonical URLs and sitemap URLs now consistently use trailing slashes
+
+Updated ClawdBot Raspberry Pi article to Moltbot/MoltHub branding for SEO.
+- Updated `src/content/blog/clawdbot-raspberry-pi.mdx` to use Moltbot name, new domain, and MoltHub (formerly ClawdHub) phrasing while preserving slug and CLI commands.
