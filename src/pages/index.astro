@@ -153,23 +153,25 @@ const githubUsername = 'isala404';
               .toLowerCase()
               .replace(/\s+/g, '-')
               .replace(/[^a-z0-9-]/g, '');
+            const currentPosition = exp.positions[0];
+            const companyStart = exp.positions[exp.positions.length - 1].startDate;
             return (
               <a
                 href={`/experience#${companySlug}`}
                 class="group -mx-2 flex items-start justify-between rounded-lg px-2 py-1 transition-colors"
               >
                 <div>
-                  <span class="text-theme-text hover-underline">{exp.positions[0].title}</span>
+                  <span class="text-theme-text hover-underline">{currentPosition.title}</span>
                   <p class="text-theme-text-secondary text-sm">{exp.company}</p>
-                  {exp.positions[0].built && (
+                  {currentPosition.built && (
                     <p class="text-theme-text-muted mt-1 text-xs italic">
-                      {exp.positions[0].built}
+                      {currentPosition.built}
                     </p>
                   )}
                 </div>
                 <span class="text-theme-text-secondary ml-4 shrink-0 font-mono text-sm">
-                  {exp.positions[0].startDate} —{' '}
-                  {exp.positions[0].endDate === 'Present' ? 'now' : exp.positions[0].endDate}
+                  {companyStart} —{' '}
+                  {currentPosition.endDate === 'Present' ? 'now' : currentPosition.endDate}
                 </span>
               </a>
             );

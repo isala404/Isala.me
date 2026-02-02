@@ -10,6 +10,7 @@ Architecture
 - BaseLayout.astro handles meta tags, canonical URLs, structured data
 - sitemap.xml.ts generates dynamic sitemap from content collections
 - nginx.conf defines caching, security headers, routing rules
+- Experience data lives in src/content/index.mdx with companies containing positions arrays (newest-first roles)
 
 Preferences
 - Trailing slashes on all page URLs (/about/ not /about)
