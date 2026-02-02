@@ -21,3 +21,6 @@ Updated ClawdBot Raspberry Pi article to Moltbot/MoltHub branding for SEO.
 
 Restored ClawdBot SEO metadata for Moltbot rebrand.
 - Updated `src/content/blog/clawdbot-raspberry-pi.mdx` description and seoTags to include "formerly ClawdBot" and ClawdBot keywords.
+
+Fixed home page experience tenure display for multi-role companies.
+- Updated `src/pages/index.astro` to show the earliest company start date with the current role's end date.
