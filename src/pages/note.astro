@@ -1,0 +1,303 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Note | Isala Piyarisi" description="A minimal shareable note">
+  <main class="note-container">
+    <header class="note-header">
+      <a href="/" class="back-link">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M19 12H5M12 19l-7-7 7-7"></path>
+        </svg>
+      </a>
+      <div class="header-actions">
+        <button id="theme-btn" class="icon-btn" title="Toggle dark mode">
+          <svg
+            class="sun-icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="5"></circle>
+            <path
+              d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+            ></path>
+          </svg>
+          <svg
+            class="moon-icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <button id="share-btn" class="icon-btn" title="Share">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <textarea id="editor" placeholder="Start writing..." spellcheck="true" autocomplete="off"
+    ></textarea>
+  </main>
+
+  <style>
+    .note-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      max-width: 48rem;
+      margin: 0 auto;
+      background: var(--note-bg);
+      color: var(--note-text);
+      transition:
+        background 0.2s,
+        color 0.2s;
+    }
+
+    :root {
+      --note-bg: #fafafa;
+      --note-text: #1a1a1a;
+      --note-secondary: #666;
+      --note-border: #e5e5e5;
+    }
+
+    :root.dark {
+      --note-bg: #1a1a1a;
+      --note-text: #e5e5e5;
+      --note-secondary: #999;
+      --note-border: #333;
+    }
+
+    html,
+    body {
+      background: var(--note-bg);
+    }
+
+    .note-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      margin-bottom: 1rem;
+    }
+
+    .back-link {
+      color: var(--note-secondary);
+      transition: color 0.15s;
+    }
+
+    .back-link:hover {
+      color: var(--note-text);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      padding: 0.5rem;
+      cursor: pointer;
+      color: var(--note-secondary);
+      border-radius: 0.375rem;
+      transition:
+        color 0.15s,
+        background 0.15s;
+    }
+
+    .icon-btn:hover {
+      color: var(--note-text);
+      background: var(--note-border);
+    }
+
+    .sun-icon,
+    .moon-icon {
+      display: none;
+    }
+
+    :root:not(.dark) .sun-icon {
+      display: block;
+    }
+
+    :root.dark .moon-icon {
+      display: block;
+    }
+
+    #editor {
+      flex: 1;
+      width: 100%;
+      min-height: calc(100vh - 6rem);
+      background: transparent;
+      border: none;
+      outline: none;
+      resize: none;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--note-text);
+    }
+
+    #editor::placeholder {
+      color: var(--note-secondary);
+      opacity: 0.6;
+    }
+
+    #editor::selection {
+      background: rgba(59, 130, 246, 0.3);
+    }
+  </style>
+
+  <script>
+    import { ZstdCodec, type ZstdSimple } from 'zstd-codec';
+
+    let zstd: ZstdSimple | null = null;
+
+    async function initZstd(): Promise<void> {
+      return new Promise((resolve) => {
+        ZstdCodec.run((z) => {
+          zstd = new z.Simple();
+          resolve();
+        });
+      });
+    }
+
+    function compress(text: string): string {
+      if (!zstd || !text) return '';
+      const encoded = new TextEncoder().encode(text);
+      const compressed = zstd.compress(encoded, 10);
+      return btoa(String.fromCharCode(...compressed))
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+    }
+
+    function decompress(data: string): string {
+      if (!zstd || !data) return '';
+      try {
+        const padded = data.replace(/-/g, '+').replace(/_/g, '/');
+        const padding = (4 - (padded.length % 4)) % 4;
+        const base64 = padded + '='.repeat(padding);
+        const binary = atob(base64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+        const decompressed = zstd.decompress(bytes);
+        return new TextDecoder().decode(decompressed);
+      } catch {
+        return '';
+      }
+    }
+
+    function updateUrl(text: string): void {
+      if (!text.trim()) {
+        history.replaceState(null, '', window.location.pathname);
+        return;
+      }
+      const compressed = compress(text);
+      history.replaceState(null, '', '#' + compressed);
+    }
+
+    function initTheme(): void {
+      const saved = localStorage.getItem('note-theme');
+      if (
+        saved === 'dark' ||
+        (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ) {
+        document.documentElement.classList.add('dark');
+      }
+    }
+
+    function toggleTheme(): void {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('note-theme', isDark ? 'dark' : 'light');
+    }
+
+    async function init(): Promise<void> {
+      initTheme();
+      await initZstd();
+
+      const editor = document.getElementById('editor') as HTMLTextAreaElement;
+      const shareBtn = document.getElementById('share-btn')!;
+      const themeBtn = document.getElementById('theme-btn')!;
+
+      // Load from URL
+      const hash = window.location.hash.slice(1);
+      if (hash) {
+        editor.value = decompress(hash);
+      }
+
+      // Update URL on input (debounced)
+      let timeout: number;
+      editor.addEventListener('input', () => {
+        clearTimeout(timeout);
+        timeout = window.setTimeout(() => updateUrl(editor.value), 300);
+      });
+
+      // Select all only selects editor content
+      editor.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'a') {
+          e.preventDefault();
+          editor.select();
+        }
+      });
+
+      // Share
+      shareBtn.addEventListener('click', async () => {
+        updateUrl(editor.value);
+        const url = window.location.href;
+
+        if (navigator.share) {
+          try {
+            await navigator.share({ url });
+          } catch {
+            await navigator.clipboard.writeText(url);
+          }
+        } else {
+          await navigator.clipboard.writeText(url);
+        }
+      });
+
+      // Theme toggle
+      themeBtn.addEventListener('click', toggleTheme);
+
+      // Handle URL changes
+      window.addEventListener('hashchange', () => {
+        const newHash = window.location.hash.slice(1);
+        editor.value = newHash ? decompress(newHash) : '';
+      });
+
+      // Focus editor
+      editor.focus();
+    }
+
+    init();
+  </script>
+</BaseLayout>

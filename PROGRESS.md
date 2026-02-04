@@ -24,3 +24,14 @@ Restored ClawdBot SEO metadata for Moltbot rebrand.
 
 Fixed home page experience tenure display for multi-role companies.
 - Updated `src/pages/index.astro` to show the earliest company start date with the current role's end date.
+
+Fixed security note spacing in ClawdBot article.
+- Removed indentation whitespace inside HTML div in `src/content/blog/clawdbot-raspberry-pi.mdx`
+
+Added /note page for shareable plain text notes.
+- Created `src/pages/note.astro` with simple textarea editor
+- Zstd compression stores content in URL hash for sharing
+- Dark mode toggle with system preference detection
+- Native Web Share API, falls back to clipboard
+- Cmd/Ctrl+A only selects editor text
+- Added zstd-codec dependency and type declarations
