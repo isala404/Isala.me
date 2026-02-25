@@ -274,6 +274,67 @@ section:hover .section-heading {
 }
 
 /* ============================================
+   APP TILES
+   ============================================ */
+.app-grid {
+  position: relative;
+}
+
+.app-tile {
+  background: color-mix(in srgb, var(--tile-color) 35%, var(--theme-card));
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.app-tile:hover {
+  background: color-mix(in srgb, var(--tile-color) 55%, var(--theme-card));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--tile-color) 30%, transparent);
+}
+
+.app-tile:active {
+  cursor: grabbing;
+}
+
+.app-tile.dragging {
+  position: fixed;
+  z-index: 1000;
+  cursor: grabbing;
+  transform: scale(1.05) rotate(2deg);
+  box-shadow: 0 10px 40px var(--theme-shadow);
+  opacity: 0.95;
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease;
+  pointer-events: none;
+}
+
+.app-tile.placeholder {
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--tile-color) 50%, transparent);
+  background: color-mix(in srgb, var(--tile-color) 10%, transparent);
+}
+
+.app-tile.placeholder > * {
+  visibility: hidden;
+}
+
+.app-grid.dragging-active .app-tile:not(.dragging):not(.placeholder) {
+  transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.app-grid.dragging-active .app-tile:not(.dragging) {
+  pointer-events: none;
+}
+
+
+/* ============================================
    DOG EASTER EGG
    ============================================ */
 .dog-container {

@@ -25,6 +25,13 @@ SEO Notes
 - Individual article pages show all tags
 - Moltbot rebrand keeps original blog slug; first mention uses "formerly" phrasing
 
+Apps
+- Apps section on home page auto-discovers pages from src/pages/apps/*.astro
+- Each app exports `app` object with title, description, icon (Lucide icon name string), color (pastel hex)
+- Icon name must match a key in iconMap in index.astro (add new Lucide imports when adding apps)
+- Drag-and-drop reorder logic in public/scripts/easter-eggs.js, order persisted in localStorage
+- Grid: 1 app = 1 col, 2-3 = 2 cols, 4+ = 3 cols. Last odd tile centered via CSS.
+
 Prefetch
 - Astro prefetch enabled with prefetchAll: true, defaultStrategy: 'load'
 - Preloads all internal links after page fully loads

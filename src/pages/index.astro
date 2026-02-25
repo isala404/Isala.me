@@ -15,7 +15,18 @@ import {
   speaking,
 } from '../lib/profile';
 import { getThemeColors, darkenHex } from '../lib/theme';
-import { Headphones, Coffee, Tv, Flame, Cpu, Laptop, Rocket } from 'lucide-astro';
+import {
+  Headphones,
+  Coffee,
+  Tv,
+  Flame,
+  Cpu,
+  Laptop,
+  Rocket,
+  Timer,
+  Coins,
+  Dices,
+} from 'lucide-astro';
 
 const blogPosts = (await getCollection('blog', ({ data }) => !data.draft && data.featured)).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
@@ -33,6 +44,9 @@ const iconMap: Record<string, any> = {
   Cpu,
   Laptop,
   Rocket,
+  Timer,
+  Coins,
+  Dices,
 };
 
 function formatDate(date: Date): string {
@@ -42,6 +56,23 @@ function formatDate(date: Date): string {
 const theme = getThemeColors();
 const githubChartColor = darkenHex(theme.accent, 0.8);
 const githubUsername = 'isala404';
+
+const appModules = import.meta.glob<{
+  app: { title: string; description: string; icon: string; color: string };
+}>('./apps/*.astro', { eager: true });
+const apps = Object.entries(appModules)
+  .filter(([_, mod]) => mod.app)
+  .map(([path, mod]) => ({
+    ...mod.app,
+    slug: path.replace('./apps/', '').replace('.astro', ''),
+  }));
+
+const appGridCols =
+  apps.length === 1
+    ? 'grid-cols-1'
+    : apps.length === 2
+      ? 'grid-cols-2'
+      : 'grid-cols-3 md:grid-cols-3';
 ---
 
 <BaseLayout title="Isala Piyarisi | Platform Engineer · eBPF · AI Infrastructure">
@@ -243,6 +274,44 @@ const githubUsername = 'isala404';
         — {quotes[0].author}
       </cite>
     </blockquote>
+
+    <!-- Apps Section -->
+    {
+      apps.length > 0 && (
+        <section class="mb-10">
+          <div class="mb-6 flex items-center gap-4">
+            <h2 class="text-theme-text section-heading text-lg font-medium">Apps</h2>
+            <div class="bg-theme-border border-theme-border h-px flex-grow border-b border-dotted" />
+          </div>
+
+          <p class="text-theme-text-secondary mb-5 text-sm">
+            Small tools built out of necessity. Turns out browsers can do most things natively now.
+          </p>
+
+          <div class={`app-grid grid ${appGridCols} gap-3`}>
+            {apps.map((a) => {
+              const Icon = iconMap[a.icon];
+              return (
+                <a
+                  href={`/apps/${a.slug}/`}
+                  data-app-tile
+                  title={a.description}
+                  class="app-tile group relative flex flex-col items-center justify-center rounded-xl border border-transparent px-3 py-4 text-center transition-all hover:border-transparent"
+                  style={`--tile-color: ${a.color}`}
+                  data-umami-event="app-click"
+                  data-umami-event-name={a.title}
+                >
+                  {Icon && (
+                    <Icon class="text-theme-text-secondary group-hover:text-theme-text mb-2 h-6 w-6 transition-colors" />
+                  )}
+                  <p class="text-theme-text text-sm font-medium">{a.title}</p>
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      )
+    }
 
     <!-- Talks Section -->
     <section class="mb-10">

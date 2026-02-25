@@ -1,0 +1,183 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export const app = {
+  title: 'Pomodoro',
+  description: 'A simple focus timer with work and break intervals',
+  icon: 'Timer',
+  color: '#fecaca',
+};
+---
+
+<BaseLayout title="Pomodoro | Isala Piyarisi">
+  <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
+    <a href="/" class="text-theme-text-secondary arrow-link mb-8 inline-flex text-sm">
+      <span class="arrow" style="transform: rotate(180deg)">→</span><span class="text">back</span>
+    </a>
+
+    <div class="flex flex-col items-center justify-center pt-12">
+      <p class="text-theme-text-secondary mb-8 text-sm">a simple focus timer</p>
+
+      <div class="pomodoro-ring relative flex h-64 w-64 items-center justify-center">
+        <svg class="absolute inset-0" viewBox="0 0 256 256">
+          <circle
+            cx="128"
+            cy="128"
+            r="120"
+            fill="none"
+            stroke="var(--theme-border)"
+            stroke-width="4"></circle>
+          <circle
+            id="progress-ring"
+            cx="128"
+            cy="128"
+            r="120"
+            fill="none"
+            stroke="var(--theme-accent)"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-dasharray="753.98"
+            stroke-dashoffset="0"
+            transform="rotate(-90 128 128)"
+            style="transition: stroke-dashoffset 1s linear"></circle>
+        </svg>
+        <div class="text-center">
+          <div
+            id="timer-display"
+            class="text-theme-text font-mono text-5xl font-semibold tracking-tight"
+          >
+            25:00
+          </div>
+          <div
+            id="timer-label"
+            class="text-theme-text-muted mt-1 text-xs tracking-widest uppercase"
+          >
+            focus
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-10 flex items-center gap-4">
+        <button
+          id="timer-toggle"
+          class="bg-theme-accent hover:bg-theme-accent-hover rounded-full px-8 py-2.5 text-sm font-medium text-white transition-colors"
+        >
+          start
+        </button>
+        <button
+          id="timer-reset"
+          class="text-theme-text-secondary hover:text-theme-text text-sm transition-colors"
+        >
+          reset
+        </button>
+      </div>
+
+      <div class="mt-6 flex gap-2">
+        <button
+          class="mode-btn active text-theme-accent bg-theme-accent-bg rounded-full px-4 py-1 text-xs transition-all"
+          data-mode="work"
+          data-minutes="25"
+        >
+          25m
+        </button>
+        <button
+          class="mode-btn text-theme-text-secondary hover:text-theme-text rounded-full px-4 py-1 text-xs transition-all"
+          data-mode="break"
+          data-minutes="5"
+        >
+          5m
+        </button>
+        <button
+          class="mode-btn text-theme-text-secondary hover:text-theme-text rounded-full px-4 py-1 text-xs transition-all"
+          data-mode="long"
+          data-minutes="15"
+        >
+          15m
+        </button>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<script>
+  const display = document.getElementById('timer-display')!;
+  const label = document.getElementById('timer-label')!;
+  const toggle = document.getElementById('timer-toggle')!;
+  const reset = document.getElementById('timer-reset')!;
+  const ring = document.querySelector<SVGCircleElement>('#progress-ring')!;
+  const modeBtns = document.querySelectorAll('.mode-btn');
+
+  const CIRCUMFERENCE = 2 * Math.PI * 120;
+  let totalSeconds = 25 * 60;
+  let remaining = totalSeconds;
+  let interval: number | null = null;
+  let running = false;
+
+  const labels: Record<string, string> = { work: 'focus', break: 'break', long: 'long break' };
+  let currentMode = 'work';
+
+  function render() {
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    display.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+
+    ring.style.strokeDashoffset = String((CIRCUMFERENCE * remaining) / totalSeconds);
+  }
+
+  function tick() {
+    if (remaining <= 0) {
+      stop();
+      display.textContent = '00:00';
+      toggle.textContent = 'start';
+      return;
+    }
+    remaining--;
+    render();
+  }
+
+  function stop() {
+    if (interval) clearInterval(interval);
+    interval = null;
+    running = false;
+  }
+
+  toggle.addEventListener('click', () => {
+    if (running) {
+      stop();
+      toggle.textContent = 'start';
+    } else {
+      running = true;
+      toggle.textContent = 'pause';
+      interval = window.setInterval(tick, 1000);
+    }
+  });
+
+  reset.addEventListener('click', () => {
+    stop();
+    remaining = totalSeconds;
+    toggle.textContent = 'start';
+    render();
+  });
+
+  modeBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      stop();
+      modeBtns.forEach((b) => {
+        b.classList.remove('active', 'text-theme-accent', 'bg-theme-accent-bg');
+        b.classList.add('text-theme-text-secondary');
+      });
+      btn.classList.add('active', 'text-theme-accent', 'bg-theme-accent-bg');
+      btn.classList.remove('text-theme-text-secondary');
+
+      const minutes = parseInt((btn as HTMLElement).dataset.minutes || '25');
+      currentMode = (btn as HTMLElement).dataset.mode || 'work';
+      totalSeconds = minutes * 60;
+      remaining = totalSeconds;
+      label.textContent = labels[currentMode] || 'focus';
+      toggle.textContent = 'start';
+      render();
+    });
+  });
+
+  render();
+</script>

@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export const app = {
+  title: 'Dice',
+  description: 'Roll dice for board games or quick decisions',
+  icon: 'Dices',
+  color: '#c4b5fd',
+};
+---
+
+<BaseLayout title="Dice | Isala Piyarisi">
+  <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
+    <a href="/" class="text-theme-text-secondary arrow-link mb-8 inline-flex text-sm">
+      <span class="arrow" style="transform: rotate(180deg)">→</span><span class="text">back</span>
+    </a>
+
+    <div class="flex flex-col items-center justify-center pt-16">
+      <div id="dice-display" class="mb-10 flex gap-4">
+        <div class="dice" data-value="1">
+          <span class="dice-value font-mono text-4xl font-bold">1</span>
+        </div>
+      </div>
+
+      <div class="mb-8 flex items-center gap-3">
+        <button
+          id="remove-die"
+          class="text-theme-text-secondary hover:text-theme-text text-lg transition-colors"
+        >
+          -
+        </button>
+        <span id="die-count" class="text-theme-text-muted font-mono text-sm">1d6</span>
+        <button
+          id="add-die"
+          class="text-theme-text-secondary hover:text-theme-text text-lg transition-colors"
+        >
+          +
+        </button>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <button
+          id="roll-btn"
+          class="bg-theme-accent hover:bg-theme-accent-hover rounded-full px-8 py-2.5 text-sm font-medium text-white transition-colors"
+        >
+          roll
+        </button>
+      </div>
+
+      <div id="total" class="text-theme-text-muted mt-6 h-6 font-mono text-sm"></div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .dice {
+    width: 72px;
+    height: 72px;
+    background: var(--theme-card);
+    border: 2px solid var(--theme-border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s ease;
+  }
+
+  .dice.rolling {
+    animation: diceShake 0.4s ease;
+  }
+
+  @keyframes diceShake {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    20% {
+      transform: rotate(-15deg) scale(1.1);
+    }
+    40% {
+      transform: rotate(10deg);
+    }
+    60% {
+      transform: rotate(-8deg);
+    }
+    80% {
+      transform: rotate(5deg);
+    }
+  }
+
+  .dice-value {
+    color: var(--theme-text);
+    user-select: none;
+  }
+</style>
+
+<script>
+  const display = document.getElementById('dice-display')!;
+  const rollBtn = document.getElementById('roll-btn')!;
+  const addBtn = document.getElementById('add-die')!;
+  const removeBtn = document.getElementById('remove-die')!;
+  const countLabel = document.getElementById('die-count')!;
+  const totalEl = document.getElementById('total')!;
+
+  let diceCount = 1;
+  let rolling = false;
+
+  function createDie(value: number) {
+    const die = document.createElement('div');
+    die.className = 'dice';
+    die.dataset.value = String(value);
+    die.innerHTML = `<span class="dice-value font-mono text-4xl font-bold">${value}</span>`;
+    return die;
+  }
+
+  function renderDice() {
+    const values = Array.from(display.children).map((d) =>
+      parseInt((d as HTMLElement).dataset.value || '1')
+    );
+    display.innerHTML = '';
+    for (let i = 0; i < diceCount; i++) {
+      display.appendChild(createDie(values[i] || 1));
+    }
+    countLabel.textContent = `${diceCount}d6`;
+    totalEl.textContent = '';
+  }
+
+  function roll() {
+    if (rolling) return;
+    rolling = true;
+
+    const dice = Array.from(display.querySelectorAll('.dice'));
+    dice.forEach((d) => d.classList.add('rolling'));
+
+    const results: number[] = [];
+    dice.forEach((d, i) => {
+      const val = Math.floor(Math.random() * 6) + 1;
+      results.push(val);
+      setTimeout(
+        () => {
+          d.classList.remove('rolling');
+          (d as HTMLElement).dataset.value = String(val);
+          d.querySelector('.dice-value')!.textContent = String(val);
+        },
+        400 + i * 50
+      );
+    });
+
+    setTimeout(
+      () => {
+        const sum = results.reduce((a, b) => a + b, 0);
+        totalEl.textContent = diceCount > 1 ? `total: ${sum}` : '';
+        rolling = false;
+      },
+      400 + dice.length * 50
+    );
+  }
+
+  addBtn.addEventListener('click', () => {
+    if (diceCount >= 6) return;
+    diceCount++;
+    renderDice();
+  });
+
+  removeBtn.addEventListener('click', () => {
+    if (diceCount <= 1) return;
+    diceCount--;
+    renderDice();
+  });
+
+  rollBtn.addEventListener('click', roll);
+  display.addEventListener('click', roll);
+</script>

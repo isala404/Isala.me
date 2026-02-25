@@ -28,6 +28,15 @@ Fixed home page experience tenure display for multi-role companies.
 Fixed security note spacing in ClawdBot article.
 - Removed indentation whitespace inside HTML div in `src/content/blog/clawdbot-raspberry-pi.mdx`
 
+Added Apps section on home page with auto-discovery grid and 3 sample apps.
+- Created `src/pages/apps/` directory with pomodoro, coin-flip, and dice apps
+- Added auto-discovery via `import.meta.glob` in `src/pages/index.astro` (lines 60-71)
+- Each app exports `app` metadata (title, description, icon, color) for the grid
+- Tiles use Lucide icons, pastel backgrounds, hover tooltips, drag-and-drop reorder
+- Drag logic in `public/scripts/easter-eggs.js`, order persisted in localStorage
+- Grid responsive: odd last tile centered via CSS grid spanning
+- Added app tile styles in `src/styles/global.css` (APP TILES section)
+
 Added /note page for shareable plain text notes.
 - Created `src/pages/note.astro` with simple textarea editor
 - Zstd compression stores content in URL hash for sharing

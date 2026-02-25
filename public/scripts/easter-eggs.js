@@ -281,6 +281,136 @@
   }
 })();
 
+// Draggable App Tiles
+(function () {
+  const grid = document.querySelector(".app-grid");
+  if (!grid) return;
+
+  const DRAG_THRESHOLD = 8;
+  const STORAGE_KEY = "app-tile-order";
+
+  function restoreOrder() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+    try {
+      const order = JSON.parse(saved);
+      const tiles = Array.from(grid.querySelectorAll(".app-tile"));
+      const tileMap = {};
+      tiles.forEach((t) => {
+        const href = t.getAttribute("href");
+        if (href) tileMap[href] = t;
+      });
+      order.forEach((href) => {
+        if (tileMap[href]) grid.appendChild(tileMap[href]);
+      });
+    } catch {}
+  }
+
+  function saveOrder() {
+    const tiles = Array.from(grid.querySelectorAll(".app-tile"));
+    const order = tiles.map((t) => t.getAttribute("href"));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(order));
+  }
+
+  restoreOrder();
+
+  let pendingTile = null;
+  let dragging = null;
+  let clone = null;
+  let startX, startY, offsetX, offsetY;
+  let tileRect = null;
+  let lastHovered = null;
+
+  grid.addEventListener("mousedown", function (e) {
+    const tile = e.target.closest(".app-tile");
+    if (!tile || e.button !== 0) return;
+    e.preventDefault();
+
+    const rect = tile.getBoundingClientRect();
+    startX = e.clientX;
+    startY = e.clientY;
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+    tileRect = rect;
+    pendingTile = tile;
+
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
+  });
+
+  function startDrag() {
+    if (!pendingTile || dragging) return;
+    dragging = pendingTile;
+    pendingTile = null;
+
+    clone = dragging.cloneNode(true);
+    clone.classList.add("dragging");
+    clone.style.width = tileRect.width + "px";
+    clone.style.height = tileRect.height + "px";
+    clone.style.left = tileRect.left + "px";
+    clone.style.top = tileRect.top + "px";
+    document.body.appendChild(clone);
+
+    dragging.classList.add("placeholder");
+    grid.classList.add("dragging-active");
+  }
+
+  function onMouseMove(e) {
+    if (pendingTile && !dragging) {
+      if (Math.abs(e.clientX - startX) > DRAG_THRESHOLD || Math.abs(e.clientY - startY) > DRAG_THRESHOLD) {
+        startDrag();
+      }
+    }
+    if (!dragging || !clone) return;
+
+    clone.style.left = e.clientX - offsetX + "px";
+    clone.style.top = e.clientY - offsetY + "px";
+
+    const tiles = Array.from(grid.querySelectorAll(".app-tile:not(.placeholder)"));
+    let hovered = null;
+    for (const tile of tiles) {
+      const rect = tile.getBoundingClientRect();
+      if (e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom) {
+        hovered = tile;
+        break;
+      }
+    }
+
+    if (hovered && hovered !== lastHovered) {
+      const allTiles = Array.from(grid.querySelectorAll(".app-tile"));
+      const dragIndex = allTiles.indexOf(dragging);
+      const hoverIndex = allTiles.indexOf(hovered);
+      if (dragIndex < hoverIndex) {
+        grid.insertBefore(dragging, hovered.nextSibling);
+      } else {
+        grid.insertBefore(dragging, hovered);
+      }
+      lastHovered = hovered;
+    }
+  }
+
+  function onMouseUp() {
+    if (clone) { clone.remove(); clone = null; }
+
+    if (dragging) {
+      dragging.classList.remove("placeholder");
+      grid.classList.remove("dragging-active");
+      saveOrder();
+    }
+
+    if (pendingTile && pendingTile.href) {
+      window.location.href = pendingTile.href;
+    }
+
+    pendingTile = null;
+    dragging = null;
+    lastHovered = null;
+    tileRect = null;
+    document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("mouseup", onMouseUp);
+  }
+})();
+
 // Konami Code Easter Egg
 (function () {
   const konamiCode = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "KeyB", "KeyA"];

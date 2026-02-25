@@ -1,0 +1,172 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export const app = {
+  title: 'Coin Flip',
+  description: "Flip a coin when you can't decide",
+  icon: 'Coins',
+  color: '#fef08a',
+};
+---
+
+<BaseLayout title="Coin Flip | Isala Piyarisi">
+  <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
+    <a href="/" class="text-theme-text-secondary arrow-link mb-8 inline-flex text-sm">
+      <span class="arrow" style="transform: rotate(180deg)">→</span><span class="text">back</span>
+    </a>
+
+    <div class="flex flex-col items-center justify-center pt-16">
+      <div id="coin" class="coin mb-10">
+        <div class="coin-face coin-heads">H</div>
+        <div class="coin-face coin-tails">T</div>
+      </div>
+
+      <div id="result" class="text-theme-text-muted mb-8 h-6 font-mono text-sm"></div>
+
+      <button
+        id="flip-btn"
+        class="bg-theme-accent hover:bg-theme-accent-hover rounded-full px-8 py-2.5 text-sm font-medium text-white transition-colors"
+      >
+        flip
+      </button>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .coin {
+    width: 120px;
+    height: 120px;
+    perspective: 600px;
+    cursor: pointer;
+  }
+
+  .coin-face {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2rem;
+    font-weight: 600;
+    backface-visibility: hidden;
+    transition: transform 0.6s ease;
+  }
+
+  .coin-heads {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #78350f;
+  }
+
+  .coin-tails {
+    background: linear-gradient(135deg, #d4d4d8, #a1a1aa);
+    color: #3f3f46;
+    transform: rotateY(180deg);
+  }
+
+  .coin.flipping .coin-face {
+    animation: coinSpin 0.8s ease-out;
+  }
+
+  .coin.show-tails .coin-heads {
+    transform: rotateY(180deg);
+  }
+  .coin.show-tails .coin-tails {
+    transform: rotateY(0deg);
+  }
+
+  .coin.show-heads .coin-heads {
+    transform: rotateY(0deg);
+  }
+  .coin.show-heads .coin-tails {
+    transform: rotateY(180deg);
+  }
+
+  @keyframes coinSpin {
+    0% {
+      transform: rotateY(0deg);
+    }
+    100% {
+      transform: rotateY(1800deg);
+    }
+  }
+
+  .coin.flipping.show-tails .coin-heads {
+    animation: coinSpinHalf 0.8s ease-out forwards;
+  }
+  .coin.flipping.show-tails .coin-tails {
+    animation: coinSpinHalfBack 0.8s ease-out forwards;
+  }
+
+  .coin.flipping.show-heads .coin-heads {
+    animation: coinSpinFull 0.8s ease-out forwards;
+  }
+  .coin.flipping.show-heads .coin-tails {
+    animation: coinSpinFullBack 0.8s ease-out forwards;
+  }
+
+  @keyframes coinSpinFull {
+    0% {
+      transform: rotateY(0deg);
+    }
+    100% {
+      transform: rotateY(1800deg);
+    }
+  }
+  @keyframes coinSpinFullBack {
+    0% {
+      transform: rotateY(180deg);
+    }
+    100% {
+      transform: rotateY(1980deg);
+    }
+  }
+  @keyframes coinSpinHalf {
+    0% {
+      transform: rotateY(0deg);
+    }
+    100% {
+      transform: rotateY(1980deg);
+    }
+  }
+  @keyframes coinSpinHalfBack {
+    0% {
+      transform: rotateY(180deg);
+    }
+    100% {
+      transform: rotateY(1800deg);
+    }
+  }
+</style>
+
+<script>
+  const coin = document.getElementById('coin')!;
+  const result = document.getElementById('result')!;
+  const btn = document.getElementById('flip-btn')!;
+  let flipping = false;
+
+  function flip() {
+    if (flipping) return;
+    flipping = true;
+
+    const isHeads = Math.random() < 0.5;
+    coin.classList.remove('show-heads', 'show-tails', 'flipping');
+
+    void coin.offsetWidth;
+
+    coin.classList.add('flipping', isHeads ? 'show-heads' : 'show-tails');
+    result.textContent = '';
+
+    setTimeout(() => {
+      coin.classList.remove('flipping');
+      result.textContent = isHeads ? 'heads' : 'tails';
+      flipping = false;
+    }, 800);
+  }
+
+  btn.addEventListener('click', flip);
+  coin.addEventListener('click', flip);
+</script>

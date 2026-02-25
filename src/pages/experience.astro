@@ -115,7 +115,7 @@ import { experience, topSkills, education, certifications, publications } from '
                         {/* Inline "more" toggle that looks like part of the list */}
                         {hasExpandableContent && (
                           <button
-                            class="see-more-toggle group flex items-center gap-2 text-sm cursor-pointer mt-0.5 mb-1"
+                            class="see-more-toggle group mt-0.5 mb-1 flex cursor-pointer items-center gap-2 text-sm"
                             data-target={positionId}
                           >
                             <span class="text-theme-text-muted group-hover:text-theme-accent mt-0.5 h-1 w-1 flex-shrink-0 rounded-full bg-current" />
@@ -303,8 +303,12 @@ import { experience, topSkills, education, certifications, publications } from '
 
   <script>
     function togglePosition(targetId: string) {
-      const toggle = document.querySelector(`.position-toggle[data-target="${targetId}"]`) as HTMLElement;
-      const seeMore = document.querySelector(`.see-more-toggle[data-target="${targetId}"]`) as HTMLElement;
+      const toggle = document.querySelector(
+        `.position-toggle[data-target="${targetId}"]`
+      ) as HTMLElement;
+      const seeMore = document.querySelector(
+        `.see-more-toggle[data-target="${targetId}"]`
+      ) as HTMLElement;
       const details = document.querySelector(`[data-details-for="${targetId}"]`) as HTMLElement;
       if (!toggle) return;
 
