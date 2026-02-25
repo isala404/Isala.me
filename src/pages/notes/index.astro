@@ -48,6 +48,13 @@ const years = Object.keys(notesByYear)
 <BaseLayout
   title="Notes | Isala Piyarisi"
   description="Quick thoughts, TILs, and micro-posts about tech and engineering."
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Notes - Isala Piyarisi',
+    description: 'Quick thoughts, TILs, and micro-posts about tech and engineering.',
+    url: 'https://isala.me/notes/',
+  }}
 >
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Back Home -->

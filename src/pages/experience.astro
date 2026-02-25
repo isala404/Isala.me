@@ -7,6 +7,18 @@ import { experience, topSkills, education, certifications, publications } from '
 <BaseLayout
   title="Experience | Isala Piyarisi"
   description="Professional experience in platform engineering, Kubernetes, eBPF, and building infrastructure at scale."
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    name: 'Experience - Isala Piyarisi',
+    description: 'Professional experience in platform engineering, Kubernetes, eBPF, and building infrastructure at scale.',
+    url: 'https://isala.me/experience/',
+    mainEntity: {
+      '@type': 'Person',
+      name: 'Isala Piyarisi',
+      url: 'https://isala.me',
+    },
+  }}
 >
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Back Home -->

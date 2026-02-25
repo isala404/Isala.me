@@ -33,6 +33,14 @@ const nextNote = currentIndex > 0 ? allNotes[currentIndex - 1] : null;
   type="article"
   publishedTime={note.data.publishedAt.toISOString()}
   seoTags={note.data.seoTags}
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: note.data.title,
+    datePublished: note.data.publishedAt.toISOString(),
+    url: `https://isala.me/notes/${note.slug}/`,
+    author: { '@type': 'Person', name: 'Isala Piyarisi', url: 'https://isala.me' },
+  }}
 >
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Header -->

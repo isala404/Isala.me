@@ -9,7 +9,22 @@ export const app = {
 };
 ---
 
-<BaseLayout title="Pomodoro | Isala Piyarisi">
+<BaseLayout
+  title="Pomodoro | Isala Piyarisi"
+  description="A simple focus timer with work and break intervals. No sign-up, runs entirely in your browser."
+  seoTags={['pomodoro', 'focus timer', 'productivity', 'web app']}
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Pomodoro Timer',
+    description: 'A simple focus timer with work and break intervals. No sign-up, runs entirely in your browser.',
+    url: 'https://isala.me/apps/pomodoro/',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    author: { '@type': 'Person', name: 'Isala Piyarisi', url: 'https://isala.me' },
+  }}
+>
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <a href="/" class="text-theme-text-secondary arrow-link mb-8 inline-flex text-sm">
       <span class="arrow" style="transform: rotate(180deg)">→</span><span class="text">back</span>

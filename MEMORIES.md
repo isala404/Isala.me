@@ -18,6 +18,8 @@ Preferences
 - Canonical URLs must match sitemap URLs exactly
 
 SEO Notes
+- Structured data via `structuredData` prop on BaseLayout, rendered as JSON-LD via Fragment set:html
+- Astro script tags get bundled by default; use Fragment+set:html to inject raw script tags in head
 - Google Search Console monitors for canonical/sitemap mismatches
 - "Alternate page with proper canonical tag" means URL mismatch between sitemap and canonical
 - Two-tier tagging: display tags (UI) and seoTags (meta keywords only)

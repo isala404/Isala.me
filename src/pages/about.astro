@@ -3,7 +3,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { longBio } from '../lib/profile';
 ---
 
-<BaseLayout title="About | Isala Piyarisi" description={longBio.slice(0, 160)}>
+<BaseLayout
+  title="About | Isala Piyarisi"
+  description={longBio.slice(0, 160)}
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: 'About Isala Piyarisi',
+    description: longBio.slice(0, 160),
+    url: 'https://isala.me/about/',
+    mainEntity: {
+      '@type': 'Person',
+      name: 'Isala Piyarisi',
+      url: 'https://isala.me',
+      jobTitle: 'Senior Software Engineer',
+    },
+  }}
+>
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Back Home -->
     <a href="/" class="text-theme-text-secondary arrow-link mb-8 inline-block text-sm">

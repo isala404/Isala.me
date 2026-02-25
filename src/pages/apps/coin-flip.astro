@@ -9,7 +9,22 @@ export const app = {
 };
 ---
 
-<BaseLayout title="Coin Flip | Isala Piyarisi">
+<BaseLayout
+  title="Coin Flip | Isala Piyarisi"
+  description="Flip a coin when you can't decide. No sign-up, runs entirely in your browser."
+  seoTags={['coin flip', 'heads or tails', 'decision maker', 'web app']}
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Coin Flip',
+    description: "Flip a coin when you can't decide. No sign-up, runs entirely in your browser.",
+    url: 'https://isala.me/apps/coin-flip/',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    author: { '@type': 'Person', name: 'Isala Piyarisi', url: 'https://isala.me' },
+  }}
+>
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <a href="/" class="text-theme-text-secondary arrow-link mb-8 inline-flex text-sm">
       <span class="arrow" style="transform: rotate(180deg)">→</span><span class="text">back</span>

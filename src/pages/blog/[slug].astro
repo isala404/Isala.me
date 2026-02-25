@@ -25,6 +25,17 @@ function formatDate(date: Date): string {
   type="article"
   publishedTime={post.data.publishedAt.toISOString()}
   seoTags={post.data.seoTags}
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.publishedAt.toISOString(),
+    ...(post.data.updatedAt && { dateModified: post.data.updatedAt.toISOString() }),
+    url: `https://isala.me/blog/${post.slug}/`,
+    author: { '@type': 'Person', name: 'Isala Piyarisi', url: 'https://isala.me' },
+    ...(post.data.cover && { image: `https://isala.me${post.data.cover}` }),
+  }}
 >
   <!-- Track article read -->
   <script is:inline define:vars={{ postTitle: post.data.title, postSlug: post.slug }}>

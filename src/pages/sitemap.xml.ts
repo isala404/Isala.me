@@ -32,6 +32,13 @@ function buildUrlEntry(entry: SitemapEntry): string {
   return `  <url>\n${parts.join('\n')}\n  </url>`;
 }
 
+const appModules = import.meta.glob<{
+  app: { title: string; description: string; icon: string; color: string };
+}>('./apps/*.astro', { eager: true });
+const appSlugs = Object.entries(appModules)
+  .filter(([_, mod]) => mod.app)
+  .map(([path]) => path.replace('./apps/', '').replace('.astro', ''));
+
 export const GET: APIRoute = async () => {
   const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
   const notes = await getCollection('notes', ({ data }) => !data.draft);
@@ -127,6 +134,15 @@ export const GET: APIRoute = async () => {
       loc: `/notes/${note.slug}/`,
       lastmod: formatDate(note.data.publishedAt),
       changefreq: 'yearly',
+      priority: 0.5,
+    });
+  }
+
+  // App pages
+  for (const slug of appSlugs) {
+    entries.push({
+      loc: `/apps/${slug}/`,
+      changefreq: 'monthly',
       priority: 0.5,
     });
   }

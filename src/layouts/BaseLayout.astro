@@ -12,6 +12,7 @@ interface Props {
   type?: 'website' | 'article';
   publishedTime?: string;
   seoTags?: string[];
+  structuredData?: Record<string, any>;
 }
 
 const {
@@ -21,6 +22,7 @@ const {
   type = 'website',
   publishedTime,
   seoTags = [],
+  structuredData,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -92,73 +94,10 @@ const socialImageURL = new URL(image, Astro.site);
       src="https://umami.tallisa.dev/script.js"
       data-website-id="1c01b274-60a2-4a66-a735-23f436180e58"></script>
 
-    <!-- JSON-LD Structured Data for AI Search Engines -->
-    <script is:inline type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Isala Piyarisi",
-        "url": "https://isala.me",
-        "jobTitle": "Senior Software Engineer",
-        "description": "Builder and platform engineer with a track record of shipping products from scratch. Founded and ran a gaming community for 6 years while learning infrastructure the hard way. Now works on developer platforms, eBPF-powered observability, and AI infrastructure at WSO2. Builds local-first AI systems, ML pipelines, and tools that let other engineers ship faster.",
-        "knowsAbout": [
-          "AI Infrastructure",
-          "Local LLMs",
-          "Platform Engineering",
-          "Kubernetes",
-          "eBPF",
-          "GPU Orchestration",
-          "Rust",
-          "Go",
-          "Python"
-        ],
-        "sameAs": [
-          "https://github.com/isala404",
-          "https://linkedin.com/in/isalapiyarisi",
-          "https://x.com/isala404",
-          "https://medium.com/@isalapiyarisi"
-        ],
-        "alumniOf": {
-          "@type": "CollegeOrUniversity",
-          "name": "University of Westminster",
-          "description": "Bachelor of Science (Hons), Computer Science - First Class Honours"
-        },
-        "worksFor": {
-          "@type": "Organization",
-          "name": "WSO2",
-          "description": "Building Choreo, an internal developer platform"
-        },
-        "hasCredential": [
-          {
-            "@type": "EducationalOccupationalCredential",
-            "name": "CKS: Certified Kubernetes Security Specialist",
-            "credentialCategory": "certification"
-          },
-          {
-            "@type": "EducationalOccupationalCredential",
-            "name": "CKA: Certified Kubernetes Administrator",
-            "credentialCategory": "certification"
-          },
-          {
-            "@type": "EducationalOccupationalCredential",
-            "name": "Google Cloud Associate Cloud Engineer",
-            "credentialCategory": "certification"
-          }
-        ],
-        "memberOf": [
-          {
-            "@type": "Organization",
-            "name": "CNCF Community",
-            "description": "Speaker at KCD Sri Lanka, Conf42, and other cloud-native events"
-          },
-          {
-            "@type": "Organization",
-            "name": "GDG Sri Lanka",
-            "description": "Speaker at Keras Community Day, Cloud Connect, and Build with AI events"
-          }
-        ]
-      }
-    </script>
+    <!-- JSON-LD Structured Data -->
+    {structuredData && (
+      <Fragment set:html={`<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`} />
+    )}
   </head>
 
   <body class="font-sans antialiased">

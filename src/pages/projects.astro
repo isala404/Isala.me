@@ -26,6 +26,13 @@ const ungroupedProjects = projects.filter((p) => !p.domain);
 <BaseLayout
   title="Projects | Isala Piyarisi"
   description="Open source projects in eBPF, Kubernetes, Rust, and AI—from local-first LLMs to distributed systems tooling."
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Projects - Isala Piyarisi',
+    description: 'Open source projects in eBPF, Kubernetes, Rust, and AI.',
+    url: 'https://isala.me/projects/',
+  }}
 >
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Back Home -->

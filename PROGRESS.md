@@ -37,6 +37,12 @@ Added Apps section on home page with auto-discovery grid and 3 sample apps.
 - Grid responsive: odd last tile centered via CSS grid spanning
 - Added app tile styles in `src/styles/global.css` (APP TILES section)
 
+Added page-specific SEO structured data and app sitemap entries.
+- Moved Person JSON-LD from BaseLayout to index.astro, added `structuredData` prop to BaseLayout
+- Each page type now has its own JSON-LD: Person (home), AboutPage (about), ProfilePage (experience), CollectionPage (projects/talks/blog/notes indexes), Article (blog/note slugs), WebApplication (apps)
+- Added description, seoTags, and WebApplication structured data to all 3 app pages
+- Auto-discovers apps in `src/pages/sitemap.xml.ts` via import.meta.glob, adds with priority 0.5
+
 Added /note page for shareable plain text notes.
 - Created `src/pages/note.astro` with simple textarea editor
 - Zstd compression stores content in URL hash for sharing

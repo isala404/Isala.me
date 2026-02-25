@@ -6,6 +6,13 @@ import { speaking } from '../lib/profile';
 <BaseLayout
   title="Talks | Isala Piyarisi"
   description="Conference talks, podcasts, and presentations on eBPF, Kubernetes, AI infrastructure, and platform engineering."
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Talks - Isala Piyarisi',
+    description: 'Conference talks, podcasts, and presentations on eBPF, Kubernetes, AI infrastructure, and platform engineering.',
+    url: 'https://isala.me/talks/',
+  }}
 >
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Back Home -->
