@@ -43,7 +43,7 @@ function formatDate(date: Date): string {
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Header -->
     <header class="mb-10">
-      <a href="/blog" class="text-theme-text-secondary arrow-link mb-6 inline-block text-sm">
+      <a href="/blog/" class="text-theme-text-secondary arrow-link mb-6 inline-block text-sm">
         <span class="arrow">←</span><span class="text">all writing</span>
       </a>
 
@@ -66,7 +66,7 @@ function formatDate(date: Date): string {
               <div class="flex gap-2">
                 {post.data.tags.map((tag) => (
                   <a
-                    href={`/blog/tag/${tag}`}
+                    href={`/blog/tag/${tag}/`}
                     class="bg-theme-card border-theme-border hover:bg-theme-accent-bg hover:text-theme-accent hover:border-theme-border-hover rounded border px-2 py-0.5 text-xs transition-colors"
                   >
                     {tag}

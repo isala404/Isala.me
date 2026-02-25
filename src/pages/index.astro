@@ -97,7 +97,7 @@ const githubUsername = 'isala404';
       </p>
       <p>
         <a
-          href="/about"
+          href="/about/"
           class="text-theme-text-secondary arrow-link text-sm"
           data-umami-event="read-more"
           data-umami-event-section="about"
@@ -157,7 +157,7 @@ const githubUsername = 'isala404';
             const companyStart = exp.positions[exp.positions.length - 1].startDate;
             return (
               <a
-                href={`/experience#${companySlug}`}
+                href={`/experience/#${companySlug}`}
                 class="group -mx-2 flex items-start justify-between rounded-lg px-2 py-1 transition-colors"
               >
                 <div>
@@ -178,7 +178,7 @@ const githubUsername = 'isala404';
 
         <div class="pt-2">
           <a
-            href="/experience"
+            href="/experience/"
             class="text-theme-text-secondary arrow-link text-sm"
             data-umami-event="read-more"
             data-umami-event-section="experience"
@@ -200,7 +200,7 @@ const githubUsername = 'isala404';
       <div class="space-y-4">
         {
           blogPosts.map((post) => {
-            const postUrl = post.data.externalUrl || `/blog/${post.slug}`;
+            const postUrl = post.data.externalUrl || `/blog/${post.slug}/`;
             const isExternal = !!post.data.externalUrl;
             return (
               <article class="group flex items-baseline justify-between">
@@ -223,7 +223,7 @@ const githubUsername = 'isala404';
 
         <div class="pt-2">
           <a
-            href="/blog"
+            href="/blog/"
             class="text-theme-text-secondary arrow-link text-sm"
             data-umami-event="read-more"
             data-umami-event-section="blog"
@@ -283,7 +283,7 @@ const githubUsername = 'isala404';
 
         <div class="pt-2">
           <a
-            href="/talks"
+            href="/talks/"
             class="text-theme-text-secondary arrow-link text-sm"
             data-umami-event="read-more"
             data-umami-event-section="talks"
@@ -329,7 +329,7 @@ const githubUsername = 'isala404';
 
         <div class="pt-2">
           <a
-            href="/projects"
+            href="/projects/"
             class="text-theme-text-secondary arrow-link text-sm"
             data-umami-event="read-more"
             data-umami-event-section="projects"
@@ -353,7 +353,7 @@ const githubUsername = 'isala404';
           notes.map((note) => (
             <article class="group flex items-baseline justify-between">
               <a
-                href={`/notes/${note.slug}`}
+                href={`/notes/${note.slug}/`}
                 class="hover-underline text-theme-text text-sm"
                 data-umami-event="note-click"
                 data-umami-event-title={note.data.title}
@@ -369,7 +369,7 @@ const githubUsername = 'isala404';
 
         <div class="pt-2">
           <a
-            href="/notes"
+            href="/notes/"
             class="text-theme-text-secondary arrow-link text-sm"
             data-umami-event="read-more"
             data-umami-event-section="notes"

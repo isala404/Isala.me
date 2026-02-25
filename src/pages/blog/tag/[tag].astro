@@ -33,7 +33,7 @@ function formatDate(date: Date): string {
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Header -->
     <header class="mb-12">
-      <a href="/blog" class="text-theme-text-secondary arrow-link mb-6 inline-block text-sm">
+      <a href="/blog/" class="text-theme-text-secondary arrow-link mb-6 inline-block text-sm">
         <span class="arrow">←</span><span class="text">all writing</span>
       </a>
       <h1 class="text-theme-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
@@ -53,7 +53,7 @@ function formatDate(date: Date): string {
           <div class="space-y-8">
             {posts.map((post) => (
               <article class="group border-theme-border border-b border-dotted pb-8 last:border-0">
-                <a href={`/blog/${post.slug}`} class="block">
+                <a href={`/blog/${post.slug}/`} class="block">
                   <div class="mb-2 flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
                     <h2 class="text-theme-text group-hover:text-theme-accent text-lg font-medium transition-colors">
                       {post.data.title}

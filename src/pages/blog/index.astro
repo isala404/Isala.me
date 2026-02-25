@@ -89,7 +89,7 @@ const years = Object.keys(postsByYear)
           <div class="flex flex-wrap gap-2">
             {allTags.slice(0, 8).map((tag) => (
               <a
-                href={`/blog/tag/${tag}`}
+                href={`/blog/tag/${tag}/`}
                 class="bg-theme-card text-theme-text-secondary border-theme-border hover:bg-theme-accent-bg hover:text-theme-accent hover:border-theme-border-hover rounded border px-3 py-1 text-sm transition-colors"
               >
                 {tag}
@@ -115,7 +115,7 @@ const years = Object.keys(postsByYear)
                 </h2>
                 <div class="space-y-6">
                   {postsByYear[year].map((post) => {
-                    const postUrl = post.data.externalUrl || `/blog/${post.slug}`;
+                    const postUrl = post.data.externalUrl || `/blog/${post.slug}/`;
                     const isExternal = !!post.data.externalUrl;
                     return (
                       <article
@@ -145,7 +145,7 @@ const years = Object.keys(postsByYear)
                             <div class="flex gap-2">
                               {post.data.tags.slice(0, 3).map((tag) => (
                                 <a
-                                  href={`/blog/tag/${tag}`}
+                                  href={`/blog/tag/${tag}/`}
                                   class="bg-theme-card border-theme-border hover:bg-theme-accent-bg hover:text-theme-accent hover:border-theme-border-hover rounded border px-2 py-0.5 transition-colors"
                                 >
                                   {tag}

@@ -33,7 +33,7 @@ function formatDate(date: Date): string {
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Header -->
     <header class="mb-12">
-      <a href="/notes" class="text-theme-text-secondary arrow-link mb-6 inline-block text-sm">
+      <a href="/notes/" class="text-theme-text-secondary arrow-link mb-6 inline-block text-sm">
         <span class="arrow">←</span><span class="text">all notes</span>
       </a>
       <h1 class="text-theme-text mb-4 text-3xl font-semibold tracking-tight md:text-4xl">
@@ -53,7 +53,7 @@ function formatDate(date: Date): string {
           <div class="grid gap-3">
             {notes.map((note) => (
               <a
-                href={`/notes/${note.slug}`}
+                href={`/notes/${note.slug}/`}
                 class="group border-theme-border bg-theme-card/30 hover:bg-theme-card hover:border-theme-border-hover block rounded-lg border p-4 transition-all"
               >
                 <div class="mb-2 flex items-start justify-between gap-4">

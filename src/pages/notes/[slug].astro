@@ -37,7 +37,7 @@ const nextNote = currentIndex > 0 ? allNotes[currentIndex - 1] : null;
   <main class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
     <!-- Header -->
     <header class="mb-8">
-      <a href="/notes" class="text-theme-text-secondary arrow-link mb-6 inline-block text-sm">
+      <a href="/notes/" class="text-theme-text-secondary arrow-link mb-6 inline-block text-sm">
         <span class="arrow">←</span><span class="text">all notes</span>
       </a>
 
@@ -56,7 +56,7 @@ const nextNote = currentIndex > 0 ? allNotes[currentIndex - 1] : null;
             <div class="flex gap-1.5">
               {note.data.tags.map((tag) => (
                 <a
-                  href={`/notes/tag/${tag}`}
+                  href={`/notes/tag/${tag}/`}
                   class="bg-theme-accent-bg text-theme-accent hover:bg-theme-accent/20 rounded px-1.5 py-0.5 text-xs transition-colors"
                 >
                   #{tag}
@@ -79,7 +79,7 @@ const nextNote = currentIndex > 0 ? allNotes[currentIndex - 1] : null;
         <nav class="mt-10 grid grid-cols-2 gap-4">
           {prevNote ? (
             <a
-              href={`/notes/${prevNote.slug}`}
+              href={`/notes/${prevNote.slug}/`}
               class="group border-theme-border bg-theme-card/30 hover:bg-theme-card hover:border-theme-border-hover rounded-lg border p-3 transition-all"
             >
               <span class="text-theme-text-secondary text-xs">← older</span>
@@ -92,7 +92,7 @@ const nextNote = currentIndex > 0 ? allNotes[currentIndex - 1] : null;
           )}
           {nextNote ? (
             <a
-              href={`/notes/${nextNote.slug}`}
+              href={`/notes/${nextNote.slug}/`}
               class="group border-theme-border bg-theme-card/30 hover:bg-theme-card hover:border-theme-border-hover rounded-lg border p-3 text-right transition-all"
             >
               <span class="text-theme-text-secondary text-xs">newer →</span>

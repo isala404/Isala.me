@@ -70,7 +70,7 @@ const years = Object.keys(notesByYear)
           <div class="flex flex-wrap gap-2">
             {allTags.map((tag) => (
               <a
-                href={`/notes/tag/${tag}`}
+                href={`/notes/tag/${tag}/`}
                 class="bg-theme-accent-bg text-theme-accent hover:bg-theme-accent/20 rounded px-3 py-1 text-sm transition-colors"
               >
                 #{tag}
@@ -99,7 +99,7 @@ const years = Object.keys(notesByYear)
                     <article class="border-theme-border bg-theme-card/30 hover:bg-theme-card hover:border-theme-border-hover rounded-lg border p-4 transition-all">
                       <div class="mb-2 flex items-start justify-between gap-4">
                         <a
-                          href={`/notes/${note.slug}`}
+                          href={`/notes/${note.slug}/`}
                           class="text-theme-text hover:text-theme-accent font-medium transition-colors"
                         >
                           {note.data.title}
@@ -112,7 +112,7 @@ const years = Object.keys(notesByYear)
                         <div class="flex flex-wrap gap-1.5">
                           {note.data.tags.map((tag) => (
                             <a
-                              href={`/notes/tag/${tag}`}
+                              href={`/notes/tag/${tag}/`}
                               class="bg-theme-accent-bg text-theme-accent hover:bg-theme-accent/20 rounded px-1.5 py-0.5 text-xs transition-colors"
                             >
                               #{tag}
