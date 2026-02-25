@@ -1,0 +1,1480 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export const app = {
+  title: 'Read Aloud',
+  description: 'Listen to any text with a natural AI voice, powered by Kokoro TTS',
+  icon: 'AudioLines',
+  color: '#a5f3fc',
+};
+---
+
+<BaseLayout
+  title="Read Aloud - Free AI Text to Speech | Isala Piyarisi"
+  description="Free browser-based text to speech reader powered by Kokoro TTS. Paste any text and listen with a natural AI voice. No sign-up, runs entirely in your browser. Supports long articles with progress saving."
+  seoTags={[
+    'kokoro',
+    'kokoro tts',
+    'text to speech',
+    'read aloud',
+    'ai voice',
+    'free tts',
+    'online text to speech',
+    'browser tts',
+    'ai text reader',
+    'text to speech reader',
+    'kokoro ai voice',
+    'tts online free',
+    'text reader',
+    'read text aloud online',
+    'ai speech',
+    'natural voice tts',
+  ]}
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Read Aloud - AI Text to Speech',
+    description:
+      'Free browser-based text to speech reader powered by Kokoro TTS. Paste any text and listen with a natural AI voice. No sign-up required.',
+    url: 'https://isala.me/apps/read-aloud/',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    author: { '@type': 'Person', name: 'Isala Piyarisi', url: 'https://isala.me' },
+  }}
+>
+  <main id="ra-main" class="max-w-content relative z-10 mx-auto px-6 py-16 md:py-24">
+    <a href="/" class="text-theme-text-secondary arrow-link mb-8 inline-block text-sm">
+      <span class="arrow">&larr;</span><span class="text">back home</span>
+    </a>
+
+    <div id="app-root" class="ra-app">
+      <!-- Loading view: shown while model downloads -->
+      <div id="loading-view" class="ra-loading-view">
+        <div class="ra-loading-icon">
+          <span class="ra-waveform">
+            <span class="ra-waveform-bar"></span>
+            <span class="ra-waveform-bar"></span>
+            <span class="ra-waveform-bar"></span>
+          </span>
+        </div>
+        <p class="ra-loading-label">Loading voice model</p>
+        <p id="loading-detail" class="ra-loading-detail">Preparing</p>
+        <div class="ra-loading-bar-wrap">
+          <div id="loading-bar" class="ra-loading-bar"></div>
+        </div>
+        <p id="loading-bytes" class="ra-loading-bytes"></p>
+      </div>
+
+      <!-- Input view: shown after model is ready -->
+      <div id="input-view" class="ra-input-view" hidden>
+        <div class="ra-input-container">
+          <textarea
+            id="text-input"
+            class="ra-textarea"
+            placeholder="Paste anything"
+            spellcheck="false"></textarea>
+          <div id="input-meta" class="ra-input-meta"></div>
+        </div>
+
+        <div class="ra-input-actions">
+          <button id="btn-listen" class="ra-btn-primary" disabled> Listen </button>
+        </div>
+      </div>
+
+      <!-- Player view -->
+      <div id="player-view" class="ra-player-view" hidden>
+        <div id="reading-pane" class="ra-reading-pane">
+          <div id="sentences" class="ra-sentences"></div>
+        </div>
+
+        <div class="ra-player-bar">
+          <div class="ra-scrubber-wrap">
+            <div id="scrubber-track" class="ra-scrubber-track">
+              <div id="scrubber-buffered" class="ra-scrubber-buffered"></div>
+              <div id="scrubber-fill" class="ra-scrubber-fill"></div>
+            </div>
+          </div>
+
+          <div class="ra-time-row">
+            <span id="time-elapsed" class="ra-time-label"></span>
+            <span id="time-total" class="ra-time-label"></span>
+          </div>
+
+          <div class="ra-controls">
+            <button id="btn-back15" class="ra-ctrl-btn" aria-label="Skip back 15 seconds">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="1 4 1 10 7 10"></polyline>
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                <text
+                  x="12"
+                  y="16.5"
+                  text-anchor="middle"
+                  font-size="7.5"
+                  fill="currentColor"
+                  stroke="none"
+                  font-weight="700"
+                  style="font-family: system-ui, sans-serif">15</text
+                >
+              </svg>
+            </button>
+
+            <button id="btn-play" class="ra-ctrl-play" aria-label="Play">
+              <svg id="icon-play" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5.14v14l11-7-11-7z"></path>
+              </svg>
+              <svg
+                id="icon-pause"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                {...{ hidden: true }}
+              >
+                <rect x="6" y="4" width="4" height="16" rx="1"></rect>
+                <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+              </svg>
+            </button>
+
+            <button id="btn-fwd15" class="ra-ctrl-btn" aria-label="Skip forward 15 seconds">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                <text
+                  x="12"
+                  y="16.5"
+                  text-anchor="middle"
+                  font-size="7.5"
+                  fill="currentColor"
+                  stroke="none"
+                  font-weight="700"
+                  style="font-family: system-ui, sans-serif">15</text
+                >
+              </svg>
+            </button>
+          </div>
+
+          <div class="ra-speed-row">
+            <button class="ra-speed-pill" data-speed="0.75">0.75x</button>
+            <button class="ra-speed-pill active" data-speed="1">1x</button>
+            <button class="ra-speed-pill" data-speed="1.25">1.25x</button>
+            <button class="ra-speed-pill" data-speed="1.5">1.5x</button>
+            <button class="ra-speed-pill" data-speed="2">2x</button>
+          </div>
+
+          <div class="ra-bottom-row">
+            <button id="btn-download" class="ra-btn-ghost" hidden>
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                style="vertical-align: -2px; margin-right: 4px;"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Save audio
+            </button>
+            <button id="btn-new" class="ra-btn-ghost">New text</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  #ra-main:has(.ra-player-view:not([hidden])) {
+    height: 100dvh;
+    overflow: hidden;
+    padding-bottom: 0.75rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #ra-main:has(.ra-player-view:not([hidden])) .ra-app {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .ra-app {
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Loading view */
+  .ra-loading-view {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 0;
+    animation: ra-fadeIn 0.4s ease;
+  }
+
+  .ra-loading-view[hidden] {
+    display: none;
+  }
+
+  .ra-loading-icon {
+    margin-bottom: 1.5rem;
+  }
+
+  .ra-loading-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--theme-text);
+    margin-bottom: 0.25rem;
+  }
+
+  .ra-loading-detail {
+    font-size: 0.8125rem;
+    color: var(--theme-text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .ra-loading-bar-wrap {
+    width: 100%;
+    max-width: 240px;
+    height: 3px;
+    background: var(--theme-border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .ra-loading-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--theme-text);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+
+  .ra-loading-bytes {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    color: var(--theme-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Waveform breathing loader */
+  .ra-waveform {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    height: 20px;
+  }
+
+  .ra-waveform-bar {
+    width: 3px;
+    height: 8px;
+    background: var(--theme-text);
+    border-radius: 2px;
+    animation: ra-breathe 1.2s ease-in-out infinite;
+    opacity: 0.7;
+  }
+
+  .ra-waveform-bar:nth-child(1) {
+    animation-delay: 0s;
+  }
+  .ra-waveform-bar:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .ra-waveform-bar:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes ra-breathe {
+    0%,
+    100% {
+      height: 6px;
+      opacity: 0.4;
+    }
+    50% {
+      height: 20px;
+      opacity: 0.9;
+    }
+  }
+
+  /* Input view */
+  .ra-input-view {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 2rem;
+    animation: ra-fadeIn 0.4s ease;
+  }
+
+  .ra-input-view[hidden] {
+    display: none;
+  }
+
+  .ra-input-container {
+    position: relative;
+  }
+
+  .ra-textarea {
+    width: 100%;
+    min-height: 200px;
+    max-height: 40vh;
+    padding: 1.25rem;
+    font-family: inherit;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--theme-text);
+    background: var(--theme-card);
+    border: 1px solid var(--theme-border);
+    border-radius: 1rem;
+    resize: vertical;
+    outline: none;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .ra-textarea:focus {
+    border-color: color-mix(in srgb, var(--theme-accent) 35%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-accent) 8%, transparent);
+  }
+
+  .ra-textarea::placeholder {
+    color: var(--theme-text-muted);
+    font-size: 1.125rem;
+  }
+
+  .ra-input-meta {
+    margin-top: 0.5rem;
+    padding: 0 0.25rem;
+    font-size: 0.8125rem;
+    color: var(--theme-text-muted);
+    min-height: 1.25rem;
+  }
+
+  .ra-input-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .ra-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 160px;
+    height: 48px;
+    padding: 0 1.75rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    font-family: inherit;
+    color: var(--theme-bg);
+    background: var(--theme-text);
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      opacity 0.2s ease,
+      transform 0.15s ease;
+  }
+
+  .ra-btn-primary:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--theme-text) 85%, transparent);
+  }
+
+  .ra-btn-primary:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  .ra-btn-primary:disabled {
+    opacity: 0.55;
+    cursor: default;
+  }
+
+  /* Player view */
+  .ra-player-view {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    animation: ra-fadeIn 0.35s ease;
+  }
+
+  .ra-player-view[hidden] {
+    display: none;
+  }
+
+  .ra-reading-pane {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 0.5rem 0 2rem;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 1rem,
+      black calc(100% - 3rem),
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 1rem,
+      black calc(100% - 3rem),
+      transparent
+    );
+  }
+
+  .ra-sentences {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: color-mix(in srgb, var(--theme-text) 22%, transparent);
+    transition: color 0.3s ease;
+  }
+
+  .ra-sentences :global(.ra-sentence) {
+    display: inline;
+    cursor: pointer;
+    transition: color 0.25s ease;
+    border-radius: 3px;
+    padding: 1px 0;
+  }
+
+  .ra-sentences :global(.ra-sentence:hover) {
+    color: color-mix(in srgb, var(--theme-text) 55%, transparent);
+  }
+
+  .ra-sentences :global(.ra-sentence.active) {
+    color: var(--theme-text);
+    font-weight: 500;
+  }
+
+  .ra-sentences :global(.ra-sentence.done) {
+    color: color-mix(in srgb, var(--theme-text) 30%, transparent);
+  }
+
+  .ra-player-bar {
+    flex-shrink: 0;
+    padding: 0.75rem 0 0;
+    background: var(--theme-bg);
+    position: sticky;
+    bottom: 0;
+  }
+
+  .ra-scrubber-wrap {
+    padding: 0.5rem 0;
+    cursor: pointer;
+  }
+
+  .ra-scrubber-track {
+    position: relative;
+    height: 3px;
+    background: var(--theme-border);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: height 0.15s ease;
+  }
+
+  .ra-scrubber-wrap:hover .ra-scrubber-track {
+    height: 5px;
+  }
+
+  .ra-scrubber-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: var(--theme-text);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    z-index: 1;
+  }
+
+  .ra-scrubber-buffered {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: color-mix(in srgb, var(--theme-text) 15%, transparent);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+
+  .ra-time-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0 0;
+  }
+
+  .ra-time-label {
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--theme-text-secondary);
+    font-family: var(--font-mono);
+    letter-spacing: -0.02em;
+  }
+
+  .ra-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 0.5rem 0;
+  }
+
+  .ra-ctrl-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    color: var(--theme-text);
+    cursor: pointer;
+    border-radius: 50%;
+    transition:
+      background 0.15s ease,
+      transform 0.1s ease;
+    font-family: inherit;
+  }
+
+  .ra-ctrl-btn:hover {
+    background: color-mix(in srgb, var(--theme-text) 6%, transparent);
+  }
+
+  .ra-ctrl-btn:active {
+    transform: scale(0.92);
+  }
+
+  .ra-ctrl-play {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: var(--theme-text);
+    color: var(--theme-bg);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition:
+      background 0.15s ease,
+      transform 0.12s ease;
+    font-family: inherit;
+  }
+
+  .ra-ctrl-play:hover {
+    background: color-mix(in srgb, var(--theme-text) 85%, transparent);
+  }
+
+  .ra-ctrl-play:active {
+    transform: scale(0.93);
+  }
+
+  .ra-speed-row {
+    display: flex;
+    justify-content: center;
+    gap: 0.375rem;
+    padding: 0.5rem 0;
+  }
+
+  .ra-speed-pill {
+    padding: 0.25rem 0.625rem;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--theme-text-muted);
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .ra-speed-pill:hover {
+    color: var(--theme-text-secondary);
+    background: color-mix(in srgb, var(--theme-text) 4%, transparent);
+  }
+
+  .ra-speed-pill.active {
+    color: var(--theme-text);
+    border-color: var(--theme-border);
+    background: var(--theme-card);
+  }
+
+  .ra-bottom-row {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding-top: 0.25rem;
+  }
+
+  .ra-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+    font-family: inherit;
+    color: var(--theme-text-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    transition:
+      color 0.15s ease,
+      background 0.15s ease;
+  }
+
+  .ra-btn-ghost:hover {
+    color: var(--theme-text-secondary);
+    background: color-mix(in srgb, var(--theme-text) 4%, transparent);
+  }
+
+  @keyframes ra-fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-height: 700px) {
+    .ra-textarea {
+      min-height: 160px;
+    }
+  }
+</style>
+
+<script>
+  const DB_NAME = 'read-aloud';
+  const DB_VERSION = 1;
+  const STORE = 'sessions';
+  const SESSION_KEY = 'current';
+  const EXPIRY_MS = 7 * 24 * 60 * 60 * 1000;
+
+  interface SessionData {
+    text: string;
+    chunks: ArrayBuffer[];
+    chunkTexts: string[];
+    sentenceIndex: number;
+    speed: number;
+    generationDone: boolean;
+    savedAt: number;
+  }
+
+  function openDB(): Promise<IDBDatabase> {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open(DB_NAME, DB_VERSION);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains(STORE)) {
+          db.createObjectStore(STORE);
+        }
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  async function saveSession(data: SessionData) {
+    const db = await openDB();
+    const tx = db.transaction(STORE, 'readwrite');
+    tx.objectStore(STORE).put({ ...data, savedAt: Date.now() }, SESSION_KEY);
+    return new Promise<void>((resolve, reject) => {
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+  }
+
+  async function loadSession(): Promise<SessionData | null> {
+    const db = await openDB();
+    const tx = db.transaction(STORE, 'readonly');
+    const req = tx.objectStore(STORE).get(SESSION_KEY);
+    return new Promise((resolve, reject) => {
+      req.onsuccess = () => {
+        const data = req.result as SessionData | undefined;
+        if (!data) return resolve(null);
+        if (Date.now() - data.savedAt > EXPIRY_MS) {
+          clearSession();
+          return resolve(null);
+        }
+        resolve(data);
+      };
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  async function clearSession() {
+    const db = await openDB();
+    const tx = db.transaction(STORE, 'readwrite');
+    tx.objectStore(STORE).delete(SESSION_KEY);
+  }
+
+  const loadingView = document.getElementById('loading-view') as HTMLDivElement;
+  const loadingDetail = document.getElementById('loading-detail') as HTMLParagraphElement;
+  const loadingBar = document.getElementById('loading-bar') as HTMLDivElement;
+  const loadingBytes = document.getElementById('loading-bytes') as HTMLParagraphElement;
+  const inputView = document.getElementById('input-view') as HTMLDivElement;
+  const playerView = document.getElementById('player-view') as HTMLDivElement;
+  const textInput = document.getElementById('text-input') as HTMLTextAreaElement;
+  const inputMeta = document.getElementById('input-meta') as HTMLDivElement;
+  const btnListen = document.getElementById('btn-listen') as HTMLButtonElement;
+  const readingPane = document.getElementById('reading-pane') as HTMLDivElement;
+  const sentencesEl = document.getElementById('sentences') as HTMLDivElement;
+  const scrubberTrack = document.getElementById('scrubber-track') as HTMLDivElement;
+  const scrubberFill = document.getElementById('scrubber-fill') as HTMLDivElement;
+  const scrubberBuffered = document.getElementById('scrubber-buffered') as HTMLDivElement;
+  const timeElapsed = document.getElementById('time-elapsed') as HTMLSpanElement;
+  const timeTotal = document.getElementById('time-total') as HTMLSpanElement;
+  const btnPlay = document.getElementById('btn-play') as HTMLButtonElement;
+  const iconPlay = document.getElementById('icon-play') as unknown as SVGElement;
+  const iconPause = document.getElementById('icon-pause') as unknown as SVGElement;
+  const btnBack15 = document.getElementById('btn-back15') as HTMLButtonElement;
+  const btnFwd15 = document.getElementById('btn-fwd15') as HTMLButtonElement;
+  const btnNew = document.getElementById('btn-new') as HTMLButtonElement;
+  const btnDownload = document.getElementById('btn-download') as HTMLButtonElement;
+  const speedPills = document.querySelectorAll<HTMLButtonElement>('.ra-speed-pill');
+
+  let modelReady = false;
+
+  let audioCtx: AudioContext | null = null;
+  let queue: AudioBuffer[] = [];
+  let chunkTexts: string[] = [];
+  let chunkBuffers: ArrayBuffer[] = [];
+  let playing = false;
+  let paused = false;
+  let playIndex = 0;
+  let currentSource: AudioBufferSourceNode | null = null;
+  let streamDone = false;
+  let stopped = false;
+  let playbackSpeed = 1;
+  let sourceStartTime = 0;
+  let sourceOffset = 0;
+  let currentText = '';
+  let sentenceElements: HTMLSpanElement[] = [];
+  let chunkDurations: number[] = [];
+  let totalDuration = 0;
+  let elapsedBeforeCurrent = 0;
+  let persistTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function formatBytes(bytes: number): string {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
+
+  const workerCode = `
+    let tts = null;
+    let TextSplitterStream = null;
+
+    self.onmessage = async (e) => {
+      const { type, data } = e.data;
+
+      if (type === "init") {
+        try {
+          const mod = await import("https://cdn.jsdelivr.net/npm/kokoro-js@1.2.1/+esm");
+          TextSplitterStream = mod.TextSplitterStream;
+          const devices = data.devices;
+          let backend = null;
+          for (const device of devices) {
+            try {
+              self.postMessage({ type: "status", text: "Trying " + device });
+              tts = await mod.KokoroTTS.from_pretrained(
+                "onnx-community/Kokoro-82M-v1.0-ONNX",
+                {
+                  dtype: "fp32",
+                  device,
+                  progress_callback: (progress) => {
+                    if (progress.status === "download" || progress.status === "progress") {
+                      self.postMessage({
+                        type: "progress",
+                        loaded: progress.loaded || 0,
+                        total: progress.total || 0,
+                        file: progress.file || "",
+                        status: progress.status,
+                      });
+                    }
+                  }
+                }
+              );
+              backend = device === "webgpu" ? "WebGPU" : "WASM";
+              break;
+            } catch (err) {
+              console.warn(device + " failed:", err);
+            }
+          }
+          if (backend) {
+            self.postMessage({ type: "ready", backend });
+          } else {
+            self.postMessage({ type: "error", text: "Voice model failed to load. Try a browser that supports WebGPU." });
+          }
+        } catch (err) {
+          self.postMessage({ type: "error", text: "Failed to load voice library: " + err.message });
+        }
+      }
+
+      if (type === "generate") {
+        try {
+          const splitter = new TextSplitterStream();
+          const stream = tts.stream(splitter);
+
+          // Drip-feed words so the splitter can detect sentence boundaries
+          const words = data.text.match(/\\s*\\S+/g) || [];
+          (async () => {
+            for (const word of words) {
+              splitter.push(word);
+              await new Promise(r => setTimeout(r, 1));
+            }
+            splitter.close();
+          })();
+
+          let i = 0;
+          for await (const { text, audio } of stream) {
+            const blob = audio.toBlob();
+            const arrayBuf = await blob.arrayBuffer();
+            self.postMessage(
+              { type: "chunk", index: i, text, arrayBuf },
+              [arrayBuf]
+            );
+            i++;
+          }
+          self.postMessage({ type: "done" });
+        } catch (err) {
+          self.postMessage({ type: "error", text: err.message });
+        }
+      }
+    };
+  `;
+
+  const workerBlob = new Blob([workerCode], { type: 'application/javascript' });
+  const worker = new Worker(URL.createObjectURL(workerBlob));
+
+  function countWords(text: string): number {
+    return (text.match(/\S+/g) || []).length;
+  }
+
+  function estimateTime(words: number): string {
+    const minutes = Math.ceil(words / 150);
+    if (minutes < 1) return 'under a minute';
+    if (minutes === 1) return '~1 min';
+    return `~${minutes} min`;
+  }
+
+  function formatTime(seconds: number): string {
+    const clamped = !isFinite(seconds) || seconds < 0 ? 0 : seconds;
+    const m = Math.floor(clamped / 60);
+    const s = Math.floor(clamped % 60);
+    return `${m}:${String(s).padStart(2, '0')}`;
+  }
+
+  textInput.addEventListener('input', () => {
+    const words = countWords(textInput.value);
+    if (words === 0) {
+      inputMeta.textContent = '';
+      btnListen.disabled = true;
+      return;
+    }
+    inputMeta.textContent = `${words.toLocaleString()} words \u00b7 ${estimateTime(words)} listening`;
+    btnListen.disabled = false;
+  });
+
+  function renderSentencesFromText(text: string) {
+    sentencesEl.innerHTML = '';
+    sentenceElements = [];
+    const span = document.createElement('span');
+    span.className = 'ra-sentence';
+    span.textContent = text;
+    sentencesEl.appendChild(span);
+    sentenceElements.push(span);
+  }
+
+  function rebuildSentencesFromChunks() {
+    sentencesEl.innerHTML = '';
+    sentenceElements = [];
+    chunkTexts.forEach((text, i) => {
+      const span = document.createElement('span');
+      span.className = 'ra-sentence';
+      span.textContent = text.trim() + ' ';
+      span.dataset.index = String(i);
+      span.addEventListener('click', () => jumpToSentence(i));
+      sentencesEl.appendChild(span);
+      sentenceElements.push(span);
+    });
+  }
+
+  function highlightSentence(sentenceIdx: number) {
+    sentenceElements.forEach((el, i) => {
+      el.classList.remove('active', 'done');
+      if (i < sentenceIdx) el.classList.add('done');
+      else if (i === sentenceIdx) el.classList.add('active');
+    });
+
+    const activeEl = sentenceElements[sentenceIdx];
+    if (activeEl) {
+      const paneRect = readingPane.getBoundingClientRect();
+      const elRect = activeEl.getBoundingClientRect();
+      const offset = elRect.top - paneRect.top - paneRect.height * 0.33;
+      if (Math.abs(offset) > 50) {
+        readingPane.scrollBy({ top: offset, behavior: 'smooth' });
+      }
+    }
+  }
+
+  function updateProgress() {
+    if (chunkDurations.length === 0) return;
+
+    elapsedBeforeCurrent = 0;
+    for (let i = 0; i < playIndex && i < chunkDurations.length; i++) {
+      elapsedBeforeCurrent += chunkDurations[i];
+    }
+
+    const currentChunkElapsed =
+      currentSource && playing && !paused
+        ? (audioCtx!.currentTime - sourceStartTime) * playbackSpeed
+        : sourceOffset;
+
+    const elapsed =
+      elapsedBeforeCurrent + Math.min(currentChunkElapsed, chunkDurations[playIndex] || 0);
+
+    totalDuration = chunkDurations.reduce((a, b) => a + b, 0);
+    const progress = totalDuration > 0 ? (elapsed / totalDuration) * 100 : 0;
+    scrubberFill.style.width = `${Math.min(progress, 100)}%`;
+
+    const bufferedChunks = queue.length;
+    // Rough estimate of total chunks while still streaming
+    const totalChunksEstimate = streamDone
+      ? chunkTexts.length
+      : Math.max(chunkTexts.length * 1.2, bufferedChunks + 2);
+    const buffered = (bufferedChunks / totalChunksEstimate) * 100;
+    scrubberBuffered.style.width = `${Math.min(buffered, 100)}%`;
+
+    timeElapsed.textContent = formatTime(elapsed / playbackSpeed);
+    timeTotal.textContent = formatTime(totalDuration / playbackSpeed);
+
+    highlightSentence(Math.min(playIndex, sentenceElements.length - 1));
+  }
+
+  let progressInterval: ReturnType<typeof setInterval> | null = null;
+
+  function startProgressUpdates() {
+    stopProgressUpdates();
+    progressInterval = setInterval(updateProgress, 250);
+  }
+
+  function stopProgressUpdates() {
+    if (progressInterval) {
+      clearInterval(progressInterval);
+      progressInterval = null;
+    }
+  }
+
+  function ensureAudioCtx() {
+    if (!audioCtx) audioCtx = new AudioContext();
+    return audioCtx;
+  }
+
+  function stopSource(source: AudioBufferSourceNode | null) {
+    if (!source) return;
+    try {
+      source.stop();
+    } catch (_) {}
+  }
+
+  function playChunkAt(index: number, offset: number): AudioBufferSourceNode {
+    const ctx = ensureAudioCtx();
+    const buf = queue[index];
+    const source = ctx.createBufferSource();
+    source.buffer = buf;
+    source.playbackRate.value = playbackSpeed;
+    source.connect(ctx.destination);
+    source.onended = () => {
+      if (currentSource === source) {
+        sourceOffset = 0;
+        playIndex++;
+        schedulePersist();
+        playNext();
+      }
+    };
+    currentSource = source;
+    sourceStartTime = ctx.currentTime - offset;
+    source.start(0, offset);
+    return source;
+  }
+
+  function playNext() {
+    if (stopped || paused || playIndex >= queue.length) {
+      playing = false;
+      if (!paused && (stopped || streamDone) && playIndex >= queue.length) {
+        finishPlayback();
+      }
+      return;
+    }
+
+    playing = true;
+    playChunkAt(playIndex, 0);
+    sourceOffset = 0;
+
+    updateProgress();
+    iconPlay.setAttribute('hidden', '');
+    iconPause.removeAttribute('hidden');
+    startProgressUpdates();
+  }
+
+  function pausePlayback() {
+    if (!playing || paused) return;
+    paused = true;
+    if (currentSource) {
+      sourceOffset = audioCtx!.currentTime - sourceStartTime;
+      stopSource(currentSource);
+      currentSource = null;
+    }
+    playing = false;
+    iconPlay.removeAttribute('hidden');
+    iconPause.setAttribute('hidden', '');
+    stopProgressUpdates();
+    updateProgress();
+    schedulePersist();
+  }
+
+  function resumePlayback() {
+    if (!paused) return;
+    paused = false;
+    if (playIndex >= queue.length) return;
+
+    playChunkAt(playIndex, sourceOffset);
+    playing = true;
+    iconPlay.setAttribute('hidden', '');
+    iconPause.removeAttribute('hidden');
+    startProgressUpdates();
+  }
+
+  function finishPlayback() {
+    playing = false;
+    paused = false;
+    stopProgressUpdates();
+    iconPlay.removeAttribute('hidden');
+    iconPause.setAttribute('hidden', '');
+    updateProgress();
+    scrubberFill.style.width = '100%';
+    totalDuration = chunkDurations.reduce((a, b) => a + b, 0);
+    timeElapsed.textContent = formatTime(totalDuration / playbackSpeed);
+    timeTotal.textContent = formatTime(totalDuration / playbackSpeed);
+    sentenceElements.forEach((el) => el.classList.add('done'));
+  }
+
+  function findChunkAtTime(targetTime: number): { chunk: number; offset: number } {
+    let accumulated = 0;
+    for (let i = 0; i < chunkDurations.length; i++) {
+      if (accumulated + chunkDurations[i] > targetTime) {
+        return { chunk: Math.min(i, queue.length - 1), offset: targetTime - accumulated };
+      }
+      accumulated += chunkDurations[i];
+    }
+    return { chunk: Math.min(chunkDurations.length, queue.length - 1), offset: 0 };
+  }
+
+  function seekToTime(targetTime: number) {
+    const { chunk, offset } = findChunkAtTime(Math.max(0, targetTime));
+    stopSource(currentSource);
+    currentSource = null;
+    playIndex = Math.max(0, chunk);
+    sourceOffset = Math.max(0, offset / playbackSpeed);
+
+    if (!paused && queue.length > 0 && playIndex < queue.length) {
+      playChunkAt(playIndex, sourceOffset);
+      playing = true;
+      startProgressUpdates();
+    }
+    updateProgress();
+  }
+
+  function getCurrentElapsed(): number {
+    let elapsed = 0;
+    for (let i = 0; i < playIndex && i < chunkDurations.length; i++) {
+      elapsed += chunkDurations[i];
+    }
+    if (currentSource && playing && !paused) {
+      elapsed += (audioCtx!.currentTime - sourceStartTime) * playbackSpeed;
+    } else {
+      elapsed += sourceOffset * playbackSpeed;
+    }
+    return elapsed;
+  }
+
+  function skipSeconds(delta: number) {
+    if (queue.length === 0) return;
+    seekToTime(getCurrentElapsed() + delta);
+  }
+
+  function jumpToSentence(sentIdx: number) {
+    const targetChunk = Math.min(sentIdx, queue.length - 1);
+    if (targetChunk < 0) return;
+
+    stopSource(currentSource);
+    currentSource = null;
+    playIndex = targetChunk;
+    sourceOffset = 0;
+
+    if (paused) {
+      updateProgress();
+      highlightSentence(sentIdx);
+      return;
+    }
+    playNext();
+  }
+
+  speedPills.forEach((pill) => {
+    pill.addEventListener('click', () => {
+      speedPills.forEach((p) => p.classList.remove('active'));
+      pill.classList.add('active');
+      const newSpeed = parseFloat(pill.dataset.speed || '1');
+
+      if (currentSource && playing && !paused) {
+        const elapsed = audioCtx!.currentTime - sourceStartTime;
+        sourceOffset = elapsed;
+        currentSource.playbackRate.value = newSpeed;
+        sourceStartTime = audioCtx!.currentTime - sourceOffset;
+      }
+
+      playbackSpeed = newSpeed;
+      updateProgress();
+      schedulePersist();
+    });
+  });
+
+  function schedulePersist() {
+    if (persistTimer) clearTimeout(persistTimer);
+    persistTimer = setTimeout(() => {
+      saveSession({
+        text: currentText,
+        chunks: chunkBuffers,
+        chunkTexts,
+        sentenceIndex: playIndex,
+        speed: playbackSpeed,
+        generationDone: streamDone,
+        savedAt: Date.now(),
+      }).catch(() => {});
+    }, 1000);
+  }
+
+  // Track total bytes across all model files for progress display
+  let totalBytesLoaded = 0;
+  let totalBytesExpected = 0;
+  const fileProgress = new Map<string, { loaded: number; total: number }>();
+
+  worker.onmessage = async (e: MessageEvent) => {
+    const { type } = e.data;
+
+    if (type === 'progress') {
+      const { loaded, total, file } = e.data;
+      fileProgress.set(file, { loaded, total });
+
+      totalBytesLoaded = 0;
+      totalBytesExpected = 0;
+      for (const p of fileProgress.values()) {
+        totalBytesLoaded += p.loaded;
+        totalBytesExpected += p.total;
+      }
+
+      const pct = totalBytesExpected > 0 ? (totalBytesLoaded / totalBytesExpected) * 100 : 0;
+      loadingBar.style.width = `${Math.min(pct, 100)}%`;
+      loadingDetail.textContent = 'Downloading model files';
+
+      if (totalBytesExpected > 0) {
+        loadingBytes.textContent = `${formatBytes(totalBytesLoaded)} / ${formatBytes(totalBytesExpected)}`;
+      }
+    }
+
+    if (type === 'status') {
+      loadingDetail.textContent = e.data.text;
+    }
+
+    if (type === 'ready') {
+      modelReady = true;
+
+      loadingView.setAttribute('hidden', '');
+      if (playerView.hasAttribute('hidden')) {
+        inputView.removeAttribute('hidden');
+        btnListen.disabled = !textInput.value.trim();
+      }
+    }
+
+    if (type === 'chunk') {
+      if (stopped) return;
+      const { text, arrayBuf } = e.data;
+      chunkTexts.push(text);
+      rebuildSentencesFromChunks();
+
+      const bufCopy = arrayBuf.slice(0);
+      chunkBuffers.push(bufCopy);
+
+      const ctx = ensureAudioCtx();
+      const audioBuf = await ctx.decodeAudioData(arrayBuf);
+      queue.push(audioBuf);
+      chunkDurations.push(audioBuf.duration);
+
+      if (!playing && !paused) playNext();
+      schedulePersist();
+    }
+
+    if (type === 'done') {
+      streamDone = true;
+      btnDownload.hidden = false;
+      schedulePersist();
+      if (!playing && !paused) finishPlayback();
+    }
+
+    if (type === 'error') {
+      console.error('TTS error:', e.data.text);
+      loadingDetail.textContent = e.data.text;
+      loadingBar.style.width = '0%';
+      loadingBytes.textContent = '';
+    }
+  };
+
+  function startListening(text: string, fromRestore = false) {
+    currentText = text;
+    stopped = false;
+    streamDone = false;
+    paused = true;
+    playIndex = 0;
+    sourceOffset = 0;
+    queue = [];
+    chunkTexts = [];
+    chunkBuffers = [];
+    chunkDurations = [];
+    currentSource = null;
+    audioCtx = new AudioContext();
+
+    renderSentencesFromText(text);
+
+    inputView.setAttribute('hidden', '');
+    playerView.removeAttribute('hidden');
+    timeElapsed.textContent = '0:00';
+    timeTotal.textContent = estimateTime(countWords(text)).replace('~', '');
+
+    if (!fromRestore) {
+      worker.postMessage({ type: 'generate', data: { text } });
+    }
+  }
+
+  btnListen.addEventListener('click', () => {
+    const text = textInput.value.trim();
+    if (!text || !modelReady) return;
+    clearSession();
+    startListening(text);
+    paused = false;
+  });
+
+  btnPlay.addEventListener('click', () => {
+    if (paused) {
+      resumePlayback();
+    } else if (playing) {
+      pausePlayback();
+    } else if (playIndex >= queue.length && streamDone) {
+      playIndex = 0;
+      sourceOffset = 0;
+      paused = false;
+      playNext();
+    }
+  });
+
+  btnBack15.addEventListener('click', () => skipSeconds(-15));
+  btnFwd15.addEventListener('click', () => skipSeconds(15));
+
+  btnNew.addEventListener('click', () => {
+    stopped = true;
+    stopSource(currentSource);
+    currentSource = null;
+    playing = false;
+    paused = false;
+    stopProgressUpdates();
+    clearSession();
+
+    playerView.setAttribute('hidden', '');
+    btnDownload.hidden = true;
+    inputView.removeAttribute('hidden');
+    textInput.value = '';
+    inputMeta.textContent = '';
+    btnListen.disabled = true;
+  });
+
+  btnDownload.addEventListener('click', () => {
+    if (queue.length === 0) return;
+    btnDownload.disabled = true;
+    const label = btnDownload.textContent;
+    btnDownload.textContent = 'Preparing...';
+
+    // Use requestIdleCallback to avoid blocking the main thread
+    setTimeout(() => {
+      try {
+        const sampleRate = queue[0].sampleRate;
+        const numChannels = queue[0].numberOfChannels;
+        let totalFrames = 0;
+        for (const buf of queue) totalFrames += buf.length;
+
+        // PCM 16-bit WAV to halve memory vs float32
+        const bytesPerSample = 2;
+        const dataSize = totalFrames * numChannels * bytesPerSample;
+        const headerSize = 44;
+        const wavBuffer = new ArrayBuffer(headerSize + dataSize);
+        const view = new DataView(wavBuffer);
+
+        // WAV header
+        const writeStr = (offset: number, str: string) => {
+          for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
+        };
+        writeStr(0, 'RIFF');
+        view.setUint32(4, 36 + dataSize, true);
+        writeStr(8, 'WAVE');
+        writeStr(12, 'fmt ');
+        view.setUint32(16, 16, true);
+        view.setUint16(20, 1, true);
+        view.setUint16(22, numChannels, true);
+        view.setUint32(24, sampleRate, true);
+        view.setUint32(28, sampleRate * numChannels * bytesPerSample, true);
+        view.setUint16(32, numChannels * bytesPerSample, true);
+        view.setUint16(34, bytesPerSample * 8, true);
+        writeStr(36, 'data');
+        view.setUint32(40, dataSize, true);
+
+        // Write PCM samples chunk by chunk
+        let offset = headerSize;
+        for (const buf of queue) {
+          const channels: Float32Array[] = [];
+          for (let c = 0; c < numChannels; c++) channels.push(buf.getChannelData(c));
+          for (let i = 0; i < buf.length; i++) {
+            for (let c = 0; c < numChannels; c++) {
+              const sample = Math.max(-1, Math.min(1, channels[c][i]));
+              view.setInt16(offset, sample * 0x7fff, true);
+              offset += 2;
+            }
+          }
+        }
+
+        const blob = new Blob([wavBuffer], { type: 'audio/wav' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'read-aloud.wav';
+        a.click();
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        console.error('Download failed:', err);
+      }
+
+      btnDownload.disabled = false;
+      btnDownload.innerHTML = label || 'Save audio';
+    }, 50);
+  });
+
+  scrubberTrack.addEventListener('click', (e: MouseEvent) => {
+    if (chunkDurations.length === 0) return;
+    const rect = scrubberTrack.getBoundingClientRect();
+    const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    const total = chunkDurations.reduce((a, b) => a + b, 0);
+    seekToTime(ratio * total);
+  });
+
+  document.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (playerView.hasAttribute('hidden')) return;
+    if (e.target instanceof HTMLTextAreaElement) return;
+
+    if (e.code === 'Space') {
+      e.preventDefault();
+      btnPlay.click();
+    } else if (e.code === 'ArrowLeft') {
+      e.preventDefault();
+      skipSeconds(-15);
+    } else if (e.code === 'ArrowRight') {
+      e.preventDefault();
+      skipSeconds(15);
+    }
+  });
+
+  async function restoreSession() {
+    try {
+      const session = await loadSession();
+      if (!session || !session.text || session.chunks.length === 0) return;
+
+      currentText = session.text;
+      chunkBuffers = session.chunks;
+      chunkTexts = session.chunkTexts;
+      streamDone = session.generationDone;
+      playbackSpeed = session.speed || 1;
+
+      speedPills.forEach((p) => {
+        p.classList.toggle('active', parseFloat(p.dataset.speed || '1') === playbackSpeed);
+      });
+
+      rebuildSentencesFromChunks();
+
+      loadingView.setAttribute('hidden', '');
+      inputView.setAttribute('hidden', '');
+      playerView.removeAttribute('hidden');
+
+      const ctx = ensureAudioCtx();
+      for (const buf of chunkBuffers) {
+        const copy = buf.slice(0);
+        const audioBuf = await ctx.decodeAudioData(copy);
+        queue.push(audioBuf);
+        chunkDurations.push(audioBuf.duration);
+      }
+
+      playIndex = Math.min(session.sentenceIndex, queue.length - 1);
+      if (playIndex < 0) playIndex = 0;
+      paused = true;
+      sourceOffset = 0;
+
+      updateProgress();
+      iconPlay.removeAttribute('hidden');
+      iconPause.setAttribute('hidden', '');
+
+      if (streamDone) {
+        btnDownload.hidden = false;
+      } else if (modelReady) {
+        worker.postMessage({ type: 'generate', data: { text: currentText } });
+      }
+    } catch (err) {
+      console.warn('Failed to restore session:', err);
+    }
+  }
+
+  worker.postMessage({ type: 'init', data: { devices: ['webgpu', 'wasm'] } });
+  restoreSession();
+</script>

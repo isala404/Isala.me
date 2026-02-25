@@ -95,9 +95,13 @@ const socialImageURL = new URL(image, Astro.site);
       data-website-id="1c01b274-60a2-4a66-a735-23f436180e58"></script>
 
     <!-- JSON-LD Structured Data -->
-    {structuredData && (
-      <Fragment set:html={`<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`} />
-    )}
+    {
+      structuredData && (
+        <Fragment
+          set:html={`<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`}
+        />
+      )
+    }
   </head>
 
   <body class="font-sans antialiased">

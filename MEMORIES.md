@@ -33,6 +33,8 @@ Apps
 - Icon name must match a key in iconMap in index.astro (add new Lucide imports when adding apps)
 - Drag-and-drop reorder logic in public/scripts/easter-eggs.js, order persisted in localStorage
 - Grid: 1 app = 1 col, 2-3 = 2 cols, 4+ = 3 cols. Last odd tile centered via CSS.
+- Read Aloud app: Kokoro TTS (kokoro-js@1.2.1), Web Worker, WebGPU/WASM fallback, IndexedDB persistence (7-day expiry)
+- Sub-pages should match site layout: max-w-content mx-auto px-6 py-16, back link uses arrow-link with &larr;
 
 Prefetch
 - Astro prefetch enabled with prefetchAll: true, defaultStrategy: 'load'

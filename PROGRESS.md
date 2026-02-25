@@ -43,6 +43,17 @@ Added page-specific SEO structured data and app sitemap entries.
 - Added description, seoTags, and WebApplication structured data to all 3 app pages
 - Auto-discovers apps in `src/pages/sitemap.xml.ts` via import.meta.glob, adds with priority 0.5
 
+Replaced all apps with Read Aloud TTS reader powered by Kokoro TTS.
+- Deleted `src/pages/apps/pomodoro.astro`, `coin-flip.astro`, `dice.astro`
+- Created `src/pages/apps/read-aloud.astro` with browser-based text-to-speech
+- Kokoro TTS via Web Worker (WebGPU/WASM fallback), streaming chunk playback
+- Model download progress with bytes shown during loading phase
+- Sentence-level text highlighting, click-to-jump, auto-scroll
+- Player controls: play/pause, skip 15s, speed (0.75x-2x), scrubber seek
+- IndexedDB persistence: audio chunks, position, speed saved across refreshes (7-day expiry)
+- Updated `src/pages/index.astro` icon imports (removed Timer/Coins/Dices, added AudioLines)
+- SEO: Kokoro TTS keywords in seoTags, WebApplication structured data
+
 Added /note page for shareable plain text notes.
 - Created `src/pages/note.astro` with simple textarea editor
 - Zstd compression stores content in URL hash for sharing
