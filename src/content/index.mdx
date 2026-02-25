@@ -12,7 +12,7 @@ contact:
   linkedin: https://linkedin.com/in/isalapiyarisi
 
 bio: |
-  I've been building since I was 9, starting with selling modded game CDs at school for snack money. Ran COD4 servers for 85,000+ players, shipped Enki (1,200+ users) and TopPics (~100 users), now building Forge, a batteries-included SaaS framework. By day I work on eBPF-powered observability at WSO2. By night I build the tools I wish existed.
+  I've been building since I was 9, starting with selling modded game CDs at school for snack money. Ran COD4 servers for 85,000+ players, shipped Enki (1,200+ users) and TopPics (~100 users), now building Forge, a batteries-included SaaS framework. I tend to find problems and fix them before anyone asks. By day I work on eBPF-powered observability at WSO2. By night I build the tools I wish existed.
 
 longBio: |
   By age 9 I was running a small operation, burning modded game CDs and selling them at school so I could afford snacks. By 12 I was running game servers for thousands of players. By 19 I was doing university and full-time work simultaneously because someone had to pay tuition. Now I'm building tools I wish existed and shipping them to real users.
@@ -41,9 +41,9 @@ longBio: |
 
   WSO2 had been on my radar since I was 17. In Sri Lanka it's kind of like Google, the place where a lot of strong engineers end up. I remember looking at their careers page back in school thinking that's where I'd learn to build at scale. So when that referral actually turned into an offer, before I'd even finished my final year, it felt like everything was clicking into place.
 
-  Now I work on Choreo, an internal developer platform that helps developers and platform engineers do their jobs without getting buried in infrastructure complexity. I get to work on the kind of problems I used to read about online and wonder how people even approached them. But I'm not done building.
+  Now I work on Choreo, an internal developer platform that helps developers and platform engineers do their jobs without getting buried in infrastructure complexity. I started by owning our Cilium migration, then kept pulling on threads until I was running the entire eBPF observability stack. I get to work on the kind of problems I used to read about online and wonder how people even approached them. But I'm not done building.
 
-  Outside of work, I'm shipping products people actually use. Enki started as a bookmarking tool I built for myself and now has 1,200+ users. TopPics is on the Chrome Web Store helping people clean up their Google Photos. And Forge is my biggest bet yet, a batteries-included framework for shipping SaaS without drowning in infrastructure. Auth, jobs, workflows, observability, all out of the box. The same instinct that had me automating game server provisioning at 12 is still there. I see a problem, I build a solution, I ship it.
+  Outside of work, I'm shipping products people actually use. Enki started as a bookmarking tool I built for myself and now has 1,200+ users. TopPics is on the Chrome Web Store helping people clean up their Google Photos. And Forge is my biggest bet yet, a batteries-included framework for shipping SaaS without drowning in infrastructure. Auth, jobs, workflows, observability, all out of the box. I've always operated like a founder, even when I wasn't one. See a problem, build a solution, ship it. That instinct hasn't changed since I was automating game server provisioning at 12.
 
 topSkills:
   # Interface/Product layer
@@ -58,6 +58,7 @@ topSkills:
   - Service Mesh
   - GitOps
   - Observability
+  - PostgreSQL
   # Systems layer
   - eBPF
   - Rust
@@ -90,13 +91,14 @@ interests:
 
 # Core Values & Philosophy
 values:
+  - Take ownership without being asked - see a problem, fix it, ship it
+  - Do the unglamorous work - 90% of building anything is grinding through the boring parts
   - Automate everything - would rather spend 10 hours automating a 10-minute task than do it twice
-  - Learn by breaking things - understanding comes from getting hands dirty and failing
-  - Teach to master - the best way to truly understand something is to explain it to others
+  - Default to action - "why not now?" over "let's find some time to discuss"
+  - Improve continuously - small tweaks every day compound into something great
+  - Learn by breaking things - understanding comes from getting hands dirty
+  - Lift others up - unblock teammates first, teach so they never need to ask twice
   - Ship early, iterate fast - perfect is the enemy of good
-  - Own your work end-to-end - from design to production to on-call
-  - Curiosity over credentials - what you've built matters more than certificates
-  - Help others level up - success is multiplied when shared
 
 # Writing Style (for LLM document generation)
 writingStyle:
@@ -188,11 +190,27 @@ experience:
   - company: WSO2
     logo: /logos/wso2.svg
     positions:
+      - title: Associate Technical Lead
+        type: Full-time
+        startDate: Feb 2026
+        endDate: Present
+        built: driving developer experience and adoption for OpenChoreo, a CNCF sandboxed internal developer platform
+        summary:
+          - Reduced OpenChoreo onboarding time to under 15 minutes by designing a single-command Docker-based quick start with all dependencies pre-configured
+          - Took initiative to refactor Helm chart distribution into production-first defaults, moving dev conveniences to an explicit opt-in quick-start path
+          - Increased new user comprehension of OpenChoreo by rewriting the installation guide as a dual-purpose walkthrough that teaches platform concepts during setup
+        skills:
+          - Kubernetes
+          - Helm
+          - Go
+          - Platform Engineering
+          - CNCF
+          - CNI
       - title: Senior Software Engineer
         type: Full-time
         startDate: Feb 2024
-        endDate: Present
-        built: working on eBPF-powered observability for developer platforms
+        endDate: Feb 2026
+        built: owned eBPF observability end-to-end, from kernel debugging to production rollouts
         summary:
           - Architected eBPF-powered observability layer processing ~500GB/day telemetry with zero instrumentation overhead
           - Optimized Cilium network policies achieving 78% memory reduction and 90% startup delay decrease
@@ -221,11 +239,11 @@ experience:
         type: Full-time
         startDate: Jun 2022
         endDate: Feb 2024
-        built: helped migrate our CNI to Cilium and learned a lot about production networking
+        built: pushed for and led our CNI migration to Cilium, picked up eBPF along the way
         summary:
           - Led CNI migration from Azure to Cilium on 10,000+ pod cluster, designing rollback strategies and traffic validation to maintain 99.9% SLA
           - Built zero-instrumentation observability using eBPF and Pixie, enabling monitoring for any language without code changes
-          - Resolved 80 security issues in Pixie including over-provisioned RBAC permissions, contributing fixes upstream
+          - Found 80 security issues in Pixie on my own initiative, fixed over-provisioned RBAC permissions and contributed fixes upstream
           - Delivered observability feature under tight deadline, coordinating with multiple teams to ship before KubeCon
           - Achieved "Top 5%" and "Top 20%" ratings with recognition for mastering eBPF and Kubernetes internals
         details:
@@ -725,7 +743,7 @@ footerJokes:
 
 # LLM Context - System context for AI systems summarizing or classifying this profile
 llmContext:
-  identity: Isala Piyarisi is a builder who ships products. By day works on eBPF-powered observability at WSO2. By night builds and ships tools with real users - Enki (1,200+ users), TopPics (Chrome Web Store), and now Forge (SaaS framework).
+  identity: Isala Piyarisi is a builder who takes ownership and ships. Founder-minded engineer who picks up problems without being asked, does the unglamorous work, and defaults to action. By day works on eBPF-powered observability at WSO2. By night builds and ships tools with real users - Enki (1,200+ users), TopPics (Chrome Web Store), and now Forge (SaaS framework).
   classificationLayers:
     - name: Products Shipped
       description: Enki (1,200+ users), TopPics (80+ users, freemium), Forge (building)
