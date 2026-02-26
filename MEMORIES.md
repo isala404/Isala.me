@@ -44,6 +44,7 @@ Offline / Service Worker
 - Custom SW generated at build time via src/pages/sw.js.ts (Astro static endpoint)
 - Build version stamped via Date.now().toString(36), triggers browser update detection on each deploy
 - Cache strategy: pages=network-first, _astro/=cache-first, static=stale-while-revalidate, CDN=stale-while-revalidate, HuggingFace models=cache-first in unversioned cache
+- SW activate now warms same-origin page cache by reading sitemap.xml and prefetching URLs in small batches
 - Models cache (models-v1) survives deploys, only invalidated when CDN URL changes
 - On new SW activation: all versioned caches purged, clients.claim() + skipWaiting() for immediate takeover
 - controllerchange event triggers page reload (skipped on first-ever install)

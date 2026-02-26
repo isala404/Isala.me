@@ -16,6 +16,7 @@ const CACHES = {
 
 const ALLOWED_CACHES = new Set(Object.values(CACHES));
 const OFFLINE_URL = '/offline.html';
+const WARMUP_BATCH_SIZE = 8;
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -137,19 +138,27 @@ async function warmPagesCache() {
     if (!matches.length) return;
 
     const pageCache = await caches.open(CACHES.pages);
-    await Promise.allSettled(
-      matches
-        .map(([, loc]) => {
+    const pagePaths = matches
+      .map(([, loc]) => {
+        try {
           const url = new URL(loc);
           return url.origin === self.location.origin ? url.pathname : null;
-        })
-        .filter(Boolean)
-        .map(async (pathname) => {
-          const response = await fetch(pathname, { cache: 'no-store' });
+        } catch {
+          return null;
+        }
+      })
+      .filter(Boolean);
+
+    for (let batchStartIndex = 0; batchStartIndex < pagePaths.length; batchStartIndex += WARMUP_BATCH_SIZE) {
+      const batch = pagePaths.slice(batchStartIndex, batchStartIndex + WARMUP_BATCH_SIZE);
+      await Promise.allSettled(
+        batch.map(async (pathname) => {
+          const response = await fetch(pathname, { cache: 'reload' });
           if (!response.ok) return;
           await pageCache.put(pathname, response.clone());
         })
-    );
+      );
+    }
   } catch {
     // ignore warmup failures
   }

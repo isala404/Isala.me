@@ -73,3 +73,6 @@ Added offline-first service worker with read-through caching.
 - Updated `src/layouts/BaseLayout.astro`: replaced SW unregistration with registration + controllerchange reload
 - Updated `nginx.conf`: added no-cache rule for sw.js so browser always checks for updates
 - Offline fallback to `public/offline.html` (precached on install)
+
+Enable background cache warmup for static pages using sitemap.
+- Updated `src/pages/sw.js.ts` to fetch `/sitemap.xml` on service worker activation, parse same-origin page URLs, and prefill page cache in bounded batches.
