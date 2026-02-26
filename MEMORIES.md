@@ -39,3 +39,14 @@ Apps
 Prefetch
 - Astro prefetch enabled with prefetchAll: true, defaultStrategy: 'load'
 - Preloads all internal links after page fully loads
+
+Offline / Service Worker
+- Custom SW generated at build time via src/pages/sw.js.ts (Astro static endpoint)
+- Build version stamped via Date.now().toString(36), triggers browser update detection on each deploy
+- Cache strategy: pages=network-first, _astro/=cache-first, static=stale-while-revalidate, CDN=stale-while-revalidate, HuggingFace models=cache-first in unversioned cache
+- Models cache (models-v1) survives deploys, only invalidated when CDN URL changes
+- On new SW activation: all versioned caches purged, clients.claim() + skipWaiting() for immediate takeover
+- controllerchange event triggers page reload (skipped on first-ever install)
+- nginx serves sw.js with no-cache, no-store, must-revalidate
+- PWA manifest at public/manifest.json
+- Offline fallback at public/offline.html (precached on SW install)

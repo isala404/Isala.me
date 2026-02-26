@@ -61,3 +61,15 @@ Added /note page for shareable plain text notes.
 - Native Web Share API, falls back to clipboard
 - Cmd/Ctrl+A only selects editor text
 - Added zstd-codec dependency and type declarations
+
+Added offline-first service worker with read-through caching.
+- Created `src/pages/sw.js.ts` as Astro static endpoint with build-time version stamp
+- Pages use network-first (fresh when online, cached offline), _astro/ hashed assets use cache-first (immutable)
+- Static assets and CDN (fonts, kokoro-js) use stale-while-revalidate for speed
+- HuggingFace ONNX model files use cache-first in unversioned `models-v1` cache (lazy, only cached when Read Aloud opened)
+- On deploy: new SW version triggers activation, purges all versioned caches, auto-reloads page
+- Models cache persists across deploys since those URLs are CDN-versioned
+- Created `public/manifest.json` for PWA installability
+- Updated `src/layouts/BaseLayout.astro`: replaced SW unregistration with registration + controllerchange reload
+- Updated `nginx.conf`: added no-cache rule for sw.js so browser always checks for updates
+- Offline fallback to `public/offline.html` (precached on install)

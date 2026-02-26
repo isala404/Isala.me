@@ -63,6 +63,7 @@ const socialImageURL = new URL(image, Astro.site);
     <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -160,15 +161,24 @@ const socialImageURL = new URL(image, Astro.site);
       )
     }
 
-    <!-- Service Worker Unregistration (cleanup) -->
+    <!-- Service Worker Registration -->
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then((registrations) => {
-          registrations.forEach((registration) => registration.unregister());
+        let isFirstInstall = !navigator.serviceWorker.controller;
+
+        navigator.serviceWorker.register('/sw.js').catch((err) => {
+          console.warn('SW registration failed:', err);
         });
-        if ('caches' in window) {
-          caches.keys().then((names) => names.forEach((name) => caches.delete(name)));
-        }
+
+        // on controller change (new SW activated after deploy), reload for fresh content
+        // skip reload on first-ever install since the page is already fresh
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (isFirstInstall) {
+            isFirstInstall = false;
+            return;
+          }
+          window.location.reload();
+        });
       }
     </script>
 
