@@ -16,6 +16,7 @@ const CACHES = {
 
 const ALLOWED_CACHES = new Set(Object.values(CACHES));
 const OFFLINE_URL = '/offline.html';
+const WARMUP_BATCH_SIZE = 8;
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -26,11 +27,13 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys()
-      .then((keys) => Promise.all(
-        keys.filter((k) => !ALLOWED_CACHES.has(k)).map((k) => caches.delete(k))
-      ))
+    caches
+      .keys()
+      .then((keys) =>
+        Promise.all(keys.filter((k) => !ALLOWED_CACHES.has(k)).map((k) => caches.delete(k)))
+      )
       .then(() => self.clients.claim())
+      .then(() => warmPagesCache())
   );
 });
 
@@ -123,6 +126,42 @@ async function staleWhileRevalidate(request, cacheName) {
     .catch(() => null);
 
   return cached || (await networkResponse) || new Response('Offline', { status: 503 });
+}
+
+async function warmPagesCache() {
+  try {
+    const sitemapResponse = await fetch('/sitemap.xml', { cache: 'no-store' });
+    if (!sitemapResponse.ok) return;
+
+    const sitemap = await sitemapResponse.text();
+    const matches = [...sitemap.matchAll(/<loc>(.*?)<\\/loc>/g)];
+    if (!matches.length) return;
+
+    const pageCache = await caches.open(CACHES.pages);
+    const pagePaths = matches
+      .map(([, loc]) => {
+        try {
+          const url = new URL(loc);
+          return url.origin === self.location.origin ? url.pathname : null;
+        } catch {
+          return null;
+        }
+      })
+      .filter(Boolean);
+
+    for (let batchStartIndex = 0; batchStartIndex < pagePaths.length; batchStartIndex += WARMUP_BATCH_SIZE) {
+      const batch = pagePaths.slice(batchStartIndex, batchStartIndex + WARMUP_BATCH_SIZE);
+      await Promise.allSettled(
+        batch.map(async (pathname) => {
+          const response = await fetch(pathname, { cache: 'reload' });
+          if (!response.ok) return;
+          await pageCache.put(pathname, response.clone());
+        })
+      );
+    }
+  } catch {
+    // ignore warmup failures
+  }
 }
 `;
 
