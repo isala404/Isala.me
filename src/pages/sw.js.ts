@@ -26,11 +26,13 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys()
-      .then((keys) => Promise.all(
-        keys.filter((k) => !ALLOWED_CACHES.has(k)).map((k) => caches.delete(k))
-      ))
+    caches
+      .keys()
+      .then((keys) =>
+        Promise.all(keys.filter((k) => !ALLOWED_CACHES.has(k)).map((k) => caches.delete(k)))
+      )
       .then(() => self.clients.claim())
+      .then(() => warmPagesCache())
   );
 });
 
@@ -123,6 +125,34 @@ async function staleWhileRevalidate(request, cacheName) {
     .catch(() => null);
 
   return cached || (await networkResponse) || new Response('Offline', { status: 503 });
+}
+
+async function warmPagesCache() {
+  try {
+    const sitemapResponse = await fetch('/sitemap.xml', { cache: 'no-store' });
+    if (!sitemapResponse.ok) return;
+
+    const sitemap = await sitemapResponse.text();
+    const matches = [...sitemap.matchAll(/<loc>(.*?)<\\/loc>/g)];
+    if (!matches.length) return;
+
+    const pageCache = await caches.open(CACHES.pages);
+    await Promise.allSettled(
+      matches
+        .map(([, loc]) => {
+          const url = new URL(loc);
+          return url.origin === self.location.origin ? url.pathname : null;
+        })
+        .filter(Boolean)
+        .map(async (pathname) => {
+          const response = await fetch(pathname, { cache: 'no-store' });
+          if (!response.ok) return;
+          await pageCache.put(pathname, response.clone());
+        })
+    );
+  } catch {
+    // ignore warmup failures
+  }
 }
 `;
 
