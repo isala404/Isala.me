@@ -1,0 +1,145 @@
+---
+title: "We 'fixed' a Cilium connection refused bug. It disagreed. (Asymmetric routing in Kubernetes)"
+description: 'A Heisenbug that vanished when we tried to fix it, came back when we looked away, and took two weeks to corner. The root cause was a single cloud provider default nobody thought to check.'
+publishedAt: 2026-03-02
+draft: true
+tags: ['kubernetes', 'networking', 'cilium', 'aws', 'production']
+seoTags:
+  [
+    'aws nlb snat',
+    'cilium asymmetric routing',
+    'kubernetes connection refused',
+    'nlb client ip preservation',
+    'cilium conntrack',
+    'kubernetes networking debugging',
+    'hairpin routing kubernetes',
+  ]
+featured: true
+readingTime: 8
+---
+
+This is the second time Cilium has humbled me. The [first time](/blog/cilium-pod-cidr), a default Pod CIDR quietly ate our firewall's subnet. That one hid for 8 months before going off. This one was worse. It hid behind a red herring so convincing that we "fixed" it, celebrated, and went home. Then it came back.
+
+## The report
+
+A customer reported intermittent `connection refused` errors hitting their internal APIs. Not constant failures. Not a full outage. Just random drops, scattered across services, with no obvious pattern.
+
+The word "intermittent" in a networking bug report should come with a health warning. It usually means the problem depends on some invisible variable you haven't thought of yet.
+
+We confirmed the issue quickly. Both internal and external API calls were failing on and off across multiple components. No recent infrastructure changes. No new deployments on our side. The customer had simply woken up to broken API calls.
+
+## The red herring
+
+Our first move was standard: spin up Hubble and watch the traffic. Almost immediately, we spotted `INGRESS DENIED` logs. Cilium's network policies were dropping packets.
+
+This felt like progress. Network policy denials are a well-understood problem with a well-understood fix. We applied a relaxed `allow-all-ingress` policy to isolate whether the policy was the culprit.
+
+The `INGRESS DENIED` logs disappeared from Hubble.
+
+Around the same time, the customer restarted one of the failing services. The service came back healthy. API calls started working.
+
+We had our answer. Or so we thought.
+
+The team documented the fix, cleaned up, and moved on. The network policy had been too restrictive, we reasoned. The restart cleared stale connections. Case closed.
+
+A few days later, after a routine deployment, the exact same failures returned. Same intermittent `connection refused`. Same random distribution across services. But this time, the `allow-all-ingress` policy was already in place.
+
+The policy had never been the fix. And the restart hadn't cleared stale connections. We had been fooled by a coincidence.
+
+## The coincidence
+
+Here's what actually happened during our "fix":
+
+When the customer restarted their service, the Kubernetes scheduler placed the new pod on a **different node** than before. This, by pure luck, eliminated the condition that was causing the failures. The policy change was irrelevant. The restart location was everything.
+
+We didn't know that yet. But we knew one thing: if the same problem returned after a deployment that triggered pod rescheduling, the issue was tied to **where pods land**, not what policies govern them.
+
+## Chasing the ghost
+
+Armed with this new theory, we started mapping failures to pod placements. The pattern emerged slowly.
+
+The failures only occurred when a client pod and its destination Nginx Ingress pod were scheduled on the **same node**. Pods on different nodes communicated fine. Same-node communication through the load balancer failed.
+
+This was a hairpin routing problem. But understanding *why* it failed required digging deeper into the actual packet flow.
+
+## The packet flow that broke everything
+
+Here's the normal, working flow when a client pod calls an internal API:
+
+1. Client pod resolves the API hostname via DNS
+2. DNS should return the **Global Load Balancer** IP
+3. Client sends SYN to Global LB
+4. Global LB performs **Source NAT (SNAT)**, replacing the client's pod IP with its own
+5. Global LB forwards to the private NLB, then to the Nginx pod
+6. Nginx pod sees traffic from the LB IP and sends SYN-ACK back to the LB
+7. LB forwards the response back to the client pod
+8. Symmetric path. Cilium's conntrack is happy. TCP handshake completes.
+
+But in our customer's environment, a DNS anomaly was causing internal API hostnames to resolve directly to the **private NLB IP**, completely bypassing the Global LB where SNAT happens.
+
+This exposed a default that nobody on the team had ever inspected: **AWS Network Load Balancers preserve the client's source IP by default.**
+
+Without SNAT, the private NLB forwards the packet to the Nginx pod with the original client pod IP intact. When the client and Nginx pods happen to be on the same node, disaster strikes.
+
+![Asymmetric routing: the Nginx pod on the same node sends SYN-ACK directly back to the client pod, bypassing the NLB. Cilium sees a reply from an IP it never sent a request to.](/images/blog/learned-it-the-hard-way-asymmetric-routing/asymmetric-flow.png)
+
+## Why Cilium drops the connection
+
+Cilium maintains a conntrack (connection tracking) table. When the client pod sends a SYN to `172.10.26.35` (the NLB IP), Cilium records:
+
+```
+Client Pod (172.10.24.6) → NLB (172.10.26.35): SYN [TRACKED]
+```
+
+It expects the SYN-ACK to come from `172.10.26.35`. But because the Nginx pod is on the same node and the source IP was preserved, the Nginx pod responds directly:
+
+```
+Nginx Pod (172.10.24.8) → Client Pod (172.10.24.6): SYN-ACK [???]
+```
+
+Cilium looks at this SYN-ACK and has no matching conntrack entry. It never sent anything to `172.10.24.8`. As far as Cilium's stateful firewall is concerned, this is some random pod trying to open a new connection out of nowhere.
+
+With network policies active, this shows up as `INGRESS DENIED`. Without network policies, the stateless check passes but the **stateful check still fails**. Cilium cannot associate the SYN-ACK with the original SYN. The TCP handshake never completes. The client times out.
+
+This is why relaxing the network policy made the logs disappear but didn't fix the problem. The policy denial was a symptom. The conntrack mismatch was the disease.
+
+## Why it only sometimes broke
+
+The intermittent nature made this particularly nasty. Three conditions had to align:
+
+1. **DNS anomaly**: Internal hostnames resolving to the private NLB instead of the Global LB
+2. **Client IP preservation**: The NLB forwarding packets with the original source IP (AWS default)
+3. **Same-node scheduling**: The client pod and Nginx pod landing on the same Kubernetes node
+
+Condition 1 was specific to this customer's environment. Condition 2 was a universal default we'd never questioned. Condition 3 was pure luck, depending entirely on the scheduler's mood.
+
+This is also why the problem never showed up in other environments. Some had correct DNS routing through the Global LB (which performs SNAT). Others used smaller pods where the beefy Nginx Ingress pods made same-node scheduling statistically unlikely.
+
+## The fix
+
+Once we understood the asymmetric path, the fix was straightforward. We modified the AWS NLB service manifest for the internal ingress controller to **disable client IP preservation**, forcing the NLB to perform SNAT:
+
+This makes the NLB replace the client pod's source IP with its own before forwarding to the Nginx pod. Now the Nginx pod always sees traffic as coming from the NLB and sends its reply back through the NLB. Symmetric path, regardless of pod placement.
+
+![Symmetric routing after enabling SNAT: all traffic flows through the NLB in both directions. Cilium's conntrack sees matching source/destination IPs for SYN and SYN-ACK.](/images/blog/learned-it-the-hard-way-asymmetric-routing/symmetric-flow.png)
+
+## Why it took two weeks
+
+The investigation wasn't slow because the team was inexperienced. It was slow because every troubleshooting step produced misleading feedback:
+
+- **Restarting pods** sometimes fixed it (because the scheduler moved them to different nodes)
+- **Draining nodes** had a higher fix rate (more aggressive rescheduling separated the pod pairs)
+- **Relaxing policies** made the error logs disappear (removing the symptom, not the cause)
+- **Coincidental timing** of a restart during the policy change created a false causal link
+
+Each "fix" provided just enough relief to derail the investigation. The bug behaved differently depending on how you observed it. A proper Heisenbug.
+
+## The takeaways
+
+**Don't trust cloud provider defaults.** AWS NLB's default client IP preservation is documented, but it's the kind of setting you never think about until it breaks something. We now explicitly set every load balancer configuration in our infrastructure-as-code rather than relying on implicit defaults.
+
+**Absence of error logs doesn't mean the problem is solved.** When we removed the network policy denials, the logs stopped. But the connection still failed at the conntrack level, silently. Our troubleshooting playbooks now include TCP handshake verification steps, not just log monitoring.
+
+**Track pod placement during network debugging.** The intermittent nature of this bug was entirely explained by scheduler behavior. Same-node scheduling created the failure condition. If we had correlated failures with pod-to-node mappings earlier, we would have found the pattern in days, not weeks.
+
+**Be skeptical of coincidental fixes.** When two things change at the same time and the problem disappears, resist the urge to attribute causation. In our case, the policy change and the pod restart happened together. Only one mattered, and it wasn't the one we thought.
