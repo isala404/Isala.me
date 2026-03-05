@@ -1,7 +1,9 @@
 import type { APIRoute } from 'astro';
 
+// Stable per server start so the SW doesn't reinstall on every fetch
+const BUILD_VERSION = Date.now().toString(36);
+
 export const GET: APIRoute = () => {
-  const BUILD_VERSION = Date.now().toString(36);
 
   const sw = `// build: ${BUILD_VERSION}
 const VERSION = '${BUILD_VERSION}';

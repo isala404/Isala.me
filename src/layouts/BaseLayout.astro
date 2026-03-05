@@ -13,6 +13,7 @@ interface Props {
   publishedTime?: string;
   seoTags?: string[];
   structuredData?: Record<string, any>;
+  canonicalUrl?: string;
 }
 
 const {
@@ -23,9 +24,10 @@ const {
   publishedTime,
   seoTags = [],
   structuredData,
+  canonicalUrl,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const canonicalURL = canonicalUrl || new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL(image, Astro.site);
 ---
 
@@ -103,6 +105,8 @@ const socialImageURL = new URL(image, Astro.site);
         />
       )
     }
+
+    <slot name="head" />
   </head>
 
   <body class="font-sans antialiased">

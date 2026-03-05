@@ -12,6 +12,7 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
+const isExternal = !!post.data.externalUrl;
 
 function formatDate(date: Date): string {
   return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -24,8 +25,9 @@ function formatDate(date: Date): string {
   image={post.data.cover}
   type="article"
   publishedTime={post.data.publishedAt.toISOString()}
-  seoTags={post.data.seoTags}
-  structuredData={{
+  canonicalUrl={isExternal ? post.data.externalUrl : undefined}
+  seoTags={isExternal ? [] : post.data.seoTags}
+  structuredData={isExternal ? undefined : {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: post.data.title,
@@ -37,6 +39,11 @@ function formatDate(date: Date): string {
     ...(post.data.cover && { image: `https://isala.me${post.data.cover}` }),
   }}
 >
+  {isExternal && (
+    <Fragment slot="head">
+      <meta name="robots" content="noindex, nofollow" />
+    </Fragment>
+  )}
   <!-- Track article read -->
   <script is:inline define:vars={{ postTitle: post.data.title, postSlug: post.slug }}>
     if (typeof umami !== 'undefined') {
@@ -106,7 +113,11 @@ function formatDate(date: Date): string {
 
     <!-- Content -->
     <article class="prose prose-summer max-w-none">
-      <Content />
+      {isExternal ? (
+        <p>This article was originally published on <a href={post.data.externalUrl}>Medium</a>.</p>
+      ) : (
+        <Content />
+      )}
     </article>
   </main>
 </BaseLayout>
