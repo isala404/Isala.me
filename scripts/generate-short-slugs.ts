@@ -6,9 +6,10 @@
  */
 
 import { readdir, readFile, writeFile } from 'node:fs/promises'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const BLOG_DIR = join(import.meta.dirname, '..', 'src', 'content', 'blog')
+const BLOG_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'content', 'blog')
 const CHARSET = 'abcdefghijklmnopqrstuvwxyz0123456789'
 const SLUG_LEN = 8
 
