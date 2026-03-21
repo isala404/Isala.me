@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content'
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog')
+  return posts
+    .filter((post) => post.data.shortSlug)
+    .map((post) => ({
+      params: { short: post.data.shortSlug },
+      props: { slug: post.slug },
+    }))
+}
+
+const { slug } = Astro.props
+const target = `/blog/${slug}/`
+---
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="canonical" href={`https://isala.me/blog/${slug}/`} />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <title>Redirecting…</title>
+  </head>
+  <body>
+    <p>Redirecting to <a href={target}>{target}</a></p>
+  </body>
+</html>

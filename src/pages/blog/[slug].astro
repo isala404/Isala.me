@@ -13,6 +13,9 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await post.render();
 const isExternal = !!post.data.externalUrl;
+const shareUrl = post.data.shortSlug
+  ? `https://isala.me/b/${post.data.shortSlug}/`
+  : `https://isala.me/blog/${post.slug}/`;
 
 function formatDate(date: Date): string {
   return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -94,6 +97,16 @@ function formatDate(date: Date): string {
             </>
           )
         }
+        <span>·</span>
+        <button
+          id="share-btn"
+          class="bg-theme-card border-theme-border hover:bg-theme-accent-bg hover:text-theme-accent hover:border-theme-border-hover inline-flex items-center gap-1.5 rounded border px-2 py-0.5 text-xs transition-colors cursor-pointer"
+          data-url={shareUrl}
+          data-title={post.data.title}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          <span class="share-label">share</span>
+        </button>
       </div>
     </header>
 
@@ -423,6 +436,30 @@ function formatDate(date: Date): string {
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // Share button
+    const shareBtn = document.getElementById('share-btn');
+    if (shareBtn) {
+      const url = shareBtn.dataset.url ?? '';
+      const title = shareBtn.dataset.title ?? '';
+      const label = shareBtn.querySelector('.share-label');
+
+      shareBtn.addEventListener('click', async () => {
+        if (navigator.share) {
+          navigator.share({ title, url }).catch(() => {});
+          return;
+        }
+        try {
+          await navigator.clipboard.writeText(url);
+          if (label) {
+            label.textContent = 'copied!';
+            setTimeout(() => { label.textContent = 'share'; }, 2000);
+          }
+        } catch {
+          // clipboard not available (insecure context), ignore
+        }
+      });
+    }
+
     // Add captions to images based on alt text
     const images = document.querySelectorAll('.prose-summer img[alt]');
     images.forEach((img) => {

@@ -14,6 +14,7 @@ const blog = defineCollection({
     readingTime: z.number().optional(), // in minutes
     cover: z.string().optional(),
     externalUrl: z.string().optional(), // for external blog posts (e.g., Medium)
+    shortSlug: z.string().regex(/^[a-z0-9]{8}$/).optional(),
   }),
 });
 
