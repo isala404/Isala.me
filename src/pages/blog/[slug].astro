@@ -432,6 +432,30 @@ function formatDate(date: Date): string {
     border-color: var(--theme-border);
     margin: 2rem 0;
   }
+
+  /* Tables */
+  .prose-summer table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.875rem;
+  }
+
+  .prose-summer th,
+  .prose-summer td {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--theme-border);
+  }
+
+  .prose-summer th {
+    font-weight: 600;
+    color: var(--theme-text-secondary);
+  }
+
+  .prose-summer td code {
+    font-size: 0.8125rem;
+  }
 </style>
 
 <script>
