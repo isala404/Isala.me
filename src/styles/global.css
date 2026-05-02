@@ -947,6 +947,19 @@ section:hover .section-heading {
   padding: 0;
 }
 
+.mermaid-diagram {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.mermaid-diagram svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  border: 1px solid var(--theme-border);
+}
+
 /* Blog specific styles */
 .blog-card {
   transition:

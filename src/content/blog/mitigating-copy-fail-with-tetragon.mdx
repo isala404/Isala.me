@@ -1,0 +1,222 @@
+---
+title: 'Blocking Copy Fail (CVE-2026-31431) in Kubernetes with Tetragon'
+description: 'A 732-byte Python script roots every Linux distro since 2017. Kernel patches are still rolling out. Here is how to block it at the syscall level with Tetragon and 22 lines of YAML.'
+publishedAt: 2026-05-02
+tags: ['kubernetes', 'ebpf', 'security', 'tetragon']
+seoTags:
+  [
+    'CVE-2026-31431 mitigation',
+    'copy fail linux kernel',
+    'tetragon tracingpolicy',
+    'ebpf kubernetes security',
+    'AF_ALG socket block',
+    'kubernetes kernel vulnerability',
+    'tetragon override kprobe',
+    'linux privilege escalation mitigation',
+  ]
+featured: true
+readingTime: 10
+cover: '/images/blog/mitigating-copy-fail-with-tetragon/for-cryptography-right.jpg'
+shortSlug: 'kf83mv2q'
+---
+
+On April 29, [Xint Code](https://copy.fail/) dropped a Linux kernel privilege escalation that makes every other LPE look like it's trying too hard. It doesn't need a race condition or kernel-specific offsets and it doesn't care which distro you're running. A 732-byte Python script that roots Ubuntu, RHEL, Amazon Linux, and SUSE with the same binary, unchanged. They named it **Copy Fail** and it's been sitting in the kernel since 2017.
+
+The bug is a logic flaw in `authencesn` (the kernel's authenticated encryption with sequence numbers implementation). It chains through `AF_ALG`, the userspace interface to the kernel crypto API, and `splice()` to write 4 bytes into the page cache of any setuid binary. Four bytes, and `/usr/bin/su` now does whatever you want.
+
+If you're running multi-tenant Kubernetes, CI runners, or anything that runs user-supplied code on a shared kernel, this is relevant.
+
+The kernel patch exists ([mainline commit `a664bf3d603d`](https://github.com/torvalds/linux/commit/a664bf3d603d)), but most managed Kubernetes services haven't rolled it into their node images yet. So what do you do in the meantime?
+
+## How 732 bytes get you root
+
+The full chain:
+
+```
+socket(AF_ALG)
+  → bind("authencesn(...)")
+  → splice(file → pipe)
+  → splice(pipe → alg_fd)
+  → recv()
+  → 4-byte page cache write
+  → setuid binary hijacked
+```
+
+It starts by creating an `AF_ALG` socket (address family 38), which is the userspace interface to the kernel crypto API. It binds to a specific vulnerable algorithm, uses `splice()` to move page-cache pages into the crypto socket, and triggers a 4-byte write back into the page cache of a setuid binary. The PoC is Python but it's just raw syscalls. C, Go, Rust, anything that can call `socket()` works.
+
+The whole chain starts with `socket(38)`, and AF_ALG is a niche kernel crypto interface that almost nothing in userspace actually uses. OpenSSL, GnuTLS, libsodium all handle the math themselves without touching it. We ran `lsof | grep AF_ALG` across our nodes and found exactly zero open sockets.
+
+So the fix is straightforward: block `socket(38)` from pods. One kprobe at the syscall entry, return `EPERM` for address family 38, and the exploit can't even start.
+
+We checked what actually uses the kernel crypto API versus what goes through AF_ALG to make sure we weren't going to break something. Things like dm-crypt, LUKS, kTLS, IPsec, in-kernel TLS, OpenSSL, GnuTLS, NSS, SSH, container runtimes, service meshes, ingress controllers: none of them touch AF_ALG. They use the in-kernel crypto API directly. The only things that would break are OpenSSL with the `afalg` engine explicitly enabled (not the default), hardware crypto offload paths that expose accelerators through AF_ALG, or custom applications that bind `aead`/`skcipher`/`hash` sockets directly. You'd know if any of those applied to you.
+
+{/* MEME SUGGESTION: "Is this a kernel patch?" butterfly meme — guy labeled "Platform Team", butterfly labeled "22 lines of YAML", caption "Is this a kernel patch?" */}
+{/* Place image: ![Is this a kernel patch?](/images/blog/mitigating-copy-fail-with-tetragon/kernel-patch-meme.webp) */}
+
+## "We already shipped a modprobe fix"
+
+Some distros have already shipped a modprobe blacklist for `algif_aead`. When we spun up a fresh AKS cluster to test, Microsoft had already dropped this in the May node image:
+
+```
+/etc/modprobe.d/disable-algif_aead.conf:
+  install algif_aead /bin/false
+  blacklist algif_aead
+```
+
+If the module can't load, the exploit can't bind to the `aead` algorithm and the chain breaks. For distros where `algif_aead` is a loadable module, this works. But there are a few gaps. Also worth double checking that your existing nodes actually have the fix, not just new ones. If the blacklist shipped as part of a node image update rather than a package patch, nodes that haven't been reimaged won't have it.
+
+The blacklist only prevents loading the `algif_aead` submodule. The socket family itself (family 38) is still reachable, and Kubernetes `RuntimeDefault` seccomp [does not block AF_ALG](https://juliet.sh/blog/we-tested-copy-fail-in-kubernetes-pss-restricted-runtime-default-af-alg). If that config file gets removed or misconfigured, the full chain is immediately exploitable. On RHEL-family distros (RHEL, AlmaLinux, Rocky, some Amazon Linux 2023 configs), `CONFIG_CRYPTO_USER_API_AEAD=y` means it's compiled directly into the kernel, so `modprobe.d` rules don't apply at all.
+
+Good as a first response. But if you're running across different providers and distros, you want something at the syscall level that works regardless of how the kernel was compiled.
+
+## Tetragon to the rescue
+
+[Tetragon](https://github.com/cilium/tetragon) is Cilium's eBPF-based security agent. Runs as a DaemonSet, hooks kernel functions via kprobes, and can override syscall return values before they reach the kernel's socket creation path.
+
+There's a cleaner approach using BPF-LSM, hooking the `security_socket_create` callback directly, and projects like [cozystack/copy-fail-blocker](https://github.com/cozystack/copy-fail-blocker) do exactly that. The problem is that BPF-LSM needs `bpf` in the active `lsm=` kernel boot parameter. Most managed Kubernetes node images (AKS Ubuntu, EKS AL2023, standard Bottlerocket) compile it in but don't include it in the boot parameter. You can't change kernel cmdline on managed nodes. Tetragon hooks the syscall entry via kprobes instead, which doesn't need BPF-LSM at all. Works on any Kubernetes distribution running kernel 4.19+.
+
+## Setting up
+
+We used an AKS cluster with Kubernetes 1.34 for this, but it works the same on EKS, GKE, or self-managed clusters. Tetragon just needs to run as a privileged DaemonSet.
+
+### Install Tetragon
+
+```bash
+helm repo add cilium https://helm.cilium.io
+helm repo update cilium
+
+helm install tetragon cilium/tetragon \
+  --version 1.7.0 \
+  --namespace kube-system \
+  --set tetragon.exportRateLimit=-1
+```
+
+Tetragon runs as a DaemonSet with two containers per pod: the agent (which loads eBPF programs into the kernel) and an export sidecar. Takes about 20 seconds to roll out.
+
+```bash
+kubectl rollout status daemonset/tetragon -n kube-system --timeout=120s
+```
+
+### Apply the policy
+
+The full `TracingPolicy`. 22 lines of YAML:
+
+```yaml
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: copyfail-mitigate
+spec:
+  kprobes:
+  - call: "__x64_sys_socket"
+    syscall: true
+    args:
+    - index: 0
+      type: "int"
+      label: "family"
+    tags:
+    - "CVE-2026-31431"
+    - "copyfail"
+    message: "AF_ALG socket creation blocked"
+    selectors:
+    - matchArgs:
+      - index: 0
+        operator: "Equal"
+        values:
+        - "38"
+      matchActions:
+      - action: Override
+        argError: -1
+      - action: Post
+        kernelStackTrace: true
+```
+
+`__x64_sys_socket` hooks the syscall entry for `socket()` on x86_64. The `matchArgs` selector filters for address family `38` (AF_ALG). When it matches, `Override` returns `EPERM` before the socket is created and `Post` emits a Tetragon event with the kernel stack trace, pod context, and CVE tags.
+
+```bash
+kubectl apply -f block-af-alg.yaml
+```
+
+One kprobe. The socket call never reaches the kernel's socket creation path.
+
+## Moment of truth
+
+### AF_ALG blocked
+
+```bash
+kubectl run test --rm -it --restart=Never --image=python:3.12-slim -- \
+  python3 -c 'import socket; socket.socket(38, 5, 0)'
+```
+
+```
+[OK] AF_ALG blocked: [Errno 1] Operation not permitted
+```
+
+### Normal sockets unaffected
+
+```
+[OK] TCP socket works
+[OK] UDP socket works
+```
+
+Only address family 38 is blocked. Everything else passes through.
+
+
+### The alert
+
+Every block generates a Tetragon event that flows through the export pipeline:
+
+```json
+{
+  "process_kprobe": {
+    "process": {
+      "binary": "/usr/local/bin/python3",
+      "pod": {
+        "namespace": "default",
+        "name": "test"
+      }
+    },
+    "function_name": "__x64_sys_socket",
+    "args": [{ "int_arg": 38, "label": "family" }],
+    "action": "KPROBE_ACTION_POST",
+    "policy_name": "copyfail-mitigate",
+    "tags": ["CVE-2026-31431", "copyfail"],
+    "message": "AF_ALG socket creation blocked"
+  },
+  "node_name": "aks-nodepool1-11749143-vmss000000",
+  "time": "2026-05-01T18:28:42.527Z"
+}
+```
+
+You get the binary, the pod, the node, the syscall args, the kernel stack trace, and the CVE tag. Forward these to Splunk, Sentinel, Datadog, Elastic, whatever you use. Both the block and the alert in one event. If you're running Prometheus, Tetragon exposes `tetragon_policy_events_total` with labels for policy name and action.
+
+## Belt, suspenders, and a kprobe
+
+The modprobe blacklist and the kprobe protect against different failure modes. The blacklist prevents module loading, the kprobe prevents socket creation. If either one breaks, the other catches it. And if you're running a mix of managed Kubernetes providers or node OS images, your kernel configs are going to differ. Some have `algif_aead` as a loadable module, some have it built-in, some might not have the modprobe fix at all yet. The Tetragon policy doesn't care about any of that. It hooks the syscall, not the module.
+
+Most providers haven't shipped a node image with the actual kernel fix yet either. Both mitigations are workarounds, and stacked workarounds beat a single one.
+
+| Layer | What it does | Limitation |
+|-------|-------------|------------|
+| Modprobe blacklist | Prevents `algif_aead` module from loading | Only works when `algif_aead` is a loadable module, not built-in |
+| Tetragon kprobe | Blocks `socket(AF_ALG)` at syscall level + alerts | Requires DaemonSet running; protection active while pod is alive |
+| Kernel patch | Fixes the root cause in `authencesn` | Requires node image update and reboot |
+
+Run the Tetragon policy alongside whatever module-level mitigation your distro shipped. Remove both once your nodes have the patched kernel.
+
+## "But what about chain detection?"
+
+You could build a multi-kprobe policy that tracks the whole sequence from `socket(AF_ALG)` through `bind(authencesn(...))` to `splice` and `recv`, and only blocks when it sees the complete pattern. We actually built one with five kprobes and socket lifecycle tracking. It worked fine.
+
+But chain detection only makes sense when the individual syscalls are ambiguous. If the exploit started with `write` or `mmap` you'd need the full pattern to tell an attack from normal behavior. `socket(38)` from a pod isn't ambiguous at all. Nothing legitimate makes that call in a Kubernetes cluster, so adding four more kprobes to confirm what you already know just adds complexity.
+
+Also worth noting that Tetragon's TracingPolicy can't do true in-kernel chain correlation anyway. `TrackSock` creates a BPF map linking sockets to processes, but there's no `matchSock` selector that lets a later kprobe like `splice` query "does this process hold a tracked AF_ALG socket?" The correlation would have to happen in the SIEM, not in the kernel.
+
+## Resources
+
+- [copy.fail](https://copy.fail/) (Xint's disclosure page with the full write-up)
+- [CVE-2026-31431 PoC](https://github.com/theori-io/copy-fail-CVE-2026-31431) (the 732-byte exploit)
+- [Tetragon docs](https://tetragon.io/docs/reference/tracing-policy/) (TracingPolicy reference)
+- [CERT-EU advisory](https://cert.europa.eu/publications/security-advisories/2026-005/)
+- [cozystack/copy-fail-blocker](https://github.com/cozystack/copy-fail-blocker) (BPF-LSM alternative, needs `lsm=bpf` in boot params)
+- [Juliet: Copy Fail in Kubernetes](https://juliet.sh/blog/we-tested-copy-fail-in-kubernetes-pss-restricted-runtime-default-af-alg) (RuntimeDefault does not block AF_ALG)

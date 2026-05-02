@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
+import { remarkMermaid } from './src/lib/remark-mermaid.ts';
 
 // Plugin to force full reload when profile MDX changes
 function profileHotReload() {
@@ -25,6 +26,7 @@ export default defineConfig({
   },
   integrations: [mdx()],
   markdown: {
+    remarkPlugins: [remarkMermaid],
     shikiConfig: {
       theme: 'github-dark',
       wrap: true,
