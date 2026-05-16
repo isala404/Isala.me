@@ -1,3 +1,11 @@
+Updated llms.txt profile data with YC founder profile info and removed Writing Style Guide section.
+- Removed incorrect KubeCon India speaking mention from WSO2 Senior SE details in `src/content/index.mdx`
+- Added 3 new projects (WebAgents, NanoVM, AdaProof) to `src/content/index.mdx`
+- Updated Enki URL to https://enki.tallisa.dev and TopPics URL to https://toppics.tallisa.dev/
+- Replaced vague "13+ hackathons" highlight with 5 specific competition results in Westminster education section
+- Updated star counts: scale-to-zero-ebpf→38, pingflare→9, Tera→92, forge→80
+- Removed Writing Style Guide section from `generateLLMText()` in `src/lib/profile.ts`
+
 Configured Astro prefetch to preload pages after initial load.
 - Added `prefetch: { prefetchAll: true, defaultStrategy: 'load' }` to `astro.config.mjs`
 - Pages preload in background after main page fully renders

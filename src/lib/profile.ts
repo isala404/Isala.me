@@ -167,25 +167,6 @@ export function generateLLMText(): string {
     lines.push('');
   }
 
-  // Writing Style (for document generation)
-  if (p.writingStyle) {
-    lines.push('## Writing Style Guide');
-    lines.push('Use this when generating documents, bios, or content in my voice:');
-    if (p.writingStyle.tone?.length) {
-      lines.push('**Tone:**');
-      for (const t of p.writingStyle.tone) lines.push(`- ${t}`);
-    }
-    if (p.writingStyle.preferences?.length) {
-      lines.push('**Preferences:**');
-      for (const pref of p.writingStyle.preferences) lines.push(`- ${pref}`);
-    }
-    if (p.writingStyle.avoid?.length) {
-      lines.push('**Avoid:**');
-      for (const a of p.writingStyle.avoid) lines.push(`- ${a}`);
-    }
-    lines.push('');
-  }
-
   // Experience
   lines.push('## Experience');
   for (const company of p.experience) {

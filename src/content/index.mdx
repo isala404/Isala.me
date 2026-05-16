@@ -12,36 +12,50 @@ contact:
   linkedin: https://linkedin.com/in/isalapiyarisi
 
 bio: |
-  I've been building since I was 9, starting with selling modded game CDs at school for snack money. Ran COD4 servers for 85,000+ players, shipped Enki (1,200+ users) and TopPics (~100 users), now building Forge, a batteries-included SaaS framework. I tend to find problems and fix them before anyone asks. By day I work on eBPF-powered observability at WSO2. By night I build the tools I wish existed.
+  I've been building since I was 9, starting with selling modded game CDs at school for snack money. Ran COD4 servers for 85,000+ players, shipped Enki (1,200+ users) and TopPics (~100 users), now building Forge, a batteries-included SaaS framework. I tend to find problems and fix them before anyone asks. By day I work on OpenChoreo at WSO2, leading MCP and Skills integration for a CNCF Sandbox platform. By night I build the tools I wish existed.
 
 longBio: |
   By age 9 I was running a small operation, burning modded game CDs and selling them at school so I could afford snacks. By 12 I was running game servers for thousands of players. By 19 I was doing university and full-time work simultaneously because someone had to pay tuition. Now I'm building tools I wish existed and shipping them to real users.
 
-  Ever since I got my first computer when I was around 5, I've spent most of my time playing video games. GTA, NFS, Barn Buddy consumed most of my childhood, but somewhere along the way I stopped just playing and started wondering how everything actually worked. I'd download mods, try to figure out how they changed the game, and eventually got decent at putting together my own modpacks. That small operation I mentioned? Yeah, I was a fat kid who needed snack money.
+  Ever since I got my first computer around age 5, I spent most of my time playing video games. GTA, NFS, Barn Buddy consumed most of my childhood, but somewhere along the way I stopped just playing and started wondering how everything actually worked. I'd download mods, try to figure out how they changed the game, and eventually got decent at putting together my own modpacks. That small operation I mentioned? Yeah, I was a fat kid who needed snack money.
 
-  This curiosity about how things worked under the hood kept growing. At some point I decided I wanted to try this thing called Linux that I'd heard about online. I managed to get Ubuntu 10.04 installed, felt like a proper hacker for about five minutes, and then I realized I had done a full disk format that wiped every single photo my parents had collected over the years. They weren't happy about that one. But that's kind of how I've always learned, just getting my hands on things and breaking them until I understand how they work.
+  This curiosity about how things worked under the hood kept growing. At some point I decided I wanted to try this thing called Linux I'd heard about online. I managed to get Ubuntu 10.04 installed, felt like a proper hacker for about five minutes, and then I realized I had done a full disk format that wiped every photo my parents had collected over the years. They weren't happy about that one. But that's kind of how I've always learned. Get my hands on something, break it, figure out why.
 
-  As I got older I moved on to multiplayer games like Age of Empires and Call of Duty 4. What fascinated me wasn't just playing them but understanding how the netcode worked. How everything stayed perfectly synced across players even though these games were made years ago on way less sophisticated infrastructure. The local COD4 servers in my region kept going offline because people would DDoS them constantly, and I figured if they can run servers, why can't I? Only problem was I didn't have any money. So I asked the people I played with for help. Most of them were older guys with actual jobs, and they pooled together enough to get me a 5 dollar a month DigitalOcean server.
+  As I got older I moved on to multiplayer games. What fascinated me wasn't just playing them but understanding how the netcode worked. How everything stayed perfectly synced across players even though these games were made years ago on way less sophisticated infrastructure. The local COD4 servers in my region kept going offline because people would DDoS them constantly. I figured if they can run servers, why can't I? Only problem was I didn't have any money.
 
-  I spent the next few weeks trying to figure out how to actually host a game server, following tutorials from sketchy forums that were probably outdated by the time I found them. Eventually I got something working. My servers got hit by DDoS attacks too at first, but instead of just accepting it I started learning how these attacks actually worked. Turned out most of the attackers were just script kiddies plugging IP addresses into free stress testing websites, which meant all the traffic was coming from single sources. Once I understood that, I put Cloudflare in front of the website and set up fail2ban to automatically block UDP floods. Nothing fancy, but it worked. While other servers in the region kept going down, mine stayed up, so people started asking if I could host servers for them too.
+  So I asked the people I played with for help. Most of them were older guys with actual jobs, and they pooled together enough to get me a $5 a month DigitalOcean server. I spent the next few weeks trying to figure out how to actually host a game server, following tutorials from sketchy forums that were probably outdated by the time I found them. Eventually I got something working.
 
-  Over time our clan's public server grew and served a lot of players. People kept asking me to set up servers for them, and I'm the type of person who would rather spend 10 hours automating a 10-minute task than do the same thing twice. So I built a small web app with Django that would auto-provision servers (looking back, this was basically a textbook remote code execution vulnerability waiting to happen, but I didn't know any better). I even dug into the IW engine code to make the servers run smoother. At some point I even found a SQL injection vulnerability in B3, one of the popular open source COD4 server management tools, and submitted a fix for it. Since I didn't have a bank account (I was around 12 or 13 at this point), I just asked people to pay me in Riot Points so I could buy League of Legends skins. I had absolutely no concept of how money worked back then, which in hindsight explains a lot.
+  My servers got hit by DDoS attacks too. Instead of just accepting it I started learning how these attacks actually worked. Turned out most of the attackers were script kiddies plugging IP addresses into free stress testing websites, so all the traffic came from single sources. Once I understood that, I put Cloudflare in front and set up fail2ban to block UDP floods. Nothing fancy, but it worked. While other servers in the region kept going down, mine stayed up.
 
-  Around this same time robotics competitions started popping up all over Sri Lanka. They began with simple line following challenges but each year they got more complicated, going from maze solving to picking up and moving objects. Most people were using IR sensors and just kept hacking more edge cases on top to handle whatever new challenge came up. I started the same way, messing around with Arduinos and IR sensors, trying different configurations. Probably burned through more than 10 Arduino chips during this period and shocked myself more times than I can count. Eventually I got tired of dealing with all the edge cases and wanted to try something different. I got a Raspberry Pi, stuck a cheap webcam on top of the robot, and wrote a simple simulation that could generate thousands of random mazes. Then I trained a very basic machine learning classifier that would look at the camera feed and decide whether to go left or right. After enough training it could solve mazes and even pick up small objects using a robotic arm I'd cobbled together from cheap servo motors. It was extremely slow compared to the IR sensor robots and not particularly accurate, but I was happy with it. Winning was never really the goal. I just wanted to see if I could make it work.
+  People started asking if I could host servers for them. I'm the type of person who would rather spend 10 hours automating a 10-minute task than do the same thing twice, so I built a small web app with Django that auto-provisioned servers. Looking back, that was basically a textbook remote code execution vulnerability waiting to happen, but I didn't know any better. I dug into the IW engine code to make the servers run smoother, found a SQL injection vulnerability in B3, one of the popular open source COD4 management tools, and submitted a fix. Since I didn't have a bank account (I was 12 or 13 at this point), I asked people to pay me in Riot Points so I could buy League of Legends skins. I had absolutely no concept of how money worked back then.
 
-  After finishing school I had to figure out what to do next, which turned out to be more complicated than I expected. Government unis in Sri Lanka took around 6 years to graduate back then, which felt like an eternity. Private unis were more expensive and had less reputation but you could finish in under 4 years. I didn't really know which path made sense, so I started asking around, talking to anyone in tech who would give me the time of day. One of them happened to run a startup, and after I told him about the server hosting and all the random stuff I'd built over the years, he offered to let me help design their cloud infrastructure. Looking back it was a lot of trust to put in someone who had literally just finished school, but I think he could tell I'd figure things out the same way I always had.
+  Around this same time robotics competitions started popping up all over Sri Lanka. Simple line following at first, then maze solving, then picking up and moving objects. Most people used IR sensors and kept hacking edge cases on top to handle whatever new challenge appeared. I started the same way, messing around with Arduinos and IR sensors. Probably burned through 10+ chips and shocked myself more times than I can count.
 
-  My parents weren't rich, so the job wasn't just about getting experience. It was how I paid for uni. I ended up doing both full time, which sounds insane when I say it out loud, but that's just how it worked out. I'd be sitting in lectures with my laptop open working on infrastructure stuff, constantly trying to balance deadlines from both sides. Lots of sleepless nights living off kotthu. It was exhausting and I definitely wouldn't recommend it, but I learned to manage my time in ways I never would have otherwise. By the time my official placement year came around, I wasn't really an intern anymore. I was just a regular engineer doing regular engineer things (except younger and more sleep deprived).
+  Eventually I got tired of the edge cases and tried something different. I got a Raspberry Pi, stuck a cheap webcam on top of the robot, and wrote a simulation that could generate thousands of random mazes. Then I trained a basic ML classifier that would look at the camera feed and decide whether to go left or right. After enough training it could solve mazes and pick up small objects using a robotic arm I'd cobbled together from cheap servo motors. It was extremely slow compared to the IR sensor robots and not particularly accurate. I didn't care. Winning was never really the point. I just wanted to see if it would work.
 
-  Uni wasn't just about the job though. I went to way too many hackathons, probably more than was healthy for my grades. But that's where I met most of my friends and built some of the coolest things I've ever worked on. There's something about staying up all night with a group of people, running on energy drinks and desperation, trying to make something work before the deadline that bonds you in a weird way. I genuinely learned more from those sleepless weekends than from a lot of my actual coursework.
+  A-Levels didn't go the way they were supposed to. I sat IT, Math, and Physics but spent most of the time building things instead of studying. I aced IT and failed both Math and Physics. Almost every university in Sri Lanka required a passing grade in all three, which made the situation pretty clear. Except there was one that used a points system. A=12, B=8, C=6, S=4, with a 12-point minimum. My single A in IT was worth exactly 12 points. The admissions office didn't know what to do with me and escalated to the dean. Their rules didn't explicitly disqualify my situation. They let me in.
 
-  Somewhere in the middle of all this chaos I applied to Google Summer of Code and got in with SUSE. They paired me with an engineer who mentored me through building a Kubernetes operator from scratch. It was the first time I'd worked with someone at that level who actually took the time to explain how open source projects work from the inside. The things he taught me about writing operators and thinking about distributed systems stuck with me long after the program ended.
+  After finishing school I had to figure out what to do next, which turned out to be more complicated than I expected. Government unis in Sri Lanka took around 6 years to graduate back then. Private unis were more expensive and had less reputation but you could finish in under 4 years. I didn't really know which path made sense, so I started asking around, talking to anyone in tech who would give me the time of day. One of them happened to run a startup. After I told him about the server hosting and all the random stuff I'd built over the years, he offered to let me help design their cloud infrastructure. It was a lot of trust to put in someone who had literally just finished school, but I think he could tell I'd figure things out the same way I always had.
 
-  For my final year thesis I wanted to do something that combined distributed systems and AI, specifically trying to figure out if you could automatically detect what went wrong when things fail in complex systems. While researching how to collect the data I needed without instrumenting every application, I stumbled onto eBPF and it genuinely seemed like magic. You could hook into the kernel and observe everything happening on a system without touching the application code at all. I ended up building a system that used eBPF to collect telemetry data and then used machine learning to help find the root cause of failures. As part of the research we had to get feedback from industry experts to validate the approach. One of the people I showed it to happened to be a solutions architect at WSO2. I just wanted honest feedback on whether what I'd built actually made sense. He asked if he could refer me internally.
+  My parents weren't rich, so the job wasn't just about getting experience. It was how I paid for uni. I ended up doing both full time, which sounds insane when I say it out loud, but that's just how it worked out. I'd be sitting in lectures with my laptop open working on infrastructure stuff, constantly trying to balance deadlines from both sides. Lots of sleepless nights living off kotthu. It was exhausting and I definitely wouldn't recommend it, but I learned to manage my time in ways I never would have otherwise.
 
-  WSO2 had been on my radar since I was 17. In Sri Lanka it's kind of like Google, the place where a lot of strong engineers end up. I remember looking at their careers page back in school thinking that's where I'd learn to build at scale. So when that referral actually turned into an offer, before I'd even finished my final year, it felt like everything was clicking into place.
+  By the time my official placement year came around I wasn't really an intern anymore. I was just a regular engineer doing regular engineer things, except younger and more sleep deprived. Uni wasn't just about the job though. I went to way too many hackathons, probably more than was healthy for my grades. But that's where I met most of my friends and built some of the coolest things I've ever worked on. There's something about staying up all night with a group of people, running on energy drinks and desperation, trying to make something work before the deadline that bonds you in a weird way. I genuinely learned more from those weekends than from a lot of my actual coursework.
 
-  Now I work on Choreo, an internal developer platform that helps developers and platform engineers do their jobs without getting buried in infrastructure complexity. I started by owning our Cilium migration, then kept pulling on threads until I was running the entire eBPF observability stack. I get to work on the kind of problems I used to read about online and wonder how people even approached them. But I'm not done building.
+  Somewhere in the middle of all this chaos I applied to Google Summer of Code and got in with SUSE. They paired me with an engineer who mentored me through building a Kubernetes operator from scratch. It was the first time I'd worked with someone at that level who actually took the time to explain how open source projects work from the inside. The things he taught me about writing operators and thinking about distributed systems stuck with me.
+
+  For my final year thesis I wanted to figure out if you could automatically detect what went wrong when things fail in complex systems. While researching how to collect data without instrumenting every application, I stumbled onto eBPF. It genuinely seemed like magic. You could hook into the kernel and observe everything happening on a system without touching the application code at all. I built a system that used eBPF to collect telemetry and machine learning to find root causes of failures.
+
+  As part of validating the research I had to get feedback from industry experts. One of the people I showed it to happened to be a solutions architect at WSO2. I just wanted honest feedback on whether what I'd built actually made sense. He asked if he could refer me internally.
+
+  Somehow, despite all of it, the person the admissions office had to escalate to the dean graduated 4th in their class. First Class Honours. The university patched the rule the following year, which I choose to interpret as a compliment.
+
+  WSO2 had been on my radar since I was 17. In Sri Lanka it's kind of like Google, the place where a lot of strong engineers end up. I remember looking at their careers page back in school thinking that's where I'd learn to build at scale. So when that referral turned into an offer, before I'd even finished my final year, it felt like everything was clicking into place.
+
+  I joined as a Software Engineer. The first thing I pushed for was leading the CNI migration, moving a 10,000+ pod production cluster from Azure to Cilium while keeping 99.9% SLA. That went well enough that I kept pulling on threads: eBPF, Pixie, the observability layer. I found 80 security issues in Pixie along the way. Fixed them. Most were outside my assigned scope.
+
+  By the time I was promoted to Senior Software Engineer I was running the entire eBPF observability stack. About 500GB of telemetry a day, zero instrumentation overhead. The kind of work I used to read about in blog posts during university and wonder how people even approached it.
+
+  A couple of years later I was promoted to Associate Technical Lead. Now I work on OpenChoreo, the open source internal developer platform we contributed to the CNCF, now a CNCF Sandbox project. The focus has shifted from deep infrastructure to making the platform actually approachable: onboarding that works in under 15 minutes, docs that teach while they guide. Most recently I've been leading the MCP and Skills integration, figuring out what it takes to build agent tools that hold up in real production loops, not just in demos.
 
   Outside of work, I'm shipping products people actually use. Enki started as a bookmarking tool I built for myself and now has 1,200+ users. TopPics is on the Chrome Web Store helping people clean up their Google Photos. And Forge is my biggest bet yet, a batteries-included framework for shipping SaaS without drowning in infrastructure. Auth, jobs, workflows, observability, all out of the box. I've always operated like a founder, even when I wasn't one. See a problem, build a solution, ship it. That instinct hasn't changed since I was automating game server provisioning at 12.
 
@@ -196,6 +210,7 @@ experience:
         endDate: Present
         built: driving developer experience and adoption for OpenChoreo, a CNCF sandboxed internal developer platform
         summary:
+          - Led Skills and MCP integration for OpenChoreo, shipping patterns for writing Skills that survive real agent loops without drowning context, enforced through CI so quality doesn't quietly regress
           - Reduced OpenChoreo onboarding time to under 15 minutes by designing a single-command Docker-based quick start with all dependencies pre-configured
           - Took initiative to refactor Helm chart distribution into production-first defaults, moving dev conveniences to an explicit opt-in quick-start path
           - Increased new user comprehension of OpenChoreo by rewriting the installation guide as a dual-purpose walkthrough that teaches platform concepts during setup
@@ -205,7 +220,8 @@ experience:
           - Go
           - Platform Engineering
           - CNCF
-          - CNI
+          - MCP
+          - AI Agents
       - title: Senior Software Engineer
         type: Full-time
         startDate: Feb 2024
@@ -226,7 +242,7 @@ experience:
           - Migrated KEDA deployments from manual YAML to Helm chart for easier upgrades
           - Fixed component-to-component traffic flow in service graph by implementing custom metric endpoint
           - Documented issues and solutions thoroughly in GitHub, reducing redundant troubleshooting efforts
-          - Advocated for Cilium/eBPF internally and externally through KubeFM podcast, Conf42, and KubeCon India talks
+          - Advocated for Cilium/eBPF internally and externally through KubeFM podcast, Conf42, and community events
         skills:
           - Kubernetes
           - eBPF
@@ -409,7 +425,11 @@ education:
       - 'Thesis: Lazy-Koala - A Lightweight Framework for Root Cause Analysis in Distributed Systems'
       - Published research paper at IEEE ICCMC 2021
       - Specialized in Cloud Computing and Machine Learning
-      - Participated in 13+ hackathons with top placements
+      - Hack19 (Flutter International Hackathon): Winner of Sri Lanka Hub, 2nd place at international finals
+      - Google HashCode 2019: 5th in Sri Lanka, 1145th globally
+      - Cutting Edge 2019: 2nd Runners-Up, project nominated for National Best Quality Software Award
+      - CodeFest 2019 (SLIIT): Merit Prize, Hack Me If You Can challenge
+      - Data Storm 1.0 (Octave × University of Moratuwa): Finalist, data science hackathon
       - Led university engineering society initiatives
       - Presented research on face recognition using deep learning
   - institution: Richmond College
@@ -445,7 +465,7 @@ projects:
   - name: scale-to-zero-ebpf
     description: Proof of concept showing how to implement scale-to-zero in Kubernetes using eBPF instead of proxies. Built because existing solutions like KEDA add latency, so this intercepts traffic at the kernel level.
     url: https://github.com/isala404/scale-to-zero-ebpf
-    stars: 36
+    stars: 38
     tech:
       - Go
       - eBPF
@@ -483,7 +503,7 @@ projects:
   - name: pingflare
     description: Uptime monitoring that runs natively on Cloudflare Workers. Built because I wanted monitoring without spinning up servers.
     url: https://github.com/isala404/pingflare
-    stars: 2
+    stars: 9
     tech:
       - TypeScript
       - Cloudflare Workers
@@ -501,7 +521,7 @@ projects:
   - name: Tera
     description: Local-first AI assistant that runs entirely on your device. Built with Rust because I wanted AI that doesn't send my data to the cloud. Uses RAG for long-term memory.
     url: https://github.com/isala404/Tera
-    stars: 87
+    stars: 92
     tech:
       - Rust
       - LLM
@@ -530,7 +550,7 @@ projects:
     domain: intelligence
   - name: Enki
     description: Intelligent bookmarking app that uses AI to organize and surface saved content. 1,200+ users across web and iOS, 170+ monthly active users. Started as a personal tool for managing research notes, now used by people with 700+ saved assets each.
-    url: https://github.com/Tallisa/WeaveMind
+    url: https://enki.tallisa.dev
     tech:
       - TypeScript
       - Swift
@@ -551,7 +571,7 @@ projects:
   - name: Forge
     description: Batteries-included framework for shipping SaaS without drowning in infrastructure. Auth, jobs, workflows, rate limiting, observability, idempotency out of the box. Write your business logic in Rust, Forge generates type-safe Svelte clients with realtime updates.
     url: https://github.com/isala404/forge
-    stars: 79
+    stars: 80
     tech:
       - Rust
       - Svelte
@@ -560,7 +580,7 @@ projects:
     domain: products
   - name: TopPics
     description: Chrome extension that uses on-device AI to find and remove duplicate photos from Google Photos. 80+ users, freemium model with paid tier. Shipped to Chrome Web Store and Product Hunt. Built because I hit 94% storage and no existing tool worked without uploading my photos to someone else's server.
-    url: https://github.com/isala404/lens-cleaner
+    url: https://toppics.tallisa.dev/
     tech:
       - TypeScript
       - WebGPU
@@ -627,6 +647,28 @@ projects:
       - Go
       - Kubernetes
     domain: systems
+  - name: WebAgents
+    description: Platform for spinning up browser-based agents to handle day-to-day tasks, configured directly through the browser.
+    url: https://webagents.run
+    tech:
+      - TypeScript
+      - AI Agents
+      - Browser Automation
+    domain: products
+  - name: NanoVM
+    description: Spin up a cloud computer in seconds to host small web apps or run one-off browser tasks.
+    url: https://nanovm.run
+    tech:
+      - TypeScript
+      - Cloud Infrastructure
+    domain: products
+  - name: AdaProof
+    description: Scans websites for ADA accessibility compliance issues.
+    url: https://adaproof.tallisa.dev
+    tech:
+      - TypeScript
+      - Accessibility
+    domain: products
 
 # Speaking Engagements
 speaking:
@@ -640,6 +682,11 @@ speaking:
     type: Community Day
     link: https://community.cncf.io/events/details/cncf-kcd-sri-lanka-presents-kcd-sri-lanka-2025/
     featured: true
+  - title: 'From Idea to Production in Minutes: AI-Powered DevOps on Choreo'
+    event: WSO2 Developer Platform
+    date: Oct 2025
+    type: Demo
+    link: https://www.youtube.com/watch?v=XU7wVAqaJnY
   - title: eBPF & Cilium - Deep Dive
     event: WSO2 Technology Conference 2025
     type: Tech Talk
@@ -648,7 +695,7 @@ speaking:
     event: Build with AI Sri Lanka 2025
     date: May 2025
     type: Community Day
-    link: https://gdg.community.dev/events/details/google-gdg-sri-lanka-presents-build-with-ai-sri-lanka-2025-day-1/
+    link: https://www.linkedin.com/feed/update/urn:li:activity:7329006116758085632/
   - title: "Don't Use Cilium's Default Pod CIDR"
     event: KubeFM Podcast
     type: Podcast

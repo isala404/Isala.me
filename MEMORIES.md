@@ -17,6 +17,11 @@ Preferences
 - No trailing slashes on file URLs (/llms.txt not /llms.txt/)
 - Canonical URLs must match sitemap URLs exactly
 
+llms.txt
+- Generated from index.mdx frontmatter via src/lib/profile.ts generateLLMText()
+- Writing Style Guide section removed from generated output (data still in index.mdx)
+- llmContext block at bottom of index.mdx provides AI classification guidance
+
 SEO Notes
 - Structured data via `structuredData` prop on BaseLayout, rendered as JSON-LD via Fragment set:html
 - Astro script tags get bundled by default; use Fragment+set:html to inject raw script tags in head
