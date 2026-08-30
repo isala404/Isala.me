@@ -97,6 +97,22 @@ const socialImageURL = new URL(image, Astro.site);
       src="https://umami.tallisa.dev/script.js"
       data-website-id="1c01b274-60a2-4a66-a735-23f436180e58"></script>
 
+    <!-- Cairn Analytics. Served from this origin rather than from
+         cairn.tallisa.dev, because a blocked third-party script takes the
+         instrumentation below down with it. init() covers page views, SPA
+         navigation, Core Web Vitals and uncaught errors on its own; the block
+         further down adds only what this site knows about. -->
+    <script is:inline defer src="/scripts/cairn.js"></script>
+    <script is:inline>
+      (function () {
+        function start() {
+          if (!window.cairn) return setTimeout(start, 50);
+          window.cairn.init({ url: 'https://cairn.tallisa.dev', key: 'src_b4f4esexdahzbaec' });
+        }
+        start();
+      })();
+    </script>
+
     <!-- JSON-LD Structured Data -->
     {
       structuredData && (
@@ -186,19 +202,46 @@ const socialImageURL = new URL(image, Astro.site);
       }
     </script>
 
-    <!-- Umami Analytics Tracking -->
+    <!-- Analytics Tracking. One set of listeners, two destinations. -->
     <script is:inline>
       (function () {
-        // Wait for umami to be available
-        function waitForUmami(callback) {
-          if (typeof umami !== 'undefined') {
-            callback();
-          } else {
-            setTimeout(() => waitForUmami(callback), 100);
+        // Cairn's taxonomy is closed: an event name it does not know is a 422,
+        // not a new metric. Umami's names stay exactly as they were, so nothing
+        // in the existing dashboards moves.
+        const CAIRN = {
+          'scroll-depth': (d) => ['feature.used', { feature: 'scroll-depth', depth: d.depth }],
+          'engagement-time': (d) => ['feature.used', { feature: 'engagement-time', ...d }],
+          'external-link': (d) => ['element.clicked', { label: 'external-link', href: d.url, text: d.text }],
+          'contact-click': (d) => ['element.clicked', { label: 'contact-' + d.type }],
+          'social-click': (d) => ['element.clicked', { label: 'social-' + d.platform }],
+          'navigation': (d) => ['element.clicked', { label: 'nav', href: '#' + d.to }],
+          'content-copy': () => ['feature.used', { feature: 'content-copy' }],
+          'page-exit': (d) => ['feature.used', { feature: 'page-exit', ...d }],
+          'easter-egg': (d) => ['feature.used', { feature: 'easter-egg', kind: d.type }],
+        };
+
+        function trackEvent(name, data) {
+          data = data || {};
+          if (typeof umami !== 'undefined') umami.track(name, data);
+          const map = CAIRN[name];
+          if (map && window.cairn) {
+            const [event, props] = map(data);
+            window.cairn.track(event, props);
           }
         }
 
-        waitForUmami(function () {
+        // Starts as soon as either backend is up, and gives up waiting after
+        // ~5s so a blocked script cannot silence the other one.
+        function whenReady(callback) {
+          let waited = 0;
+          (function poll() {
+            if (typeof umami !== 'undefined' || window.cairn || waited >= 5000) return callback();
+            waited += 100;
+            setTimeout(poll, 100);
+          })();
+        }
+
+        whenReady(function () {
           // Track scroll depth
           let maxScroll = 0;
           const scrollMilestones = [25, 50, 75, 90, 100];
@@ -214,7 +257,7 @@ const socialImageURL = new URL(image, Astro.site);
             scrollMilestones.forEach((milestone) => {
               if (scrollPercent >= milestone && !trackedMilestones.has(milestone)) {
                 trackedMilestones.add(milestone);
-                umami.track('scroll-depth', { depth: milestone, page: window.location.pathname });
+                trackEvent('scroll-depth', { depth: milestone, page: window.location.pathname });
               }
             });
           }
@@ -243,7 +286,7 @@ const socialImageURL = new URL(image, Astro.site);
             timeIntervals.forEach((interval) => {
               if (timeOnPage >= interval && !trackedIntervals.has(interval)) {
                 trackedIntervals.add(interval);
-                umami.track('engagement-time', {
+                trackEvent('engagement-time', {
                   seconds: interval,
                   page: window.location.pathname,
                 });
@@ -261,7 +304,7 @@ const socialImageURL = new URL(image, Astro.site);
 
             // External links
             if (href.startsWith('http') && !href.includes(window.location.hostname)) {
-              umami.track('external-link', {
+              trackEvent('external-link', {
                 url: href,
                 text: link.textContent?.trim().slice(0, 50),
                 from: window.location.pathname,
@@ -270,34 +313,34 @@ const socialImageURL = new URL(image, Astro.site);
 
             // Contact links
             if (href.startsWith('mailto:')) {
-              umami.track('contact-click', { type: 'email', from: window.location.pathname });
+              trackEvent('contact-click', { type: 'email', from: window.location.pathname });
             }
 
             // Social links
             if (href.includes('github.com')) {
-              umami.track('social-click', { platform: 'github', from: window.location.pathname });
+              trackEvent('social-click', { platform: 'github', from: window.location.pathname });
             } else if (href.includes('twitter.com') || href.includes('x.com')) {
-              umami.track('social-click', { platform: 'twitter', from: window.location.pathname });
+              trackEvent('social-click', { platform: 'twitter', from: window.location.pathname });
             } else if (href.includes('linkedin.com')) {
-              umami.track('social-click', { platform: 'linkedin', from: window.location.pathname });
+              trackEvent('social-click', { platform: 'linkedin', from: window.location.pathname });
             }
 
             // Internal navigation
             if (href.startsWith('/') && !href.startsWith('//')) {
               const section = href.split('/')[1] || 'home';
-              umami.track('navigation', { to: section, from: window.location.pathname });
+              trackEvent('navigation', { to: section, from: window.location.pathname });
             }
           });
 
           // Track copy events (e.g., code blocks)
           document.addEventListener('copy', () => {
-            umami.track('content-copy', { page: window.location.pathname });
+            trackEvent('content-copy', { page: window.location.pathname });
           });
 
           // Track page visibility changes
           document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'hidden') {
-              umami.track('page-exit', {
+              trackEvent('page-exit', {
                 page: window.location.pathname,
                 maxScroll: maxScroll,
                 timeOnPage: Math.floor((Date.now() - startTime) / 1000),
@@ -312,7 +355,7 @@ const socialImageURL = new URL(image, Astro.site);
               mutations.forEach((mutation) => {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                   if (!gameOverlay.classList.contains('hidden')) {
-                    umami.track('easter-egg', { type: 'game-opened' });
+                    trackEvent('easter-egg', { type: 'game-opened' });
                   }
                 }
               });
@@ -327,7 +370,7 @@ const socialImageURL = new URL(image, Astro.site);
               mutations.forEach((mutation) => {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                   if (vhsOverlay.classList.contains('active')) {
-                    umami.track('easter-egg', { type: 'konami-code' });
+                    trackEvent('easter-egg', { type: 'konami-code' });
                   }
                 }
               });

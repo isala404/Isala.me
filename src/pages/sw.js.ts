@@ -43,7 +43,8 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
   if (url.protocol !== 'https:' && url.protocol !== 'http:') return;
 
-  if (url.hostname === 'umami.tallisa.dev') return;
+  // Analytics beacons must never be served from cache or replayed.
+  if (url.hostname === 'umami.tallisa.dev' || url.hostname === 'cairn.tallisa.dev') return;
 
   // HuggingFace model files: cache-first, unversioned (survives deploys)
   if (url.hostname.includes('huggingface.co') || url.hostname.includes('hf.co')) {
