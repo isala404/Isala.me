@@ -12,6 +12,12 @@ Architecture
 - nginx.conf defines caching, security headers, routing rules
 - Experience data lives in src/content/index.mdx with companies containing positions arrays (newest-first roles)
 
+Analytics
+- Two destinations, one set of listeners: Umami (hosted script) and Cairn. `BaseLayout.astro` has the listeners; the `CAIRN` map at the top of that block translates each site event into the `element.clicked` / `feature.used` shape Cairn's dashboards group by
+- `public/scripts/cairn.js` is a vendored copy of `sdk/web/dist/cairn.global.js` from the cairn repo (~/Projects/tallisa/cairn). Refresh it with `cd sdk/web && bun run build` there, then copy the file over. Nothing checks that it is current, and a stale copy silently drops whatever the wire shape gained since — that is how Sessions read zero for weeks
+- Served from this origin, not from cairn.tallisa.dev: a blocked third-party script would take the site's own instrumentation down with it
+- `data-umami-event` attributes are Umami-only. Do not bridge them to Cairn wholesale — the delegated click listener already reports the same clicks as `nav-<section>`, `external-link`, `contact-<type>` and `social-<platform>`, so a bridge would double-count every one of them
+
 Preferences
 - Trailing slashes on all page URLs (/about/ not /about)
 - No trailing slashes on file URLs (/llms.txt not /llms.txt/)

@@ -1,3 +1,9 @@
+Refreshed the vendored Cairn SDK so the analytics dashboard gets sessions again.
+- `public/scripts/cairn.js` was weeks behind the cairn repo's `sdk/web/dist/cairn.global.js`: it sent no `session_id` at all, so Visits, Bounce rate, Visit duration, Journeys and the funnels all read zero. Rebuilt and copied over; it now also sends error `message` and `stack`
+- Nav clicks are labelled per destination (`nav-blog`, `nav-projects`, ...) instead of one `nav` bucket, so Cairn's most-clicked leaderboard is readable
+- Verified by capturing real batches off `bun run dev` and replaying them into a local Cairn: page views, sessions, vitals, clicks and a four-stage funnel all populate
+- Article views need no Cairn event of their own. `page.viewed` already carries the path and the title, which is what `umami.track('article-view')` was for
+
 Updated llms.txt profile data with YC founder profile info and removed Writing Style Guide section.
 - Removed incorrect KubeCon India speaking mention from WSO2 Senior SE details in `src/content/index.mdx`
 - Added 3 new projects (WebAgents, NanoVM, AdaProof) to `src/content/index.mdx`

@@ -205,16 +205,17 @@ const socialImageURL = new URL(image, Astro.site);
     <!-- Analytics Tracking. One set of listeners, two destinations. -->
     <script is:inline>
       (function () {
-        // Cairn's taxonomy is closed: an event name it does not know is a 422,
-        // not a new metric. Umami's names stay exactly as they were, so nothing
-        // in the existing dashboards moves.
+        // Cairn reads `element.clicked` and `feature.used` by their props, so
+        // the label is the thing the dashboard groups by: keep it stable and
+        // keep it specific. Umami's names stay exactly as they were, so
+        // nothing in the existing dashboards moves.
         const CAIRN = {
           'scroll-depth': (d) => ['feature.used', { feature: 'scroll-depth', depth: d.depth }],
           'engagement-time': (d) => ['feature.used', { feature: 'engagement-time', ...d }],
           'external-link': (d) => ['element.clicked', { label: 'external-link', href: d.url, text: d.text }],
           'contact-click': (d) => ['element.clicked', { label: 'contact-' + d.type }],
           'social-click': (d) => ['element.clicked', { label: 'social-' + d.platform }],
-          'navigation': (d) => ['element.clicked', { label: 'nav', href: '#' + d.to }],
+          'navigation': (d) => ['element.clicked', { label: 'nav-' + d.to, href: d.href }],
           'content-copy': () => ['feature.used', { feature: 'content-copy' }],
           'page-exit': (d) => ['feature.used', { feature: 'page-exit', ...d }],
           'easter-egg': (d) => ['feature.used', { feature: 'easter-egg', kind: d.type }],
@@ -328,7 +329,7 @@ const socialImageURL = new URL(image, Astro.site);
             // Internal navigation
             if (href.startsWith('/') && !href.startsWith('//')) {
               const section = href.split('/')[1] || 'home';
-              trackEvent('navigation', { to: section, from: window.location.pathname });
+              trackEvent('navigation', { to: section, href, from: window.location.pathname });
             }
           });
 
