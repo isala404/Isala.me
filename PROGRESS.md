@@ -1,3 +1,8 @@
+Closed the Umami parity gaps on the Cairn side.
+- Clicks Umami names (read-more, blog-click, project-click, now-tile-*, github-activity-click, ...) reach Cairn under the same name with their extras (section, title, name), instead of collapsing into `nav-blog` or `external-link`. Now tiles without a link are divs, so the lookup is `closest('[data-umami-event]')`, not the anchor
+- Refreshed the vendored SDK: `page.viewed` now carries `utm_source`/`utm_medium`/`utm_campaign`/`utm_term`/`utm_content`; the rest of the query string is still dropped
+- Verified in headless Chromium against the built site with both backends stubbed: one Cairn event per named click, UTM tags on the page view, `token` dropped, Umami calls unchanged
+
 Refreshed the vendored Cairn SDK so the analytics dashboard gets sessions again.
 - `public/scripts/cairn.js` was weeks behind the cairn repo's `sdk/web/dist/cairn.global.js`: it sent no `session_id` at all, so Visits, Bounce rate, Visit duration, Journeys and the funnels all read zero. Rebuilt and copied over; it now also sends error `message` and `stack`
 - Nav clicks are labelled per destination (`nav-blog`, `nav-projects`, ...) instead of one `nav` bucket, so Cairn's most-clicked leaderboard is readable

@@ -221,11 +221,11 @@ const socialImageURL = new URL(image, Astro.site);
           'easter-egg': (d) => ['feature.used', { feature: 'easter-egg', kind: d.type }],
         };
 
-        function trackEvent(name, data) {
+        function trackEvent(name, data, toCairn) {
           data = data || {};
           if (typeof umami !== 'undefined') umami.track(name, data);
           const map = CAIRN[name];
-          if (map && window.cairn) {
+          if (map && window.cairn && toCairn !== false) {
             const [event, props] = map(data);
             window.cairn.track(event, props);
           }
@@ -297,6 +297,19 @@ const socialImageURL = new URL(image, Astro.site);
 
           // Track external link clicks
           document.addEventListener('click', (e) => {
+            // An element Umami already names (read-more, blog-click,
+            // now-tile-...) reaches Cairn once under that name, with its
+            // data-umami-event-* extras, instead of the generic labels below.
+            const named = e.target.closest('[data-umami-event]');
+            if (named && window.cairn) {
+              const props = { label: named.dataset.umamiEvent, href: named.getAttribute('href') || undefined };
+              for (const [key, value] of Object.entries(named.dataset)) {
+                if (key.startsWith('umamiEvent') && key !== 'umamiEvent') props[key.slice(10).toLowerCase()] = value;
+              }
+              window.cairn.track('element.clicked', props);
+            }
+            const toCairn = !named;
+
             const link = e.target.closest('a');
             if (!link) return;
 
@@ -309,27 +322,27 @@ const socialImageURL = new URL(image, Astro.site);
                 url: href,
                 text: link.textContent?.trim().slice(0, 50),
                 from: window.location.pathname,
-              });
+              }, toCairn);
             }
 
             // Contact links
             if (href.startsWith('mailto:')) {
-              trackEvent('contact-click', { type: 'email', from: window.location.pathname });
+              trackEvent('contact-click', { type: 'email', from: window.location.pathname }, toCairn);
             }
 
             // Social links
             if (href.includes('github.com')) {
-              trackEvent('social-click', { platform: 'github', from: window.location.pathname });
+              trackEvent('social-click', { platform: 'github', from: window.location.pathname }, toCairn);
             } else if (href.includes('twitter.com') || href.includes('x.com')) {
-              trackEvent('social-click', { platform: 'twitter', from: window.location.pathname });
+              trackEvent('social-click', { platform: 'twitter', from: window.location.pathname }, toCairn);
             } else if (href.includes('linkedin.com')) {
-              trackEvent('social-click', { platform: 'linkedin', from: window.location.pathname });
+              trackEvent('social-click', { platform: 'linkedin', from: window.location.pathname }, toCairn);
             }
 
             // Internal navigation
             if (href.startsWith('/') && !href.startsWith('//')) {
               const section = href.split('/')[1] || 'home';
-              trackEvent('navigation', { to: section, href, from: window.location.pathname });
+              trackEvent('navigation', { to: section, href, from: window.location.pathname }, toCairn);
             }
           });
 
